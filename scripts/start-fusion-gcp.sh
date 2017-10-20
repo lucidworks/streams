@@ -18,5 +18,6 @@ apt-get install default-jre -y
 wget https://download.lucidworks.com/fusion-3.1.0/fusion-3.1.0.tar.gz
 tar xvfz fusion*.tar.gz
 /fusion/3.1.0/bin/fusion start
+'
 IP=$(gcloud compute instances describe fusion-server-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 echo "Fusion UI will be available at http://$IP:8764 in a few minutes."
