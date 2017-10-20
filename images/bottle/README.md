@@ -10,4 +10,7 @@ To run the application, do the following:
 
 `make run`
 
+### Using Application
+Once the app is running, you may access it by the following URL:
 
+`http://0.0.0.0/api/`
