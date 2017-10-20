@@ -4,14 +4,10 @@ This application runs in a Docker container. It's purpose is to be a simple appl
 ### Building and Running
 To build the application, do the following:
 
-'''
-make build
-'''
+  make build
 
 To run the application, do the following:
 
-'''
-make run
-'''
+  make run
 
 
