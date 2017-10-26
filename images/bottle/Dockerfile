@@ -12,6 +12,7 @@ RUN apk add --update \
 WORKDIR /app
 COPY main.py /app/
 COPY requirements.txt /app/
+ADD static /app/static/
 
 ONBUILD RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
 
