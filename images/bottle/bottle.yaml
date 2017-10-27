@@ -1,0 +1,30 @@
+kind: Service
+metadata:
+  labels:
+    name: lucid-bottle
+  name: lucid-bottle
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: lucid-bottle
+  selector:
+    name: lucid-bottle
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lucid-bottle
+  labels:
+    name: lucid-bottle
+spec:
+  containers:
+    - resources:
+      image: lucidlabs/streams
+      name: lucid-bottle
+      ports:
+        - containerPort: 8081
+          hostPort: 8081
+          protocol: TCP

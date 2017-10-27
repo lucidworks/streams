@@ -19,7 +19,7 @@ def hello():
 
 @app.route('/search')
 def search():
-	url = "http://104.155.151.237:8764/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s"
+	url = "http://35.184.245.255:8764/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s"
 	f = urllib2.urlopen(url % "video") # search for video
 	output = f.read()
 	return jsonify(output)

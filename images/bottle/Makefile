@@ -1,7 +1,15 @@
 # makefile
 
-build:
+kill: 
+	$(eval KILLME = $(shell docker ps -q -f ancestor=bottle))
+	-docker kill $(KILLME)
+
+build: kill
 	docker build -t bottle .
 
-run:
+run: build
 	docker run -d -p 8081:8081 bottle
+
+logs:
+	$(eval LOGGME = $(shell docker ps -q -f ancestor=bottle))
+	-docker logs $(LOGGME) 
