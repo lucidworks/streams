@@ -19,8 +19,6 @@ def search():
 	# request to the API
 	url = "http://104.155.151.237:8764/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s" % query
 
-	print url
-
 	username = 'admin'
 	password = 'f00bar222'
 	output = requests.get(url, auth=(username, password))
