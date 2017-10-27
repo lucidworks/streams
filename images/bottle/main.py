@@ -1,25 +1,44 @@
-from bottle import route, run, template, static_file, response, get
-from json import dumps
-import urllib2
+from bottle import route, run, template, static_file, response, get, request
+from json import dumps, loads
+import requests
 
-auth_handler = urllib2.HTTPBasicAuthHandler()
-auth_handler.add_password(realm='Fusion Server',
-                          uri='http://104.155.151.237:8764/',
-                          user='admin',
-                          passwd='f00bar222')
-opener = urllib2.build_opener(auth_handler)
-urllib2.install_opener(opener)
 
 @route('/api/')
 def api_root():
 	response.content_type = 'application/json'
-	res = {'x': 1}
+	res = {'response': "up"}
 	return template(dumps(res))
+
+@route('/api/search')
+def search():
+	try:
+		query = request.query['q']
+	except:
+		query = "*"
+
+	# request to the API
+	url = "http://104.155.151.237:8764/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s" % query
+
+	print url
+
+	username = 'admin'
+	password = 'f00bar222'
+	output = requests.get(url, auth=(username, password))
+	obj = loads(output.content)
+	oi = obj['response']['docs']
+
+	foo = {'response': [], 'results': 0}
+	for i, entry in enumerate(oi):
+		foo['response'].append({"id": entry['id'], "score": entry['score']})
+		foo['results'] = i+1
+
+	response.content_type = 'application/json'
+	return template(dumps(foo))
 
 @route('/api/<method>')
 def api(method="root"):
     response.content_type = 'application/json'
-    res = {'x': 1, 'method': method}
+    res = {'response': 'up'}
     return template(dumps(res))
 
 # Static Routes

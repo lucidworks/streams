@@ -7,14 +7,16 @@ RUN apk add --update \
     build-base \
   && pip install virtualenv \
   && pip install bottle \
+  && pip install requests \
   && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 COPY main.py /app/
 COPY requirements.txt /app/
-ADD static /app/static/
 
 ONBUILD RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
+
+ADD static /app/static/
 
 EXPOSE 8080
 CMD ["/usr/bin/python", "main.py"]
