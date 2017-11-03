@@ -8,7 +8,7 @@ build: kill
 	docker build -t bottle .
 
 run: build
-	docker run -d -p 8081:8081 bottle
+	docker run -d -p 8080:8080 bottle
 
 logs:
 	$(eval LOGGME = $(shell docker ps -q -f ancestor=bottle))

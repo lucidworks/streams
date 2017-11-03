@@ -6,7 +6,7 @@ import requests
 @route('/api/')
 def api_root():
 	response.content_type = 'application/json'
-	res = {'response': "up"}
+	res = {'response': 'ok'}
 	return template(dumps(res))
 
 @route('/api/search')
@@ -33,11 +33,11 @@ def search():
 	response.content_type = 'application/json'
 	return template(dumps(foo))
 
-@route('/api/<method>')
-def api(method="root"):
+@route('/api/crawl', method='POST')
+def crawl():
     response.content_type = 'application/json'
-    res = {'response': 'up'}
-    return template(dumps(res))
+    print request.json
+    return template(dumps({'response': 'ok'}))
 
 # Static Routes
 @get("/static/css/<filepath:re:.*\.css>")
@@ -56,4 +56,4 @@ def img(filepath):
 def js(filepath):
     return static_file(filepath, root="static/js")
 
-run(host='0.0.0.0', port=8081)
+run(host='0.0.0.0', port=8080)
