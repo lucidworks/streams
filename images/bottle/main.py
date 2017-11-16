@@ -17,7 +17,7 @@ def search():
 		query = "*"
 
 	# request to the API
-	url = "http://35.184.245.255:8764/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s" % query
+	url = "https://api.wisdom.sh/lucidlabs/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s" % query
 
 	username = 'admin'
 	password = 'f00bar222'
