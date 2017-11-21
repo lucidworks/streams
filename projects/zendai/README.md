@@ -1,4 +1,5 @@
 ## Zendai Entity
+This is the whitepaper for the Zendai entity. This entity is built using Fusion (Solr search), Tensorflow, and various third party image recognition APIs.
 
 ### Definition
 1. Take a URL/site to crawl. (possible)
