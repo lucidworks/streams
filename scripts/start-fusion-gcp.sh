@@ -15,7 +15,7 @@ gcloud compute instances create fusion-server-$NEW_UUID \
 sudo su -
 apt-get update -y
 apt-get install default-jre -y
-wget https://download.lucidworks.com/fusion-3.1.0/fusion-3.1.0.tar.gz
+wget https://download.lucidworks.com/fusion-3.1.2/fusion-3.1.2.tar.gz
 tar xvfz fusion*.tar.gz
 /fusion/3.1.0/bin/fusion start
 '
