@@ -1,7 +1,8 @@
 from bottle import route, run, template, static_file, response, get, request
 from json import dumps, loads
 import requests
-
+from clarifai import rest
+from clarifai.rest import ClarifaiApp
 
 @route('/api/')
 def api_root():
@@ -18,7 +19,7 @@ def search():
 
 	# request to the API
 	url = "https://api.wisdom.sh/lucidlabs/api/apollo/query-pipelines/default/collections/default/select?wt=json&rows=10&q=%s" % query
-
+ 
 	username = 'admin'
 	password = 'f00bar222'
 	output = requests.get(url, auth=(username, password))
@@ -38,6 +39,25 @@ def crawl():
     response.content_type = 'application/json'
     print request.json
     return template(dumps({'response': 'ok'}))
+
+@route('/api/perceive', method='POST')
+def perceive():
+    response.content_type = 'application/json'
+    try:
+        image_url = request.query['image']
+        doc_id = request.query['id']
+    except:
+        return template(dumps({'response': 'need parameters for doc [id], and [image] url'}))
+
+    # connect to the general model
+    app = ClarifaiApp(api_key='c6de746c05d2417589ea19e458154f22')
+    model = app.models.get("general-v1.3")
+	
+    itsays = model.predict_by_url(url=image_url)
+    output = {'response': []}
+    for item in itsays['outputs'][0]['data']['concepts']:
+         output['response'].append(item['name'])
+    return template(dumps(output))
 
 # Static Routes
 @get("/static/css/<filepath:re:.*\.css>")

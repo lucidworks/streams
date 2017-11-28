@@ -10,6 +10,8 @@ RUN apk add --update \
   && pip install requests \
   && rm -rf /var/cache/apk/*
 
+RUN pip install clarifai --upgrade
+
 WORKDIR /app
 COPY main.py /app/
 COPY requirements.txt /app/
