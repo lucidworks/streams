@@ -14,11 +14,9 @@ RUN pip install clarifai --upgrade
 
 WORKDIR /app
 COPY main.py /app/
-COPY requirements.txt /app/
-
-ONBUILD RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
 
 ADD static /app/static/
+ADD views /app/views/
 
 EXPOSE 8080
 CMD ["/usr/bin/python", "main.py"]
