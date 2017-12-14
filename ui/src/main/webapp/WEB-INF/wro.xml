@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro">
+
+
+    <!-- ====================================== -->
+    <!-- End-user application                   -->
+    <!-- ====================================== -->
+
+    <group name="main">
+
+        <css>classpath:generated/styles/bower_components/phoenix/dist/phoenix.all.less</css>
+        <css>/styles/twigkit.less</css>
+        <css>/styles/animations.css</css>
+
+        <js>/scripts/app.js</js>
+        <js>/scripts/routes.js</js>
+        <js>/scripts/controllers/main.js</js>
+
+    </group>
+
+    <group name="vendor">
+        <js>classpath:generated/scripts/bower_components/angular/angular.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-resource/angular-resource.js</js>
+        <js>classpath:generated/scripts//bower_components/angular-touch/angular-touch.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-animate/angular-animate.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-cookies/angular-cookies.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-sanitize/angular-sanitize.js</js>
+        <js>classpath:generated/scripts/bower_components/lightning/dist/lightning.min.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-ui-router/release/angular-ui-router.js</js>
+    </group>
+
+
+    <!-- ====================================== -->
+    <!-- Setup app                              -->
+    <!-- ====================================== -->
+
+    <group name="setup">
+        <css>classpath:generated/styles/bower_components/phoenix/dist/phoenix.all.less</css>
+        <css>/setup/styles/twigkit.less</css>
+        <css>/setup/styles/animations.css</css>
+        <css>classpath:generated/scripts/bower_components/highlightjs/styles/agate.css</css>
+
+        <js>/setup/scripts/app.js</js>
+        <js>/setup/scripts/routes.js</js>
+        <js>/setup/scripts/controllers/setup.js</js>
+        <js>classpath:generated/scripts/bower_components/ng-file-upload/ng-file-upload.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-multi-step-form/dist/browser/angular-multi-step-form.min.js</js>
+        <js>classpath:generated/scripts/bower_components/stir-up/dist/stir-up.min.js</js>
+        <js>classpath:generated/scripts/bower_components/stir-up/dist/stir-up-html-plugin.min.js</js>
+        <js>classpath:generated/scripts/bower_components/highlightjs/highlight.pack.js</js>
+        <js>classpath:generated/scripts/bower_components/angular-highlightjs/build/angular-highlightjs.js</js>
+    </group>
+
+    <!-- Ace editor scripts -->
+    <group name="theme-twilight">
+        <js>classpath:generated/scripts/bower_components/ace-builds/src-min-noconflict/theme-twilight.js</js>
+    </group>
+    <group name="worker-html">
+        <js>classpath:generated/scripts/bower_components/ace-builds/src-min-noconflict/worker-html.js</js>
+    </group>
+
+</groups>

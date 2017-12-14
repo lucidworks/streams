@@ -1,0 +1,36 @@
+<!-- STEP 3 -->
+<layout:grid>
+    <layout:block lg="1-2" lg-offset="1-4">
+        <layout:box>
+
+            <legend><a ng-disabled="$isFirst()" ng-click="$previousStep()" class="link-secondary">Go back</a>Set Application Data</legend>
+            <fieldset>
+                <div class="conf">
+                    <label for="collection" class="forinput">Collection</label>
+                    <div styling="labelled-input">
+                        <select name="collection" ng-model="config.collection"
+                                ng-options="c as c for c in collections | orderBy: 'toString()' track by c" ng-disabled="!authenticated"
+                                styling="input-1">
+                        </select><br>
+                    </div>
+
+                    <label for="pipeline" class="forinput">Pipeline</label>
+                    <div styling="labelled-input">
+                        <select name="pipeline" ng-model="config.pipeline" ng-options="p as p for p in pipelines | orderBy: 'toString()' track by p"
+                                ng-disabled="!authenticated" styling="input-1">
+                        </select><br>
+                    </div>
+
+                    <!--  suggestions  -->
+                    <p class="standout" ng-show="suggested_pipelines.length > 0">suggested pipelines:</p>
+                    <label ng-repeat="pipeline in suggested_pipelines | orderBy: 'toString()'" ng-init="config.pipeline = suggested_pipelines[0]" class="forcelc">
+                        <input type="radio" name="suggested_pipeline" ng-model="config.pipeline" ng-value="pipeline" />{{pipeline}}<br/>
+                    </label>
+                </div>
+            </fieldset>
+
+            <button type="button" styling="button input-1" ng-click="configure(false).then($nextStep());" ng-class="configureClass">{{configureText}}</button>
+
+        </layout:box>
+    </layout:block>
+</layout:grid>

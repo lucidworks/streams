@@ -1,0 +1,95 @@
+<!-- Split Panel -->
+<layout:grid styling="stretch-content">
+    <!-- Left Panel -->
+    <layout:block lg="1-2" styling="bg-promo center-content text-center vh100" ng-class="stepClass">
+        <div class="step-content step-content-1">
+            <ng-include src="'setup/views/partials/message-1.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-2">
+            <ng-include src="'setup/views/partials/message-2.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-3">
+            <ng-include src="'setup/views/partials/message-3.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-4">
+            <ng-include src="'setup/views/partials/message-4.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-5">
+            <ng-include src="'setup/views/partials/message-5.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-6">
+            <ng-include src="'setup/views/partials/message-6.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-7">
+            <ng-include src="'setup/views/partials/message-7.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-8">
+            <ng-include src="'setup/views/partials/message-8.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-9">
+            <ng-include src="'setup/views/partials/message-9.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-10">
+            <ng-include src="'setup/views/partials/message-10.tpl.html'"></ng-include>
+        </div>
+        <div class="step-content step-content-11">
+            <ng-include src="'setup/views/partials/message-11.tpl.html'"></ng-include>
+        </div>
+    </layout:block>
+
+    <!-- Right Panel -->
+    <layout:block lg="1-2" styling="center-content vh100" ng-class="stepClass">
+        <div styling="width-1">
+            <!-- header -->
+            <div class="stickheader">
+                <img src="assets/lw-spot.png" width="20">
+                <div class="step-content step-content-1">
+                    <ng-include src="'setup/views/partials/header-1.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-2">
+                    <ng-include src="'setup/views/partials/header-2.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-3">
+                    <ng-include src="'setup/views/partials/header-3.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-4">
+                    <ng-include src="'setup/views/partials/header-4.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-5">
+                    <ng-include src="'setup/views/partials/header-5.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-6">
+                    <ng-include src="'setup/views/partials/header-6.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-7">
+                    <ng-include src="'setup/views/partials/header-7.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-8">
+                    <ng-include src="'setup/views/partials/header-8.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-9">
+                    <ng-include src="'setup/views/partials/header-9.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-10">
+                    <ng-include src="'setup/views/partials/header-10.tpl.html'"></ng-include>
+                </div>
+                <div class="step-content step-content-11">
+                    <ng-include src="'setup/views/partials/header-11.tpl.html'"></ng-include>
+                </div>
+            </div>
+            <!-- form stages -->
+            <div>   
+                <form>
+                    <multi-step-container steps="steps" class="sliding-steps" on-step-change="onStepChange()">
+                        <main step-container></main>
+                    </multi-step-container>
+                </form>
+            </div>
+            <!-- footer -->
+            <div class="stickfooter">
+                <p>&copy; Lucidworks 2017</p>
+            </div>
+        </div>
+    </layout:block>
+
+</layout:grid>

@@ -1,0 +1,157 @@
+<!-- -------------------------------------------- -->
+<!-- Build the data model                         -->
+<!-- -------------------------------------------- -->
+
+<!-- Define a search platform to fetch data from -->
+<search:platform var="platform" conf="platforms.fusion.data.imagesubisoft"></search:platform>
+
+
+<!-- Search query based on the user's input -->
+<search:query var="query" parameters="*" results-per-page="12"></search:query>
+
+<!-- Send query to platform and retrieve documents back -->
+<search:response var="response" platform="platform" query="query">
+    <widget:spinner></widget:spinner>
+</search:response>
+
+
+<!-- -------------------------------------------- -->
+<!-- Define the view                              -->
+<!-- -------------------------------------------- -->
+
+<helper:title title="Fusion Search"></helper:title>
+
+<!-- HEADER -->
+<layout:include file="views/partials/header.tpl.html" action="images-ubisoft"></layout:include>
+
+<!-- CONTENT -->
+<layout:grid styling="row-offcanvas">
+
+    <!-- Animate page when response received -->
+    <layout:animate animation="animate-fadeInUp" on="response" layout-grid>
+
+        <!-- CONTENT > SIDEBAR -->
+        <layout:block md="1-3" lg="1-4" drawer="left" id="sidebar" styling="blocksidebar-light">
+            <layout:sidebar>
+                <layout:box>
+
+                    <!-- List facets and give them intuitive labels -->
+                    <search:facet-list facet-names="*" response="response"
+                                       platform="platform" query="query" styling="facet-list facet-list-wrappedheader">
+
+                        <search:facet collapsible="true" max-characters="40" show="10" show-more="8" search-enabled="true"></search:facet>
+                    </search:facet-list>
+
+                </layout:box>
+            </layout:sidebar>
+        </layout:block>
+
+        <!-- CONTENT > RESULTS -->
+        <layout:block md="2-3" lg="3-4" styling="bg-white">
+            <layout:box padding-left="2" padding-right="2">
+
+                <!-- Results Wrapper -->
+                <layout:block>
+
+                    <layout:grid>
+                        <layout:block>
+                            <layout:box style="padding-bottom:0;">
+                                <h3>Search With...</h3>
+                                <ol class="result-list tk-stl-cards-sm-3 tk-stl-cards-lg-3 tk-stl-cards-xl-3" style="margin-bottom:0;" >
+
+                                    <!--UBISOFT-->
+                                    <li class="result">
+                                        <media:image src="http://cdn1.twinfinite.net/wp-content/uploads/2016/02/AC3.jpg" use-headers="true" url="#/images-ubisoft?custom=search_image[http://cdn1.twinfinite.net/wp-content/uploads/2016/02/AC3.jpg]"></media:image>
+                                    </li>
+
+                                    <li class="result">
+                                        <media:image src="http://planetagracza.pl/wp-content/uploads/2017/05/The-Crew-1.jpg" url="#/images-ubisoft?custom=search_image[http://planetagracza.pl/wp-content/uploads/2017/05/The-Crew-1.jpg]"></media:image>
+                                    </li>
+
+                                    <li class="result">
+                                        <media:image src="https://www.welt.de/img/videos/mobile125681737/8641354487-ci16x9-w1280/Watch-Dogs-ein-Videospiel-der-Firma-Ubisoft.jpg" url="#/images-ubisoft?custom=search_image[https://www.welt.de/img/videos/mobile125681737/8641354487-ci16x9-w1280/Watch-Dogs-ein-Videospiel-der-Firma-Ubisoft.jpg]"></media:image>
+                                    </li>
+
+                                    <!--ANIMALS-->
+                                    <!--<li class="result">-->
+                                        <!--<media:image src="https://nationalzoo.si.edu/sites/default/files/animals/africanlion-005_0.jpg" url="#/images?custom=search_image[https://nationalzoo.si.edu/sites/default/files/animals/africanlion-005_0.jpg]"></media:image>-->
+                                    <!--</li>-->
+
+                                    <!--<li class="result">-->
+                                        <!--<media:image src="http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_720/images/live/p0/2b/pq/p02bpqn4.jpg" url="#/images?custom=search_image[http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_720/images/live/p0/2b/pq/p02bpqn4.jpg]"></media:image>-->
+                                    <!--</li>-->
+
+                                    <!--<li class="result">-->
+                                        <!--<media:image src="https://www.africanconservation.org/images/news-2015/african-elephant.jpg" url="#/images?custom=search_image[https://www.africanconservation.org/images/news-2015/african-elephant.jpg]"></media:image>-->
+                                    <!--</li>-->
+
+                                    <!--<li class="result">-->
+                                        <!--<media:image src="http://sqwanjia.net/data/out/55/39149311-giraffe.jpg" height="150" width="150" url="#/images?custom=search_image[http://sqwanjia.net/data/out/55/39149311-giraffe.jpg]"></media:image>-->
+                                    <!--</li>-->
+
+                                    <!--<li class="result">-->
+                                        <!--<media:image src="https://a-z-animals.com/media/animals/images/original/eagle_3.jpg" height="150" width="150" url="#/images?custom=search_image[https://a-z-animals.com/media/animals/images/original/eagle_3.jpg]"></media:image>-->
+                                    <!--</li>-->
+
+                                </ol>
+                            </layout:box>
+                        </layout:block>
+
+                        <layout:block ng-if="response.messages[0].value.bq">
+                            <layout:box style="padding-top:0;padding-bottom:0">
+                                <search:message-list response="response" title="Using...">
+                                    <p><strong>{{message.value.bq}}</strong></p>
+                                    <!--<span style="display:inline-block;" ng-repeat="param in message.value.bq track by $index"><strong>{{param}}</strong><span ng-if="!$last">,&nbsp;</span></span>-->
+                                </search:message-list>
+                            </layout:box>
+                        </layout:block>
+                    </layout:grid>
+
+                    <layout:grid>
+
+                        <!-- Tabs, View Options, Response Stats, Selected Facets -->
+                        <layout:block>
+
+                            <div padding-top="1">
+                                <search:response-statistics response="response"></search:response-statistics>
+                                <p class="response-statistics">(Fusion took {{ response.time }}ms)</p>
+                                <search:breadcrumbs query="query" group-by-field="true"
+                                                    exclude="tabField"></search:breadcrumbs>
+                            </div>
+                        </layout:block>
+
+                        <!-- Results -->
+                        <layout:block>
+
+                            <!-- SEARCH > RESULTS -->
+
+                            <!-- Show messages from Fusion -->
+                            <!--<search:message-list response="response"-->
+                                                 <!--title="You might also want to look at"></search:message-list>-->
+
+                            <!--<search:result-list response="response"></search:result-list>-->
+
+                            <search:result-list response="response"
+                                                platform="platform" query="query" instant-results="true">
+                                <search:result class="image-card">
+                                    <!--<search:field name="title_s" styling="title"></search:field>-->
+                                    <!--<media:image field-name="image_url_s" ></media:image>-->
+                                    <img ng-src="{{result | field:'image_url_t' | actual}}"/>
+
+                                </search:result>
+                            </search:result-list>
+
+                            <!-- No results message -->
+                            <!--<search:no-results response="response"></search:no-results>-->
+                        </layout:block>
+
+                    </layout:grid>
+                </layout:block>
+            </layout:box>
+        </layout:block>
+
+    </layout:animate>
+
+</layout:grid>
+
+
