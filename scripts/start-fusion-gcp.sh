@@ -31,9 +31,9 @@ IP=$(gcloud compute instances describe fusion-server-$NEW_UUID | grep natIP | cu
 curl -X DELETE https://api.wisdom.sh/api/$1
 curl -X POST \
   --url https://api.wisdom.sh/api/ \
-  --data 'name=$1' \
+  --data 'name='$1 \
   --data 'upstream_url=http://$IP:8764/' \
-  --data 'uris=/$1' \
+  --data 'uris=/'$1 \
   | python -m json.tool
 
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
