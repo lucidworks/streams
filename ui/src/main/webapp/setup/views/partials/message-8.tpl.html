@@ -1,0 +1,65 @@
+<layout:grid>
+    <layout:block md="3-5" md-offset="1-5">
+        <div class="branding" styling="text-left" padding-bottom="1">
+            <h2 class="heading">Search Results Page: Facets</h2>
+            <h4><span class="info-facet">Facets</span>  allow filtering, and appear in a column to the left of the results. Facet values may be added to search results by including them as <span class="info-fields">Additional Fields</span></h4>
+        </div>
+    </layout:block>
+    <layout:block md="3-5" md-offset="1-5">
+        <section class="container facetcontainer">
+            <div id="card" ng-class="{flipped: flipped}">
+                <figure class="front">
+                    <div class="facet-placeholder">
+                        <div class="animated-background">
+                            <div class="background-masker facet-list-right"></div>
+
+                            <!-- group 1 -->
+                            <div class="background-masker facet-bottom-title1"></div>
+                            <div class="background-masker facet-blip-title1"></div>
+                            <div class="background-masker facet-bottom-line1"></div>
+                            <div class="background-masker facet-end-line1"></div>
+                            <div class="background-masker facet-bottom-line2"></div>
+                            <div class="background-masker facet-end-line2"></div>
+                            <div class="background-masker facet-bottom-line3"></div>
+                            <div class="background-masker facet-end-line3"></div>
+                            <div class="background-masker facet-bottom-line4"></div>
+                            <div class="background-masker facet-end-line4"></div>
+                            <div class="background-masker facet-bottom-line5"></div>
+                            <div class="background-masker facet-end-line5"></div>
+                            <div class="background-masker facet-bottom-line6"></div>
+                            <div class="background-masker facet-end-line6"></div>
+                            <div class="background-masker facet-bottom-line7"></div>
+                            <div class="background-masker facet-end-line7"></div>
+                            <div class="background-masker facet-bottom-line8"></div>
+                            <div class="background-masker facet-end-line8"></div>
+                            <div class="background-masker facet-end-section1"></div>
+
+                            <!-- group 1 -->
+                            <div class="background-masker facet-bottom-title2"></div>
+                            <div class="background-masker facet-blip-title2"></div>
+                            <div class="background-masker facet-bottom-line9"></div>
+                            <div class="background-masker facet-end-line9"></div>
+                            <div class="background-masker facet-bottom-line10"></div>
+                            <div class="background-masker facet-end-line10"></div>
+                            <div class="background-masker facet-bottom-line11"></div>
+                            <div class="background-masker facet-end-line11"></div>
+                            <div class="background-masker facet-bottom-line12"></div>
+                            <div class="background-masker facet-end-line12"></div>
+                        </div>
+                    </div>
+                </figure>
+                <figure class="back">
+                        <p class="codelabel facetlabel">Facets HTML:</p>
+                        <div hljs hljs-source="markup.facets_formatted" hljs-language="html"></div>
+                        <p class="codelabel resultlabel">Search Results HTML:</p>
+                        <div hljs hljs-source="markup.results_formatted" hljs-language="html"></div>
+                </figure>
+            </div>
+        </section>
+    </layout:block>
+    <layout:block>
+        <layout:box>
+            <p class="codetoggle"><a styling="button" class="icon-code" ng-click="flip()">HTML</a></p>
+        </layout:box>
+    </layout:block>
+</layout:grid>

@@ -1,0 +1,16 @@
+.DS_Store
+.node-version
+.tmp/
+ui/target/
+*.iws
+*.ipr
+*.original
+*.log
+ui/twigkit-socialdb/
+ui/logs
+.vagrant
+.extract/
+ui/dist
+.idea
+*.iml
+.editorconfig

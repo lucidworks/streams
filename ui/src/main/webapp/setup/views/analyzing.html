@@ -1,0 +1,23 @@
+<!-- STEP 4 -->
+<layout:grid>
+    <layout:block lg="1-2" lg-offset="1-4">
+        <layout:box>
+
+            <div class="barspinner" ng-show="status.working">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+              <h3>analyzing data...</h3>
+            </div>
+
+            <div class="analysis-completed" ng-show="!status.working">
+              <i class="icon-ok"></i>
+              <h3>data analysis complete</h3>
+              <button type="button" styling="button input-1" class="fadedelay" ng-click="$nextStep();" ng-class="configureClass">{{configureText}}</button>
+            </div>
+
+        </layout:box>
+    </layout:block>
+</layout:grid>
