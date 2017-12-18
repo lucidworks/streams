@@ -1,5 +1,8 @@
 #!/bin/bash
+if [ -n "$1" ]; then echo "found route named '$1'"; else echo "need to set route"; exit; fi
+
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+
 gcloud compute instances create fusion-server-$NEW_UUID \
 --machine-type "n1-standard-8" \
 --image "ubuntu-1604-xenial-v20170811" \
@@ -15,9 +18,24 @@ gcloud compute instances create fusion-server-$NEW_UUID \
 sudo su -
 apt-get update -y
 apt-get install default-jre -y
-wget https://download.lucidworks.com/fusion-3.1.0/fusion-3.1.0.tar.gz
+wget https://download.lucidworks.com/fusion-3.1.2/fusion-3.1.2.tar.gz
 tar xvfz fusion*.tar.gz
-/fusion/3.1.0/bin/fusion start
+/fusion/3.1.2/bin/fusion start
 '
+
+# gcloud compute instances attach-disk fusion-server-$NEW_UUID --disk=fusion-data --zone us-central1-a
+
 IP=$(gcloud compute instances describe fusion-server-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
-echo "Fusion UI will be available at http://$IP:8764 in a few minutes."
+
+# set up a proxy via wisdom for the APIs
+curl -X DELETE https://api.wisdom.sh/api/$1
+curl -X POST \
+  --url https://api.wisdom.sh/api/ \
+  --data 'name='$1 \
+  --data 'upstream_url=http://$IP:8764/' \
+  --data 'uris=/'$1 \
+  | python -m json.tool
+
+echo "Fusion UI available in a few minutes at: http://$IP:8764"
+echo;
+echo "API access available in a few minutes at: https://api.wisdom.sh/$1/api/..."

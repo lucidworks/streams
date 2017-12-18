@@ -1,0 +1,28 @@
+{
+	"name": "stir-up",
+	"description": "Library for generating HTML (well any sort of markup) with JavaScript",
+	"version": "0.9.7",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mrolafsson/stir-up"
+	},
+	"keywords": [
+		"javascript",
+		"html",
+		"markup-builder",
+		"markup",
+		"js",
+		"js-markup"
+	],
+	"devDependencies": {
+		"grunt": "^1.0.1",
+		"grunt-contrib-jasmine": "^1.1.0",
+		"grunt-contrib-uglify": "~3.0.1"
+	},
+	"author": "Hjortur Stefan Olafsson <mr.olafsson@gmail.com> (https://twitter.com/mrolafsson/)",
+	"license": "Apache 2.0",
+	"bugs": {
+		"url": "https://github.com/mrolafsson/stir-up/issues"
+	},
+	"homepage": "https://github.com/mrolafsson/stir-up"
+}

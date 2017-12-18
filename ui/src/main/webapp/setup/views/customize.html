@@ -1,0 +1,63 @@
+<!-- STEP 7 -->
+<layout:grid>
+    <layout:block lg="1-2" lg-offset="1-4">
+        <layout:box>
+
+            <!-- 
+            <div lg="1-2" styling="center-content" id="drag" ng-class="{onTarget: over}" ng-show="dragging"
+                 ondrop="drop(event)" ondragover="onTarget(event)">
+                <h1>Drop logo here</h1>
+            </div>
+             -->
+
+            <legend><a ng-disabled="$isFirst()" ng-click="$previousStep()" class="link-secondary">Go back</a>Customize Application</legend>
+            <fieldset>
+                <input id="name" name="name" placeholder="My Application" styling="input-1" class="apptitle" autofocus="autofocus" ng-model="config.application_name">
+            </fieldset>
+
+            <!-- 
+            <fieldset>
+                <textarea id="welcome" name="welcome" placeholder="Add a short welcome message for your visitors" styling="input-1"></textarea>
+            </fieldset>
+             -->
+
+            <!-- 
+            <fieldset>
+                <layout:grid>
+                	<layout:block class="addlogo">
+                		<label>Logo</label>
+                		<input type="file">
+                	</layout:block>
+                </layout:grid>
+            </fieldset>
+             -->
+
+            <fieldset>
+                <layout:grid>
+                	<layout:block class="colorpicker">
+                		<label>Themes</label>
+                		<ol class="colorlist">
+                            <li ng-repeat="color in colors"><a class="{{color}}" ng-class="{'active': color==selectedColor}" ng-click="setColor(color);"></a></li>
+                		</ol>
+                		<layout:grid class="colorcustom">
+                			<layout:block md="3-5">
+                				<span class="fauxlabel">HEX</span>
+                			</layout:block>
+                			<layout:block md="2-5">
+                                <div styling="labelled-input">
+                                    <div class="label grey">
+                                        <span class="content">#</span>
+                                    </div>
+                                    <input id="hexColor" name="name" placeholder="202020" styling="input-1" ng-change="setHexColor(hexColor);" ng-model="hexColor">
+                                </div>
+                			</layout:block>
+                		</layout:grid>
+                	</layout:block>
+                </layout:grid>
+            </fieldset>
+
+            <button type="submit" styling="button input-1" ng-click="configure(true).then($nextStep());">{{customizeText}}</button>
+
+        </layout:box>
+    </layout:block>
+</layout:grid>

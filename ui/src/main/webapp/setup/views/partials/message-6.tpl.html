@@ -1,0 +1,47 @@
+<layout:grid>
+    <layout:block md="3-5" md-offset="1-5">
+        <div class="branding" styling="text-left" padding-bottom="1">                    
+            <h2 class="heading">Search Results Page: Result title</h2>
+            <h4>An individual result is made up of three elements: <span class="info-title">Title</span>, <span class="info-description">Description</span>, and <span class="info-fields">Additional Fields</span>. First, let&rsquo;s add a title.</h4>
+        </div>
+    </layout:block>
+    <layout:block md="3-5" md-offset="1-5" class="result-preview">
+        <section class="container">
+          <div id="card" ng-class="{flipped: flipped}">
+            <figure class="front">
+                <div class="result-placeholder">
+                    <span class="blip title"></span>
+                    <span class="blip description"></span>
+                    <span class="blip fields"></span>
+                    <div class="animated-background">
+                        <div class="background-masker title-bottom"></div>
+                        <div class="background-masker title-end"></div>
+                        <div class="background-masker description-bottom-line1"></div>
+                        <div class="background-masker description-end-line1"></div>
+                        <div class="background-masker description-bottom-line2"></div>
+                        <div class="background-masker description-end-line2"></div>
+                        <div class="background-masker field-bottom-line1"></div>
+                        <div class="background-masker field-label-line1"></div>
+                        <div class="background-masker field-end-line1"></div>
+                        <div class="background-masker field-bottom-line2"></div>
+                        <div class="background-masker field-label-line2"></div>
+                        <div class="background-masker field-end-line2"></div>
+                        <div class="background-masker field-bottom-line3"></div>
+                        <div class="background-masker field-label-line3"></div>
+                        <div class="background-masker field-end-line3"></div>
+                    </div>
+                </div>
+            </figure>
+            <figure class="back">
+                <div hljs hljs-source="markup.results_formatted" hljs-language="html">
+                </div>
+            </figure>
+          </div>
+        </section>
+    </layout:block>
+    <layout:block>
+        <layout:box>
+            <p class="codetoggle"><a styling="button" class="icon-code" ng-click="flip()">HTML</a></p>
+        </layout:box>
+    </layout:block>
+</layout:grid>

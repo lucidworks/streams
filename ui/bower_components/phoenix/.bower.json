@@ -1,0 +1,39 @@
+{
+  "name": "phoenix",
+  "main": "dist/phoenix.all.less",
+  "version": "3.0.0",
+  "homepage": "https://github.com/twigkit/phoenix",
+  "authors": [
+    "Guy Walker <guy@twigkit.com>"
+  ],
+  "description": "Phoenix LESS for Twigkit 3",
+  "moduleType": [],
+  "license": "Copyright Twigkit",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular-resource": "^1.5.8",
+    "angular-sanitize": "^1.5.8",
+    "angular-touch": "^1.5.8",
+    "angular-ui-router": "^0.3.2",
+    "lightning": "https://github.com/twigkit/lightning.git#^0.3.0"
+  },
+  "resolutions": {
+    "angular": "^1.0.8"
+  },
+  "_release": "3.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.0.0",
+    "commit": "e1451c521686abd16d077f5b184307a06f757b68"
+  },
+  "_source": "https://github.com/twigkit/phoenix.git",
+  "_target": "~3.0.0",
+  "_originalSource": "https://github.com/twigkit/phoenix.git"
+}
