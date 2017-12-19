@@ -21,14 +21,14 @@ apt-get install unzip
 mv /bin/sh /bin/sh.bak
 ln /bin/bash /bin/sh
 #
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-unzip ngrok*.zip
+curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip > ngrok.zip
+unzip ngrok.zip
 mv ngrok /usr/local/bin/
 #
 mkdir -p /usr/local/java
 cd /usr/local/java/
-wget https://storage.googleapis.com/oracle-java/jdk-9.0.1_linux-x64_bin.tar.gz
-tar xvfz jdk*.tar.gz
+curl https://storage.googleapis.com/oracle-java/jdk-9.0.1_linux-x64_bin.tar.gz > jdk.tar.gz
+tar xvfz jdk.tar.gz
 sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk-9.0.1/bin/java" 1
 JAVA_HOME=/usr/local/java/jdk-9.0.1
 JRE_HOME=$JAVA_HOME/jre
@@ -41,10 +41,9 @@ mkdir -p /root/twigkit
 cd /root/twigkit/
 git clone https://github.com/lucidworks/streams.git
 cd streams/ui
-./twigkit start -t 300 
+./twigkit start -t 300
 #
 ngrok http 8080 > /dev/null &
 curl localhost:4040/api/tunnels | python -m json.tool
-
 '
 echo "Check this server's logs in a few minutes for the URL to access the instance UI."
