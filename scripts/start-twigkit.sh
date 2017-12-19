@@ -41,7 +41,7 @@ mkdir -p /root/twigkit
 cd /root/twigkit/
 git clone https://github.com/lucidworks/streams.git
 cd streams/ui
-./twigkit start -t 120
+./twigkit start -t 300 
 #
 ngrok http 8080 > /dev/null &
 curl localhost:4040/api/tunnels | python -m json.tool
