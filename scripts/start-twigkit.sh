@@ -41,11 +41,10 @@ mkdir -p /root/twigkit
 cd /root/twigkit/
 git clone https://github.com/lucidworks/streams.git
 cd streams/ui
-./twigkit start &
+./twigkit start -t 120
 #
 ngrok http 8080 > /dev/null &
 curl localhost:4040/api/tunnels | python -m json.tool
 
 '
-IP=$(gcloud compute instances describe $SERVER_NAME --zone us-west1-b | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
-echo "Server will be available at $IP in a few minutes."
+echo "Check this server's logs in a few minutes for the URL to access the instance UI."
