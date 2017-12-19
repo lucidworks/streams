@@ -26,9 +26,9 @@ unzip ngrok*.zip
 mv ngrok /usr/local/bin/
 #
 mkdir -p /usr/local/java
+cd /usr/local/java/
 wget https://storage.googleapis.com/oracle-java/jdk-9.0.1_linux-x64_bin.tar.gz
-mv jdk*.tar.gz /usr/local/java/
-tar xvfz /usr/local/java/jdk*.tar.gz
+tar xvfz jdk*.tar.gz
 sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk-9.0.1/bin/java" 1
 JAVA_HOME=/usr/local/java/jdk-9.0.1
 JRE_HOME=$JAVA_HOME/jre
