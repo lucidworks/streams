@@ -5,8 +5,8 @@ metadata:
   namespace: default
 spec:
   ports:
-    - port: 80
-      targetPort: 8080
+    - port: 8082
+      targetPort: 8082
       protocol: TCP
   selector:
     service: bottle
@@ -25,6 +25,6 @@ spec:
       image: lucidlabs/streams
       name: bottle
       ports:
-        - containerPort: 8080
-          hostPort: 8080
+        - containerPort: 8082
+          hostPort: 8082
           protocol: TCP

@@ -45,6 +45,7 @@
     <h1>{{q}}</h1>
     <div id="images">
     </div>
+    <div id="wait">please wait</div>
 
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/alertify.min.js"></script>
@@ -71,8 +72,6 @@
                 window.location.href = "/demo/"+rterm;
             });
         });
-
-
 
         alertify.log("Welcome to Searching Image Content!");
       });

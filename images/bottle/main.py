@@ -100,4 +100,4 @@ def img(filepath):
 def js(filepath):
     return static_file(filepath, root="static/js")
 
-run(host='0.0.0.0', port=8080)
+run(host='0.0.0.0', port=8082)
