@@ -18,6 +18,9 @@ sudo su -
 apt-get update -y
 apt-get install unzip
 #
+mv /bin/sh /bin/sh.bak
+ln /bin/bash /bin/sh
+#
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok*.zip
 mv ngrok /usr/local/bin/
