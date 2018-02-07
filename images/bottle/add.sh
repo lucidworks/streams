@@ -3,7 +3,7 @@ curl -X DELETE https://api.wisdom.sh/api/bottle/
 curl -X POST \
   --url https://api.wisdom.sh/api/ \
   --data 'name=bottle' \
-  --data 'upstream_url=http://'$1':8080/' \
+  --data 'upstream_url=http://'$1':8082/' \
   --data 'uris=/bottle' \
   | python -m json.tool
 curl -X DELETE https://api.wisdom.sh/api/fusion/
