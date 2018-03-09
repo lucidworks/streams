@@ -2,7 +2,7 @@
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
-gcloud compute instances create fusion-server-$NEW_UUID \
+gcloud compute instances create fusion-server-4-$NEW_UUID \
 --machine-type "n1-standard-8" \
 --image "ubuntu-1604-xenial-v20170811" \
 --image-project "ubuntu-os-cloud" \
@@ -28,6 +28,7 @@ fi
 '
 
 # gcloud compute instances attach-disk fusion-server-$NEW_UUID --disk=fusion-data --zone us-central1-a
+sleep 5
 
 IP=$(gcloud compute instances describe fusion-server-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
