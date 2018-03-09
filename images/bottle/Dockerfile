@@ -18,5 +18,5 @@ COPY main.py /app/
 ADD static /app/static/
 ADD views /app/views/
 
-EXPOSE 8080
+EXPOSE 8082
 CMD ["/usr/bin/python", "main.py"]
