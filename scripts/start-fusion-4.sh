@@ -20,11 +20,11 @@ apt-get install default-jre -y
 apt-get install unzip -y
 # only download and unzip if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
-wget https://s3.amazonaws.com/lucidworks-apollo-beta/fusion-4.0.0-RC2/fusion-4.0.0-RC2.zip
-unzip fusion*.zip
+wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
+tar xvfz fusion-4.0.1.tar.gz
 fi
 #
-/fusion/4.0.0-RC2/bin/fusion start
+/fusion/4.0.1/bin/fusion start
 '
 
 # gcloud compute instances attach-disk fusion-server-$NEW_UUID --disk=fusion-data --zone us-central1-a
