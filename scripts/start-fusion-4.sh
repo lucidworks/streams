@@ -22,11 +22,6 @@ echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-se
 sudo apt-get install oracle-java8-installer -y
 apt-get install unzip -y
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
-mkdir /samjna
-curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.zip > /samjna/tomcat.zip
-cd /samjna
-unzip tomcat.zip
-
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
