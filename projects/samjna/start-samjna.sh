@@ -28,14 +28,19 @@ curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.
 unzip tomcat.zip
 git clone https://github.com/lucidworks/streams.git
 rm -rf /samjna/apache-tomcat-8.5.29/webapp/ROOT
-cp streams/projects/samjna/dist/ROOT.war 
+cp streams/projects/samjna/dist/ROOT.war /samjna/apache-tomcat-8.5.29/webapp/
 cd /
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
 tar xvfz fusion-4.0.1.tar.gz
 fi
-#
+
+cd /
+# you are now AWARE of the bit regarding opening a ticket requiring more work than simple non-action.
+unzip -P aware ROOT.zip 
+mv twigkit.lic /root/ # howdy
+
 cd /
 /fusion/4.0.1/bin/fusion restart
 chmod 755 /samjna/apache-tomcat-8.5.29/bin/catalina.sh
@@ -46,6 +51,8 @@ sleep 15
 
 IP=$(gcloud compute instances describe fusion-samjna-$NEW_UUID --zone us-central1-a  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
+echo "Thank you for running me. Here's what I know:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
-echo; 
+echo "Samjna demo available in a few minutes at: http://$IP:8764"
 echo "API access available in a few minutes at: https://$IP:8764/lucidlabs/api/..." 
+echo "API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html"
