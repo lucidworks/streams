@@ -16,9 +16,18 @@ gcloud compute instances create fusion-server-4-$NEW_UUID \
 --metadata startup-script='#! /bin/bash
 sudo su -
 apt-get update -y
-apt-get install default-jre -y
+sudo add-apt-repository ppa:webupd8team/java -y
+echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+sudo apt-get install oracle-java8-installer -y
 apt-get install unzip -y
-# only download and unzip if we do not have a /fusion directory
+echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+mkdir /samjna
+curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.zip > /samjna/tomcat.zip
+cd /samjna
+unzip tomcat.zip
+
+# only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
 tar xvfz fusion-4.0.1.tar.gz
@@ -27,22 +36,10 @@ fi
 /fusion/4.0.1/bin/fusion start
 '
 
-# gcloud compute instances attach-disk fusion-server-$NEW_UUID --disk=fusion-data --zone us-central1-a
-sleep 5
+sleep 15
 
-IP=$(gcloud compute instances describe fusion-server-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
-
-# set up proxy 
-curl -X DELETE \
-  --url http://api.wisdom.sh/api/lucidlabs
-
-curl -X POST \
-  --url https://api.wisdom.sh/api/ \
-  --data 'name=lucidlabs' \
-  --data 'upstream_url=http://$IP:8764/' \
-  --data 'uris=/lucidlabs' \
-  | python -m json.tool
+IP=$(gcloud compute instances describe fusion-server-4-$NEW_UUID --zone us-central1-a  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
 echo; 
-echo "API access available in a few minutes at: https://api.wisdom.sh/lucidlabs/api/..." 
+echo "API access available in a few minutes at: https://$IP:8764/lucidlabs/api/..." 
