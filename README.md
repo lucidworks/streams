@@ -71,4 +71,4 @@ The following streamable projects may be launched for demonstration purposes on 
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
-If you have any questions or comments for the #stream team [please open an issue](https://github.com/lucidworks/streams/issues)!
+If you have any questions or comments for the Stream Team, [please open an issue](https://github.com/lucidworks/streams/issues)!
