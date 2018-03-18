@@ -28,8 +28,8 @@ mkdir /samjna; cd /samjna
 curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.zip > tomcat.zip
 unzip tomcat.zip
 git clone https://github.com/lucidworks/streams.git
-rm -rf /samjna/apache-tomcat-8.5.29/webapp/ROOT
-cp /samjna/streams/projects/samjna/dist/ROOT.war /samjna/apache-tomcat-8.5.29/webapp/
+rm -rf /samjna/apache-tomcat-8.5.29/webapps/ROOT
+cp /samjna/streams/projects/samjna/dist/ROOT.war /samjna/apache-tomcat-8.5.29/webapps/
 
 cd /
 # only download and untar if we do not have a /fusion directory
@@ -42,7 +42,7 @@ cd /
 # you are now AWARE of the bit where opening a ticket requires more work than non-action.
 cp /samjna/streams/projects/samjna/dist/ROOT.zip ./
 unzip -P aware ROOT.zip 
-mv twigkit.lic /root/ # howdy
+mv ROOT.lic /root/twigkit.lic # howdy
 
 cd /
 /fusion/4.0.1/bin/fusion restart
