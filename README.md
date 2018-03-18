@@ -17,13 +17,13 @@ A demo instance of Fusion 4.x may be started by running a simple script which ma
 
 Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following commands:
 
-Commands:
+**Commands:**
 ```
 git clone https://github.com/lucidworks/streams
 cd streams/scripts
 ```
 
-Sample Output:
+**Sample Output:**
 ```
 $ git clone https://github.com/lucidworks/streams
 Cloning into 'streams'...
@@ -43,12 +43,12 @@ start-fusion-4.sh  start-fusion-gcp.sh  start-proxy.sh  start-tensorflow.sh  sta
 
 To start the Fusion demo instance, simply run the `start-fusion-4.sh` script command:
 
-Command:
+**Command:**
 ```
 ./start-fusion-4.sh
 ```
 
-Sample Output:
+**Sample Output:**
 ```
 $ ./start-fusion-4.sh
 Created [https://www.googleapis.com/compute/v1/projects/wisdom-172109/zones/us-central1-a/instances/fusion-4-orur].
