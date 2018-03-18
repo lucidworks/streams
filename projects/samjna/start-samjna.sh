@@ -23,6 +23,7 @@ apt-get update -y
 sudo apt-get install oracle-java8-installer -y
 apt-get install unzip -y
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+
 mkdir /samjna; cd /samjna
 curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.zip > tomcat.zip
 unzip tomcat.zip
