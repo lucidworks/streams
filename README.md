@@ -4,7 +4,7 @@ This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repos
 The projects in this repository utilize [Google Cloud](https://cloud.google.com/) for launching instances. [Projects](https://github.com/lucidworks/streams/blob/master/README.md#list-of-projects) may be easily modified to run on other cloud platforms.
 
 ## Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the "TRY IT FREE" button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
 
 [video]
 
