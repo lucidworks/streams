@@ -57,5 +57,5 @@ IP=$(gcloud compute instances describe fusion-samjna-$NEW_UUID --zone us-central
 echo "Thank you for running me. Here's what I know:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
 echo "Samjna demo available in a few minutes at: http://$IP:8764"
-echo "API access available in a few minutes at: https://$IP:8764/lucidlabs/api/..." 
+echo "API access available in a few minutes at: https://$IP:8764/api/..." 
 echo "API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html"
