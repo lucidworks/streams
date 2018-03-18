@@ -1,10 +1,10 @@
 # Samjna for Fusion
 Saṃjñā (sam-ji-na) is the Sanskrit word for "perception" or "cognition". 
 
-This application adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network. As Fusion crawls, document images are sent to the neural network which then extracts tags related to the images being processed. These tags are then inserted by Fusion into search index.
+This application adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network. As Fusion crawls, document images are sent to the neural network which extracts tags from the images being processed. These generalized tags are inserted by Fusion into search index.
 
 ## Video
-This guide comes with a full length video showing the setup process outlined below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google account.
+This guide comes with a full length video showing the setup process outlined below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google Cloud account.
 
 [video]
 
@@ -19,11 +19,11 @@ This application demos several Fusion features including:
 - Boosting Results Using Specific Fields
 
 ### Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the "TRY IT FREE" button to get a $300 credit. The following video shows the required steps for getting your free trial going on Google Cloud.
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the "TRY IT FREE" button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
 
 [video]
 
-This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 a day, but your mileage may vary.
+This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
 
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
