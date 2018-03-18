@@ -9,7 +9,7 @@ If you do not already have a Google Cloud account, head on over to [https://clou
 Once you have your account configured, you can start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
 
 ## Launching a Fusion 4.x Demo Instance
-The demo instance is started by running a script which is checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
+A demo instance of Fusion 4.x may be started by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
 [Animated GIF]
 
@@ -18,12 +18,11 @@ Once you are in the Google Cloud Console, you can download the startup script fr
 Commands:
 ```
 git clone https://github.com/lucidworks/streams
-cd streams/projects/samjna
+cd streams/scripts
 ```
 
 Sample Output:
 ```
-$ git clone https://github.com/lucidworks/streams
 $ git clone https://github.com/lucidworks/streams
 Cloning into 'streams'...
 remote: Counting objects: 2420, done.
@@ -44,13 +43,12 @@ To start the Fusion demo instance, simply run the `start-fusion-4.sh` script com
 
 Command:
 ```
-
 ./start-fusion-4.sh
 ```
 
 Sample Output:
 ```
-$ ./start-samjna.sh
+$ ./start-fusion-4.sh
 Created [https://www.googleapis.com/compute/v1/projects/wisdom-172109/zones/us-central1-a/instances/fusion-4-orur].
 NAME                ZONE           MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
 fusion-4-orur  us-central1-a  n1-standard-8  true         10.128.0.5   104.197.75.229  RUNNING
@@ -60,14 +58,14 @@ API access available in a few minutes at: https://104.197.75.229:8764/api/...
 API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 ```
 
-The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI.
+The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI!
 
 [Animated GIF]
 
 ## List of Projects
 The following streamable projects may be launched for demonstration purposes on Google Cloud Compute:
 
-- [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna)
+- [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna):  adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
 
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
