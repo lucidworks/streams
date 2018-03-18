@@ -37,7 +37,7 @@ tar xvfz fusion-4.0.1.tar.gz
 fi
 
 cd /
-# you are now AWARE of the bit regarding opening a ticket requiring more work than simple non-action.
+# you are now AWARE of the bit where opening a ticket requires more work than non-action.
 unzip -P aware ROOT.zip 
 mv twigkit.lic /root/ # howdy
 
