@@ -14,12 +14,12 @@ The demo application may be started from the Google Cloud console with only a fe
 This application demos several Fusion features including:
 
 - Field and Entity Extraction
-- Query RPC Stage to Clarifai w/Auth
+- Query RPC Stage to Clarifai API w/Auth
 - Insertion of New Document Fields
 - Boosting Results Using Specific Fields
 
 ### Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the "TRY IT FREE" button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the 'TRY IT FREE' button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
 
 [video]
 
