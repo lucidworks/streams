@@ -32,13 +32,13 @@ The demo instance is started by running a script which is checked out from Githu
 
 Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following commands:
 
-Commands:
+**Commands:**
 ```
 git clone https://github.com/lucidworks/streams
 cd streams/projects/samjna
 ```
 
-Sample Output:
+**Sample Output:**
 ```
 $ git clone https://github.com/lucidworks/streams
 $ git clone https://github.com/lucidworks/streams
@@ -63,12 +63,12 @@ $
 
 To start the Fusion demo instance, simply run the `start-samjna.sh` script command:
 
-Command:
+**Command:**
 ```
 ./start-samjna.sh
 ```
 
-Sample Output:
+**Sample Output:**
 ```
 $ ./start-samjna.sh
 Created [https://www.googleapis.com/compute/v1/projects/wisdom-172109/zones/us-central1-a/instances/fusion-samjna-orur].
@@ -134,7 +134,7 @@ At the top, click on `Run` to open the crawl scheduler. Click on the `Start` but
 ## Using the Application
 Once the crawl has a few documents indexed, you will be able to start searching the Etsy index. Navigate to the link provided in the Google Cloud Shell. The search demo runs on `port 8080`, so you can also just note the IP of the instance and put `:8080` after it in the location bar of your browser.
 
-Sample Output:
+**Sample Output:**
 ```
 Thank you for running me. Here's what I know:
 Fusion UI available in a few minutes at: http://104.197.75.229:8764
