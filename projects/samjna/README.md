@@ -1,7 +1,7 @@
 # Samjna for Fusion
 Saṃjñā (sam-ji-na) is the Sanskrit word for "perception" or "cognition". 
 
-This application adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network. As Fusion crawls, images are sent to a neural network which then extracts tags related to the images being processed. These tags are then inserted by Fusion into search index.
+This application adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network. As Fusion crawls, document images are sent to the neural network which then extracts tags related to the images being processed. These tags are then inserted by Fusion into search index.
 
 ## Video
 This guide comes with a full length video showing the setup process outlined below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google account.
