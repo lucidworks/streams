@@ -1,5 +1,5 @@
 # Lucidworks Streams
-This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repository is maintained by the Streams Team at Lucidworks. Streams are designed to educate, inspire and create meaningful product marketing discourse in and around search/AI related technology markets.
+This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repository is maintained by the Streams Team at Lucidworks. Streams are designed to educate, inspire and create meaningful search/AI product marketing discourse in and around emerging technology markets.
 
 The projects in this repository utilize [Google Cloud](https://cloud.google.com/) for launching instances. [Projects](https://github.com/lucidworks/streams/blob/master/README.md#list-of-projects) may be easily modified to run on other cloud platforms.
 
