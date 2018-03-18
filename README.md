@@ -65,8 +65,7 @@ The startup process takes about 10 minutes to complete. After that, you can clic
 ## List of Projects
 The following streamable projects may be launched for demonstration purposes on Google Cloud Compute:
 
-- [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna):  adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
-
+- [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
