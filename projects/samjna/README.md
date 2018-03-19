@@ -41,7 +41,6 @@ cd streams/projects/samjna
 **Sample Output:**
 ```
 $ git clone https://github.com/lucidworks/streams
-$ git clone https://github.com/lucidworks/streams
 Cloning into 'streams'...
 remote: Counting objects: 2420, done.
 remote: Compressing objects: 100% (24/24), done.
