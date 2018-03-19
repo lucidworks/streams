@@ -19,7 +19,7 @@ This application demos several Fusion features including:
 - Boosting Results Using Specific Fields
 
 ### Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the 'TRY IT FREE' button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
 
 [video]
 
