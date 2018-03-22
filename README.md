@@ -13,7 +13,7 @@ A demo instance of Fusion 4.x may be started by running a simple script which ma
 
 [Animated GIF]
 
-Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following :
+Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following:
 
 **Commands:**
 ```
