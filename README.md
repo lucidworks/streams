@@ -4,9 +4,9 @@ This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repos
 The projects in this repository utilize [Google Cloud](https://cloud.google.com/) for launching instances. [Projects](https://github.com/lucidworks/streams/blob/master/README.md#list-of-projects) may be easily modified to run on other cloud platforms.
 
 ## Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account.
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. You will need to add a credit card to your account.
 
-Once you have your account configured, you can start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
+Once you have your account configured, you will be able to start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
 
 ## Launching a Fusion 4.x Demo Instance
 A demo instance of Fusion 4.x may be started by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
