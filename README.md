@@ -11,7 +11,7 @@ Once you have your account configured, you will be able to start a preemptible i
 ## Launching a Fusion 4.x Demo Instance
 A demo instance of Fusion 4.x may be started by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/cloudshell.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell.gif?raw=true)
 
 Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following:
 
