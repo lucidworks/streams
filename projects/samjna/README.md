@@ -3,15 +3,15 @@ Saṃjñā (we say sam-ji-na) is the Sanskrit word for "perception" or "cognitio
 
 This application adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network. As Fusion crawls, document images are sent to the neural network which extracts tags from the images being processed. These generalized tags are inserted by Fusion into the search index.
 
-## Video
-This guide comes with a full length video showing the setup process outlined below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google Cloud account.
-
 This application demos several Fusion features including:
 
 - Field and Entity Extraction
 - Query RPC Stage to Clarifai API w/Auth
 - Insertion of New Document Fields
 - Boosting Results Using Specific Fields
+
+## Video
+This guide comes with a full length video showing the setup process outlined below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google Cloud account.
 
 [video]
 
