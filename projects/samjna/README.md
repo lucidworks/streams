@@ -6,7 +6,7 @@ This application adds image-based perception capabilities to Lucidwork's [Fusion
 This application demos several Fusion features including:
 
 - Field and Entity Extraction
-- Query RPC Stage to Clarifai API w/Auth
+- Query RPC Stage to [Clarifai](https://clarifai.com/) API w/Auth
 - Insertion of New Document Fields
 - Boosting Results Using Specific Fields
 
@@ -105,7 +105,7 @@ You may need obtain a [Clarifai developer key](https://www.clarifai.com/develope
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/clarifai.gif?raw=true)
 
-Once you have your token copied into the paste buffer, click on the `Samjna` Application from the welcome/launcher screen back in your Fusion instance. `Samjna_Collection` will appear at the top toward the left and a series of icons will appear to the left.
+Once you have your token copied into the paste buffer, click on the `Samjna` application from the welcome/launcher screen back in your Fusion instance. `Samjna_Collection` will appear at the top toward the left and a series of icons will appear to the left.
 
 Click on the `Samjna_Collection` pipeline and then the `Clarifai General Network Query` stage to the right. Under `Clarifai General Network Query`, scroll down and change the `Authorization` property value to something like this:
 
@@ -134,8 +134,8 @@ Samjna demo available in a few minutes at: http://104.197.75.229:8080
 
 The application will ask you to login. Use `admin` for the username and the same password you picked earlier when setting up Fusion. Once you login, you will be presented with some default searches from Etsy. You may enter a search term at the top or combine search terms with image tags, which are presented as facets to the left.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/demo.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/demosearch.gif?raw=true)
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
-If you have any questions or comments for the #stream team (or have found a bug) [please open an issue](https://github.com/lucidworks/streams/issues)!
+If you have any questions or comments for the Stream Team (or have found a bug) [please open an issue](https://github.com/lucidworks/streams/issues)!

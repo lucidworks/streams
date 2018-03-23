@@ -35,6 +35,7 @@ fi
 sleep 15
 
 IP=$(gcloud compute instances describe fusion-server-4-$NEW_UUID --zone us-central1-a  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+gcloud compute firewall-rules create fusion --allow tcp:8764
 
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
 echo; 
