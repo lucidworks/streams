@@ -134,7 +134,7 @@ Samjna demo available in a few minutes at: http://104.197.75.229:8080
 
 The application will ask you to login. Use `admin` for the username and the same password you picked earlier when setting up Fusion. Once you login, you will be presented with some default searches from Etsy. You may enter a search term at the top or combine search terms with image tags, which are presented as facets to the left.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/demo.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/demosearch.gif?raw=true)
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
