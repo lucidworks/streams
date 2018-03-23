@@ -53,6 +53,8 @@ chmod 755 /samjna/apache-tomcat-8.5.29/bin/catalina.sh
 sleep 15
 
 IP=$(gcloud compute instances describe fusion-samjna-$NEW_UUID --zone us-central1-a  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+gcloud compute firewall-rules create fusion --allow tcp:8763
+gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
 
 echo "Thank you for running me. Here's what I know:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
