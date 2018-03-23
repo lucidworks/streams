@@ -6,7 +6,7 @@ This application adds image-based perception capabilities to Lucidwork's [Fusion
 This application demos several Fusion features including:
 
 - Field and Entity Extraction
-- Query RPC Stage to Clarifai API w/Auth
+- Query RPC Stage to [Clarifai](https://clarifai.com/) API w/Auth
 - Insertion of New Document Fields
 - Boosting Results Using Specific Fields
 
