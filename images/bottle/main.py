@@ -44,7 +44,7 @@ def search():
     username = 'admin'
     password = 'f00bar222'
     output = requests.get(url, auth=(username, password))
-    print "here"
+
     obj = loads(output.content)
     oi = obj['response']['docs']
 
