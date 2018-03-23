@@ -1,6 +1,8 @@
 # Lucidworks Streams
 This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repository is maintained by the Streams Team at Lucidworks. Streams are designed to educate, inspire and create meaningful search/AI product marketing discourse in and around emerging technology markets.
 
+You can view Streams episodes over on [Lucidwork's YouTube Channel](https://www.youtube.com/user/LucidWorksSearch).
+
 The projects in this repository utilize [Google Cloud](https://cloud.google.com/) for launching instances. [Projects](https://github.com/lucidworks/streams/blob/master/README.md#list-of-projects) may be easily modified to run on other cloud platforms.
 
 ## Google Cloud Setup
@@ -60,7 +62,7 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 
 The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI!
 
-[Animated GIF]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/startfusion.gif?raw=true)
 
 ## List of Projects
 The following streamable projects may be launched for demonstration purposes on Google Cloud Compute:
