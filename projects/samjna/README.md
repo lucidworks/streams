@@ -96,7 +96,7 @@ Click the following link to download the application: [https://github.com/lucidw
 
 Once the application has been downloaded, click on the `Import app` button in the welcome screen in Fusion:
 
-[Animated GIF]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/install.gif?raw=true)
 
 Click on `Choose File` under `Data File` and then pick the `Samjna-0.0.2.zip` file downloaded earlier. Click `Import` to start the application import. Review the information screen when it is shown and then click on `Close`.
 
