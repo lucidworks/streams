@@ -19,16 +19,14 @@ This application demos several Fusion features including:
 The demo application may be started from the Google Cloud console with only a few simple commands. With a bit of work, it may be repurposed to run locally or on AWS and other cloud providers.
 
 ### Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. The following video shows the required steps for getting your free trial going on Google Cloud.
-
-[video]
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. 
 
 This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
 
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
-[Animated GIF]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell.gif?raw=true)
 
 Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following commands:
 
