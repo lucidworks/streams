@@ -138,4 +138,4 @@ The application will ask you to login. Use `admin` for the username and the same
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
-If you have any questions or comments for the #stream team (or have found a bug) [please open an issue](https://github.com/lucidworks/streams/issues)!
+If you have any questions or comments for the Stream Team (or have found a bug) [please open an issue](https://github.com/lucidworks/streams/issues)!
