@@ -60,7 +60,7 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 
 The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI!
 
-[Animated GIF]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/startfusion.gif?raw=true)
 
 ## List of Projects
 The following streamable projects may be launched for demonstration purposes on Google Cloud Compute:
