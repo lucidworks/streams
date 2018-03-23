@@ -103,7 +103,7 @@ Click on `Choose File` under `Data File` and then pick the `Samjna-0.0.2.zip` fi
 #### Obtain a Clarifai Key
 You may need obtain a [Clarifai developer key](https://www.clarifai.com/developer/account/signup) for this portion of the configuration. The following video guides you through obtaining a developer token from Clarifai:
 
-[video]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/clarifai.gif?raw=true)
 
 Once you have your token copied into the paste buffer, click on the `Samjna` Application from the welcome/launcher screen back in your Fusion instance. `Samjna_Collection` will appear at the top toward the left and a series of icons will appear to the left.
 
