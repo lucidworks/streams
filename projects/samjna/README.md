@@ -105,7 +105,7 @@ You may need obtain a [Clarifai developer key](https://www.clarifai.com/develope
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/clarifai.gif?raw=true)
 
-Once you have your token copied into the paste buffer, click on the `Samjna` Application from the welcome/launcher screen back in your Fusion instance. `Samjna_Collection` will appear at the top toward the left and a series of icons will appear to the left.
+Once you have your token copied into the paste buffer, click on the `Samjna` application from the welcome/launcher screen back in your Fusion instance. `Samjna_Collection` will appear at the top toward the left and a series of icons will appear to the left.
 
 Click on the `Samjna_Collection` pipeline and then the `Clarifai General Network Query` stage to the right. Under `Clarifai General Network Query`, scroll down and change the `Authorization` property value to something like this:
 
