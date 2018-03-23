@@ -80,20 +80,14 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 
 The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI.
 
-[Animated GIF]
-
 ### Configuring Fusion
 When you first connect to Fusion's UI, it will prompt you for a password and an agreement to Lucidwork's License Terms. Use something simple here, given the instance is temporary and won't be left running for more than a day.
 
-[Animated GIF]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/passwordfusion.gif?raw=true)
 
 If you would like more information about Fusion sent to your mailbox, fill out the first, last and email address fields on the `Registration` page. Otherwise, click on `Skip` to be logged into the instance.
 
-[Animated GIF]
-
 The Quickstart guide will appear. Dismiss the guide by clicking on the `Exit the Quickstart` button at the lower left.
-
-[Animated GIF]
 
 #### Downloading the Application
 Download the application to your computer before uploading it to the new Fusion instance. This can be done automatically in a production environment, but here we'll do it for practice.
