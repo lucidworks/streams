@@ -13,7 +13,7 @@ This application demos several Fusion features including:
 ## Video
 This guide comes with a full length video showing the setup process outlined below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google Cloud account.
 
-[video]
+<iframe width="560" height="315" src="https://www.youtube.com/embed/24qrduh8-5Q" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 ## Setup
 The demo application may be started from the Google Cloud console with only a few simple commands. With a bit of work, it may be repurposed to run locally or on AWS and other cloud providers.
