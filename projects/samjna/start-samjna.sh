@@ -25,11 +25,11 @@ apt-get install unzip -y
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 mkdir /samjna; cd /samjna
-curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.zip > tomcat.zip
+curl http://supergsego.com/apache/tomcat/tomcat-8/v8.5.30/bin/apache-tomcat-8.5.30.zip > tomcat.zip
 unzip tomcat.zip
 git clone https://github.com/lucidworks/streams.git
-rm -rf /samjna/apache-tomcat-8.5.29/webapps/ROOT
-cp /samjna/streams/projects/samjna/dist/ROOT.war /samjna/apache-tomcat-8.5.29/webapps/
+rm -rf /samjna/apache-tomcat-8.5.30/webapps/ROOT
+cp /samjna/streams/projects/samjna/dist/ROOT.war /samjna/apache-tomcat-8.5.30/webapps/
 
 cd /
 # only download and untar if we do not have a /fusion directory
@@ -46,8 +46,8 @@ mv ROOT.lic /root/twigkit.lic # howdy
 
 cd /
 /fusion/4.0.1/bin/fusion restart
-chmod 755 /samjna/apache-tomcat-8.5.29/bin/catalina.sh
-/samjna/apache-tomcat-8.5.29/bin/catalina.sh start
+chmod 755 /samjna/apache-tomcat-8.5.30/bin/catalina.sh
+/samjna/apache-tomcat-8.5.30/bin/catalina.sh start
 '
 
 sleep 15
