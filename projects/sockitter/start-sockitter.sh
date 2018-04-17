@@ -23,12 +23,11 @@ apt-get update -y
 sudo apt-get install oracle-java8-installer -y
 apt-get install unzip -y
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+
 apt-get install ant
 
-mkdir /sockitter; cd /sockitter
-cp /sockitter/streams/projects/sockitter/dist/ROOT.war /sockitter/apache-tomcat-8.5.30/webapps/
+cd /; git clone https://github.com/lucidworks/streams
 
-cd /
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
@@ -44,9 +43,10 @@ sleep 15
 IP=$(gcloud compute instances describe fusion-sockitter-$NEW_UUID --zone us-central1-a  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 gcloud compute firewall-rules create fusion --allow tcp:8763
 gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
+gcloud compute firewall-rules create fusion-webapp --allow tcp:8780
 
 echo "Thank you for running me. Here's what I know:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
-echo "Demo available in a few minutes at: http://$IP:8780"
+echo "Admin UI available in a few minutes at: http://$IP:8780"
 echo "API access available in a few minutes at: https://$IP:8764/api/..." 
 echo "API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html"
