@@ -1,0 +1,5 @@
+{
+  "subject" : "blob:webapps/sockitter-editor.war",
+  "object" : "app:sockitter",
+  "linkType" : "inContextOf"
+}
