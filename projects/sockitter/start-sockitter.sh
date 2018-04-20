@@ -20,10 +20,13 @@ sudo add-apt-repository ppa:webupd8team/java -y
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 apt-get update -y
+
 sudo apt-get install oracle-java8-installer -y
-apt-get install unzip -y
+sudo apt install oracle-java8-set-default -y
+
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
+apt-get install unzip -y
 apt-get install ant
 
 cd /; git clone https://github.com/lucidworks/streams
