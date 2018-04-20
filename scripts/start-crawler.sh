@@ -19,6 +19,9 @@ sudo su -
 
 apt-get update -y
 apt-get install unzip -y
+apt-get install python-setuptools -y
+easy_install pip
+pip install tweepy
 '
 
 sleep 15
@@ -27,4 +30,5 @@ gcloud compute instances attach-disk dev-crawler-$NEW_UUID --disk crawler-data -
 IP=$(gcloud compute instances describe dev-crawler-$NEW_UUID --zone us-central1-b  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 echo "Server started with $IP. Use the SSH button to login."
+echo "Run `sudo mount /dev/sdb1 /huge/` and then `cd /huge/bots/` to get started..."
 echo "API access available in a few minutes at: https://$IP:8764/lucidlabs/api/..." 
