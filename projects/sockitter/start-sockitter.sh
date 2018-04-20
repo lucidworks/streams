@@ -27,7 +27,7 @@ sudo apt install oracle-java8-set-default -y
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 apt-get install unzip -y
-apt-get install ant
+apt-get install ant -y
 
 cd /; git clone https://github.com/lucidworks/streams
 
