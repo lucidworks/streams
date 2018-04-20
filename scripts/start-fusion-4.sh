@@ -15,14 +15,19 @@ gcloud compute instances create fusion-server-4-$NEW_UUID \
 --preemptible \
 --metadata startup-script='#! /bin/bash
 sudo su -
+
 apt-get update -y
 sudo add-apt-repository ppa:webupd8team/java -y
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 apt-get update -y
+
 sudo apt-get install oracle-java8-installer -y
+sudo apt install oracle-java8-set-default -y
+
 apt-get install unzip -y
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
