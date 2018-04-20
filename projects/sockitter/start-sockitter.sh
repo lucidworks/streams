@@ -4,7 +4,7 @@ NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --machine-type "n1-standard-8" \
---image "ubuntu-1604-xenial-v20170811" \
+--image "ubuntu-1604-xenial-v20180405" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
@@ -53,3 +53,4 @@ echo "Fusion UI available in a few minutes at: http://$IP:8764"
 echo "Admin UI available in a few minutes at: http://$IP:8780"
 echo "API access available in a few minutes at: https://$IP:8764/api/..." 
 echo "API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html"
+

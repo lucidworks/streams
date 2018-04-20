@@ -1,0 +1,171 @@
+<project xmlns:fusion="http://lucidworks.com/fusion">
+
+  <property name="build.dir" location="build"/>
+
+  <property file="fusion.properties"/>
+  <property file="app.properties"/>
+
+  <macrodef name="post"
+            uri="http://lucidworks.com/fusion">
+   <attribute name="endpoint"/>
+   <attribute name="file"/>
+   <attribute name="content-type" default="application/json"/>
+   <sequential>
+      <echo>POST @{endpoint} @{file}</echo>
+      <exec executable="curl" failonerror="true">
+        <arg value="-sS"/>
+        <arg value="--fail"/>
+        <arg value="-u"/>
+        <arg value="${fusion.username}:${fusion.password}"/>
+        <arg value="-X"/>
+        <arg value="POST"/>
+        <arg value="-H"/>
+        <arg value="Content-type: @{content-type}"/>
+        <arg value="-d"/>
+        <arg value="@@@{file}"/>
+        <arg value="${fusion.api.url}@{endpoint}"/>
+      </exec>
+   </sequential>
+</macrodef>
+
+<macrodef name="put"
+          uri="http://lucidworks.com/fusion">
+ <attribute name="endpoint"/>
+ <attribute name="file" default=""/>
+ <attribute name="content-type" default="application/json"/>
+ <sequential>
+    <echo>PUT @{endpoint} @{file}</echo>
+    <exec executable="curl" failonerror="true">
+      <arg value="-sS"/>
+      <arg value="--fail"/>
+      <arg value="-u"/>
+      <arg value="${fusion.username}:${fusion.password}"/>
+      <arg value="-X"/>
+      <arg value="PUT"/>
+      <arg value="-H"/>
+      <arg value="Content-type: @{content-type}"/>
+      <arg value="--data-binary"/>
+      <arg value="@@@{file}"/>
+      <arg value="${fusion.api.url}@{endpoint}"/>
+    </exec>
+ </sequential>
+</macrodef>
+
+<macrodef name="delete"
+          uri="http://lucidworks.com/fusion">
+ <attribute name="endpoint"/>
+ <sequential>
+    <echo>DELETE @{endpoint}</echo>
+    <exec executable="curl" failonerror="true">
+      <arg value="-sS"/>
+      <arg value="--fail"/>
+      <arg value="-u"/>
+      <arg value="${fusion.username}:${fusion.password}"/>
+      <arg value="-X"/>
+      <arg value="DELETE"/>
+      <arg value="${fusion.api.url}@{endpoint}"/>
+    </exec>
+ </sequential>
+</macrodef>
+
+  <target name="init">
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="generate-app" depends="init">
+    <copy todir="${build.dir}">
+      <fileset dir="." includes="conf/,webapp/"/>
+      <filterset>
+        <propertyset>
+          <propertyref prefix="app."/>
+        </propertyset>
+      </filterset>
+    </copy>
+  </target>
+
+  <target name="install-app" depends="generate-app">
+    <fusion:post endpoint="/apps" file="${build.dir}/conf/app.json"/>
+  </target>
+
+  <target name="uninstall-app">
+    <fusion:delete endpoint="/apps/${app.name}"/>
+  </target>
+
+  <target name="install-datasource">
+    <fusion:post endpoint="/apps/${app.name}/connectors/datasources" file="${build.dir}/conf/ds.json"/>
+  </target>
+
+  <target name="package-webapp" depends="generate-app">
+    <zip destfile="${build.dir}/${app.webapp}.war">
+      <zipfileset dir="${build.dir}/webapp" prefix="/"/>
+    </zip>
+  </target>
+
+  <target name="install-webapp" depends="package-webapp">
+    <echo>Posting file...</echo>
+    <fusion:post endpoint="/apps/${app.name}/webapps" file="${build.dir}/conf/webapp.json"/>
+    <fusion:put
+      endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
+      file="${build.dir}/${app.webapp}.war"
+      content-type="application/zip"/>
+    <!-- <fusion:put endpoint="/links" file="${build.dir}/conf/webapp-link.json"/> -->
+  </target>
+
+  <target name="uninstall-webapp">
+    <fusion:delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
+  </target>
+
+  <target name="check-twitter4j-installed">
+    <condition property="twitter4j.installed">
+      <resourcecontains resource="${fusion.home}/apps/jetty/api/webapps/api-extra-classpath.txt" substring="twitter4j" />
+    </condition>
+  </target>
+
+  <target name="install-twitter4j" depends="check-twitter4j-installed" unless="twitter4j.installed">
+    <copy file="conf/twitter4j-core-4.0.4.jar" todir="${fusion.home}/apps/libs"/>
+    <concat destfile="${build.dir}/extra-classpath-twitter4j.txt"
+            append="true"
+            fixlastline="true">
+apps/libs/twitter4j-core-4.0.4.jar
+</concat>
+    <concat destfile="${build.dir}/api-extra-classpath.txt" append="true">
+      <filelist dir="${fusion.home}/apps/jetty/api/webapps" files="api-extra-classpath.txt"/>
+      <filelist dir="${build.dir}" files="extra-classpath-twitter4j.txt"/>
+    </concat>
+  </target>
+
+  <target name="install-twitter-gateway" depends="generate-app,install-twitter4j">
+    <fusion:post endpoint="/apps/${app.name}/query-pipelines" file="${build.dir}/conf/twitter_api_gateway.json"/>
+  </target>
+
+  <target name="stop-ds">
+    <fusion:delete endpoint="/apps/${app.name}/connectors/jobs/${app.datasource}"/>
+  </target>
+
+  <target name="url">
+    <echo>
+      ${fusion.api.url}
+    </echo>
+  </target>
+
+  <target name="install"
+    depends="install-app,install-datasource,install-twitter-gateway,install-webapp"/>
+
+
+  <target name="export-app">
+    <mkdir dir="../dist"/>
+    <get src="${fusion.api.url}/apollo/objects/export?app.ids=${app.name}"
+         username="${fusion.username}"
+         password="${fusion.password}"
+         dest="../dist/${app.name}.zip"
+         verbose="true">
+      <header name="Accept" value="*/*"/>
+    </get>
+  </target>
+
+
+</project>
