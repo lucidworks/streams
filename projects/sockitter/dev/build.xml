@@ -100,7 +100,11 @@
   </target>
 
   <target name="install-connector">
-     <fusion:put endpoint="/api/blobs/twitter-stream?resourceType=plugin:connector" file="${build.dir}/dist/lucid.twitter-stream-4.0.1.zip"/>
+    <echo>Uploading connector file...</echo>
+    <fusion:put 
+      endpoint="/blobs/twitter-stream-4.0.1.zip?resourceType=plugin:connector" 
+      file="/streams/projects/sockitter/dev/dist/lucid.twitter-stream-4.0.1.zip" 
+      content-type="application/zip"/>
   </target>
 
   <target name="package-webapp" depends="generate-app">
