@@ -99,6 +99,10 @@
     <fusion:post endpoint="/apps/${app.name}/connectors/datasources" file="${build.dir}/conf/ds.json"/>
   </target>
 
+  <target name="install-connector">
+     <fusion:put endpoint="/api/blobs/twitter-stream?resourceType=plugin:connector" file="${build.dir}/dist/lucid.twitter-stream-4.0.1.zip"/>
+  </target>
+
   <target name="package-webapp" depends="generate-app">
     <zip destfile="${build.dir}/${app.webapp}.war">
       <zipfileset dir="${build.dir}/webapp" prefix="/"/>
