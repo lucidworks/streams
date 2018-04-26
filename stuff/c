@@ -1,6 +1,0 @@
-curl --request GET \
-  --url 'https://api.twitter.com/1.1/statuses/show.json?id=970742659059986432' \
-  --header 'authorization: OAuth oauth_consumer_key="kAIbqNmSG1JMz48R9Bf8nHmzJ", \
-  oauth_nonce="generated-nonce", oauth_signature="generated-signature", \
-  oauth_signature_method="HMAC-SHA1", oauth_timestamp="generated-timestamp", \
-  oauth_version="1.0"'
