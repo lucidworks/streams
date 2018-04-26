@@ -44,7 +44,7 @@
       <arg value="PUT"/>
       <arg value="-H"/>
       <arg value="Content-type: @{content-type}"/>
-      <arg value="--data-binary"/>
+      <arg value="-d"/>
       <arg value="@@@{file}"/>
       <arg value="${fusion.api.url}@{endpoint}"/>
     </exec>
