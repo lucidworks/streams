@@ -67,7 +67,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --labels ready=true \
 --tags lucid \
 --preemptible \
---metadata startup-script=$SCRIPT
+--metadata startup-script="$SCRIPT"
 
 sleep 15
 
