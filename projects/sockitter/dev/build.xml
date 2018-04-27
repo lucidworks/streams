@@ -44,7 +44,7 @@
       <arg value="PUT"/>
       <arg value="-H"/>
       <arg value="Content-type: @{content-type}"/>
-      <arg value="-d"/>
+      <arg value="--data-binary"/>
       <arg value="@@@{file}"/>
       <arg value="${fusion.api.url}@{endpoint}"/>
     </exec>
@@ -101,9 +101,9 @@
 
   <target name="install-connector">
     <echo>Uploading connector file...</echo>
-    <fusion:put 
-      endpoint="/blobs/twitter-stream-4.0.1.zip?resourceType=plugin:connector" 
-      file="/streams/projects/sockitter/dev/dist/lucid.twitter-stream-4.0.1.zip" 
+    <fusion:put
+      endpoint="/blobs/twitter-stream-4.0.1.zip?resourceType=plugin:connector"
+      file="conf/lucid.twitter-stream-4.0.1.zip"
       content-type="application/zip"/>
   </target>
 
