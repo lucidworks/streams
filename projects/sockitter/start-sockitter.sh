@@ -53,7 +53,7 @@ s,YOUR_CONSUMER_SECRET,'$CONSUMER_SECRET',g;
 " /streams/projects/sockitter/dev/app.properties
 
 sed -i "
-s,%YOUR_FUSION_PASSWORD%,'$FUSION_PASSWORD',g;
+s,YOUR_FUSION_PASSWORD,'$FUSION_PASSWORD',g;
 s,localhost,'$IP',g;
 " /streams/projects/sockitter/dev/fusion.properties
 
