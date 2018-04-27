@@ -19,7 +19,7 @@ IP=$(wget -qO- http://ipecho.net/plain)
 cd /; git clone https://github.com/lucidworks/streams
 
 sed -i "
-s,YOUR_TOKEN,%TOKEN%,g;
+s,YOUR_ACESS_TOKEN,%ACESS_TOKEN%,g;
 s,YOUR_TOKEN_SECRET,%TOKEN_SECRET%,g;
 s,YOUR_CONSUMER_KEY,%CONSUMER_KEY%,g;
 s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
