@@ -41,6 +41,11 @@ s,%YOUR_CONSUMER_KEY%,'$CONSUMER_KEY',g;
 s,%YOUR_CONSUMER_SECRET%,'$CONSUMER_SECRET',g;
 " /streams/projects/sockitter/dev/app.properties
 
+sed -i "
+s,%YOUR_FUSION_PASSWORD%,'$FUSION_PASSWORD',g;
+s,localhost,'$IP',g;
+" /streams/projects/sockitter/dev/fusion.properties
+
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 wget https://storage.googleapis.com/streams-fusion/fusion-4.0.1.tar.gz
@@ -50,9 +55,6 @@ fi
 cd /
 /fusion/4.0.1/bin/fusion restart
 '
-
-echo "$SCRIPT"
-exit;
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --machine-type "n1-standard-8" \
