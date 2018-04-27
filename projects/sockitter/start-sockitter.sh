@@ -20,7 +20,7 @@ NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
 cp server-sample.sh server.sh
 sed -i "
-s,%TOKEN%,$TOKEN,g;
+s,%ACCESS_TOKEN%,$ACCESS_TOKEN,g;
 s,%SECRET_TOKEN%,$SECRET_TOKEN,g;
 s,%CONSUMER_KEY%,$CONSUMER_KEY,g;
 s,%CONSUMER_SECRET%,$CONSUMER_SECRET,g;
