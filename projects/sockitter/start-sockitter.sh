@@ -25,7 +25,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --labels ready=true \
 --tags lucid \
 --preemptible \
---metadata startup-script='#!/bin/bash
+--metadata TOKEN=$TOKEN, TOKEN_SECRET=$TOKEN_SECRET, CONSUMER_KEY=$CONSUMER_KEY, CONSUMER_SECRET=$CONSUMER_SECRET, startup-script='#!/bin/bash
 sudo su -
 apt-get update -y
 sudo add-apt-repository ppa:webupd8team/java -y
@@ -46,15 +46,15 @@ IP=$(wget -qO- http://ipecho.net/plain)
 cd /; git clone https://github.com/lucidworks/streams
 
 sed -i "
-s,YOUR_TOKEN,'$TOKEN',g;
-s,YOUR_TOKEN_SECRET,'$TOKEN_SECRET',g;
-s,YOUR_CONSUMER_KEY,'$CONSUMER_KEY',g;
-s,YOUR_CONSUMER_SECRET,'$CONSUMER_SECRET',g;
+s,YOUR_TOKEN,$TOKEN,g;
+s,YOUR_TOKEN_SECRET,$TOKEN_SECRET,g;
+s,YOUR_CONSUMER_KEY,$CONSUMER_KEY,g;
+s,YOUR_CONSUMER_SECRET,$CONSUMER_SECRET,g;
 " /streams/projects/sockitter/dev/app.properties
 
 sed -i "
-s,YOUR_FUSION_PASSWORD,'$FUSION_PASSWORD',g;
-s,localhost,'$IP',g;
+s,YOUR_FUSION_PASSWORD,$FUSION_PASSWORD,g;
+s,localhost,$IP,g;
 " /streams/projects/sockitter/dev/fusion.properties
 
 # only download and untar if we do not have a /fusion directory
