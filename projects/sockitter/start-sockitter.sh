@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if [ -f secrets.sh ]; then
+   source secrets.sh # truly, a travesty
+   echo "Here's where I say, hold on a second."
+
+else
+   echo "Edit 'secrets-sample.sh' with your Twitter credentials & rename to 'secrets.sh' before rerunning this script.";
+   exit;
+fi
+
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
@@ -33,7 +42,7 @@ cd /; git clone https://github.com/lucidworks/streams
 
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
-wget https://download.lucidworks.com/fusion-4.0.1/fusion-4.0.1.tar.gz
+wget https://storage.googleapis.com/streams-fusion/fusion-4.0.1.tar.gz
 tar xvfz fusion-4.0.1.tar.gz
 fi
 
