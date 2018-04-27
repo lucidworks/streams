@@ -7,8 +7,12 @@ if [ -f secrets.sh ]; then
 else
    echo "TODO List"
    echo "1. Edit 'secrets-sample.sh' with your Twitter credentials.";
-   echo "2. Rename the file to 'secrets.sh'.";
-   echo "3. Rerun this script.";
+   echo "   Example: 'pico secrets-sample.sh'";
+   echo;
+   echo "2. Copy the file to 'secrets.sh'.";
+   echo "   Example: 'cp secrets-sample.sh secrets.sh'.";
+   echo;
+   echo "3. Rerun this script, './start-sockitter.sh'.";
    exit;
 fi
 
