@@ -24,7 +24,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --zone us-central1-a \
 --labels ready=true \
 --tags lucid \
---preemptible \
+--preemptible add-metadata \
 --metadata TOKEN=$TOKEN, TOKEN_SECRET=$TOKEN_SECRET, CONSUMER_KEY=$CONSUMER_KEY, CONSUMER_SECRET=$CONSUMER_SECRET, startup-script='#!/bin/bash
 sudo su -
 apt-get update -y
