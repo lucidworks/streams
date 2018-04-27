@@ -19,8 +19,8 @@ IP=$(wget -qO- http://ipecho.net/plain)
 cd /; git clone https://github.com/lucidworks/streams
 
 sed -i "
-s,YOUR_ACESS_TOKEN,%ACESS_TOKEN%,g;
-s,YOUR_TOKEN_SECRET,%TOKEN_SECRET%,g;
+s,YOUR_ACCESS_TOKEN,%ACCESS_TOKEN%,g;
+s,YOUR_SECRET_TOKEN,%SECRET_TOKEN%,g;
 s,YOUR_CONSUMER_KEY,%CONSUMER_KEY%,g;
 s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
 " /streams/projects/sockitter/dev/app.properties
