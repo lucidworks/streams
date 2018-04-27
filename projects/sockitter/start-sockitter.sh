@@ -25,7 +25,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --labels ready=true \
 --tags lucid \
 --preemptible \
---metadata startup-script='#!/bin/bash
+--metadata startup-script='#! /bin/bash
 sudo su -
 apt-get update -y
 sudo add-apt-repository ppa:webupd8team/java -y
