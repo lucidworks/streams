@@ -30,6 +30,8 @@ echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 apt-get update -y
 
+IP=$(curl ipecho.net/plain)
+
 sudo apt-get install oracle-java8-installer -y
 sudo apt install oracle-java8-set-default -y
 
