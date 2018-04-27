@@ -14,7 +14,18 @@ fi
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
-SCRIPT='#!/bin/bash
+gcloud compute instances create fusion-sockitter-$NEW_UUID \
+--machine-type "n1-standard-8" \
+--image "ubuntu-1604-xenial-v20180405" \
+--image-project "ubuntu-os-cloud" \
+--boot-disk-size "50" \
+--boot-disk-type "pd-ssd" \
+--boot-disk-device-name "$NEW_UUID" \
+--zone us-central1-a \
+--labels ready=true \
+--tags lucid \
+--preemptible \
+--metadata startup-script='#!/bin/bash
 sudo su -
 apt-get update -y
 sudo add-apt-repository ppa:webupd8team/java -y
@@ -55,19 +66,6 @@ fi
 cd /
 /fusion/4.0.1/bin/fusion restart
 '
-
-gcloud compute instances create fusion-sockitter-$NEW_UUID \
---machine-type "n1-standard-8" \
---image "ubuntu-1604-xenial-v20180405" \
---image-project "ubuntu-os-cloud" \
---boot-disk-size "50" \
---boot-disk-type "pd-ssd" \
---boot-disk-device-name "$NEW_UUID" \
---zone us-central1-a \
---labels ready=true \
---tags lucid \
---preemptible \
---metadata startup-script="$SCRIPT"
 
 sleep 15
 
