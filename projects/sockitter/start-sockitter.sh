@@ -5,7 +5,10 @@ if [ -f secrets.sh ]; then
    echo "Here's where I say, hold on a second."
 
 else
-   echo "Edit 'secrets-sample.sh' with your Twitter credentials & rename to 'secrets.sh' before rerunning this script.";
+   echo "TODO List"
+   echo "1. Edit 'secrets-sample.sh' with your Twitter credentials.";
+   echo "2. Rename the file to 'secrets.sh'.";
+   echo "3. Rerun this script.";
    exit;
 fi
 
