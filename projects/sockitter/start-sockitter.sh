@@ -14,9 +14,9 @@ fi
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
-SCRIPT='#! /bin/bash \
-sudo su - \
-apt-get update -y \
+SCRIPT='#!/bin/bash
+sudo su -
+apt-get update -y
 sudo add-apt-repository ppa:webupd8team/java -y
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
@@ -51,7 +51,7 @@ cd /
 /fusion/4.0.1/bin/fusion restart
 '
 
-echo $SCRIPT
+echo "$SCRIPT"
 exit;
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
