@@ -30,12 +30,15 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 apt-get install unzip -y
 apt-get install ant -y
 
+IP=$(wget -qO- http://ipecho.net/plain)
+
 cd /; git clone https://github.com/lucidworks/streams
+
 sed -i "
-s,%YOUR_TOKEN%,$TOKEN,g;
-s,%YOUR_TOKEN_SECRET%,$TOKEN_SECRET,g;
-s,%YOUR_CONSUMER_KEY%,$CONSUMER_KEY,g;
-s,%YOUR_CONSUMER_SECRET%,$CONSUMER_SECRET,g;
+s,%YOUR_TOKEN%,'$TOKEN',g;
+s,%YOUR_TOKEN_SECRET%,'$TOKEN_SECRET',g;
+s,%YOUR_CONSUMER_KEY%,'$CONSUMER_KEY',g;
+s,%YOUR_CONSUMER_SECRET%,'$CONSUMER_SECRET',g;
 " /streams/projects/sockitter/dev/app.properties
 
 # only download and untar if we do not have a /fusion directory
@@ -49,6 +52,7 @@ cd /
 '
 
 echo $SCRIPT
+exit;
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --machine-type "n1-standard-8" \
