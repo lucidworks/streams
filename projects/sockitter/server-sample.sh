@@ -36,5 +36,6 @@ wget https://storage.googleapis.com/streams-fusion/fusion-4.0.1.tar.gz
 tar xvfz fusion-4.0.1.tar.gz
 fi
 
+ln -s /fusion/ /root/fusion
 cd /
 /fusion/4.0.1/bin/fusion restart
