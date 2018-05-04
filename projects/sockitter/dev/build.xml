@@ -135,14 +135,8 @@
 
   <target name="install-twitter4j" depends="check-twitter4j-installed" unless="twitter4j.installed">
     <copy file="conf/twitter4j-core-4.0.4.jar" todir="${fusion.home}/apps/libs"/>
-    <concat destfile="${build.dir}/extra-classpath-twitter4j.txt"
-            append="true"
-            fixlastline="true">
-apps/libs/twitter4j-core-4.0.4.jar
-</concat>
-    <concat destfile="${build.dir}/api-extra-classpath.txt" append="true">
-      <filelist dir="${fusion.home}/apps/jetty/api/webapps" files="api-extra-classpath.txt"/>
-      <filelist dir="${build.dir}" files="extra-classpath-twitter4j.txt"/>
+    <concat destfile="${fusion.home}/apps/jetty/api/webapps/api-extra-classpath.txt" append="true">
+      <filelist dir="conf" files="extra-classpath-twitter4j.txt"/>
     </concat>
   </target>
 
