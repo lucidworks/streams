@@ -2,5 +2,7 @@
   "id" : "@app.name@",
   "name" : "Sockitter App",
   "description" : "A Twitter account analysis tool.",
-  "tileColor" : "apps-red"
+  "properties" : {
+    "tileColor" : "apps-red"
+  }
 }
