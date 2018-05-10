@@ -1,5 +1,6 @@
 {
   "id" : "@app.name@",
   "name" : "Sockitter App",
-  "description" : "Sock It To Me"
+  "description" : "A Twitter account analysis tool.",
+  "tileColor" : "apps-red"
 }
