@@ -52,7 +52,7 @@ ln -s /fusion/ /root/fusion
 
 # replace line in /fusion/conf/fusion.properties
 sed -i "
-s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=1000 -Denable.runtime.lib=true,g;
+s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.runtime.lib=true,g;
 " /fusion/conf/fusion.properties
 
 # set the password
