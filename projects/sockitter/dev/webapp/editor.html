@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Twitter Stream Datasource Editor</title>
+
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+    var fusion_api_base = '@app.api.base@';
+    var fusion_ds_base = fusion_api_base + '/connectors/datasources/';
+    var fusion_credentials = '@app.basic.auth.creds@';
+    var ds_name = '@app.datasource@';
+
+    // TODO: externalize these functions
+    function load_ds() {
+      $.ajax({
+        headers: {
+          "Authorization": "Basic " + btoa(fusion_credentials)
+        },
+        type: "GET", async: false, dataType: 'json',
+        url: fusion_ds_base + ds_name,
+
+        success: function (data) {
+          $('#ds_source').text(JSON.stringify(data));
+
+          var following = data.properties.filter_follow;
+          $('#following').empty();
+
+          var id_map = {};
+          if(following.length==0) {
+            $('#following').append('<li>None</li>');
+          } else {
+            id_map = lookup_screen_names(following);
+          }
+          $.each(following, function(index,value) {
+            $('#following').append(
+              '<li>' +
+                 value +
+                 ' (' + id_map[value] + ')' +
+                 ' <a href="#" onclick="remove_id(\'' + value + '\'); return false;">x</a>' +
+              '</li>'
+            );
+          });
+        },
+
+        fail: function( xhr, status, errorThrown ) {
+          alert(errorThrown);
+        }
+      });
+    }
+
+    function save_ds(ds) {
+      // TODO: any massaging of `ds` needed before posting back?
+      $.ajax({
+        headers: {
+          "Authorization": "Basic " + btoa(fusion_credentials),
+          "Content-Type": "application/json"
+        },
+        type: "PUT",
+        async: false,
+        dataType: 'json',
+        data: JSON.stringify(ds),
+        url: fusion_ds_base + ds_name,
+
+        success: function (data) {
+          //alert(data);
+        },
+
+        fail: function( xhr, status, errorThrown ) {
+          alert(errorThrown);
+        }
+      });
+    }
+
+    function start_ds() {
+      $.ajax({
+        headers: {
+          "Authorization": "Basic " + btoa(fusion_credentials),
+        },
+        type: "POST",
+        async: false,
+        dataType: 'json',
+        url: fusion_api_base + '/connectors/jobs/' + ds_name,
+
+        success: function (data) {
+        },
+
+        fail: function( xhr, status, errorThrown ) {
+          alert(errorThrown);
+        }
+      });
+    }
+
+    function stop_ds() {
+      $.ajax({
+        headers: {
+          "Authorization": "Basic " + btoa(fusion_credentials),
+        },
+        type: "DELETE",
+        async: false,
+        dataType: 'json',
+        url: fusion_api_base + '/connectors/jobs/' + ds_name,
+
+        success: function (data) {
+        },
+
+        fail: function( xhr, status, errorThrown ) {
+          alert(errorThrown);
+        }
+      });
+    }
+
+    function add_id(new_id) {
+      var ds = get_ds();
+
+      ds.properties.filter_follow.push(new_id);
+
+      save_ds(ds);
+      load_ds();
+    }
+
+    function remove_id(id) {
+      var ds = get_ds();
+
+      var followers = ds.properties.filter_follow;
+      followers.splice(followers.indexOf(id), 1);
+      ds.properties.filter_follow = followers;
+
+      save_ds(ds);
+      load_ds();
+    }
+
+    function get_ds() {
+      var ds = JSON.parse($('#ds_source').val());
+
+      // fill back in redacted items
+      //ds.properties.consumer_secret = $('#consumer_secret').val();
+      //ds.properties.token_secret = $('#token_secret').val();
+
+      return ds;
+    }
+
+    function lookup_id(screen_name) {
+      $.ajax({
+        headers: {
+          "Authorization": "Basic " + btoa(fusion_credentials)
+        },
+        type: "GET", async: false,
+        url: 'gateway',
+        data: {"method": "lookupUsersByScreenName", "screen_name": screen_name },
+
+        success: function (data) {
+          $('#scratch').text(JSON.stringify(data));
+          $('#new_id').val(data.response[0].id);
+        },
+
+        fail: function( xhr, status, errorThrown ) {
+          alert(errorThrown);
+        }
+      });
+    }
+
+    function lookup_screen_names(ids) {
+      var id_map = {};
+      $.ajax({
+        headers: {
+          "Authorization": "Basic " + btoa(fusion_credentials)
+        },
+        type: "GET", async: false,
+        url: 'gateway',
+        data: jQuery.param({"method": "lookupUsersByID", "id": ids }, true),
+
+        success: function (data) {
+          $('#scratch').text(JSON.stringify(data));
+          $.each(data.response, function(index,value) {
+            id_map[value.id] = value.name;
+          });
+        },
+
+        fail: function( xhr, status, errorThrown ) {
+          alert(errorThrown);
+        }
+      });
+
+      return id_map;
+    }
+
+
+    $(function() {
+      // onload...
+      //var loc = window.location;
+      console.log(window.location);
+      //fusion_api_base = loc.replace('8780','8764');
+      console.log(fusion_api_base);
+      load_ds();
+     });
+
+    </script>
+
+</head>
+<body>
+
+  <div>
+    <h2>Following</h2>
+    <ul id="following">
+    </ul>
+  </div>
+
+  <div>
+    <h2>Actions</h2>
+    <ul>
+      <li><button type="button" onclick="load_ds();">GET</button> (reload datasource)</li>
+      <li>
+        <input type="text" id="new_id"/>
+        <button type="button" onclick="add_id($('#new_id').val());">Add ID</button>
+      </li>
+      <li>
+        <button type="button" onclick="start_ds();">Start Datasource</button>
+        <button type="button" onclick="stop_ds();">Stop Datasource</button>
+      </li>
+      <li><input type="text" id="screen_name"/>
+          <button type="button" onclick="lookup_id($('#screen_name').val());">Lookup ID</button>
+      </li>
+    </ul>
+  </div>
+
+  <p>Consumer key: <input type="text" id="consumer_key" value="@app.tweets.consumer_key@"/></p>
+  <p>Consumer secret: <input type="password" id="consumer_secret" value="@app.tweets.consumer_secret@"/></p>
+  <p>Access token: <input type="text" id="token" value="@app.tweets.token@"/></p>
+  <p>Access token secret: <input type="password" id="token_secret" value="@app.tweets.token_secret@"/></p>
+
+  <hr/>
+
+  <h2>Datasource Definition</h2>
+  <textarea id="ds_source">
+  </textarea>
+
+  <textarea id="scratch">
+  </textarea>
+</body>
+</html>
