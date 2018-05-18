@@ -42,7 +42,7 @@ public class TwitterGateway extends HttpServlet {
         .setOAuthConsumerKey("YOUR_CONSUMER_KEY")
         .setOAuthConsumerSecret("YOUR_CONSUMER_SECRET")
         .setOAuthAccessToken("YOUR_ACCESS_TOKEN")
-        .setOAuthAccessTokenSecret("YOUR_ACCESS_SECRET");
+        .setOAuthAccessTokenSecret("YOUR_SECRET_TOKEN");
 
     TwitterFactory tf = new TwitterFactory(cb.build());
     Twitter twitter = tf.getInstance();
