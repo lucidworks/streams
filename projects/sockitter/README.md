@@ -10,7 +10,7 @@ The Sockitter application demos several Fusion features including:
 - symantic knowledge graphs
 
 ## Video
-This guide comes with a full length demo video covering the setup process below. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
+This guide comes with a video covering the setup process and demo. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Yl1w5iiBHqA/0.jpg)](https://www.youtube.com/watch?v=Yl1w5iiBHqA)
 
@@ -73,10 +73,10 @@ Using the application values from Twitter and creating a password for Fusion, ed
 #!/bin/bash
 
 # set these to your twitter credentials and rename this to secrets.sh before starting instance
-CONSUMER_KEY=QyBLDq08scXYSaJa5eO1upkMs
-CONSUMER_SECRET=J0npcUIGVvmQ3IOTQTeghFP4PDLQIJ0Uot0LZ9O4fjhqvyFbnL
-ACCESS_TOKEN=962411863932719104-LXRvHlogQVSjtbU3GmX5ovUa8s30oqr
-SECRET_TOKEN=7bRDU9BjuzWMad4qmw3hVjVHabod30dydy37GrQIC5F1VN
+CONSUMER_KEY=UyBLDq08scXYSaJa5eO1upkMs
+CONSUMER_SECRET=T0npcUIGVvmQ3IOTQTeghFP4PDLQIJ0Uot0LZ9O4fjhqvyFbnL
+ACCESS_TOKEN=362411863932719104-LXRvHlogQVSjtbU3GmX5ovUa8s30oqr
+SECRET_TOKEN=1bRDU9BjuzWMad4qmw3hVjVHabod30dydy37GrQIC5F1VN
 FUSION_PASSWORD=foobarb4z
 ```
 
