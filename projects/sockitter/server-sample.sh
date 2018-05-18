@@ -56,7 +56,7 @@ s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=100 -Denable.runtime.lib=true
 /fusion/4.0.1/bin/fusion restart
 
 # set the password
-curl -X POST -H 'Content-type: application/json' -d '{"password":"YOUR_FUSION_PASSWORD"}' http://localhost:8764/api
+curl -X POST -H 'Content-type: application/json' -d '{"password":"%FUSION_PASSWORD%"}' http://localhost:8764/api
 
 # install the twitter app
 cd /streams/projects/sockitter/dev;
