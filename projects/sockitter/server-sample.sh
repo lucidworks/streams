@@ -52,6 +52,9 @@ sed -i "
 s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=100 -Denable.runtime.lib=true,g 
 " /fusion/conf/fusion.properties
 
+# set the password
+curl -X POST -H 'Content-type: application/json' -d '{"password":"YOUR_FUSION_PASSWORD"}' http://localhost:8764/api
+
 # build SKG FTW
 mkdir /skg; cd /skg
 git clone https://github.com/treygrainger/semantic-knowledge-graph.git
