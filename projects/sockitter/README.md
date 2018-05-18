@@ -159,6 +159,7 @@ Once you have added the account, it will appear in the *Following* list at the t
 ## Searching Twitter Data
 Once the connector has received and indexed a few tweets, an SKG based request can be made to query the normal and inverted indexes:
 
+**Command:**
 ```
 curl -X POST \
   'http://35.230.21.180:8983/solr/sockitter/skg?qf=tweet_t' \
@@ -183,6 +184,68 @@ curl -X POST \
         }
     ]
 }'
+```
+
+**Sample Output:**
+```
+{  
+   "data":[  
+      {  
+         "type":"tweet_t",
+         "values":[  
+            {  
+               "name":"broken",
+               "relatedness":0.0,
+               "popularity":1000000.0,
+               "foreground_popularity":1000000.0,
+               "background_popularity":1000000.0,
+               "compare":[  
+                  {  
+                     "type":"tweet_t",
+                     "values":[  
+                        {  
+                           "name":"add",
+                           "relatedness":0.0,
+                           "popularity":1000000.0,
+                           "foreground_popularity":1000000.0,
+                           "background_popularity":1000000.0
+                        },
+                        {  
+                           "name":"broken",
+                           "relatedness":0.0,
+                           "popularity":1000000.0,
+                           "foreground_popularity":1000000.0,
+                           "background_popularity":1000000.0
+                        },
+                        {  
+                           "name":"can\u0027t",
+                           "relatedness":0.0,
+                           "popularity":1000000.0,
+                           "foreground_popularity":1000000.0,
+                           "background_popularity":1000000.0
+                        },
+                        {  
+                           "name":"ccrfwb36qv",
+                           "relatedness":0.0,
+                           "popularity":1000000.0,
+                           "foreground_popularity":1000000.0,
+                           "background_popularity":1000000.0
+                        },
+                        {  
+                           "name":"clickable",
+                           "relatedness":0.0,
+                           "popularity":1000000.0,
+                           "foreground_popularity":1000000.0,
+                           "background_popularity":1000000.0
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
 ```
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
