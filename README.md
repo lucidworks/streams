@@ -3,7 +3,15 @@ This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repos
 
 You can view Streams episodes over on [Lucidwork's YouTube Channel](https://www.youtube.com/user/LucidWorksSearch).
 
-The projects in this repository utilize [Google Cloud](https://cloud.google.com/) for launching instances. [Projects](https://github.com/lucidworks/streams/blob/master/README.md#list-of-projects) may be easily modified to run on other cloud platforms.
+## List of Projects
+The following streamable projects may be launched for demonstration purposes on Google Cloud Compute and/or modified to run on other cloud platforms:
+
+- [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
+
+- [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of entitiy relationships on Twitter.
+
+
+If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
 ## Google Cloud Setup
 If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. You will need to add a credit card to your account.
@@ -63,12 +71,5 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI!
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/startfusion.gif?raw=true)
-
-## List of Projects
-The following streamable projects may be launched for demonstration purposes on Google Cloud Compute:
-
-- [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
-
-If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
 If you have any questions or comments for the Stream Team, [please open an issue](https://github.com/lucidworks/streams/issues)!
