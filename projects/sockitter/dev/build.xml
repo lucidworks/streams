@@ -78,7 +78,7 @@
 
   <target name="generate-app" depends="init">
     <copy todir="${build.dir}">
-      <fileset dir="." includes="conf/,webapp/"/>
+      <fileset dir="." includes="conf/,webapp/,src/"/>
       <filterset>
         <propertyset>
           <propertyref prefix="app."/>
@@ -110,7 +110,7 @@
   <target name="package-webapp" depends="generate-app">
     <mkdir dir="${build.dir}/classes"/>
 
-    <javac srcdir="src"
+    <javac srcdir="${build.dir}/src"
            destdir="${build.dir}/classes"
            debug="on">
       <classpath>
