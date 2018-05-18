@@ -1,29 +1,46 @@
 # Sockitter for Fusion
 This application adds social media indexing and analytics capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/). As Fusion monitors Twitter, tweets are analyzed for content similaraties to other tweets and accounts using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG).
 
-A whitepaper on SKG's technology is [here](https://arxiv.org/abs/1609.00464).
+A whitepaper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464).
 
-This application demos several Fusion features including:
+The Sockitter application demos several Fusion features including:
 
 - stream based connectors
-- application middleware implementation
+- middleware implementation
 - symantic knowledge graphs
 
 ## Video
-This guide comes with a full length video covering the setup process below. It is suggested you watch the video first, then step through the guide below to install and configure the demo yourself on your own Google Cloud account.
+This guide comes with a full length demo video covering the setup process below. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Yl1w5iiBHqA/0.jpg)](https://www.youtube.com/watch?v=Yl1w5iiBHqA)
 
 ## Setup
-The demo application may be started from the Google Cloud console with only a few simple commands. With a bit of work, it may be repurposed to run locally or on AWS and other cloud providers.
+The demo application may be started from the Google Cloud console with a single command. With a bit of work, it may be repurposed to run locally or on AWS and other cloud providers.
 
 ### Google Cloud Setup
 If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. 
 
-This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
+*NOTE: This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.*
 
-#### Making the Instance non-Preemtible
+### Making the Instance non-Preemtible
 To create an instance which is not preemtible, edit and remove [line 41] from the `start-sockitter.sh` file, once you have checked out the repository in the next step. Keep in mind that the non-preemtible instance is US$0.38/hour, which works out to US$9.12/day! In comparison, the same preemtible instance is only US$0.07/hour.
+
+```
+...
+gcloud compute instances create fusion-sockitter-$NEW_UUID \
+--machine-type "n1-standard-8" \
+--image "ubuntu-1604-xenial-v20180405" \
+--image-project "ubuntu-os-cloud" \
+--boot-disk-size "50" \
+--boot-disk-type "pd-ssd" \
+--boot-disk-device-name "$NEW_UUID" \
+--zone $ZONE \
+--labels ready=true \
+--tags lucid \
+--preemptible \ <--- REMOVE THIS LINE
+--metadata-from-file startup-script=server.sh
+...
+```
 
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
