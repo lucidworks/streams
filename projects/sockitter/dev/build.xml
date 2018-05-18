@@ -108,9 +108,24 @@
   </target>
 
   <target name="package-webapp" depends="generate-app">
-    <zip destfile="${build.dir}/${app.webapp}.war">
-      <zipfileset dir="${build.dir}/webapp" prefix="/"/>
-    </zip>
+    <mkdir dir="${build.dir}/classes"/>
+
+    <javac srcdir="src"
+           destdir="${build.dir}/classes"
+           debug="on">
+      <classpath>
+        <pathelement path="${fusion.home}/apps/jetty/home/lib/servlet-api-3.1.jar"/>
+        <fileset dir="conf">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+
+    <war destfile="${build.dir}/${app.webapp}.war" webxml="${build.dir}/conf/web.xml">
+      <fileset dir="${build.dir}/webapp"/>
+      <lib dir="conf" includes="*.jar"/>
+      <classes dir="${build.dir}/classes"/>
+    </war>
   </target>
 
   <target name="install-webapp" depends="package-webapp">
@@ -127,23 +142,6 @@
     <fusion:delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
   </target>
 
-  <target name="check-twitter4j-installed">
-    <condition property="twitter4j.installed">
-      <resourcecontains resource="${fusion.home}/apps/jetty/api/webapps/api-extra-classpath.txt" substring="twitter4j" />
-    </condition>
-  </target>
-
-  <target name="install-twitter4j" depends="check-twitter4j-installed" unless="twitter4j.installed">
-    <copy file="conf/twitter4j-core-4.0.4.jar" todir="${fusion.home}/apps/libs"/>
-    <concat destfile="${fusion.home}/apps/jetty/api/webapps/api-extra-classpath.txt" append="true" fixlastline="true">
-      <filelist dir="conf" files="extra-classpath-twitter4j.txt"/>
-    </concat>
-  </target>
-
-  <target name="install-twitter-gateway" depends="generate-app,install-twitter4j">
-    <fusion:post endpoint="/apps/${app.name}/query-pipelines" file="${build.dir}/conf/twitter_api_gateway.json"/>
-  </target>
-
   <target name="stop-ds">
     <fusion:delete endpoint="/apps/${app.name}/connectors/jobs/${app.datasource}"/>
   </target>
@@ -155,8 +153,7 @@
   </target>
 
   <target name="install"
-    depends="install-app,install-datasource,install-twitter-gateway,install-webapp"/>
-
+    depends="install-app,install-datasource,install-webapp"/>
 
   <target name="export-app">
     <mkdir dir="../dist"/>
