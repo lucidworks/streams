@@ -27,7 +27,7 @@ The demo instance is started by running a script which is checked out from Githu
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell.gif?raw=true)
 
-Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following commands:
+Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following:
 
 **Commands:**
 ```
@@ -60,16 +60,18 @@ $
 #### Create and Edit the Secrets File
 Before you can deploy the instance, you will need to create a file that contains your Twitter application credentials. If you haven't created a Twitter application and keys already, head on over to the [How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/) guide to walk through the process.
 
-Once you have your four tokens/keys/secrets ready, edit the 'secrets-sample.sh' file with your Twitter credentials (from the Google Cloud Shell)
+Once you have your four tokens/keys/secrets ready, edit the 'secrets-sample.sh' file with your Twitter credentials from the *Google Cloud Shell*.
 
+**Commands:**
 ```
 $ pico secrets-sample.sh
 ```
 
-Edit the file to look something like below. Keep in mind you need to use your own values from Twitter and create a password which you will use for logging into Fusion once it is running.
+Using the application values from Twitter and creating a password for Fusion, edit the secrets file to look something like this:
 
 ```
 #!/bin/bash
+
 # set these to your twitter credentials and rename this to secrets.sh before starting instance
 CONSUMER_KEY=QyBLDq08scXYSaJa5eO1upkMs
 CONSUMER_SECRET=J0npcUIGVvmQ3IOTQTeghFP4PDLQIJ0Uot0LZ9O4fjhqvyFbnL
@@ -78,11 +80,19 @@ SECRET_TOKEN=7bRDU9BjuzWMad4qmw3hVjVHabod30dydy37GrQIC5F1VN
 FUSION_PASSWORD=foobarb4z
 ```
 
-*NOTE: The password you pick and place in this file will be used to create a username/password pair for fusion. The username will be 'admin' and the password will be whatever you place in this file.*
+*NOTE: The password you pick and place in this file will be used to create a username/password pair for Fusion. The username will be 'admin' and the password will be whatever you place in this file when you login.*
+
+Next, copy the file to a new file called `secrets.sh`:
+
+**Commands:**
+```
+cp secrets-sample.sh secrets.sh
+```
+
 
 #### Deploy the Instance
 
-To start the demo instance, simply run the `start-sockitter.sh` script command:
+To start the demo instance, run the `start-sockitter.sh` script command:
 
 **Command:**
 ```
@@ -106,9 +116,9 @@ API access available in a few minutes at: https://35.230.21.180:8764/api/...
 API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 ```
 
-Starting the instance takes about 10 minutes. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI.
+Starting the instance takes about 10 minutes. After that, you can click on the `Fusion UI` link and navigate to the Fusion login page.
 
-### Making the Instance non-Preemtible
+#### Making the Instance non-Preemtible
 To create an instance which is not preemtible, edit and remove [line 41](https://github.com/lucidworks/streams/blob/master/projects/sockitter/start-sockitter.sh#L41) from the `start-sockitter.sh` file. Keep in mind that the non-preemtible instance is **US$0.38/hour**, which works out to **US$9.12/day**! In comparison, the same preemtible instance is only **US$0.07/hour**.
 
 ```
@@ -128,13 +138,51 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 ...
 ```
 
-#### Following Accounts
-In the Fusion UI, click on the second icon from the top on the left and then click on `Datasources`. Click on the `Twitter` datasource in the list.
+### Following Accounts
+By default, Sockitter will attempt to pull a full feed of Twitter data. It is *strongly* suggested you add a few accounts to monitor to the application before starting the connector.
 
-At the top, click on `Run` to open the scheduler. Click on the `Start` button to start the Twitter monitor.
+To edit and/or start the Twitter connector, navigate to the *Admin UI* link ouput by the startup script. Here's an example:
 
-## Using the Application
-Once the connector has received a few tweets, you can navigate to the link provided in the Google Cloud Shell. The search demo runs on `port 8080`, so you can also just note the IP of the instance and put `:8080` after it in the location bar of your browser.
+```
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor
+```
+
+To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
+
+[ANIMATED GIF]
+
+Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
+
+*NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
+
+## Searching Twitter Data
+Once the connector has received and indexed a few tweets, an SKG based request can be made to query the index(es):
+
+```
+curl -X POST \
+  'http://35.230.21.180:8983/solr/sockitter/skg?qf=tweet_t' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -d '{
+    "queries" : ["tweet_t:\"toasters\""],
+    "compare" : [ 
+        {
+            "type": "tweet_t",
+            "limit":1,
+            "sort":"relatedness",
+            "values" : ["waffles"],
+            "discover_values": true,
+            "compare" : [
+                {
+                    "type": "tweet_t",
+                    "limit": 5,
+                    "sort": "relatedness"
+                }
+            ]
+        }
+    ]
+}'
+```
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
