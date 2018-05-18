@@ -1,7 +1,7 @@
 # Sockitter for Fusion
 This application adds social media indexing and analytics capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/). As Fusion monitors Twitter, tweets are analyzed for content similaraties to other tweets and accounts using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG).
 
-A whitepaper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464).
+A whitepaper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
 
 The Sockitter application demos several Fusion features including:
 
@@ -156,7 +156,7 @@ Once you have added the account, it will appear in the *Following* list at the t
 *NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
 
 ## Searching Twitter Data
-Once the connector has received and indexed a few tweets, an SKG based request can be made to query the index(es):
+Once the connector has received and indexed a few tweets, an SKG based request can be made to query the normal and inverted indexes:
 
 ```
 curl -X POST \
