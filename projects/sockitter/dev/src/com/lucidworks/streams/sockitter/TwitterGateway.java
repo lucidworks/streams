@@ -22,7 +22,6 @@ public class TwitterGateway extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Set response content type
     response.setContentType("application/json");
 
     Map<String, String[]> params = request.getParameterMap();
@@ -39,10 +38,10 @@ public class TwitterGateway extends HttpServlet {
 
     // TODO: have this info fed in after app launch by user
     cb.setDebugEnabled(true)
-        .setOAuthConsumerKey("YOUR_CONSUMER_KEY")
-        .setOAuthConsumerSecret("YOUR_CONSUMER_SECRET")
-        .setOAuthAccessToken("YOUR_ACCESS_TOKEN")
-        .setOAuthAccessTokenSecret("YOUR_SECRET_TOKEN");
+        .setOAuthConsumerKey("@app.tweets.consumer_key@")
+        .setOAuthConsumerSecret("@app.tweets.consumer_secret@")
+        .setOAuthAccessToken("@app.tweets.token@")
+        .setOAuthAccessTokenSecret("@app.tweets.token_secret@");
 
     TwitterFactory tf = new TwitterFactory(cb.build());
     Twitter twitter = tf.getInstance();
