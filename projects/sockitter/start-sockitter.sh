@@ -17,6 +17,7 @@ else
 fi
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+ZONE=us-west1-c
 
 cp server-sample.sh server.sh
 sed -i "
@@ -34,7 +35,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NEW_UUID" \
---zone us-central1-a \
+--zone $ZONE \
 --labels ready=true \
 --tags lucid \
 --preemptible \
@@ -42,7 +43,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 
 sleep 15
 
-IP=$(gcloud compute instances describe fusion-sockitter-$NEW_UUID --zone us-central1-a  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+IP=$(gcloud compute instances describe fusion-sockitter-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 gcloud compute firewall-rules create fusion --allow tcp:8763
 gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
 gcloud compute firewall-rules create fusion-webapp --allow tcp:8780
