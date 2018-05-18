@@ -8,7 +8,7 @@ The following streamable projects may be launched for demonstration purposes on 
 
 - [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
 
-- [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of entitiy relationships on Twitter.
+- [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter.
 
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
