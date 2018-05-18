@@ -1,5 +1,5 @@
 # Sockitter for Fusion
-This application adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of entitiy relationships on Twitter. As Fusion monitors Twitter, tweets are analyzed for content similaraties to other Twitter objects using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) technology.
+This application adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of entitiy relationships on Twitter. As Fusion monitors Twitter, tweets are analyzed for content similaraties to other Twitter objects using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr.
 
 A whitepaper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
 
