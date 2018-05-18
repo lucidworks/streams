@@ -47,18 +47,18 @@ fi
 # link up fusion
 ln -s /fusion/ /root/fusion
 
+# replace line in /fusion/conf/fusion.properties
+sed -i "
+s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=100 -Denable.runtime.lib=true,g 
+" /fusion/conf/fusion.properties
+
 # build SKG FTW
 mkdir /skg; cd /skg
 git clone https://github.com/treygrainger/semantic-knowledge-graph.git
 cd semantic-knowledge-graph
 git checkout solr_7.2.1
 cd knowledge-graph
-
-# TODO
-# replace line in /fusion/conf/fusion.properties
-sed -i "
-s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=100 -Denable.runtime.lib=true,g 
-" /fusion/conf/fusion.properties
+mvn package
 
 # restart
 /fusion/4.0.1/bin/fusion restart
