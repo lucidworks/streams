@@ -81,7 +81,6 @@ SECRET_TOKEN=1bRDU9BjuzWMad4qmw3hVjVHabod30dydy37GrQIC5F1VN
 FUSION_PASSWORD=foobarb4z
 ```
 
-
 *NOTE: The password you pick and place in this file will be used to create a username/password pair for Fusion. The username will be 'admin' and the password will be whatever you place in this file when you login.*
 
 Next, copy the file to a new file called `secrets.sh`:
@@ -90,7 +89,6 @@ Next, copy the file to a new file called `secrets.sh`:
 ```
 cp secrets-sample.sh secrets.sh
 ```
-
 
 #### Deploy the Instance
 To start the demo instance, run the `start-sockitter.sh` script command:
@@ -150,7 +148,7 @@ Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-edit
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
 
-[ANIMATED GIF]
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow.gif?raw=true)
 
 Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
 
