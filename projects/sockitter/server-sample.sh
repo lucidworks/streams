@@ -27,6 +27,13 @@ s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
 " /streams/projects/sockitter/dev/app.properties
 
 sed -i "
+s,YOUR_ACCESS_TOKEN,%ACCESS_TOKEN%,g;
+s,YOUR_SECRET_TOKEN,%SECRET_TOKEN%,g;
+s,YOUR_CONSUMER_KEY,%CONSUMER_KEY%,g;
+s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
+" /streams/projects/sockitter/dev/src/com/lucidworks/streams/sockitter/TwitterGateway.java
+
+sed -i "
 s,YOUR_FUSION_PASSWORD,%FUSION_PASSWORD%,g;
 s,localhost,$IP,g;
 " /streams/projects/sockitter/dev/fusion.properties

@@ -39,10 +39,10 @@ public class TwitterGateway extends HttpServlet {
 
     // TODO: have this info fed in after app launch by user
     cb.setDebugEnabled(true)
-        .setOAuthConsumerKey("kAIbqNmSG1JMz48R9Bf8nHmzJ")
-        .setOAuthConsumerSecret("YeRpvEVBOZa48eVjZ5GsRtTBRt97O8La0gb0FNIHKZWWypXGXM")
-        .setOAuthAccessToken("1138371924-eVZ2DkWTyIh0T7jwRrHR0zwZ7ncG4M28IGMQOlb")
-        .setOAuthAccessTokenSecret("jtJbM9qZchE0mHDT18STPqM7EGcO6WEX2JrN9JUwaMM2V");
+        .setOAuthConsumerKey("YOUR_CONSUMER_KEY")
+        .setOAuthConsumerSecret("YOUR_CONSUMER_SECRET")
+        .setOAuthAccessToken("YOUR_ACCESS_TOKEN")
+        .setOAuthAccessTokenSecret("YOUR_ACCESS_SECRET");
 
     TwitterFactory tf = new TwitterFactory(cb.build());
     Twitter twitter = tf.getInstance();
