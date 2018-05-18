@@ -22,26 +22,6 @@ If you do not already have a Google Cloud account, head on over to [https://clou
 
 *NOTE: This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.*
 
-### Making the Instance non-Preemtible
-To create an instance which is not preemtible, edit and remove [line 41](https://github.com/lucidworks/streams/blob/master/projects/sockitter/start-sockitter.sh#L41) from the `start-sockitter.sh` file, once you have checked out the repository in the next step. Keep in mind that the non-preemtible instance is **US$0.38/hour**, which works out to **US$9.12/day**! In comparison, the same preemtible instance is only **US$0.07/hour**.
-
-```
-...
-gcloud compute instances create fusion-sockitter-$NEW_UUID \
---machine-type "n1-standard-8" \
---image "ubuntu-1604-xenial-v20180405" \
---image-project "ubuntu-os-cloud" \
---boot-disk-size "50" \
---boot-disk-type "pd-ssd" \
---boot-disk-device-name "$NEW_UUID" \
---zone $ZONE \
---labels ready=true \
---tags lucid \
---preemptible \ <--- REMOVE THIS LINE
---metadata-from-file startup-script=server.sh
-...
-```
-
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
@@ -127,6 +107,26 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 ```
 
 Starting the instance takes about 10 minutes. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI.
+
+### Making the Instance non-Preemtible
+To create an instance which is not preemtible, edit and remove [line 41](https://github.com/lucidworks/streams/blob/master/projects/sockitter/start-sockitter.sh#L41) from the `start-sockitter.sh` file. Keep in mind that the non-preemtible instance is **US$0.38/hour**, which works out to **US$9.12/day**! In comparison, the same preemtible instance is only **US$0.07/hour**.
+
+```
+...
+gcloud compute instances create fusion-sockitter-$NEW_UUID \
+--machine-type "n1-standard-8" \
+--image "ubuntu-1604-xenial-v20180405" \
+--image-project "ubuntu-os-cloud" \
+--boot-disk-size "50" \
+--boot-disk-type "pd-ssd" \
+--boot-disk-device-name "$NEW_UUID" \
+--zone $ZONE \
+--labels ready=true \
+--tags lucid \
+--preemptible \ <--- REMOVE THIS LINE
+--metadata-from-file startup-script=server.sh
+...
+```
 
 #### Following Accounts
 In the Fusion UI, click on the second icon from the top on the left and then click on `Datasources`. Click on the `Twitter` datasource in the list.
