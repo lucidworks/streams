@@ -49,12 +49,14 @@ cd knowledge-graph
 
 # TODO
 # replace line in /fusion/conf/fusion.properties
-# api.jvmOptions = -Xmx2g -Xss256k -Dhttp.maxConnections=1000 -Denable.runtime.lib=true
+sed -i "
+s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=100 -Denable.runtime.lib=true,g 
+" /fusion/conf/fusion.properties
 
 # restart
 /fusion/4.0.1/bin/fusion restart
 
-# curling binaries
+# curling binaries to install and configure skg
 curl -X POST -H 'Content-Type: application/octet-stream' --data-binary @semantic-knowledge-graph-1.0-SNAPSHOT.jar http://localhost:8983/solr/.system/blob/skg.jar
 curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/json' -d '{  "add-runtimelib": { "name":"skg.jar", "version":1 } }'
 curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/json' -d '{  "add-queryresponsewriter": { "name": "skg",    "runtimeLib": true,    "class": "com.careerbuilder.search.relevancy.responsewriter.KnowledgeGraphResponseWriter"} }'
