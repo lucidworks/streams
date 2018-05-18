@@ -58,16 +58,16 @@ $
 ```
 
 #### Create and Edit the Secrets File
-Before you can deploy the instance, you will need to create a file that contains your Twitter application credentials. If you haven't created a Twitter application and keys already, head on over to the [How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/) guide to walk through the process.
+Before you can deploy the instance, you will need to create a file that contains your Twitter  credentials. If you haven't created a Twitter application and its keys already, head on over to the *[How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/)* guide.
 
-Once you have your four tokens/keys/secrets ready, edit the 'secrets-sample.sh' file with your Twitter credentials from the *Google Cloud Shell*.
+When you are ready, edit the `secrets-sample.sh` in the `sockitter` directory. Again, this will be done from the *Google Cloud Shell*:
 
 **Commands:**
 ```
 $ pico secrets-sample.sh
 ```
 
-Using the application values from Twitter and creating a password for Fusion, edit the secrets file to look something like this:
+Use the values from Twitter, edit the secrets file and create a password for Fusion's login:
 
 ```
 #!/bin/bash
@@ -77,8 +77,10 @@ CONSUMER_KEY=UyBLDq08scXYSaJa5eO1upkMs
 CONSUMER_SECRET=T0npcUIGVvmQ3IOTQTeghFP4PDLQIJ0Uot0LZ9O4fjhqvyFbnL
 ACCESS_TOKEN=362411863932719104-LXRvHlogQVSjtbU3GmX5ovUa8s30oqr
 SECRET_TOKEN=1bRDU9BjuzWMad4qmw3hVjVHabod30dydy37GrQIC5F1VN
+
 FUSION_PASSWORD=foobarb4z
 ```
+
 
 *NOTE: The password you pick and place in this file will be used to create a username/password pair for Fusion. The username will be 'admin' and the password will be whatever you place in this file when you login.*
 
@@ -91,7 +93,6 @@ cp secrets-sample.sh secrets.sh
 
 
 #### Deploy the Instance
-
 To start the demo instance, run the `start-sockitter.sh` script command:
 
 **Command:**
