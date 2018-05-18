@@ -47,13 +47,13 @@ fi
 # link up fusion
 ln -s /fusion/ /root/fusion
 
-# replace line in /fusion/conf/fusion.properties
-sed -i "
-s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=100 -Denable.runtime.lib=true,g 
-" /fusion/conf/fusion.properties
-
 # restart
 /fusion/4.0.1/bin/fusion restart
+
+# replace line in /fusion/conf/fusion.properties
+sed -i "
+s,-Dhttp.maxConnections=1000,-Dhttp.maxConnections=1000 -Denable.runtime.lib=true,g;
+" /fusion/conf/fusion.properties
 
 # set the password
 curl -X POST -H 'Content-type: application/json' -d '{"password":"%FUSION_PASSWORD%"}' http://localhost:8764/api
