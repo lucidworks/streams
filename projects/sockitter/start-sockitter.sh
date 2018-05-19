@@ -1,8 +1,23 @@
 #!/bin/bash
 
+option="$1"
+PREEMPTIBLE="--preemptible"
+case $option in
+    -p|--prod|--production)
+    unset PREEMPTIBLE
+esac
+
 if [ -f secrets.sh ]; then
    source secrets.sh # truly, a travesty
    echo "Here's where I say, hold on a second while we fire things up."
+   echo;
+
+   if [ -n "$PREEMTIBLE" ]; then
+       echo "If you need a permanent version of this server, run the following:"
+       echo "./start-sockitter.sh --production"
+   else
+       echo "Starting a production version of sockitter..."
+   fi
 
 else
    echo "TODO List"
@@ -38,7 +53,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --zone $ZONE \
 --labels ready=true \
 --tags lucid \
---preemptible \
+$PROD \
 --metadata-from-file startup-script=server.sh
 
 sleep 15

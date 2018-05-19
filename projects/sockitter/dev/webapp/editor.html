@@ -200,13 +200,7 @@
 </head>
 <body>
 
-  <div>
-    <h2>Following</h2>
-    <ul id="following">
-    </ul>
-  </div>
-
-  <div>
+ <div>
     <h2>Actions</h2>
     <ul>
       <li><button type="button" onclick="load_ds();">GET</button> (reload datasource)</li>
@@ -228,6 +222,14 @@
   <p>Consumer secret: <input type="password" id="consumer_secret" value="@app.tweets.consumer_secret@"/></p>
   <p>Access token: <input type="text" id="token" value="@app.tweets.token@"/></p>
   <p>Access token secret: <input type="password" id="token_secret" value="@app.tweets.token_secret@"/></p>
+
+  <hr/>
+
+  <div>
+    <h2>Following</h2>
+    <ul id="following">
+    </ul>
+  </div>
 
   <hr/>
 
