@@ -2,7 +2,10 @@
 
   <property name="build.dir" location="build"/>
 
+  <property file=".fusion.properties"/>
   <property file="fusion.properties"/>
+
+  <property file=".app.properties"/>
   <property file="app.properties"/>
 
   <macrodef name="post"
