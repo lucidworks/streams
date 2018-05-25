@@ -1,5 +1,5 @@
 {
-      "id" : "sockitter",
+      "id" : "@app.name@",
       "stages" : [ {
         "type" : "field-mapping",
         "id" : "b01c1f76-41da-46d7-a5ac-c2126e17b61c",
@@ -79,7 +79,7 @@
           "uri" : "https://vision.googleapis.com/v1/images:annotate",
           "method" : "post",
           "queryParams" : {
-            "key" : "AIzaSyAOGNVI4NpW-SBL5HYADiHgc0TTCsj_W9U"
+            "key" : "@app.googlevisionAPIkey@"
           },
           "headers" : {
             "Accept" : "application/json",
@@ -107,6 +107,6 @@
         "secretSourceStageId" : "b740f118-f6db-46cf-b050-65952954b473"
       } ],
       "properties" : {
-        "secretSourcePipelineId" : "sockitter"
+        "secretSourcePipelineId" : "@app.name@"
       }
 }
