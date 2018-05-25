@@ -1,0 +1,112 @@
+{
+      "id" : "sockitter",
+      "stages" : [ {
+        "type" : "field-mapping",
+        "id" : "b01c1f76-41da-46d7-a5ac-c2126e17b61c",
+        "mappings" : [ ],
+        "reservedFieldsMappingAllowed" : false,
+        "type" : "field-mapping",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "b01c1f76-41da-46d7-a5ac-c2126e17b61c"
+      }, {
+        "type" : "solr-dynamic-field-name-mapping",
+        "id" : "95016c96-1b54-4e63-879b-36c89405f635",
+        "duplicateSingleValuedFields" : false,
+        "fieldsToExclude" : [ ],
+        "advancedTextFieldsIndexing" : true,
+        "maxTextLengthForAdvancedIndexing" : 100,
+        "type" : "solr-dynamic-field-name-mapping",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "95016c96-1b54-4e63-879b-36c89405f635"
+      }, {
+        "type" : "indexing-rpc",
+        "id" : "uk8",
+        "mappingRules" : [ {
+          "path" : "//responses/logoAnnotations/description",
+          "target" : "gv_logo_description_s",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/labelAnnotations/description",
+          "target" : "gv_labels_ss",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/imagePropertiesAnnotation/dominantColors",
+          "target" : "gv_dominant_colors",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/safeSearchAnnotation/spoof",
+          "target" : "gv_spoof_s",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/fullTextAnnotation/text",
+          "target" : "gv_text_s",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/webDetection/webEntities/description",
+          "target" : "gv_labels_ss",
+          "append" : true,
+          "xml" : false
+        }, {
+          "path" : "//responses/webDetection/fullMatchingImages/url",
+          "target" : "gv_matching_images_ss",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/webDetection/visuallySimilarImages/url",
+          "target" : "gv_similar_images_ss",
+          "append" : false,
+          "xml" : false
+        }, {
+          "path" : "//responses/webDetection/webEntities/bestGuessLabels/label",
+          "target" : "gv_labels_ss",
+          "append" : true,
+          "xml" : false
+        }, {
+          "path" : "//responses/webDetection/pagesWithMatchingImages/url",
+          "target" : "gv_matching_pages_ss",
+          "append" : false,
+          "xml" : false
+        } ],
+        "debug" : false,
+        "params" : {
+          "uri" : "https://vision.googleapis.com/v1/images:annotate",
+          "method" : "post",
+          "queryParams" : {
+            "key" : "AIzaSyAOGNVI4NpW-SBL5HYADiHgc0TTCsj_W9U"
+          },
+          "headers" : {
+            "Accept" : "application/json",
+            "Content-Type" : "application/json"
+          },
+          "entity" : "{\n    \"requests\": [{\n       \"image\":{\n           \"source\":{\n               \"imageUri\":\n               \"${mediaUrl_s}\"\n           }\n       },\n       \"features\": [\n          { \"type\": \"TYPE_UNSPECIFIED\", \"maxResults\": 50 },\n          { \"type\": \"LANDMARK_DETECTION\", \"maxResults\": 50 },\n          { \"type\": \"FACE_DETECTION\", \"maxResults\": 50 },\n          { \"type\": \"LOGO_DETECTION\", \"maxResults\": 50 },\n          { \"type\": \"LABEL_DETECTION\", \"maxResults\": 50 },\n          { \"type\": \"TEXT_DETECTION\", \"maxResults\": 50 },\n          { \"type\": \"SAFE_SEARCH_DETECTION\", \"maxResults\": 50 },\n          { \"type\": \"IMAGE_PROPERTIES\", \"maxResults\": 50 },\n          { \"type\": \"CROP_HINTS\", \"maxResults\": 50 },\n          { \"type\": \"WEB_DETECTION\", \"maxResults\": 50 }\n       ]\n    }]\n }"
+        },
+        "hasNoSideEffects" : false,
+        "type" : "indexing-rpc",
+        "skip" : false,
+        "label" : "Google Vision",
+        "condition" : "doc.hasField(\"some_field\");",
+        "licensed" : true,
+        "secretSourceStageId" : "uk8"
+      }, {
+        "type" : "solr-index",
+        "id" : "b740f118-f6db-46cf-b050-65952954b473",
+        "enforceSchema" : true,
+        "dateFormats" : [ ],
+        "params" : [ ],
+        "bufferDocsForSolr" : false,
+        "type" : "solr-index",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "b740f118-f6db-46cf-b050-65952954b473"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "sockitter"
+      }
+}
