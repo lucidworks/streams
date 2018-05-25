@@ -12,7 +12,7 @@ if [ -f secrets.sh ]; then
    echo "Here's where I say, hold on a second while we fire things up."
    echo;
 
-   if [ -n "$PREEMTIBLE" ]; then
+   if [ -n "$PREEMPTIBLE" ]; then
        echo "If you need a permanent version of this server, run the following:"
        echo "./start-sockitter.sh --production"
    else
@@ -44,7 +44,7 @@ s,%FUSION_PASSWORD%,$FUSION_PASSWORD,g;
 " server.sh
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
---machine-type "n1-standard-8" \
+--machine-type "n1-standard-4" \
 --image "ubuntu-1604-xenial-v20180405" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
