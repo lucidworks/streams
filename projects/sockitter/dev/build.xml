@@ -118,6 +118,10 @@
            debug="on">
       <classpath>
         <pathelement path="${fusion.home}/apps/jetty/home/lib/servlet-api-3.1.jar"/>
+        <fileset dir="${fusion.home}/apps/libs" includes="httpclient-*.jar"/>
+        <fileset dir="${fusion.home}/apps/libs" includes="httpcore-*.jar"/>
+        <fileset dir="${fusion.home}/apps/libs" includes="commons-logging-*.jar"/>
+        <fileset dir="${fusion.home}/apps/libs" includes="log4j-*.jar"/>
         <fileset dir="conf">
           <include name="*.jar"/>
         </fileset>
@@ -127,6 +131,10 @@
     <war destfile="${build.dir}/${app.webapp}.war" webxml="${build.dir}/conf/web.xml">
       <fileset dir="${build.dir}/webapp"/>
       <lib dir="conf" includes="*.jar"/>
+      <lib dir="${fusion.home}/apps/libs" includes="httpclient-*.jar"/>
+      <lib dir="${fusion.home}/apps/libs" includes="httpcore-*.jar"/>
+      <lib dir="${fusion.home}/apps/libs" includes="commons-logging-*.jar"/>
+      <lib dir="${fusion.home}/apps/libs" includes="log4j-*.jar"/>
       <classes dir="${build.dir}/classes"/>
     </war>
   </target>
