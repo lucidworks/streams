@@ -6,6 +6,8 @@
 
     <script src="jquery-3.3.1.min.js"></script>
     <script>
+    $.ajaxSetup({ traditional: true });
+
     var fusion_api_base = '@app.api.base@';
     var fusion_ds_base = fusion_api_base + '/connectors/datasources/';
     var fusion_credentials = '@app.basic.auth.creds@';
@@ -110,7 +112,7 @@
       });
     }
 
-    function add_id(new_id) {
+    function add_ids(new_ids) {
       var ds = get_ds();
 
       ds.properties.filter_follow.push(new_id);
@@ -140,18 +142,20 @@
       return ds;
     }
 
-    function lookup_id(screen_name) {
+    function lookup_ids(screen_names_list) {
+      var screen_names = screen_names_list.split('\n');
+
       $.ajax({
         headers: {
           "Authorization": "Basic " + btoa(fusion_credentials)
         },
         type: "GET", async: false,
-        url: 'gateway',
-        data: {"method": "lookupUsersByScreenName", "screen_name": screen_name },
+        url: 'twitter',
+        data: {"method": "lookupUsersByScreenName", "screen_name": screen_names },
 
         success: function (data) {
           $('#scratch').text(JSON.stringify(data));
-          $('#new_id').val(data.response[0].id);
+          $('#new_ids').val(data.response[0].id);
         },
 
         fail: function( xhr, status, errorThrown ) {
@@ -167,7 +171,7 @@
           "Authorization": "Basic " + btoa(fusion_credentials)
         },
         type: "GET", async: false,
-        url: 'gateway',
+        url: 'twitter',
         data: jQuery.param({"method": "lookupUsersByID", "id": ids }, true),
 
         success: function (data) {
@@ -205,15 +209,23 @@
     <ul>
       <li><button type="button" onclick="load_ds();">GET</button> (reload datasource)</li>
       <li>
-        <input type="text" id="new_id"/>
-        <button type="button" onclick="add_id($('#new_id').val());">Add ID</button>
       </li>
       <li>
         <button type="button" onclick="start_ds();">Start Datasource</button>
         <button type="button" onclick="stop_ds();">Stop Datasource</button>
       </li>
-      <li><input type="text" id="screen_name"/>
-          <button type="button" onclick="lookup_id($('#screen_name').val());">Lookup ID</button>
+      <li><textarea id="screen_names" rows="20" cols="30">
+          </textarea>
+
+          <button type="button" onclick="lookup_ids($('#screen_names').val());">Lookup ID</button>
+
+          ==>
+
+
+          <textarea id="new_ids" rows="20" cols="30">
+          </textarea>
+          <button type="button" onclick="add_ids($('#new_ids').val());">Add ID</button>
+
       </li>
     </ul>
   </div>

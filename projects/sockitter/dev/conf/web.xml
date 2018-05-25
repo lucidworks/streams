@@ -7,12 +7,31 @@
 <web-app>
 
   <servlet>
-    <servlet-name>gateway</servlet-name>
+    <servlet-name>twitter</servlet-name>
     <servlet-class>com.lucidworks.streams.sockitter.TwitterGateway</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>fusion</servlet-name>
+    <servlet-class>com.lucidworks.streams.sockitter.FusionGateway</servlet-class>
+  </servlet>
+
+
   <servlet-mapping>
-    <servlet-name>gateway</servlet-name>
-    <url-pattern>/gateway</url-pattern>
+    <servlet-name>twitter</servlet-name>
+    <url-pattern>/twitter</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>fusion</servlet-name>
+    <url-pattern>/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>fusion</servlet-name>
+    <url-pattern>/lookupUsersByScreenNames</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>fusion</servlet-name>
+    <url-pattern>/lookupUsersByIDs</url-pattern>
   </servlet-mapping>
 </web-app>

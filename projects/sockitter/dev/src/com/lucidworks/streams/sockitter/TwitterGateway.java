@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TwitterGateway extends HttpServlet {
+  static {
+    System.setProperty("twitter4j.loggerFactory","twitter4j.NullLoggerFactory");
+  }
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
