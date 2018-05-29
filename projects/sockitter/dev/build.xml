@@ -10,10 +10,10 @@
 
   <macrodef name="post"
             uri="http://lucidworks.com/fusion">
-   <attribute name="endpoint"/>
-   <attribute name="file"/>
-   <attribute name="content-type" default="application/json"/>
-   <sequential>
+    <attribute name="endpoint"/>
+    <attribute name="file"/>
+    <attribute name="content-type" default="application/json"/>
+    <sequential>
       <echo>POST @{endpoint} @{file}</echo>
       <exec executable="curl" failonerror="true">
         <arg value="-sS"/>
@@ -28,48 +28,48 @@
         <arg value="@@@{file}"/>
         <arg value="${fusion.api.url}@{endpoint}"/>
       </exec>
-   </sequential>
-</macrodef>
+    </sequential>
+  </macrodef>
 
-<macrodef name="put"
-          uri="http://lucidworks.com/fusion">
- <attribute name="endpoint"/>
- <attribute name="file" default=""/>
- <attribute name="content-type" default="application/json"/>
- <sequential>
-    <echo>PUT @{endpoint} @{file}</echo>
-    <exec executable="curl" failonerror="true">
-      <arg value="-sS"/>
-      <arg value="--fail"/>
-      <arg value="-u"/>
-      <arg value="${fusion.username}:${fusion.password}"/>
-      <arg value="-X"/>
-      <arg value="PUT"/>
-      <arg value="-H"/>
-      <arg value="Content-type: @{content-type}"/>
-      <arg value="--data-binary"/>
-      <arg value="@@@{file}"/>
-      <arg value="${fusion.api.url}@{endpoint}"/>
-    </exec>
- </sequential>
-</macrodef>
+  <macrodef name="put"
+            uri="http://lucidworks.com/fusion">
+    <attribute name="endpoint"/>
+    <attribute name="file" default=""/>
+    <attribute name="content-type" default="application/json"/>
+    <sequential>
+      <echo>PUT @{endpoint} @{file}</echo>
+      <exec executable="curl" failonerror="true">
+        <arg value="-sS"/>
+        <arg value="--fail"/>
+        <arg value="-u"/>
+        <arg value="${fusion.username}:${fusion.password}"/>
+        <arg value="-X"/>
+        <arg value="PUT"/>
+        <arg value="-H"/>
+        <arg value="Content-type: @{content-type}"/>
+        <arg value="--data-binary"/>
+        <arg value="@@@{file}"/>
+        <arg value="${fusion.api.url}@{endpoint}"/>
+      </exec>
+    </sequential>
+  </macrodef>
 
-<macrodef name="delete"
-          uri="http://lucidworks.com/fusion">
- <attribute name="endpoint"/>
- <sequential>
-    <echo>DELETE @{endpoint}</echo>
-    <exec executable="curl" failonerror="true">
-      <arg value="-sS"/>
-      <arg value="--fail"/>
-      <arg value="-u"/>
-      <arg value="${fusion.username}:${fusion.password}"/>
-      <arg value="-X"/>
-      <arg value="DELETE"/>
-      <arg value="${fusion.api.url}@{endpoint}"/>
-    </exec>
- </sequential>
-</macrodef>
+  <macrodef name="delete"
+            uri="http://lucidworks.com/fusion">
+    <attribute name="endpoint"/>
+    <sequential>
+      <echo>DELETE @{endpoint}</echo>
+      <exec executable="curl" failonerror="true">
+        <arg value="-sS"/>
+        <arg value="--fail"/>
+        <arg value="-u"/>
+        <arg value="${fusion.username}:${fusion.password}"/>
+        <arg value="-X"/>
+        <arg value="DELETE"/>
+        <arg value="${fusion.api.url}@{endpoint}"/>
+      </exec>
+    </sequential>
+  </macrodef>
 
   <target name="init">
     <mkdir dir="${build.dir}"/>
@@ -94,16 +94,16 @@
     <fusion:post endpoint="/apps" file="${build.dir}/conf/app.json"/>
   </target>
 
-  <target name="install-parsers">
-    <fusion:post endpoint="/api/parsers" file="${build.dir}/conf/parsers.json"/>
+  <target name="install-parser">
+    <fusion:put endpoint="/apps/${app.name}/parsers/sockitter" file="${build.dir}/conf/parser.json"/>
   </target>
 
   <target name="install-querypipeline">
-    <fusion:post endpoint="/api/query-pipelines" file="${build.dir}/conf/qp.json"/>
+    <fusion:put endpoint="/apps/${app.name}/query-pipelines/sockitter" file="${build.dir}/conf/qp.json"/>
   </target>
 
   <target name="install-indexpipeline">
-    <fusion:post endpoint="/api/index-pipelines" file="${build.dir}/conf/ip.json"/>
+    <fusion:put endpoint="/apps/${app.name}/index-pipelines/sockitter" file="${build.dir}/conf/ip.json"/>
   </target>
 
   <target name="uninstall-app">
@@ -117,9 +117,9 @@
   <target name="install-connector">
     <echo>Uploading connector file...</echo>
     <fusion:put
-      endpoint="/blobs/twitter-stream-4.0.1.zip?resourceType=plugin:connector"
-      file="conf/lucid.twitter-stream-4.0.1.zip"
-      content-type="application/zip"/>
+        endpoint="/blobs/twitter-stream-4.0.1.zip?resourceType=plugin:connector"
+        file="conf/lucid.twitter-stream-4.0.1.zip"
+        content-type="application/zip"/>
   </target>
 
   <target name="package-webapp" depends="generate-app">
@@ -155,10 +155,9 @@
     <echo>Posting file...</echo>
     <fusion:post endpoint="/apps/${app.name}/webapps" file="${build.dir}/conf/webapp.json"/>
     <fusion:put
-      endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
-      file="${build.dir}/${app.webapp}.war"
-      content-type="application/zip"/>
-    <!-- <fusion:put endpoint="/links" file="${build.dir}/conf/webapp-link.json"/> -->
+        endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
+        file="${build.dir}/${app.webapp}.war"
+        content-type="application/zip"/>
   </target>
 
   <target name="uninstall-webapp">
@@ -176,7 +175,7 @@
   </target>
 
   <target name="install"
-    depends="install-app,install-datasource,install-webapp"/>
+          depends="install-app,install-datasource,install-webapp"/>
 
   <target name="export-app">
     <mkdir dir="../dist"/>
@@ -188,91 +187,5 @@
       <header name="Accept" value="*/*"/>
     </get>
   </target>
-
-
-</project>
-  <target name="uninstall-app">
-    <fusion:delete endpoint="/apps/${app.name}"/>
-  </target>
-
-  <target name="install-datasource">
-    <fusion:post endpoint="/apps/${app.name}/connectors/datasources" file="${build.dir}/conf/ds.json"/>
-  </target>
-
-  <target name="install-connector">
-    <echo>Uploading connector file...</echo>
-    <fusion:put
-      endpoint="/blobs/twitter-stream-4.0.1.zip?resourceType=plugin:connector"
-      file="conf/lucid.twitter-stream-4.0.1.zip"
-      content-type="application/zip"/>
-  </target>
-
-  <target name="package-webapp" depends="generate-app">
-    <mkdir dir="${build.dir}/classes"/>
-
-    <javac srcdir="${build.dir}/src"
-           destdir="${build.dir}/classes"
-           debug="on">
-      <classpath>
-        <pathelement path="${fusion.home}/apps/jetty/home/lib/servlet-api-3.1.jar"/>
-        <fileset dir="${fusion.home}/apps/libs" includes="httpclient-*.jar"/>
-        <fileset dir="${fusion.home}/apps/libs" includes="httpcore-*.jar"/>
-        <fileset dir="${fusion.home}/apps/libs" includes="commons-logging-*.jar"/>
-        <fileset dir="${fusion.home}/apps/libs" includes="log4j-*.jar"/>
-        <fileset dir="conf">
-          <include name="*.jar"/>
-        </fileset>
-      </classpath>
-    </javac>
-
-    <war destfile="${build.dir}/${app.webapp}.war" webxml="${build.dir}/conf/web.xml">
-      <fileset dir="${build.dir}/webapp"/>
-      <lib dir="conf" includes="*.jar"/>
-      <lib dir="${fusion.home}/apps/libs" includes="httpclient-*.jar"/>
-      <lib dir="${fusion.home}/apps/libs" includes="httpcore-*.jar"/>
-      <lib dir="${fusion.home}/apps/libs" includes="commons-logging-*.jar"/>
-      <lib dir="${fusion.home}/apps/libs" includes="log4j-*.jar"/>
-      <classes dir="${build.dir}/classes"/>
-    </war>
-  </target>
-
-  <target name="install-webapp" depends="package-webapp">
-    <echo>Posting file...</echo>
-    <fusion:post endpoint="/apps/${app.name}/webapps" file="${build.dir}/conf/webapp.json"/>
-    <fusion:put
-      endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
-      file="${build.dir}/${app.webapp}.war"
-      content-type="application/zip"/>
-    <!-- <fusion:put endpoint="/links" file="${build.dir}/conf/webapp-link.json"/> -->
-  </target>
-
-  <target name="uninstall-webapp">
-    <fusion:delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
-  </target>
-
-  <target name="stop-ds">
-    <fusion:delete endpoint="/apps/${app.name}/connectors/jobs/${app.datasource}"/>
-  </target>
-
-  <target name="url">
-    <echo>
-      ${fusion.api.url}
-    </echo>
-  </target>
-
-  <target name="install"
-    depends="install-app,install-datasource,install-webapp"/>
-
-  <target name="export-app">
-    <mkdir dir="../dist"/>
-    <get src="${fusion.api.url}/apollo/objects/export?app.ids=${app.name}"
-         username="${fusion.username}"
-         password="${fusion.password}"
-         dest="../dist/${app.name}.zip"
-         verbose="true">
-      <header name="Accept" value="*/*"/>
-    </get>
-  </target>
-
 
 </project>
