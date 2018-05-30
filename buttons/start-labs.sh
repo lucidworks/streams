@@ -33,6 +33,7 @@ apt-get install python-setuptools -y
 easy_install pip
 pip install bottle
 pip install google-cloud
+pip install --upgrade google-api-python-client
 pip install google-auth-httplib2
 
 cd /;
