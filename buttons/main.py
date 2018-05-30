@@ -3,18 +3,16 @@ import googleapiclient.discovery
 from bottle import route, run
 import sys
 
-credentials = compute_engine.Credentials()
-print credentials
+def id_generator(size=4, chars=string.ascii_uppercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 
+credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
-print compute
 
 image_response = compute.images().getFromFamily(project='debian-cloud', family='debian-8').execute()
 source_disk_image = image_response['selfLink']
 
 # config
-hashter = random.choice(string.ascii_uppercase + string.digits) for _ in range(N)
-config = {'name': 'demo-%s' % hashter, 'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" }
+config = {'name': 'demo-%s' % id_generator(), 'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" }
 
 config['disks'] = [{
 	'boot': True,
