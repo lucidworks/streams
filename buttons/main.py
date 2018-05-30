@@ -13,26 +13,26 @@ compute = googleapiclient.discovery.build('compute', 'v1')
 image_response = compute.images().getFromFamily(project='debian-cloud', family='debian-8').execute()
 source_disk_image = image_response['selfLink']
 
-# config
-config = {'name': 'demo-%s' % id_generator(), 'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" }
-
-config['disks'] = [{
-	'boot': True,
-	'autoDelete': True,
-	'initializeParams': {
-		'sourceImage': source_disk_image,
-	}
-}]
-
-config['networkInterfaces'] =  [{
-	'network': 'global/networks/default',
-	'accessConfigs': [
-		{'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
-	]
-}]
-
 @route('/start')
 def start():
+    # config
+    config = {'name': 'demo-%s' % id_generator(), 'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" }
+
+    config['disks'] = [{
+        	'boot': True,
+        	'autoDelete': True,
+        	'initializeParams': {
+        		'sourceImage': source_disk_image,
+        	}
+    }]
+
+    config['networkInterfaces'] =  [{
+        	'network': 'global/networks/default',
+        	'accessConfigs': [
+        		{'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
+        	]
+    }]
+
     operation = compute.instances().insert(project='wisdom-172109', zone='us-west1-b', body=config).execute()
 
     return "started instance!"
