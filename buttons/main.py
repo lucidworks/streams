@@ -13,6 +13,10 @@ compute = googleapiclient.discovery.build('compute', 'v1')
 image_response = compute.images().getFromFamily(project='debian-cloud', family='debian-8').execute()
 source_disk_image = image_response['selfLink']
 
+@route('/')
+def main():
+    return template('main')
+
 @route('/start')
 def start():
     # config
