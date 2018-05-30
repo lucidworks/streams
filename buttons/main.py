@@ -1,0 +1,43 @@
+from google.auth import compute_engine
+import googleapiclient.discovery
+from bottle import route, run
+import sys
+
+credentials = compute_engine.Credentials()
+print credentials
+
+compute = googleapiclient.discovery.build('compute', 'v1')
+print compute
+
+image_response = compute.images().getFromFamily(project='debian-cloud', family='debian-8').execute()
+source_disk_image = image_response['selfLink']
+
+# config
+hashter = random.choice(string.ascii_uppercase + string.digits) for _ in range(N)
+config = {'name': 'demo-%s' % hashter, 'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" }
+
+config['disks'] = [{
+	'boot': True,
+	'autoDelete': True,
+	'initializeParams': {
+		'sourceImage': source_disk_image,
+	}
+}]
+
+config['networkInterfaces'] =  [{
+	'network': 'global/networks/default',
+	'accessConfigs': [
+		{'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
+	]
+}]
+
+@route('/start')
+def start():
+    operation = compute.instances().insert(project='wisdom-172109', zone='us-west1-b', body=config).execute()
+
+    return "started instance!"
+
+# start off
+run(host='0.0.0.0', port=8080, debug=True)
+
+
