@@ -1,6 +1,6 @@
 from google.auth import compute_engine
 import googleapiclient.discovery
-from bottle import route, run
+from bottle import route, run, template
 import random
 import string
 import sys
