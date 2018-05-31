@@ -38,7 +38,8 @@ pip install google-auth-httplib2
 
 cd /;
 git clone https://github.com/lucidworks/streams
-cd /streams/
+cd /streams/buttons/;
+screen -dmS buttons sudo python main.py
 '
 
 sleep 15
