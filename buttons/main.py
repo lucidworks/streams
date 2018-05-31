@@ -39,7 +39,7 @@ def start():
 
     operation = compute.instances().insert(project='wisdom-172109', zone='us-west1-b', body=config).execute()
 
-    return "started instance!"
+    return template('start')
 
 # start off
 run(host='0.0.0.0', port=8080, debug=True)
