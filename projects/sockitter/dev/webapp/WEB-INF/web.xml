@@ -5,23 +5,13 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-
   <servlet>
     <servlet-name>fusion</servlet-name>
     <servlet-class>com.lucidworks.streams.sockitter.FusionGateway</servlet-class>
   </servlet>
 
-
   <servlet-mapping>
     <servlet-name>fusion</servlet-name>
     <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>fusion</servlet-name>-->
-    <!--<url-pattern>/lookupUsersByScreenNames</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>fusion</servlet-name>-->
-    <!--<url-pattern>/lookupUsersByIDs</url-pattern>-->
-  <!--</servlet-mapping>-->
 </web-app>
