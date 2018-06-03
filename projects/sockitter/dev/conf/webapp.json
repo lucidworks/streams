@@ -1,5 +1,5 @@
 {
-  "id": "@app.webapp@",
-  "name": "@app.name@ Editor",
-  "contextPath": "/@app.webapp@"
+  "id": "sockitter-editor",
+  "name": "Sockitter Editor",
+  "contextPath": "/sockitter-editor"
 }

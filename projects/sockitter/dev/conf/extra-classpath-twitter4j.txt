@@ -1,1 +1,0 @@
-apps/libs/twitter4j-core-4.0.4.jar
