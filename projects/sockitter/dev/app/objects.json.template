@@ -123,7 +123,7 @@
           "uri" : "https://vision.googleapis.com/v1/images:annotate",
           "method" : "post",
           "queryParams" : {
-            "key" : "@app.googlevisionAPIkey@"
+            "key" : "${secret.5.google_vision_key}"
           },
           "headers" : {
             "Accept" : "application/json",
@@ -170,6 +170,36 @@
         "licensed" : true,
         "secretSourceStageId" : "vpt"
       }, {
+        "type" : "set-params",
+        "id" : "sockitter-data",
+        "params" : [ {
+          "key" : "twitter_consumer_key",
+          "value" : "${secret.1.twitter_consumer_key}",
+          "policy" : "default"
+        }, {
+          "key" : "twitter_consumer_secret",
+          "value" : "${secret.2.twitter_consumer_secret}",
+          "policy" : "default"
+        },{
+          "key" : "twitter_token",
+          "value" : "${secret.3.twitter_token}",
+          "policy" : "default"
+        }, {
+          "key" : "twitter_token_secret",
+          "value" : "${secret.4.twitter_token_secret}",
+          "policy" : "default"
+        },{
+          "key" : "google_vision_key",
+          "value" : "${secret.5.google_vision_key}",
+          "policy" : "default"
+        } ],
+        "type" : "set-params",
+        "skip" : true,
+        "label" : "Sockitter Data",
+        "licensed" : true,
+        "secretSourceStageId" : "sockitter-data"
+      },
+      {
         "type" : "recommendation",
         "id" : "cfe320b3-22e9-40fe-a259-062067d5e397",
         "numRecommendations" : 10,
@@ -738,7 +768,7 @@
     "appkitApps" : [ {
       "appkitApp" : {
         "id" : "sockitter-editor",
-        "name" : "sockitter Editor",
+        "name" : "Sockitter Editor",
         "contextPath" : "/sockitter-editor",
         "enabled" : true,
         "war" : "webapps/sockitter-editor.war",
@@ -767,11 +797,11 @@
       "properties" : {
         "filter_track" : [ ],
         "commit_on_finish" : true,
-        "consumer_secret" : "${secret.1.consumer_secret}",
+        "consumer_secret" : "${secret.2.twitter_consumer_secret}",
         "collection" : "sockitter",
         "url" : "https://stream.twitter.com",
-        "consumer_key" : "@app.tweets.consumer_key@",
-        "access_token" : "@app.tweets.token@",
+        "consumer_key" : "${secret.1.twitter_consumer_key}",
+        "access_token" : "${secret.3.twitter_token}",
         "initial_mapping" : {
           "mappings" : [ ],
           "reservedFieldsMappingAllowed" : false,
@@ -780,23 +810,39 @@
           "type" : "field-mapping"
         },
         "sleep" : 5000,
-        "token_secret" : "${secret.2.token_secret}",
+        "token_secret" : "${secret.4.twitter_token_secret}",
         "max_docs" : -1,
         "filter_follow" : [ ]
       }
     } ]
   },
   "properties" : [ {
-    "id" : "secret.1.consumer_secret",
+    "id" : "secret.1.twitter_consumer_key",
     "schema" : {
       "type" : "string"
     }
   }, {
-    "id" : "secret.2.token_secret",
+    "id" : "secret.2.twitter_consumer_secret",
     "schema" : {
       "type" : "string"
     }
-  } ],
+  }, {
+    "id" : "secret.3.twitter_token",
+    "schema" : {
+      "type" : "string"
+    }
+  }, {
+    "id" : "secret.4.twitter_token_secret",
+    "schema" : {
+      "type" : "string"
+    }
+  }, {
+    "id" : "secret.5.google_vision_key",
+    "schema" : {
+      "type" : "string"
+    }
+  }
+],
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "4aa6854d-5248-4211-a2b7-fb07963c7200",
