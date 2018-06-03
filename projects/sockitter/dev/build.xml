@@ -5,8 +5,9 @@
   <property file=".fusion.properties"/>
   <property file="fusion.properties"/>
 
-  <property file=".app.properties"/>
-  <property file="app.properties"/>
+  <property name="app.name" value="sockitter"/>
+  <property name="app.webapp" value="sockitter-editor"/>
+  <property name="app.datasource" value="tweets"/>
 
   <target name="init">
     <mkdir dir="${build.dir}"/>
