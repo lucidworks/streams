@@ -32,9 +32,11 @@ import java.util.*;
  * by screen names, de-duplicating the list.
  * <p>
  * Examples:
- * lookupUsersByIDs: http://localhost:8780/sockitter-editor/lookupUsersByIDs?id=1138371924
- * lookupUsersByScreenNames: http://localhost:8780/sockitter-editor/lookupUsersByScreenNames?screen_name=erikhatcher
- * add: http://localhost:8780/sockitter-editor/add?ds_name=tweets&screen_name=erikhatcher
+ * lookupUsersByIDs: GET http://localhost:8780/sockitter-editor/api/lookupUsersByIDs?id=1138371924
+ * lookupUsersByScreenNames: GET http://localhost:8780/sockitter-editor/api/lookupUsersByScreenNames?screen_name=erikhatcher
+ * get followers: GET http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets
+ * update followers: POST http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
+ *
  */
 public class FusionGateway extends HttpServlet {
   static {
@@ -60,26 +62,8 @@ public class FusionGateway extends HttpServlet {
 
 
     switch (endpoint) {
-      case "/config":
-        if (!"POST".equals(method)) {
-          throw new ServletException("Method " + method + " not supoorted at this endpoint.  Must use POST");
-        }
-
-        String ds_name = request.getParameter("ds_name");
-        if (ds_name == null) {
-          throw new ServletException("ds_name must be provided");
-        }
-
-        JsonObject ds = loadDatasource(ds_name);
-
-        // TODO:
-        //   - update JSON blob with creds    (or application scope?)
-        //   - update datasource with creds
-        //   - update index pipeline with google vision key
-        break;
-
       case "/follow":
-        ds_name = request.getParameter("ds_name");
+        String ds_name = request.getParameter("ds_name");
         if (ds_name == null) {
           throw new ServletException("ds_name must be provided");
         }
@@ -88,8 +72,8 @@ public class FusionGateway extends HttpServlet {
           String[] screen_names = request.getParameterValues("screen_name");
           updateScreenNames(ds_name, screen_names, false);
           data.put("screen_names", screen_names);
-        } else {
-          ds = loadDatasource(ds_name);
+        } else { // GET or otherwise
+          JsonObject ds = loadDatasource(ds_name);
           JsonObject properties = ds.getAsJsonObject("properties");
           JsonArray filter_follow = properties.getAsJsonArray("filter_follow");
 
@@ -181,7 +165,6 @@ public class FusionGateway extends HttpServlet {
   private static JsonObject loadDatasource(String name) throws IOException {
     HttpClient client = HttpClientBuilder.create().build();
 
-    // TODO: don't hardcode this url?
     // http://localhost:8984/connectors/v1/connectors/datasources/tweets
     HttpGet request = new HttpGet("http://localhost:8984/connectors/v1/connectors/datasources/" + name);
 
@@ -215,15 +198,76 @@ public class FusionGateway extends HttpServlet {
     }
   }
 
-  private static Twitter getTwitter() {
+  private static Twitter getTwitter() throws IOException {
+
     ConfigurationBuilder cb = new ConfigurationBuilder();
 
-    // TODO: have this info fed in after app launch by user
+    // Fetch Twitter keys the sneaky stash of them in a disabled "sockitter-data" stage of
+    // the query pipeline: http://localhost:8765/api/v1/query-pipelines/sockitter
+
+    HttpClient client = HttpClientBuilder.create().build();
+    HttpGet request = new HttpGet("http://localhost:8765/api/v1/query-pipelines/sockitter");
+    HttpResponse response = client.execute(request);
+    InputStream content = response.getEntity().getContent();
+    Scanner s = new Scanner(content).useDelimiter("\\A");
+    String json = s.hasNext() ? s.next() : "";
+    JsonParser parser = new JsonParser();
+    JsonObject pipeline = parser.parse(json).getAsJsonObject();
+
+    JsonArray stages = pipeline.getAsJsonArray("stages");
+
+
+    String consumer_key = null;
+    String consumer_secret = null;
+    String token = null;
+    String token_secret = null;
+
+    for (JsonElement e : stages) {
+      String id = e.getAsJsonObject().get("id").getAsString();
+// e = {"type":"set-params","id":"sockitter-data","params":[{"key":"twitter_consumer_key","value":"...","policy":"default"},{"key":"twitter_consumer_secret","value":"...",...
+      if ("sockitter-data".equals(id)) {
+        JsonArray params = e.getAsJsonObject().getAsJsonArray("params");
+        for (int i = 0; i < params.size(); i++) {
+          JsonObject param = params.get(i).getAsJsonObject();
+          String key = param.get("key").getAsString();
+          String value = param.get("value").getAsString();
+
+          switch(key) {
+            case "twitter_consumer_key":
+              consumer_key = value;
+              break;
+
+            case "twitter_consumer_secret":
+              consumer_secret = value;
+              break;
+
+            case "twitter_token":
+              token = value;
+              break;
+
+            case "twitter_token_secret":
+              token_secret = value;
+              break;
+
+            default:
+              // no worries, only pick off the ones we want above
+              break;
+          }
+        }
+
+        break;
+      }
+    }
+
+    if ((consumer_key == null) || (consumer_secret == null) || (token == null) || (token_secret) == null) {
+      throw new IOException("Twitter credentials incomplete");
+    }
+
     cb.setDebugEnabled(true)
-        .setOAuthConsumerKey("@app.tweets.consumer_key@")
-        .setOAuthConsumerSecret("@app.tweets.consumer_secret@")
-        .setOAuthAccessToken("@app.tweets.token@")
-        .setOAuthAccessTokenSecret("@app.tweets.token_secret@");
+        .setOAuthConsumerKey(consumer_key)
+        .setOAuthConsumerSecret(consumer_secret)
+        .setOAuthAccessToken(token)
+        .setOAuthAccessTokenSecret(token_secret);
 
     TwitterFactory tf = new TwitterFactory(cb.build());
     return tf.getInstance();
@@ -236,6 +280,8 @@ public class FusionGateway extends HttpServlet {
   }
 
   public static void main(String[] args) {
+    // scratch space for dev debugging
+
 //    try {
 //      ResponseList<User> users = lookupUsersByScreenNames(new String[]{"stackgeek","erikhatcher"});
 //
@@ -264,10 +310,16 @@ public class FusionGateway extends HttpServlet {
 //      e.printStackTrace();
 //    }
 
+//    try {
+//      // 1138371924
+//      System.out.println(lookupUsersByIDs(new long[]{1138371924}));
+//      // addScreenNames("tweets", new String[]{"stackgeek","erikhatcher", "kordless"});
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+
     try {
-      // 1138371924
-      System.out.println(lookupUsersByIDs(new long[]{1138371924}));
-      // addScreenNames("tweets", new String[]{"stackgeek","erikhatcher", "kordless"});
+      Twitter twitter = getTwitter();
     } catch (IOException e) {
       e.printStackTrace();
     }
