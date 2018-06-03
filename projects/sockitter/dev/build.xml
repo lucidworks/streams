@@ -72,6 +72,46 @@
     </zip>
   </target>
 
+
+  <target name="install-webapp" depends="generate-webapp">
+    <echo>Posting file...</echo>
+    <fusion:post endpoint="/apps/${app.name}/webapps" file="conf/webapp.json"/>
+    <fusion:put
+        endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
+        file="${build.dir}/app/blobs/webapps/${app.webapp}.war"
+        content-type="application/zip"/>
+  </target>
+
+  <target name="uninstall-webapp">
+    <fusion:delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
+  </target>
+
+  <target name="uninstall-app">
+    <delete endpoint="/apps/${app.name}"/>
+  </target>
+
+  <target name="install-connector">
+    <fusion:put
+            endpoint="/blobs/twitter-stream-4.0.2.zip?resourceType=plugin:connector"
+            file="conf/lucid.twitter-stream-4.0.2.zip"
+            content-type="application/zip"/>
+  </target>
+
+  <target name="export-app">
+    <mkdir dir="${build.dir}/temp"/>
+    <get src="${fusion.api.url}/apollo/objects/export?app.ids=${app.name}"
+         username="${fusion.username}"
+         password="${fusion.password}"
+         dest="${build.dir}/temp/${app.name}.zip"
+         verbose="true">
+      <header name="Accept" value="*/*"/>
+    </get>
+    <echo>Now what?</echo>
+  </target>
+
+
+  <!-- Fusion API Macros -->
+
   <macrodef name="put"
             uri="http://lucidworks.com/fusion">
     <attribute name="endpoint"/>
@@ -117,67 +157,6 @@
       </exec>
     </sequential>
   </macrodef>
-
-  <target name="install-webapp">
-    <echo>Posting file...</echo>
-    <fusion:post endpoint="/apps/${app.name}/webapps" file="conf/webapp.json"/>
-    <fusion:put
-        endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
-        file="${build.dir}/app/blobs/webapps/${app.webapp}.war"
-        content-type="application/zip"/>
-  </target>
-
-  <target name="uninstall-webapp">
-    <fusion:delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
-  </target>
-
-<!--
-  <target name="install-webapp" depends="package-webapp">
-    <echo>Posting file...</echo>
-    <post endpoint="/apps/${app.name}/webapps" file="${build.dir}/conf/webapp.json"/>
-    <put
-        endpoint="/apps/${app.name}/webapps/${app.webapp}/war"
-        file="${build.dir}/${app.webapp}.war"
-        content-type="application/zip"/>
-  </target>
-
-  <target name="uninstall-webapp">
-    <delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
-  </target>
-
-  <target name="stop-ds">
-    <delete endpoint="/apps/${app.name}/connectors/jobs/${app.datasource}"/>
-  </target>
-
-  <target name="url">
-    <echo>
-      ${fusion.api.url}
-    </echo>
-  </target>
-
-  <target name="install"
-          depends=""/>
--->
-
-  <target name="uninstall-app">
-    <delete endpoint="/apps/${app.name}"/>
-  </target>
-
-
-  <target name="export-app">
-    <mkdir dir="${build.dir}/temp"/>
-    <get src="${fusion.api.url}/apollo/objects/export?app.ids=${app.name}"
-         username="${fusion.username}"
-         password="${fusion.password}"
-         dest="${build.dir}/temp/${app.name}.zip"
-         verbose="true">
-      <header name="Accept" value="*/*"/>
-    </get>
-  </target>
-
-
-  <!-- curl -u user:pass -H "Content-Type:multipart/form-data" -X POST -F 'importData=@/Users/admin/Fusion/export.zip' -F 'variableValues=@password_file.json' http://localhost:8764/api/objects/import?importPolicy=merge -->
-
 
   <macrodef name="delete"
             uri="http://lucidworks.com/fusion">

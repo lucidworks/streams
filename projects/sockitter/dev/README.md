@@ -15,6 +15,12 @@ Installation
 
     This application was built for Fusion 4.0.2
 
+*Prerequisites:* The twitter-stream connector must first be installed.
+
+    ant install-connector
+      -or-
+    curl -u admin:password123 -X PUT -H 'Content-type: application/zip' --data-binary @conf/lucid.twitter-stream-4.0.2.zip "http://localhost:8764/api/blobs/twitter-stream-4.0.2.zip?resourceType=plugin:connector"
+
 From the Fusion main page, within "Add new app", choose `Import App`.
 For the Data file, select sockitter.zip
 For the Variables file, select your variables file.
