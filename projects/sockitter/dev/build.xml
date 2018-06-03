@@ -1,4 +1,4 @@
-<project xmlns:fusion="http://lucidworks.com/fusion">
+<project xmlns:fusion="http://lucidworks.com/fusion" default="package-app">
 
   <property name="build.dir" location="build"/>
 
@@ -13,11 +13,11 @@
     <mkdir dir="${build.dir}"/>
   </target>
 
-  <target name="clean">
+  <target name="clean" description="Removes the build/ directory">
     <delete dir="${build.dir}"/>
   </target>
 
-  <target name="generate-webapp" depends="init">
+  <target name="generate-webapp" depends="init" description="builds sockitter-editor.war">
     <!-- copy and template substitute everything but objects.json(.template), that's done below after the webapp is built -->
     <copy todir="${build.dir}">
       <fileset dir="." includes="app/,src/,webapp/" excludes="app/objects.json.template,webapp/WEB-INF/lib/*.jar"/>
@@ -64,7 +64,7 @@
 
   </target>
 
-  <target name="package-app" depends="generate-webapp">
+  <target name="package-app" depends="generate-webapp" description="builds sockitter.zip">
     <zip destfile="${build.dir}/${app.name}.zip">
       <!-- objects.json, as required by Fusion import, must be the FIRST file in the .zip -->
       <zipfileset dir="${build.dir}/app" includes="objects.json"/>
