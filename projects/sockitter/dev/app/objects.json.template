@@ -598,10 +598,6 @@
       "object" : "app:sockitter",
       "linkType" : "inContextOf"
     }, {
-      "subject" : "blob:lucid.twitter-search-4.0.1.zip",
-      "object" : "app:sockitter",
-      "linkType" : "inContextOf"
-    }, {
       "subject" : "group:ad8338d0-436b-47b4-b207-fc0a4f63a506",
       "object" : "spark:sockitter_user_query_history_aggregation",
       "linkType" : "hasPart"
