@@ -1,5 +1,0 @@
-{
-  "subject" : "blob:webapps/@app.webapp@.war",
-  "object" : "app:@app.name@",
-  "linkType" : "inContextOf"
-}
