@@ -35,7 +35,7 @@
 
         success: function (data) {
           console.log(data);
-          $('#screen_names').val(data.screen_names.join('\n'));
+          $('#screen_names').val(data.screen_names ? data.screen_names.join('\n') : '');
         },
 
         fail: function( xhr, status, errorThrown ) {
