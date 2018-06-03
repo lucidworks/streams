@@ -1,5 +1,5 @@
-Sockitter Editor
-================
+Sockitter
+=========
 
 Follow and manager twitter handles, analyze tweets, hashtags, and connections.
 
