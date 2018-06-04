@@ -61,7 +61,7 @@ ant install-connector
 ant package-app
 
 # call fusion to install
-curl -u admin:%FUSION_PASSWORD% -H "Content-Type:multipart/form-data" -X POST -F 'importData=@dev/build/sockitter.zip' -F 'variableValues=@dev/app/passwords.json' http://localhost:8764/api/objects/import?importPolicy=overwrite
+curl -u admin:%FUSION_PASSWORD% -H "Content-Type:multipart/form-data" -X POST -F 'importData=@/streams/projects/sockitter/dev/build/sockitter.zip' -F 'variableValues=@/streams/projects/sockitter/dev/app/passwords.json' http://localhost:8764/api/objects/import?importPolicy=overwrite
 
 # build SKG FTW
 mkdir /skg; cd /skg
