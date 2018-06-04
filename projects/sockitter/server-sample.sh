@@ -25,8 +25,8 @@ s,YOUR_ACCESS_TOKEN,%ACCESS_TOKEN%,g;
 s,YOUR_SECRET_TOKEN,%SECRET_TOKEN%,g;
 s,YOUR_CONSUMER_KEY,%CONSUMER_KEY%,g;
 s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
-s,YOUR_GOOGLE_KEY,%GOOGLE_API_KEY%,g;
-" /streams/projects/sockitter/dev/app_data.json
+s,YOUR_GOOGLE_VISION_KEY,%GOOGLE_API_KEY%,g;
+" /streams/projects/sockitter/dev/app/passwords.json
 
 sed -i "
 s,YOUR_FUSION_PASSWORD,%FUSION_PASSWORD%,g;
