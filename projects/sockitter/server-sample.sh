@@ -19,19 +19,14 @@ IP=$(wget -qO- http://ipecho.net/plain)
 
 cd /; git clone https://github.com/lucidworks/streams
 
+# %VARS% are sed'ed out via start script which uses secrets file
 sed -i "
 s,YOUR_ACCESS_TOKEN,%ACCESS_TOKEN%,g;
 s,YOUR_SECRET_TOKEN,%SECRET_TOKEN%,g;
 s,YOUR_CONSUMER_KEY,%CONSUMER_KEY%,g;
 s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
-" /streams/projects/sockitter/dev/app.properties
-
-sed -i "
-s,YOUR_ACCESS_TOKEN,%ACCESS_TOKEN%,g;
-s,YOUR_SECRET_TOKEN,%SECRET_TOKEN%,g;
-s,YOUR_CONSUMER_KEY,%CONSUMER_KEY%,g;
-s,YOUR_CONSUMER_SECRET,%CONSUMER_SECRET%,g;
-" /streams/projects/sockitter/dev/src/com/lucidworks/streams/sockitter/TwitterGateway.java
+s,YOUR_GOOGLE_KEY,%GOOGLE_API_KEY%,g;
+" /streams/projects/sockitter/dev/app_data.json
 
 sed -i "
 s,YOUR_FUSION_PASSWORD,%FUSION_PASSWORD%,g;
@@ -40,9 +35,11 @@ s,localhost,$IP,g;
 
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
+#############################
+# if fusion not installed
+#############################
 wget https://storage.googleapis.com/streams-fusion/fusion-4.0.1.tar.gz
 tar xvfz fusion-4.0.1.tar.gz
-fi
 
 # link up fusion
 ln -s /fusion/ /root/fusion
@@ -80,3 +77,9 @@ curl -X POST -H 'Content-Type: application/octet-stream' --data-binary @semantic
 curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/json' -d '{  "add-runtimelib": { "name":"skg.jar", "version":1 } }'
 curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/json' -d '{  "add-queryresponsewriter": { "name": "skg",    "runtimeLib": true,    "class": "com.careerbuilder.search.relevancy.responsewriter.KnowledgeGraphResponseWriter"} }'
 curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/json' -d '{  "add-requesthandler" : {  "name": "/skg",    "class":"com.careerbuilder.search.relevancy.KnowledgeGraphHandler",    "defaults":{ "defType":"edismax", "wt":"json"},    "invariants":{"wt":"skg"},    "runtimeLib": true  } }'
+
+
+#############################
+# end if fusion not installed
+#############################
+fi

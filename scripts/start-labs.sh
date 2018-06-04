@@ -17,12 +17,10 @@ gcloud compute instances create $NAME-$NEW_UUID \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
---boot-disk-device-name "$NAME-disk-$NEW_UUID" \
+--boot-disk-device-name "$NEW_UUID" \
 --zone $ZONE \
 --labels ready=true \
 --tags lucid \
---scopes compute-rw \
---service-account button@wisdom-172109.iam.gserviceaccount.com \
 $PROD \
 --metadata startup-script='#! /bin/bash
 sudo su -
@@ -33,26 +31,14 @@ apt-get install python-setuptools -y
 easy_install pip
 pip install bottle
 pip install google-cloud
-pip install --upgrade google-api-python-client
 pip install google-auth-httplib2
-
-cd /;
-git clone https://github.com/lucidworks/streams
-cd /streams/buttons/;
-screen -dmS buttons sudo python main.py
 '
 
-#gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
-FIREWALL=$(gcloud compute firewall-rules list)
-if [[ $FIREWALL =~ .*8080.* ]]
-then
-  echo "Firewall rule already created."
-else
-  gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
-fi 
+sleep 15
+gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
 
-sleep 20
-IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
+
+IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone us-central1-b  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 echo "Server started with $IP. Use the SSH button to login."
-echo "Try http://$IP:8080"
