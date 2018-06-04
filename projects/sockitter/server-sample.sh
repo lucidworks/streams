@@ -38,14 +38,14 @@ if [ ! -d "/fusion" ]; then
 #############################
 # if fusion not installed
 #############################
-wget https://storage.googleapis.com/streams-fusion/fusion-4.0.1.tar.gz
-tar xvfz fusion-4.0.1.tar.gz
+wget https://storage.googleapis.com/streams-fusion/fusion-4.0.2.tar.gz
+tar xvfz fusion-4.0.2.tar.gz
 
 # link up fusion
 ln -s /fusion/ /root/fusion
 
 # restart
-/fusion/4.0.1/bin/fusion restart
+/fusion/4.0.2/bin/fusion restart
 
 # replace line in /fusion/conf/fusion.properties
 sed -i "
@@ -61,7 +61,7 @@ ant install-connector
 ant package-app
 
 # call fusion to install
-curl -u admin:%FUSION_PASSWORD% -H "Content-Type:multipart/form-data" -X POST -F 'importData=@dev/build/sockitter.zip' -F 'variableValues=@dev/apps/password.json' http://localhost:8764/api/objects/import?importPolicy=overwrite
+curl -u admin:%FUSION_PASSWORD% -H "Content-Type:multipart/form-data" -X POST -F 'importData=@dev/build/sockitter.zip' -F 'variableValues=@dev/app/passwords.json' http://localhost:8764/api/objects/import?importPolicy=overwrite
 
 # build SKG FTW
 mkdir /skg; cd /skg
@@ -72,7 +72,7 @@ cd knowledge-graph
 mvn package
 
 # restart
-/fusion/4.0.1/bin/fusion restart
+/fusion/4.0.2/bin/fusion restart
 
 # curling to solr to install and configure skg
 cd /skg/semantic-knowledge-graph/knowledge-graph/target;
