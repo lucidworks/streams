@@ -60,6 +60,8 @@ cd /streams/projects/sockitter/dev;
 ant install-connector
 ant install
 
+exit;
+
 # build SKG FTW
 mkdir /skg; cd /skg
 git clone https://github.com/treygrainger/semantic-knowledge-graph.git
