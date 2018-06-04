@@ -777,7 +777,9 @@
       "id" : "sockitter",
       "name" : "Sockitter App",
       "description" : "A Twitter account analysis tool.",
+      "dataUri" : "/admin/App-Tile-05-460x160.png",
       "properties" : {
+        "headerImageName" : "headerImage5",
         "tileColor" : "apps-red",
         "previousCollectionId" : "sockitter"
       }
