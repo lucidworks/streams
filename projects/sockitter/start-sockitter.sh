@@ -41,6 +41,7 @@ s,%SECRET_TOKEN%,$SECRET_TOKEN,g;
 s,%CONSUMER_KEY%,$CONSUMER_KEY,g;
 s,%CONSUMER_SECRET%,$CONSUMER_SECRET,g;
 s,%FUSION_PASSWORD%,$FUSION_PASSWORD,g;
+s,%GOOGLE_API_KEY%,$GOOGLE_API_KEY,g;
 " server.sh
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
