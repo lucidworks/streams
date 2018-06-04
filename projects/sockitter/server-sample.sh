@@ -58,9 +58,10 @@ curl -X POST -H 'Content-type: application/json' -d '{"password":"%FUSION_PASSWO
 # install the twitter app
 cd /streams/projects/sockitter/dev;
 ant install-connector
-ant install
+ant package-app
 
-exit;
+# call fusion to install
+curl -u admin:%FUSION_PASSWORD% -H "Content-Type:multipart/form-data" -X POST -F 'importData=@dev/build/sockitter.zip' -F 'variableValues=@dev/apps/password.json' http://localhost:8764/api/objects/import?importPolicy=overwrite
 
 # build SKG FTW
 mkdir /skg; cd /skg
