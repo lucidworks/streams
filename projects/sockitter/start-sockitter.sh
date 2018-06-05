@@ -46,7 +46,7 @@ s,%GOOGLE_API_KEY%,$GOOGLE_API_KEY,g;
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --machine-type "n1-standard-4" \
---image "ubuntu-1604-xenial-v20180405" \
+--image "ubuntu-1604-xenial-v20180522" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
