@@ -45,7 +45,7 @@ public class FusionGateway extends HttpServlet {
     System.setProperty("twitter4j.loggerFactory", "twitter4j.NullLoggerFactory");
   }
 
-  public static int TWITTER_USER_BATCH_SIZE=400;
+  public static int TWITTER_USER_BATCH_SIZE=99;
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
