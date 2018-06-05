@@ -35,7 +35,8 @@ import java.util.*;
  * lookupUsersByIDs: GET http://localhost:8780/sockitter-editor/api/lookupUsersByIDs?id=1138371924
  * lookupUsersByScreenNames: GET http://localhost:8780/sockitter-editor/api/lookupUsersByScreenNames?screen_name=erikhatcher
  * get followers: GET http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets
- * update followers: POST http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
+ * add (append) followers: POST http://localhost:8780/sockitter-editor/api/add?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
+ * update (replace) followers: POST http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
  *
  */
 public class FusionGateway extends HttpServlet {
@@ -62,14 +63,29 @@ public class FusionGateway extends HttpServlet {
 
 
     switch (endpoint) {
-      case "/follow":
+      case "/add":
         String ds_name = request.getParameter("ds_name");
+        if (ds_name == null) {
+          throw new ServletException("ds_name must be provided");
+        }
+        if (!"POST".equals(method)) {
+          throw new ServletException("Can only /add with POST");
+        }
+        String[] screen_names = request.getParameterValues("screen_name");
+        if (screen_names != null && screen_names.length > 0) {
+          updateScreenNames(ds_name, screen_names, true);
+        }
+        data.put("screen_names", screen_names);
+        break;
+
+      case "/follow":
+        ds_name = request.getParameter("ds_name");
         if (ds_name == null) {
           throw new ServletException("ds_name must be provided");
         }
 
         if ("POST".equals(method)) {
-          String[] screen_names = request.getParameterValues("screen_name");
+          screen_names = request.getParameterValues("screen_name");
           updateScreenNames(ds_name, screen_names, false);
           data.put("screen_names", screen_names);
         } else { // GET or otherwise
@@ -86,7 +102,7 @@ public class FusionGateway extends HttpServlet {
             ResponseList<User> users = lookupUsersByIDs(ids);
             data.put("response", users);
 
-            String[] screen_names = new String[users.size()];
+            screen_names = new String[users.size()];
             for (int i = 0; i < users.size(); i++) {
               screen_names[i] = users.get(i).getScreenName();
             }
@@ -98,7 +114,7 @@ public class FusionGateway extends HttpServlet {
         break;
 
       case "/lookupUsersByScreenNames":
-        String[] screen_names = request.getParameterValues("screen_name");
+        screen_names = request.getParameterValues("screen_name");
         data.put("response", lookupUsersByScreenNames(screen_names));
         break;
 
