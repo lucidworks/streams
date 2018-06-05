@@ -45,6 +45,8 @@ public class FusionGateway extends HttpServlet {
     System.setProperty("twitter4j.loggerFactory", "twitter4j.NullLoggerFactory");
   }
 
+  public static int TWITTER_USER_BATCH_SIZE=400;
+
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -197,21 +199,51 @@ public class FusionGateway extends HttpServlet {
   private static ResponseList<User> lookupUsersByScreenNames(String[] screen_names) throws IOException {
     Twitter twitter = getTwitter();
 
+    ResponseList<User> users = null;
+
     try {
-      return twitter.lookupUsers(screen_names);
+      int batches = (screen_names.length + TWITTER_USER_BATCH_SIZE - 1) / TWITTER_USER_BATCH_SIZE;
+
+      for (int batch=0; batch < batches; batch++) {
+        int from = batch*TWITTER_USER_BATCH_SIZE;
+        String[] sn_batch = Arrays.copyOfRange(screen_names,from, Math.min(from+TWITTER_USER_BATCH_SIZE, screen_names.length));
+        ResponseList<User> users_batch = twitter.lookupUsers(sn_batch);
+        if (users == null) {
+          users = users_batch;
+        } else {
+          users.addAll(users_batch);
+        }
+      }
     } catch (TwitterException e) {
       throw new IOException(e);
     }
+
+    return users;
   }
 
   private static ResponseList<User> lookupUsersByIDs(long[] ids) throws IOException {
     Twitter twitter = getTwitter();
 
+    ResponseList<User> users = null;
+
     try {
-      return twitter.lookupUsers(ids);
+      int batches = (ids.length + TWITTER_USER_BATCH_SIZE - 1) / TWITTER_USER_BATCH_SIZE;
+
+      for (int batch=0; batch < batches; batch++) {
+        int from = batch*TWITTER_USER_BATCH_SIZE;
+        long[] id_batch = Arrays.copyOfRange(ids,from, Math.min(from+TWITTER_USER_BATCH_SIZE, ids.length));
+        ResponseList<User> users_batch = twitter.lookupUsers(id_batch);
+        if (users == null) {
+          users = users_batch;
+        } else {
+          users.addAll(users_batch);
+        }
+      }
     } catch (TwitterException e) {
       throw new IOException(e);
     }
+
+    return users;
   }
 
   private static Twitter getTwitter() throws IOException {
