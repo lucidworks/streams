@@ -35,7 +35,8 @@ import java.util.*;
  * lookupUsersByIDs: GET http://localhost:8780/sockitter-editor/api/lookupUsersByIDs?id=1138371924
  * lookupUsersByScreenNames: GET http://localhost:8780/sockitter-editor/api/lookupUsersByScreenNames?screen_name=erikhatcher
  * get followers: GET http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets
- * update followers: POST http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
+ * add (append) followers: POST http://localhost:8780/sockitter-editor/api/add?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
+ * update (replace) followers: POST http://localhost:8780/sockitter-editor/api/follow?ds_name=tweets&screen_name=stackgeek&screen_name=erikhatcher
  *
  */
 public class FusionGateway extends HttpServlet {
@@ -43,6 +44,8 @@ public class FusionGateway extends HttpServlet {
     // without this, NoClassDefFound error (due to slf4j not on classpath?)
     System.setProperty("twitter4j.loggerFactory", "twitter4j.NullLoggerFactory");
   }
+
+  public static int TWITTER_USER_BATCH_SIZE=99;
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,14 +65,29 @@ public class FusionGateway extends HttpServlet {
 
 
     switch (endpoint) {
-      case "/follow":
+      case "/add":
         String ds_name = request.getParameter("ds_name");
+        if (ds_name == null) {
+          throw new ServletException("ds_name must be provided");
+        }
+        if (!"POST".equals(method)) {
+          throw new ServletException("Can only /add with POST");
+        }
+        String[] screen_names = request.getParameterValues("screen_name");
+        if (screen_names != null && screen_names.length > 0) {
+          updateScreenNames(ds_name, screen_names, true);
+        }
+        data.put("screen_names", screen_names);
+        break;
+
+      case "/follow":
+        ds_name = request.getParameter("ds_name");
         if (ds_name == null) {
           throw new ServletException("ds_name must be provided");
         }
 
         if ("POST".equals(method)) {
-          String[] screen_names = request.getParameterValues("screen_name");
+          screen_names = request.getParameterValues("screen_name");
           updateScreenNames(ds_name, screen_names, false);
           data.put("screen_names", screen_names);
         } else { // GET or otherwise
@@ -86,7 +104,7 @@ public class FusionGateway extends HttpServlet {
             ResponseList<User> users = lookupUsersByIDs(ids);
             data.put("response", users);
 
-            String[] screen_names = new String[users.size()];
+            screen_names = new String[users.size()];
             for (int i = 0; i < users.size(); i++) {
               screen_names[i] = users.get(i).getScreenName();
             }
@@ -98,7 +116,7 @@ public class FusionGateway extends HttpServlet {
         break;
 
       case "/lookupUsersByScreenNames":
-        String[] screen_names = request.getParameterValues("screen_name");
+        screen_names = request.getParameterValues("screen_name");
         data.put("response", lookupUsersByScreenNames(screen_names));
         break;
 
@@ -181,21 +199,51 @@ public class FusionGateway extends HttpServlet {
   private static ResponseList<User> lookupUsersByScreenNames(String[] screen_names) throws IOException {
     Twitter twitter = getTwitter();
 
+    ResponseList<User> users = null;
+
     try {
-      return twitter.lookupUsers(screen_names);
+      int batches = (screen_names.length + TWITTER_USER_BATCH_SIZE - 1) / TWITTER_USER_BATCH_SIZE;
+
+      for (int batch=0; batch < batches; batch++) {
+        int from = batch*TWITTER_USER_BATCH_SIZE;
+        String[] sn_batch = Arrays.copyOfRange(screen_names,from, Math.min(from+TWITTER_USER_BATCH_SIZE, screen_names.length));
+        ResponseList<User> users_batch = twitter.lookupUsers(sn_batch);
+        if (users == null) {
+          users = users_batch;
+        } else {
+          users.addAll(users_batch);
+        }
+      }
     } catch (TwitterException e) {
       throw new IOException(e);
     }
+
+    return users;
   }
 
   private static ResponseList<User> lookupUsersByIDs(long[] ids) throws IOException {
     Twitter twitter = getTwitter();
 
+    ResponseList<User> users = null;
+
     try {
-      return twitter.lookupUsers(ids);
+      int batches = (ids.length + TWITTER_USER_BATCH_SIZE - 1) / TWITTER_USER_BATCH_SIZE;
+
+      for (int batch=0; batch < batches; batch++) {
+        int from = batch*TWITTER_USER_BATCH_SIZE;
+        long[] id_batch = Arrays.copyOfRange(ids,from, Math.min(from+TWITTER_USER_BATCH_SIZE, ids.length));
+        ResponseList<User> users_batch = twitter.lookupUsers(id_batch);
+        if (users == null) {
+          users = users_batch;
+        } else {
+          users.addAll(users_batch);
+        }
+      }
     } catch (TwitterException e) {
       throw new IOException(e);
     }
+
+    return users;
   }
 
   private static Twitter getTwitter() throws IOException {
