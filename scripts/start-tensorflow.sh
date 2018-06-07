@@ -19,6 +19,7 @@ apt-get update -y
 apt-get install default-jre -y
 sudo apt-get install python-pip -y
 sudo apt-get install ipython -y
+sudo apt-get install ipython-notebook -y
 sudo apt-get install unzip -y
 sudo pip install --upgrade pip
 sudo pip install tensorflow
@@ -27,7 +28,7 @@ sudo pip install Pillow
 cd /
 sudo git clone https://github.com/tensorflow/tensorflow
 cd tensorflow/tensorflow/examples/tutorials/deepdream/
-sudo jupyter notebook --allow-root --ip 0.0.0.0 --port 8888 &
+sudo ipython notebook --ip 0.0.0.0 --port 8888 &
 '
 IP=$(gcloud compute instances describe tensorflow-server-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 

@@ -4,7 +4,7 @@ NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
 gcloud compute instances create dev-crawler-$NEW_UUID \
 --machine-type "n1-standard-1" \
---image "ubuntu-1604-xenial-v20180418" \
+--image "ubuntu-1604-xenial-v20180522" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
