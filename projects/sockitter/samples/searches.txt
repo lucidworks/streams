@@ -1,0 +1,5 @@
+tweet_t:"vote amendment"~4
+tweet_t:"I voted"
+tweet_t:idiot
+tagText_t:savetheinternet
+userScreenName_s:SenAngusKing
