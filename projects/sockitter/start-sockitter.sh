@@ -66,6 +66,6 @@ gcloud compute firewall-rules create fusion-webapp --allow tcp:8780
 
 echo "Thank you for running me. Here's what I know:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
-echo "Admin UI available in a few minutes at: http://$IP:8780/sockitter-editor"
+echo "Admin UI available in a few minutes at: http://$IP:8780/sockitter-editor/editor.html"
 echo "API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html"
 
