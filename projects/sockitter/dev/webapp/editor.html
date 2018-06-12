@@ -1,8 +1,28 @@
 <!doctype html>
 <html>
 <head>
+
+<body>
+
+</body>
+</html>
+
+<!doctype html>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
     <title>Sockitter Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      body {background-color: #cccccc; background-image: url("https://lucidworks.cloud/assets/images/bkg-clouds.jpg"); color: #eee; }
+      img { width: 200px; height: auto; margin-top: 40px;}
+      button { margin-top: 30px; }
+      .col-centered{ margin: 0 auto; float: none; }
+      h1 { size: 20px; font-family: 'Lato', sans-serif; }
+      label { font-family: 'Lato', sans-serif; margin: 20px; }
+    </style>
 
     <script src="jquery-3.3.1.min.js"></script>
     <script>
@@ -49,20 +69,39 @@
       console.log(window.location);
       load();
      });
+
+    document.addEventListener('click', function(event) {
+      var target = event.target;
+      if (target.tagName.toLowerCase() == 'a')
+      {
+          var port = target.getAttribute('href').match(/^:(\d+)(.*)/);
+          if (port)
+          {
+             target.href = port[2];
+             target.port = port[1];
+          }
+      }
+    }, false);
     </script>
 </head>
-<body>
 
-<form action="editor.html" method="GET" onsubmit="update(); return true;">
+  </head>
 
-    Screen Names:
-        <textarea id="screen_names" rows="20" cols="30">
+  <body class="text-center">
 
-        </textarea>
+    <div class="row">
+    <div class="col-lg-4 col-centered col-lg-offset-4">
+       <img src="https://lucidworks.cloud/assets/images/lw-logo-light.png"\>
+       <h1 class="cover-heading">Sockitter Editor</h1>
+       <form action="editor.html" method="GET" onsubmit="update(); return true;">
+         <div class="form-group">
+           <label for="screen_names">Use the text area to add/remove screen names. Click the <em>submit</em> button to update the list. Use only one screen name per line.  After edit, be sure to restart the connector from the <a href=":8764/admin/">Fusion UI</a>.</label>
+           <textarea class="form-control" rows="20" id="screen_names"></textarea>
+           <button type="submit" class="btn btn-default">Submit</button>
+         </div>
+       </form>
+    </div>
+    </div>
 
-    <input type="submit"/>
-</form>
-
-
-</body>
+  </body>
 </html>
