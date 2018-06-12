@@ -143,13 +143,13 @@ Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-edit
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow2.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow3.gif?raw=true)
 
 Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
 
 *NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
 
-#### Adding Accounts Programmatically
+### Adding Accounts Programmatically
 To follow accounts programatically, refer to the `samples` directory in the `sockitter` directory. The `add.sh` script shows how to call an endpoint with a Twitter screen name to add it to the list of accounts to index:
 
 ```
@@ -177,46 +177,101 @@ The sample data provide includes a fairly recent list of US senators and represe
 ./add.sh 104.199.112.115 senate.csv
 ```
 
-Once you've added the screen names to the system, you will need to start/restart the connector. Start by navigating to the link the start script gave you, login, and then click on the `Sockitter` app card.
+### Starting/Restarting the Twitter Stream Connector
+Once you've added the screen names to the system, you will need to start/restart the Twitter stream connector. Start by navigating to the link the start script gave you, login, and then click on the `Sockitter` app card.
 
 Click on `indexing...datasources` in the menus to the left. Click on the `tweets` datasource and then click on `run` and the `start` button. If the connector is already running, click on the `stop` button, wait, and then click on the `start` button when it reappears.
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/connector.png)
 
 
-## Searching Twitter Data
-Once the connector has received and indexed a few tweets, an SKG based request can be made to query the normal and inverted indexes:
+## Searching Data
+Once the connector has receieved and indexed a few tweets, you can search the data being indexed by navigating to the Fusion UI URL, logging in, and then navigating to the `Query Workbench` view. We've included a few interesting facets for your searches, as well as boosting for newer documents.
 
+### Search with the SKG API
+The SKG (semantic knowledge graph) plugin can be searched using the `curl` command or by using the `skg-query.py` example in the `samples` directory.
+
+The program is called with the server's `IP` and a `search term`. Here, we are searching US congressional accounts for the term `wednesday` to get a list of accounts and related hashtags:
+ 
 **Command:**
 ```
-curl -X POST \
-  'http://35.230.21.180:8983/solr/sockitter/skg?qf=tweet_t' \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json' \
-  -d '{
-    "queries" : ["tweet_t:\"toasters\""],
-    "compare" : [ 
-        {
-            "type": "tweet_t",
-            "limit":1,
-            "sort":"relatedness",
-            "values" : ["waffles"],
-            "discover_values": true,
-            "compare" : [
-                {
-                    "type": "tweet_t",
-                    "limit": 5,
-                    "sort": "relatedness"
-                }
-            ]
-        }
-    ]
-}'
-```
+$ python skg-query.py 35.233.205.143 "wednesday"
 
-**Sample Output:**
-```
+-------------------------------------
+relation name: 4everisadiamond
+relation type: tagText_t
+-------------------------------------
+netneutrality
 
+-------------------------------------
+relation name: aceaoiii
+relation type: tagText_t
+-------------------------------------
+china
+macedonia
+burma
+dreamact
+rfk50
+
+-------------------------------------
+relation name: all100senators
+relation type: tagText_t
+-------------------------------------
+arkansas
+heidihelps
+wv
+hsgac
+wildfires
+
+-------------------------------------
+relation name: annh1958
+relation type: tagText_t
+-------------------------------------
+500daysofbummer
+trumpkim
+nksummit
+aviation
+aca
+
+-------------------------------------
+relation name: anthonybourque
+relation type: tagText_t
+-------------------------------------
+goptaxscam
+protectourcare
+equalpayact
+griswoldvct
+scotus
+
+-------------------------------------
+relation name: argojournal
+relation type: tagText_t
+-------------------------------------
+thankcanada
+anthonybourdian
+nbafinals
+lasvegas
+dubnation
+
+-------------------------------------
+relation name: beenewsdaily
+relation type: tagText_t
+-------------------------------------
+jerusalem
+primrose
+california
+ne02
+shep
+
+-------------------------------------
+relation name: belinha1961
+relation type: tagText_t
+-------------------------------------
+keepfamiliestogether
+savetheinternet
+netneutrality
+pulse
+equalpayact
 ```
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
