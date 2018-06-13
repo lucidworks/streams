@@ -143,7 +143,7 @@ Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-edit
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow.gif)
 
 Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
 
