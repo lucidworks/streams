@@ -12,8 +12,7 @@ The Sockitter application demos several Fusion features including:
 ## Video
 This guide comes with a video covering the setup process and demo. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Yl1w5iiBHqA/0.jpg)](https://www.youtube.com/watch?v=Yl1w5iiBHqA)
-(video needs to be updated)
+[![VIDEO](https://img.youtube.com/vi/Yl1w5iiBHqA/0.jpg)](https://www.youtube.com/watch?v=Yl1w5iiBHqA)
 
 ## Setup
 The demo application may be started from the Google Cloud console with a single command. With a bit of work, it may be re-purposed to run locally or on AWS and other cloud providers.
@@ -26,7 +25,7 @@ If you do not already have a Google Cloud account, head on over to [https://clou
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell-smaller.gif?raw=true)
 
 Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following:
 
@@ -54,18 +53,23 @@ $ ls
 samjna  sockitter  zendai
 $ cd sockitter/
 $ ls
-dev  README.md  secrets-sample.sh server-sample.sh  start-sockitter.sh
+dev  README.md  samples secrets-sample.sh server-sample.sh  start-sockitter.sh
 $
 ```
 
 #### Create and Edit the Secrets File
-Before you can deploy the instance, you will need to create a file that contains your Twitter  credentials. If you haven't created a Twitter application and its keys already, head on over to the *[How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/)* guide.
+Before you can deploy the instance, you will need to create a file that contains your Twitter and Google Vision credentials. 
+
+These links may be handy for setting those up:
+
+- *[How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/)*
+- *[Google Cloud API Credential Manager](https://console.cloud.google.com/apis/credentials)*
 
 When you are ready, edit the `secrets-sample.sh` in the `sockitter` directory. Again, this will be done from the *Google Cloud Shell*:
 
 **Commands:**
 ```
-$ pico secrets-sample.sh
+$ vi secrets-sample.sh
 ```
 
 Use the values from Twitter, edit the secrets file and create a password for Fusion's login:
@@ -73,16 +77,20 @@ Use the values from Twitter, edit the secrets file and create a password for Fus
 ```
 #!/bin/bash
 
-# set these to your twitter credentials and rename this to secrets.sh before starting instance
+# twitter credentials
 CONSUMER_KEY=UyBLDq08scXYSaJa5eO1upkMs
 CONSUMER_SECRET=T0npcUIGVvmQ3IOTQTeghFP4PDLQIJ0Uot0LZ9O4fjhqvyFbnL
 ACCESS_TOKEN=362411863932719104-LXRvHlogQVSjtbU3GmX5ovUa8s30oqr
 SECRET_TOKEN=1bRDU9BjuzWMad4qmw3hVjVHabod30dydy37GrQIC5F1VN
 
-FUSION_PASSWORD=foobarb4z
+# fusion credentials
+FUSION_PASSWORD=abcd1234
+
+# google credentials
+GOOGLE_API_KEY=AIzaSyCrZqLuY4IoOpQwbDPYeiWQwpOvdqMRAlw
 ```
 
-*NOTE: The password you pick and place in this file will be used to create a username/password pair for Fusion. The username will be 'admin' and the password will be whatever you place in this file when you login.*
+*NOTE: The password you pick and place in this file will be used to create a username/password pair for Fusion. The username will be 'admin' and the password will be whatever you place in this file when you login. Also, none of the keys above are valid, so be sure you use your own!*
 
 Next, copy the file to a new file called `secrets.sh`:
 
@@ -111,40 +119,26 @@ Creating firewalls...
 
 Thank you for running me. Here's what I know:
 Fusion UI available in a few minutes at: http://35.230.21.180:8764
-Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor
-API access available in a few minutes at: https://35.230.21.180:8764/api/...
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/editor.html
 API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 ```
 
 Starting the instance takes about 10 minutes. After that, you can click on the `Fusion UI` link and navigate to the Fusion login page.
 
 #### Making the Instance non-Preemtible
-To create an instance which is not preemtible, edit and remove [line 41](https://github.com/lucidworks/streams/blob/master/projects/sockitter/start-sockitter.sh#L41) from the `start-sockitter.sh` file. Keep in mind that the non-preemtible instance is **US$0.38/hour**, which works out to **US$9.12/day**! In comparison, the same preemtible instance is only **US$0.07/hour**.
+To start an instance which is not preemtible, use the `-p` flag:
 
 ```
-...
-gcloud compute instances create fusion-sockitter-$NEW_UUID \
---machine-type "n1-standard-8" \
---image "ubuntu-1604-xenial-v20180405" \
---image-project "ubuntu-os-cloud" \
---boot-disk-size "50" \
---boot-disk-type "pd-ssd" \
---boot-disk-device-name "$NEW_UUID" \
---zone $ZONE \
---labels ready=true \
---tags lucid \
---preemptible \ <--- REMOVE THIS LINE
---metadata-from-file startup-script=server.sh
-...
-```
+./start-sockitter.sh -p
+``` 
 
-### Following Accounts
+### Indexing Accounts
 By default, Sockitter will attempt to pull a full feed of Twitter data. It is *strongly* suggested you add a few accounts to monitor to the application before starting the connector.
 
 To edit and/or start the Twitter connector, navigate to the *Admin UI* link ouput by the startup script. Here's an example:
 
 ```
-Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/editor.html
 ```
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
@@ -154,6 +148,41 @@ To follow a new account, type in the account's screen name in the field before t
 Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
 
 *NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
+
+#### Adding Accounts Programmatically
+To follow accounts programatically, refer to the `samples` directory in the `sockitter` directory. The `add.sh` script shows how to call an endpoint with a Twitter screen name to add it to the list of accounts to index:
+
+```
+#!/bin/bash
+if [ -z "$1" ]; then
+    echo "Please indicate an IP address to use to add screen names!";
+    echo "Example: ./add.sh 104.199.112.115 senate.csv";
+    exit;
+fi
+if [ -z "$2" ]; then
+    echo "Please indicate a CSV file to use to add screen names!";
+    echo "Example: ./add.sh 104.199.112.115 senate.csv";
+    exit;
+fi
+while IFS=, read -r col1 col2
+do
+    curl -X POST "http://$1:8780/sockitter-editor/api/add?ds_name=tweets&screen_name=$col1";
+    sleep 1;
+done < $2
+```
+
+The sample data provide includes a fairly recent list of US senators and representatives. You can add either by calling the script with the IP of the server you started, plus the file containing the screen names you'd like to follow:
+
+```
+./add.sh 104.199.112.115 senate.csv
+```
+
+Once you've added the screen names to the system, you will need to start/restart the connector. Start by navigating to the link the start script gave you, login, and then click on the `Sockitter` app card.
+
+Click on `indexing...datasources` in the menus to the left. Click on the `tweets` datasource and then click on `run` and the `start` button. If the connector is already running, click on the `stop` button, wait, and then click on the `start` button when it reappears.
+
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/connector.png)
+
 
 ## Searching Twitter Data
 Once the connector has received and indexed a few tweets, an SKG based request can be made to query the normal and inverted indexes:
@@ -187,64 +216,7 @@ curl -X POST \
 
 **Sample Output:**
 ```
-{  
-   "data":[  
-      {  
-         "type":"tweet_t",
-         "values":[  
-            {  
-               "name":"broken",
-               "relatedness":0.0,
-               "popularity":1000000.0,
-               "foreground_popularity":1000000.0,
-               "background_popularity":1000000.0,
-               "compare":[  
-                  {  
-                     "type":"tweet_t",
-                     "values":[  
-                        {  
-                           "name":"add",
-                           "relatedness":0.0,
-                           "popularity":1000000.0,
-                           "foreground_popularity":1000000.0,
-                           "background_popularity":1000000.0
-                        },
-                        {  
-                           "name":"broken",
-                           "relatedness":0.0,
-                           "popularity":1000000.0,
-                           "foreground_popularity":1000000.0,
-                           "background_popularity":1000000.0
-                        },
-                        {  
-                           "name":"can\u0027t",
-                           "relatedness":0.0,
-                           "popularity":1000000.0,
-                           "foreground_popularity":1000000.0,
-                           "background_popularity":1000000.0
-                        },
-                        {  
-                           "name":"ccrfwb36qv",
-                           "relatedness":0.0,
-                           "popularity":1000000.0,
-                           "foreground_popularity":1000000.0,
-                           "background_popularity":1000000.0
-                        },
-                        {  
-                           "name":"clickable",
-                           "relatedness":0.0,
-                           "popularity":1000000.0,
-                           "foreground_popularity":1000000.0,
-                           "background_popularity":1000000.0
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
-      }
-   ]
-}
+
 ```
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
