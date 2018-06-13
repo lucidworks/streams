@@ -1,5 +1,7 @@
 # Sockitter for Fusion
-Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter. As Fusion monitors Twitter, searches can be conducted for content similarities between disparate types of Twitter conversations.
+Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds semantic graph capabilities and image indexing to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter through user accounts, tags, text and image content. 
+
+As Fusion monitors Twitter, searches may be conducted for content similarities between disparate types of Twitter conversations.
 
 A white paper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
 
@@ -8,6 +10,7 @@ The Sockitter application demos several Fusion features including:
 - stream based connectors
 - middleware implementation
 - semantic knowledge graphs
+- indexing image meta data
 
 ## Video
 This guide comes with a video covering the setup process and demo. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
