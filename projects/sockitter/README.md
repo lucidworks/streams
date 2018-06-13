@@ -145,9 +145,7 @@ To follow a new account, type in the account's screen name in the field before t
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow.gif)
 
-Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
-
-*NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
+NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
 
 ### Adding Accounts Programmatically
 To follow accounts programatically, refer to the `samples` directory in the `sockitter` directory. The `add.sh` script shows how to call an endpoint with a Twitter screen name to add it to the list of accounts to index:
