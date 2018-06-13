@@ -20,8 +20,6 @@ The demo application may be started from the Google Cloud console with a single 
 ### Google Cloud Setup
 If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. 
 
-*NOTE: This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.*
-
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
@@ -126,6 +124,8 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 Starting the instance takes about 10 minutes. After that, you can click on the `Fusion UI` link and navigate to the Fusion login page.
 
 #### Making the Instance non-Preemtible
+This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is less than $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
+
 To start an instance which is not preemtible, use the `-p` flag:
 
 ```
