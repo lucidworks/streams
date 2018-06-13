@@ -25,7 +25,7 @@ If you do not already have a Google Cloud account, head on over to [https://clou
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell-smaller.gif?raw=true)
+![animation](https://raw.githubusercontent.com/lucidworks/streams/master/assets/images/cloudshell-small.gif)
 
 Once you are in the Google Cloud Console, you can download the startup script from Github by entering the following:
 
@@ -143,7 +143,7 @@ Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-edit
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow3.gif?raw=true)
+![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow.gif?raw=true)
 
 Once you have added the account, it will appear in the *Following* list at the top. To stop indexing an account, click on the `x` next to the account's name.
 
@@ -182,11 +182,13 @@ Once you've added the screen names to the system, you will need to start/restart
 
 Click on `indexing...datasources` in the menus to the left. Click on the `tweets` datasource and then click on `run` and the `start` button. If the connector is already running, click on the `stop` button, wait, and then click on the `start` button when it reappears.
 
-![animation](https://github.com/lucidworks/streams/blob/master/assets/images/connector.png)
+![connector](https://raw.githubusercontent.com/lucidworks/streams/master/assets/images/connector.png)
 
 
 ## Searching Data
 Once the connector has receieved and indexed a few tweets, you can search the data being indexed by navigating to the Fusion UI URL, logging in, and then navigating to the `Query Workbench` view. We've included a few interesting facets for your searches, as well as boosting for newer documents.
+
+![searching](https://raw.githubusercontent.com/lucidworks/streams/master/assets/images/search.png)
 
 ### Search with the SKG API
 The SKG (semantic knowledge graph) plugin can be searched using the `curl` command or by using the `skg-query.py` example in the `samples` directory.
