@@ -59,9 +59,9 @@ $
 ```
 
 #### Create and Edit the Secrets File
-Before you can deploy the instance, you will need to create a file that contains your Twitter and Google Vision credentials. 
+Before you can deploy the instance, you will need to create a file that contains your Twitter and Google Vision credentials, along with a password for Fusion.
 
-These links may be handy for setting those up:
+These links may be handy for setting up your various tokens:
 
 - *[How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/)*
 - *[Google Cloud API Credential Manager](https://console.cloud.google.com/apis/credentials)*
@@ -73,8 +73,7 @@ When you are ready, edit the `secrets-sample.sh` in the `sockitter` directory. A
 $ vi secrets-sample.sh
 ```
 
-Use the values from Twitter, edit the secrets file and create a password for Fusion's login:
-
+**Example:**
 ```
 #!/bin/bash
 
