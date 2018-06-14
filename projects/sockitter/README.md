@@ -1,3 +1,7 @@
+      tweeting up a storm
+    puppets gumming up the works
+        let's sock it to them
+
 # Sockitter for Fusion
 Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds semantic graph capabilities and image indexing to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter through user accounts, tags, text and image content. 
 
@@ -19,7 +23,7 @@ This guide comes with a video covering the setup process and demo. It is suggest
 The demo application may be started from the Google Cloud console with a single command. With a bit of work, it may be re-purposed to run locally or on AWS and other cloud providers.
 
 ### Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. 
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account.
 
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
@@ -130,7 +134,7 @@ To start an instance which is not preemtible, use the `-p` flag:
 
 ```
 ./start-sockitter.sh -p
-``` 
+```
 
 ### Indexing Accounts
 By default, Sockitter will attempt to pull a full feed of Twitter data. It is *strongly* suggested you add a few accounts to monitor to the application before starting the connector.
@@ -192,7 +196,7 @@ Once the connector has receieved and indexed a few tweets, you can search the da
 The SKG (semantic knowledge graph) plugin can be searched using the `curl` command or by using the `skg-query.py` example in the `samples` directory.
 
 The program is called with the server's `IP` and a `search term`. Here, we are searching US congressional accounts for the term `wednesday` to get a list of accounts and related hashtags:
- 
+
 **Command:**
 ```
 $ python skg-query.py 35.233.205.143 "wednesday"
@@ -274,6 +278,6 @@ pulse
 equalpayact
 ```
 
-If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
+If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information.
 
 If you have any questions or comments for the Stream Team (or have found a bug) [please open an issue](https://github.com/lucidworks/streams/issues)!
