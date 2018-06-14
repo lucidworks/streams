@@ -3,7 +3,7 @@
         let's sock it to them
 
 # Sockitter for Fusion
-Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds semantic graph capabilities and image indexing to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter through user accounts, tags, text and image content. 
+Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds semantic graph capabilities and image indexing to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter through user accounts, tags, text and image content.
 
 As Fusion monitors Twitter, searches may be conducted for content similarities between disparate types of Twitter conversations. A white paper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
 
@@ -121,7 +121,7 @@ Creating firewalls...
 
 Thank you for running me. Here's what I know:
 Fusion UI available in a few minutes at: http://35.230.21.180:8764
-Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/editor.html
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/
 API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 ```
 
@@ -142,7 +142,7 @@ By default, Sockitter will attempt to pull a full feed of Twitter data. It is *s
 To edit and/or start the Twitter connector, navigate to the *Admin UI* link ouput by the startup script. Here's an example:
 
 ```
-Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/editor.html
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/
 ```
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
