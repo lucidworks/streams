@@ -73,7 +73,7 @@
   </target>
 
 
-  <target name="install-webapp" depends="generate-webapp">
+  <target name="install-webapp" depends="generate-webapp" description="Deploys webapp to live Fusion (see fusion.properties)">
     <echo>Posting file...</echo>
     <fusion:post endpoint="/apps/${app.name}/webapps" file="conf/webapp.json"/>
     <fusion:put
@@ -82,7 +82,7 @@
         content-type="application/zip"/>
   </target>
 
-  <target name="uninstall-webapp">
+  <target name="uninstall-webapp" description="Uninstalls webapp to live Fusion (see fusion.properties)">
     <fusion:delete endpoint="/apps/${app.name}/webapps/${app.webapp}"/>
   </target>
 
@@ -90,7 +90,7 @@
     <delete endpoint="/apps/${app.name}"/>
   </target>
 
-  <target name="install-connector">
+  <target name="install-connector" description="Installs twitter-stream connector to live Fusion (see fusion.properties)">
     <fusion:put
             endpoint="/blobs/twitter-stream-4.0.2.zip?resourceType=plugin:connector"
             file="conf/lucid.twitter-stream-4.0.2.zip"
