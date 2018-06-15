@@ -22,7 +22,7 @@ if [ -f secrets.sh ]; then
 else
    echo "TODO List"
    echo "1. Edit 'secrets-sample.sh' with your Twitter credentials.";
-   echo "   Example: 'pico secrets-sample.sh'";
+   echo "   Example: 'vi secrets-sample.sh'";
    echo;
    echo "2. Copy the file to 'secrets.sh'.";
    echo "   Example: 'cp secrets-sample.sh secrets.sh'.";
