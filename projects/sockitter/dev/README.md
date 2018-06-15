@@ -1,15 +1,27 @@
-Sockitter
-=========
+        handles for humans
+    fusion webapp middleware
+        twitter by I.D.
 
-Follow and manager twitter handles, analyze tweets, hashtags, and connections.
+Sockitter Dev
+=============
 
+Building and packaging a (Fusion) webapp within a (Fusion) app.
 
 Building
 ========
-`ant` runs the "package-app" target by default
+`ant` runs the `package-app` target by default
 
 The artifact `build/sockitter.zip` is generated.  
- 
+
+Dev Cycle
+=========
+
+The usual developer workflow here is to tinker with the webapp/index.html or FusionGateway.java and quickly re-deploy to a dev instance of Fusion.   This is a handy command-line to quickly re-deploy a fresh build into a live Fusion instance:
+
+```$ ant -Dfusion.password=password123 clean uninstall-webapp install-webapp```
+
+The settings in `fusion.properties` are used, and can be overridden as in the `fusion.password` example here.
+
 Installation
 ============
 

@@ -1,20 +1,20 @@
+      tweeting up a storm
+    puppets gumming up the works
+        let's sock it to them
+
 # Sockitter for Fusion
-
-```
-  tweeting up a storm
-puppets gumming up the works
-  let's sock it to them
 ```
 
-Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter. As Fusion monitors Twitter, searches can be conducted for content similarities between disparate types of Twitter conversations.
+Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds semantic graph capabilities and image indexing to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter through user accounts, tags, text and image content.
 
-A white paper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
+As Fusion monitors Twitter, searches may be conducted for content similarities between disparate types of Twitter conversations. A white paper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
 
 The Sockitter application demos several Fusion features including:
 
 - stream based connectors
 - middleware implementation
 - semantic knowledge graphs
+- indexing image meta data
 
 ## Video
 This guide comes with a video covering the setup process and demo. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
@@ -25,9 +25,7 @@ This guide comes with a video covering the setup process and demo. It is suggest
 The demo application may be started from the Google Cloud console with a single command. With a bit of work, it may be re-purposed to run locally or on AWS and other cloud providers.
 
 ### Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. 
-
-*NOTE: This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.*
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account.
 
 ### Download and Start the Demo
 The demo instance is started by running a script which is checked out from Github using the `git` command, which is run from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
@@ -65,9 +63,9 @@ $
 ```
 
 #### Create and Edit the Secrets File
-Before you can deploy the instance, you will need to create a file that contains your Twitter and Google Vision credentials. 
+Before you can deploy the instance, you will need to create a file that contains your Twitter and Google Vision credentials, along with a password for Fusion.
 
-These links may be handy for setting those up:
+These links may be handy for setting up your various tokens:
 
 - *[How to Create a Twitter Application](http://docs.inboundnow.com/guide/create-twitter-application/)*
 - *[Google Cloud API Credential Manager](https://console.cloud.google.com/apis/credentials)*
@@ -79,8 +77,7 @@ When you are ready, edit the `secrets-sample.sh` in the `sockitter` directory. A
 $ vi secrets-sample.sh
 ```
 
-Use the values from Twitter, edit the secrets file and create a password for Fusion's login:
-
+**Example:**
 ```
 #!/bin/bash
 
@@ -126,18 +123,20 @@ Creating firewalls...
 
 Thank you for running me. Here's what I know:
 Fusion UI available in a few minutes at: http://35.230.21.180:8764
-Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/editor.html
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/
 API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 ```
 
 Starting the instance takes about 10 minutes. After that, you can click on the `Fusion UI` link and navigate to the Fusion login page.
 
 #### Making the Instance non-Preemtible
+This demo will start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is less than $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
+
 To start an instance which is not preemtible, use the `-p` flag:
 
 ```
 ./start-sockitter.sh -p
-``` 
+```
 
 ### Indexing Accounts
 By default, Sockitter will attempt to pull a full feed of Twitter data. It is *strongly* suggested you add a few accounts to monitor to the application before starting the connector.
@@ -145,14 +144,14 @@ By default, Sockitter will attempt to pull a full feed of Twitter data. It is *s
 To edit and/or start the Twitter connector, navigate to the *Admin UI* link ouput by the startup script. Here's an example:
 
 ```
-Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/editor.html
+Admin UI available in a few minutes at: http://35.230.21.180:8780/sockitter-editor/
 ```
 
 To follow a new account, type in the account's screen name in the field before the `Lookup ID` button and then click on the button to look up the account's numeric ID. Click on the `Add ID` button to add the account to the list of accounts to stream into Fusion.
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/follow.gif)
 
-NOTE: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!*
+**NOTE**: "Following" an account from within the Sockitter admin page DOES NOT cause your account to follow the account in question on Twitter. Instead, it simply "watches" or "streams" that account's activity into Fusion, for searching later. Any historic Tweets made by the account, prior to being "followed" by Fusion, will not be included!
 
 ### Adding Accounts Programmatically
 To follow accounts programatically, refer to the `samples` directory in the `sockitter` directory. The `add.sh` script shows how to call an endpoint with a Twitter screen name to add it to the list of accounts to index:
@@ -199,88 +198,58 @@ Once the connector has receieved and indexed a few tweets, you can search the da
 The SKG (semantic knowledge graph) plugin can be searched using the `curl` command or by using the `skg-query.py` example in the `samples` directory.
 
 The program is called with the server's `IP` and a `search term`. Here, we are searching US congressional accounts for the term `wednesday` to get a list of accounts and related hashtags:
- 
+
 **Command:**
 ```
-$ python skg-query.py 35.233.205.143 "wednesday"
+$ python skg-query.py 35.233.205.143 netneutrality
 
--------------------------------------
-relation name: 4everisadiamond
-relation type: tagText_t
--------------------------------------
-netneutrality
-
--------------------------------------
-relation name: aceaoiii
-relation type: tagText_t
--------------------------------------
-china
-macedonia
-burma
-dreamact
-rfk50
-
--------------------------------------
-relation name: all100senators
-relation type: tagText_t
--------------------------------------
-arkansas
-heidihelps
-wv
-hsgac
-wildfires
-
--------------------------------------
-relation name: annh1958
-relation type: tagText_t
--------------------------------------
-500daysofbummer
-trumpkim
-nksummit
-aviation
-aca
-
--------------------------------------
-relation name: anthonybourque
-relation type: tagText_t
--------------------------------------
-goptaxscam
-protectourcare
-equalpayact
-griswoldvct
-scotus
-
--------------------------------------
-relation name: argojournal
-relation type: tagText_t
--------------------------------------
-thankcanada
-anthonybourdian
-nbafinals
-lasvegas
-dubnation
-
--------------------------------------
-relation name: beenewsdaily
-relation type: tagText_t
--------------------------------------
-jerusalem
-primrose
-california
-ne02
-shep
-
--------------------------------------
-relation name: belinha1961
-relation type: tagText_t
--------------------------------------
-keepfamiliestogether
-savetheinternet
-netneutrality
-pulse
-equalpayact
+netneutrality topics
+---------------------------------------
+overrule 0.97218
+cra 0.9711
+haven't 0.96842
+promised 0.96526
+rules 0.96522
+save 0.96367
+fcc 0.96335
+vote 0.95216
+netneutrality 0.9348
+why 0.9285
+for 0.8339
+you 0.82472
+didn’t 0.82378
+our 0.82102
+t.co 0.81233
+https 0.80748
+thi 0.78815
+issue 0.78137
+and 0.76862
+matte 0.76826
+rule 0.76397
+repbrady 0.75416
+repjimcosta 0.73696
+mat 0.72273
+repcartwright 0.71408
+th 0.70024
+to 0.65614
+repgonzalez 0.65139
+the 0.62401
+t 0.61986
+repdavidscott 0.60377
+repmarciafudge 0.58652
+repdwightevans 0.56372
+clyburn 0.54643
+repbeatty 0.54013
+repgenegreen 0.5339
+gnbppnkrnu 0.52719
+repstephmurphy 0.52399
+repschneider 0.52079
+reppaulcook 0.52023
+congressmanruiz 0.51808
+repamata 0.50493
+repjoshg 0.50144
 ```
 
-If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
+If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information.
 
 If you have any questions or comments for the Stream Team (or have found a bug) [please open an issue](https://github.com/lucidworks/streams/issues)!
