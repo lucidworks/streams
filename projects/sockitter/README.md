@@ -25,6 +25,9 @@ This guide comes with a video covering the setup process and demo. It is suggest
 ## Setup
 The demo application may be started from the Google Cloud console with a single command. With a bit of work, it may be re-purposed to run locally or on AWS and other cloud providers.
 
+
+*Note: This deployment is done using a trial license of Fusion, which itself is based off Solr.*
+
 ### Google Cloud Setup
 If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account.
 
