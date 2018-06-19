@@ -8,8 +8,6 @@
 
 Using the [Semantic Knowledge Graph](https://github.com/treygrainger/semantic-knowledge-graph) (SKG) plugin for Solr, this application adds semantic graph capabilities and image indexing to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter through user accounts, tags, text and image content.
 
-*Note: This deployment works within the trial license of Fusion, which itself is based off Solr. Lucidworks is one of the largest commiters to the Solr project.*
-
 As Fusion monitors Twitter, searches may be conducted for content similarities between disparate types of Twitter conversations. A white paper covering the technology behind SKG is located on [arXiv.org](https://arxiv.org/abs/1609.00464). Examples queries showing off SKG's capabilities are [shown below](https://github.com/lucidworks/streams/tree/master/projects/sockitter#searching-twitter-data).
 
 The Sockitter application demos several Fusion features including:
