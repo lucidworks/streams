@@ -20,10 +20,13 @@ The Sockitter application demos several Fusion features including:
 ## Video
 This guide comes with a video covering the setup process and demo. It is suggested you watch the video first, then step through the guide below to install and configure the demo on your own Google Cloud account.
 
-[![VIDEO](https://img.youtube.com/vi/Yl1w5iiBHqA/0.jpg)](https://www.youtube.com/watch?v=Yl1w5iiBHqA)
+[![VIDEO](https://img.youtube.com/vi/WOG4E3-PuCk/0.jpg)](https://www.youtube.com/watch?v=WOG4E3-PuCk)
 
 ## Setup
 The demo application may be started from the Google Cloud console with a single command. With a bit of work, it may be re-purposed to run locally or on AWS and other cloud providers.
+
+
+*Note: This deployment is done using a trial license of Fusion, which itself is based off Solr.*
 
 ### Google Cloud Setup
 If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account.
