@@ -46,7 +46,6 @@ ln -s /fusion/ /root/fusion
 
 # restart
 /fusion/4.0.2/bin/fusion restart
-exit;
 
 # replace line in /fusion/conf/fusion.properties
 sed -i "
