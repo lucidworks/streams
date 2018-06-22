@@ -38,7 +38,7 @@ if [ ! -d "/fusion" ]; then
 #############################
 # if fusion not installed
 #############################
-wget https://download.lucidworks.com/fusion-4.0.2/fusion-4.0.2.tar.gz
+wget https://storage.googleapis.com/streams-fusion/fusion-4.0.2.tar.gz
 tar xvfz fusion-4.0.2.tar.gz
 
 # link up fusion
@@ -46,6 +46,8 @@ ln -s /fusion/ /root/fusion
 
 # restart
 /fusion/4.0.2/bin/fusion restart
+
+exit;
 
 # replace line in /fusion/conf/fusion.properties
 sed -i "
@@ -85,4 +87,6 @@ curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/js
 #############################
 # end if fusion not installed
 #############################
+else
+/fusion/bin/fusion restart
 fi
