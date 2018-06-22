@@ -52,8 +52,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NEW_UUID" \
 --zone $ZONE \
---labels ready=true \
---tags fusion \
+--labels type=fusion \
 $PROD \
 --metadata-from-file startup-script=server.sh
 
