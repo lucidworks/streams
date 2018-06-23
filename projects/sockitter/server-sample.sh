@@ -47,8 +47,6 @@ ln -s /fusion/ /root/fusion
 # restart
 /fusion/4.0.2/bin/fusion restart
 
-exit;
-
 # replace line in /fusion/conf/fusion.properties
 sed -i "
 s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.runtime.lib=true,g;
