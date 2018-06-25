@@ -17,10 +17,11 @@ except:
 
 jsondata = """
 {
-    "queries" : ["%s AND -RT"],
+    "queries" : ["%s"],
     "compare" : [ 
         {
 	    "type": "tweet_t",
+	    #"type": "tagText_t",
             "limit": 100,
             "sort": "relatedness",
             "discover_values": true
@@ -45,5 +46,5 @@ print "%s topics" % query
 print "---------------------------------------"
 
 for y in x['data'][0]['values']:
-	if y['relatedness'] > 0.5:
-		print y['name'], y['relatedness']
+	if y['relatedness'] > -100.0 or True:
+		print "%s,%s" % (y['name'], y['relatedness'])
