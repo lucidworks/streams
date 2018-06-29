@@ -48,7 +48,7 @@ gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --machine-type "n1-standard-4" \
 --image "ubuntu-1604-xenial-v20180612" \
 --image-project "ubuntu-os-cloud" \
---boot-disk-size "50" \
+--boot-disk-size "200" \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NEW_UUID" \
 --zone $ZONE \
@@ -61,6 +61,7 @@ sleep 15
 
 IP=$(gcloud compute instances describe fusion-sockitter-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 gcloud compute firewall-rules create fusion --allow tcp:8764
+gcloud compute firewall-rules create fusion --allow tcp:8763
 gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
 gcloud compute firewall-rules create fusion-webapp --allow tcp:8780
 
