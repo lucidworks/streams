@@ -2,10 +2,11 @@
 
 TYPE=n1-standard-4
 ZONE=us-west1-c
+NAME=fusion-4
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
-gcloud compute instances create fusion-server-4-$NEW_UUID \
+gcloud compute instances create $NAME-$NEW_UUID \
 --machine-type $TYPE \
 --image "ubuntu-1604-xenial-v20180612" \
 --image-project "ubuntu-os-cloud" \
@@ -41,7 +42,7 @@ fi
 '
 
 sleep 15
-IP=$(gcloud compute instances describe fusion-sockitter-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 gcloud compute firewall-rules create fusion --allow tcp:8764
 gcloud compute firewall-rules create fusion --allow tcp:8763
 
