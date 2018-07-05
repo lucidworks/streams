@@ -1,5 +1,5 @@
 from webapp2_extras.routes import RedirectRoute
-from web.handlers import sitehandlers, apphandlers, adminhandlers, userhandlers, emailhandlers, apihandlers
+from web.handlers import sitehandlers, labhandlers, adminhandlers, userhandlers, emailhandlers, apihandlers
 # from web.handlers import foo
 
 secure_scheme = 'https'
@@ -7,7 +7,6 @@ secure_scheme = 'https'
 _routes = [
 	# website
 	RedirectRoute('/', sitehandlers.HomeRequestHandler, name='home', strict_slash=True),
-	RedirectRoute('/labs', sitehandlers.HomeRequestHandler, name='home', strict_slash=True),
 	
 	# users
 	RedirectRoute('/login/', userhandlers.LoginHandler, name='login', strict_slash=True),
@@ -19,8 +18,8 @@ _routes = [
 	RedirectRoute('/status/', userhandlers.StatusHandler, name='account-status', strict_slash=True),
 
 	# apps
-	RedirectRoute('/apps/', apphandlers.AppsIndexHandler, name='apps-index', strict_slash=True),
-	RedirectRoute('/apps/create/', apphandlers.AppsCreateHandler, name='apps-new', strict_slash=True),
+	RedirectRoute('/labs/', labhandlers.AppsIndexHandler, name='labs-index', strict_slash=True),
+	RedirectRoute('/labs/create/', labhandlers.AppsCreateHandler, name='labs-new', strict_slash=True),
 
 	# apis
 	RedirectRoute('/api/v1/status', apihandlers.StatusHandler, name='v1-status', strict_slash=True),
