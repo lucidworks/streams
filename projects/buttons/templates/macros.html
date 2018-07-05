@@ -1,0 +1,47 @@
+<!-- creates a form input field -->
+{% macro input(form, name, label, size, type='text') -%}
+  <div class="{{size|safe}} {% if getattr(form,name).errors %} has-error{% endif %} form-padding" id="{{name}}-field">
+    <label class="control-label" for="{{ name }}">{{ label|safe }}</label>
+    {{ getattr(form,name)(type=type, **kwargs)|safe }}
+  </div>
+{%- endmacro %}
+
+<!-- side menu widget -->
+{% macro side_menu(page, user_id, provider) -%}
+  <ul class="nav nav-pills nav-stacked">
+    {% if user_id %}
+    <li{% if page=="status" %} class="active"{% endif %}><a href="{{ uri_for('account-status') }}">Status</a></li>
+    <li{% if page=="settings" %} class="active"{% endif %}><a href="{{ uri_for('account-settings') }}">Settings</a></li>
+    {% endif %}
+  </ul>
+{%- endmacro %}
+
+<!-- admin side menu widget -->
+{% macro admin_side_menu(page) -%}
+  <ul class="nav nav-pills nav-stacked">
+    <li{% if page=="status" %} class="active"{% endif %}><a href="{{ uri_for('admin') }}">Status</a></li>
+    <li{% if page=="blog" %} class="active"{% endif %}><a href="{{ uri_for('blog-article-list') }}">Blog</a></li>
+    <li{% if page=="users" %} class="active"{% endif %}><a href="{{ uri_for('admin-users') }}">Users</a></li>
+  </ul>
+{%- endmacro %}
+
+<!-- google plus widget -->
+{% macro g_plus_widget(data_url) -%}
+  <div class="g-plusone" 
+    data-href="{{ data_url }}" 
+    data-size="medium" 
+    data-annotation="none">
+  </div>
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); 
+      po.type = 'text/javascript'; 
+      po.async = true; 
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; 
+      s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+{%- endmacro %}
+
+

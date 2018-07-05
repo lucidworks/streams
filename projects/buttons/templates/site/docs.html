@@ -1,0 +1,358 @@
+{% import "macros.html" as macros %}
+{% extends base_layout %}
+
+{% block title %}Docs :: {% endblock %}
+
+{% block page_styles %}
+    <!-- Docs Page -->
+    <link href="/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/docs.css" rel="stylesheet">
+    <link href="/css/documentation.css" rel="stylesheet">
+{% endblock %}
+
+{% block description %}It looks like you've managed to find the Wisdom documentation; things are looking up for you!{% endblock %}
+
+{% block cards %}
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@wisodmapi" />
+    <meta name="twitter:title" content="Wisdom: API Docs" />
+    <meta name="twitter:description" content="Use Wisdom's proxy APIs to add and use third party APIs." />
+    <meta name="twitter:image" content="https://wisdom.sh/img/site/hero.png" />
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="inverse">
+  <div class="container">
+    <div class="row">
+      <h1>Documentation</h1>
+      <p class="blurb">&#8220;The Things which hurt, instruct.&#8221; ― Benjamin Franklin</p>
+    </div>
+  </div>
+</div>
+<div id="docs" class="container">
+  <div class="row">
+    <!--Main Content -->
+    <div class="col-xs-9">
+      <section id="wisdoms-apis" class="group">
+        <h3>Introduction</h3>
+        <p>Wisdom runs a proxy service which adds micropayment invoicing and authentication to any API. Powered by NGINX and Google's cloud infrastructure, requests proxied by Wisdom's service will be capable of carrying identity and payments on invoicing channels powered by the <a href="https://lightning.network/">Lightning Network</a>. Wisdom will support both Bitcoin and Litecoin for invoicing and payments.</p>
+        <p>Wisdom's core features also include providing secure and reliable API user credential storage and content hosting services via the <a href="https://ipfs.io/">IPFS network</a>.</p>
+        <h4>Features</h4>
+        <p>Wisdom's APIs currently support the following features:</p>
+        <ul class="features">
+          <li>Adding new remote (3rd party) API endpoints to the proxy</li>
+          <li>Proxying secure calls to remote API endpoints</li>
+          <li>Providing statistics for calls to those remote APIs</li>
+          <li>Proxying secure calls to the IPFS network (acting as a gateway)</li>
+          <li>Adding new objects to Wisdom's IPFS node <span class="label label-info">Invoiced Feature</span></li>
+          <li>Pinning objects uploaded to the IPFS network <span class="label label-info">Invoiced Feature</span></li>
+          <li>Advertising objects to pin on the IPFS network <span class="label label-info">Invoiced Feature</span></li>
+        </ul>
+        <p>Keep a close eye out for the addition of invoices to the APIs in the near future.</p>
+        <p>Visit our <a href="https://gitter.im/WisdomAPI/Lobby">Gitter</a> if you need any help!</p>
+
+        <div id="service-apis" class="subgroup">
+          <h4>Service APIs</h4>
+          <p>Wisdom's service APIs may or may not require a payment invoice to make a call. Service APIs live under the following URI, which is running TLS:</p> 
+          <h5>https://api.wisdom.sh/api/</h5>
+        </div>
+
+        <div id="service-status" class="subgroup">
+          <h4>Service Status</h4>
+          <p>To get started with our APIs, issue a <span class="label label-success">GET</span> request to <strong>api.wisdom.sh</strong> for the <strong>/api/status</strong> endpoint in your bash terminal. A JSON formatted response giving system status is returned:</p> 
+        
+          <h5>GET /api/status</h5>
+<pre>
+curl https://api.wisdom.sh/api/status
+
+{ 
+ "response": "success", 
+ "message": "Service is up.",
+ "view": "https://wisdom.sh/status",
+ "timestamp": 1506816332079
+} 
+</pre>
+
+        </div>
+
+        <div id="api-add" class="subgroup">
+          <h4>Adding APIs</h4>
+          <p>Wisdom proxies API endpoints which are added to the system by users. To add an API to the system, create a <span class="label label-warning">POST</span> request, including the key values <strong>name</strong>, <strong>upstream_url</strong> and <strong>uri</strong> to map onto the <strong>//api.wisdom.sh/</strong> namespace.</p>
+          <h5>POST /api/</h5>
+        </div>
+<pre>
+curl -X POST \
+  --url https://api.wisdom.sh/api/ \
+  --data 'name=eurorates' \
+  --data 'upstream_url=https://api.fixer.io/latest' \
+  --data 'uris=/eurorates' \
+  | python -m json.tool
+
+{
+    "created_at": 1504898023474,
+    "http_if_terminated": false,
+    "https_only": false,
+    "id": "a8d02990-01e6-4f6a-b5ed-48ad8a542d7f",
+    "name": "eurorates",
+    "preserve_host": false,
+    "retries": 5,
+    "strip_uri": true,
+    "upstream_connect_timeout": 60000,
+    "upstream_read_timeout": 60000,
+    "upstream_send_timeout": 60000,
+    "upstream_url": "https://api.fixer.io/latest",
+    "uris": [
+        "/eurorates"
+    ]
+}
+</pre>
+
+        <div class="bs-callout bs-callout-warning bs-callout-top">
+          <h4>Authentication</h4>
+          <p>Service endpoints on the <strong>/api/</strong> path do not require authentication. However, some endpoints may require invoices depending on demand for a given API resource. Endpoints on paths outside the <strong>/api/</strong> service may require authentication or invoices.</p>
+        </div>
+
+      </section>
+
+      <section id="proxied-apis" class="group">
+        <h3>API Proxy</h3>
+        <p>In addition to its own service endpoints, Wisdom's API proxy includes third party endpoints which have been added to the system. These proxied APIs are accessed using the following URL structure:<p>
+        <h5>https://api.wisdom.sh/&lt;api_name&gt;</h5>
+      </section>
+
+      <section id="calling-proxied-apis" class="group">
+        <h4>Requesting 3rd Party APIs</h4>
+        <p>The example below shows using a <span class="label label-success">GET</span> request to access the <strong>/eurorates</strong> endpoint. The request is proxied by Wisdom which returns the default JSON response from the <strong>/latest</strong> path on the <strong><a href="http://fixer.io/">fixer.io</a></strong> API:</p>
+        
+        <h5>GET //api.wisdom.sh/eurorates</h5>
+<pre>
+curl https://api.wisdom.sh/eurorates | python -m json.tool
+
+{
+    "base": "EUR",
+    "date": "2017-09-08",
+    "rates": {
+        "AUD": 1.4881,
+        "BGN": 1.9558,
+        "BRL": 3.7256,
+        ...
+        "TRY": 4.1191,
+        "USD": 1.206,
+        "ZAR": 15.512
+    }
+}
+</pre>
+
+        <div id="api-details" class="subgroup">
+          <h4>API Details</h4>
+          <p>Use a <span class="label label-success">GET</span> request against the <strong>/api/</strong> service path to request known details about the third party API and the proxy serving it:</p>
+          <h5>GET /api/&lt;api_name&gt;/</h5>
+        </div>
+<pre>
+curl https://api.wisdom.sh/api/eurorates/ | python -m json.tool
+
+{
+    "created_at": 1504898023474,
+    "http_if_terminated": false,
+    "https_only": false,
+    "id": "a8d02990-01e6-4f6a-b5ed-48ad8a542d7f",
+    "name": "eurorates",
+    "preserve_host": false,
+    "retries": 5,
+    "strip_uri": true,
+    "upstream_connect_timeout": 60000,
+    "upstream_read_timeout": 60000,
+    "upstream_send_timeout": 60000,
+    "upstream_url": "https://api.fixer.io/latest",
+    "uris": [
+        "/eurorates"
+    ]
+}
+</pre>
+
+        <div class="bs-callout bs-callout-info bs-callout-top">
+          <h4>Versioning</h4>
+          <p>Versioning of APIs will be addressed in the near future.</p>
+        </div>
+      </section>
+
+      <section id="ipfs-proxy" class="group">
+        <h3>IPFS Proxy</h3>
+        <p>Wisdom runs an SSL'd <a href="https://ipfs.io">IPFS</a> gateway. The IPFS gateway enaables browsing hashed or named objects stored on the IPFS network using an unmodified Web client. Access to the IPFS newtork gate is done via the following URIs:</p>
+        <h5>https://ipfs.wisdom.sh/ipfs|ipns/</h5>
+
+        <div id="gateway-status" class="subgroup">
+          <h4>IPFS Gateway Status</h4>
+          <p>The status of Wisdom's IPFS gateway may be queried using a <span class="label label-success">GET</span> request on the <strong>api.wisdom.sh</strong> hostname:</p>
+          <h5>GET https://api.wisdom.sh/ipfs/status</h5>
+<pre>
+curl https://api.wisdom.sh/ipfs/status
+
+{ 
+ "response": "success", 
+ "message": "Service is up.",
+ "view": "https://wisdom.sh/status",
+ "timestamp": 1506816332079
+}
+</pre>
+        </div>
+
+        <div id="request-objects" class="subgroup">
+          <h4>Requesting IPFS Objects</h4>
+          <p>IPFS objects may be requested from Wisdom's IPFS gateway using a <span class="label label-success">GET</span> request to the <strong>ipfs.wisdom.sh</strong> hostname:</p>
+          <h5>GET https://ipfs.wisdom.sh/ipfs/&lt;hash&gt;/&lt;object&gt;</h5>
+<pre>
+curl https://ipfs.wisdom.sh/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
+
+Hello and Welcome to IPFS!
+
+██╗██████╗ ███████╗███████╗
+██║██╔══██╗██╔════╝██╔════╝
+██║██████╔╝█████╗  ███████╗
+██║██╔═══╝ ██╔══╝  ╚════██║
+██║██║     ██║     ███████║
+╚═╝╚═╝     ╚═╝     ╚══════╝
+
+If you're seeing this, you have successfully installed
+IPFS and are now interfacing with the ipfs merkledag!
+
+ -------------------------------------------------------
+| Warning:                                              |
+|   This is alpha software. Use at your own discretion! |
+|   Much is missing or lacking polish. There are bugs.  |
+|   Not yet secure. Read the security notes for more.   |
+ -------------------------------------------------------
+
+Check out some of the other files in this directory:
+
+  ./about
+  ./help
+  ./quick-start     <-- usage examples
+  ./readme          <-- this file
+  ./security-notes
+</pre>
+
+        </div>
+
+        <div id="adding-objects" class="subgroup">
+          <h4>Adding IPFS Objects <span class="label label-info">Invoiced Feature</span></h4>
+          <p>IPFS objects may be added to Wisdom's IPFS node by using a <span class="label label-warning">POST</span> request to the <strong>/ipfs/</strong> endpoint on the <strong>api.wisdom.sh</strong> hostname:</p> 
+          <h5>POST https://api.wisdom.sh/ipfs/</h5>
+<pre>
+curl -X POST \
+  --url https://api.wisdom.sh/ipfs/ \
+  --data <filename>
+  | python -m json.tool
+
+{
+    "created_at": 1504898023474,
+    "http_if_terminated": false,
+    "https_only": false,
+    "id": "a8d02990-01e6-4f6a-b5ed-48ad8a542d7f",
+    "name": "eurorates",
+    "preserve_host": false,
+    "retries": 5,
+    "strip_uri": true,
+    "upstream_connect_timeout": 60000,
+    "upstream_read_timeout": 60000,
+    "upstream_send_timeout": 60000,
+    "upstream_url": "https://api.fixer.io/latest",
+    "uris": [
+        "/eurorates"
+    ]
+}
+</pre>
+        </div>
+
+        <div id="pinning-objects" class="subgroup">
+          <h4>Pinning IPFS Objects <span class="label label-info">Invoiced Feature</span></h4>
+          <p>IPFS objects on the IPFS network may be pinned to Wisdom's IPFS nodes. To request an object be pinned by Wisdom's nodes, create a new payment invoice by doing a <span class="label label-warning">POST</span> request to the <strong>/ipfs/pin</strong> endpoint on the <strong>api.wisdom.sh</strong> hostname:</p>
+          <h5>POST https://api.wisdom.sh/ipfs/pin</h5>
+<pre>
+curl -X POST \
+  --hash xxxxxx  \
+  --data <filename>
+  | python -m json.tool
+
+{
+    "created_at": 1504898023474,
+    "http_if_terminated": false,
+    "https_only": false,
+    "id": "a8d02990-01e6-4f6a-b5ed-48ad8a542d7f",
+}
+        </div>
+
+        <div id="advertising-objects" class="subgroup">
+          <h4>Advertising IPFS Objects <span class="label label-info">Invoiced Feature</span></h4>
+          <p>IPFS objects on the IPFS network may be advertised to be pinned by other IPFS nodes. To advertise an object to be pinned, create a new advertisment by doing a <span class="label label-warning">POST</span> request to the <strong>/ipfs/advertise</strong> endpoint on the <strong>api.wisdom.sh</strong> hostname:</p>
+          <h5>POST https://api.wisdom.sh/ipfs/advertise</h5>
+<pre>
+curl -X POST \
+  --hash xxxxxx  \
+  --data <filename>
+  | python -m json.tool
+
+{
+    "created_at": 1504898023474,
+    "http_if_terminated": false,
+    "https_only": false,
+    "id": "a8d02990-01e6-4f6a-b5ed-48ad8a542d7f",
+}
+        </div>
+
+      </section>
+
+    </div>
+    
+
+    <!--Nav Bar -->
+    <nav class="col-xs-3 bs-docs-sidebar">
+      <ul id="sidebar" class="nav nav-stacked" data-spy="affix" data-offset-top="120">
+        <li>
+          <a href="#wisdoms-apis">Wisdom's APIs</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#service-apis">Service APIs</a></li>
+            <li><a href="#service-status">Service Status</a></li>
+            <li><a href="#api-add">Adding APIs</a></li>
+          </ul>
+        </li> 
+        <li>
+          <a href="#proxied-apis">API Proxy</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#calling-proxied-apis">Reqeusting APIs</a></li>
+            <li><a href="#api-details">API Details</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#ipfs-proxy">IPFS Proxy</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#gateway-status">Gateway Status</a></li>
+            <li><a href="#request-objects">Requesting Objects</a></li>
+            <li><a href="#adding-objects">Adding Objects</a></li>
+            <li><a href="#pinning-objects">Pinning Objects</a></li>
+            <li><a href="#advertising-objects">Advertising Objects</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>  
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript">
+    $().ready(function() {
+      // scrollspy
+      $('body').scrollspy({
+        target: '.bs-docs-sidebar',
+        offset: 40
+      });
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends base_layout %}
+
+{% block header_title %}
+        {% trans %}Apps{% endtrans %}
+{% endblock %}
+
+{% block extra_nav %}{{ macros.nav_menu('apps', user_id) }}{% endblock %}
+
+{% block header_title_lead %}
+    <h1>Public Apps</h1>
+    <p class="lead">
+    	The following apps are shared by TinyProbe users and can be forked and installed into your account if you <a href="{{ uri_for('preregister') }}">have one</a>.
+    </p>
+{% endblock %}
+
+{% block content %}
+    <div id="cards">
+      {% for item in apps %}
+        <div id="app-{{ item.key.id() }}" class="card">
+          <div class="front">
+            <img src="{{ item.thumb_url }}">
+            <h3><span class="app_name">{{ item.name|bleach }}</h3>
+            <p class="app_author">by <a href="http://github.com/{{ item.github_author }}">@{{ item.github_author }}</a></p>
+            <p class="app_desc">{{ item.description|bleach }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endblock %}
+
+{% block mediaJS %}
+<script type="text/javascript" src="/js/libs/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="/js/libs/bootstrap-tooltip.js"></script>
+<script type="text/javascript">
+    $().ready(function() {
+        var csrf_token = "{{ csrf_token() }}";
+
+        // tooltips
+        $('.btn').tooltip();
+
+        // isotope
+        var $container = $('#cards');
+        $container.isotope({
+            itemSelector: '.card',
+            layoutMode: 'cellsByRow',
+            getSortData : {
+                name : function ( $elem ) {
+                    var name = $elem.find('.tool_name').text();
+                    return name;
+                }
+            },
+            sortBy : 'name',
+            cellsByRow : { columnWidth : 280 }
+        });
+
+        // nav to app detail
+        $('.card').click(function(e){
+            gist_id = this.id.split("-").pop();
+            window.location = '/apps/'+gist_id;
+            return false;
+        });
+    });
+</script>
+{% endblock %}
+

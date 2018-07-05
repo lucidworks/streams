@@ -1,0 +1,41 @@
+{% extends base_layout %}
+
+{% block title %}
+  Error - 
+{% endblock %}
+
+{% block page_styles %}
+    <link href="/css/error.css" rel="stylesheet">
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet'>
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+  <div class="splash-container">
+    <h1>That's a 404 there partner.</h1>
+    <div class="splash-message">
+      <p>Something has gone slightly or horribly wrong.  Slathering noises ensue.  You have died.</p>
+      <button id="get-started" class="btn btn-lg btn-success">Respawn</button>
+    </div>
+  </div>
+  <div id='map'></div>
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript">
+    $().ready(function() {
+      // login button
+      $('#nav-login').on('click', function(e) { window.location = "/login" });
+      $('#get-started').on('click', function(e) { window.location = "/" });
+      var themap = L.mapbox.map('map', 'xovio.h1o6ii64', {scrollWheelZoom: false, zoomControl: false}).setView([20, 20], 3);
+      setInterval(function(){themap.panBy([-1, 0]);},3000);
+    })
+  </script>
+{% endblock %}
+
+{% block extras %}
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+{% endblock %}

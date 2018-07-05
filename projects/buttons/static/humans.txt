@@ -1,0 +1,16 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+/* TEAM */
+  Developer: Kord Campbell
+  Site: https://wisdom.sh/
+  Twitter: @kordless
+  Location: Moraga, CA
+
+/* THANKS */
+  Who: Buddha's Butt
+
+/* SITE */
+  Standards: Standards suck.
+  Components: AppEngine, Kubernetes
+  Software: 
