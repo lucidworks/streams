@@ -57,9 +57,9 @@ handlers:
   static_files: static/\1
   upload: static/(robots\.txt|humans\.txt|crossdomain\.xml|sitemap\.xml)
 
-- url: /img/(.*\.(gif|png|jpg))
+- url: /img/(.*\.(gif|png|jpg|svg))
   static_files: static/img/\1
-  upload: static/img/(.*\.(gif|png|jpg))
+  upload: static/img/(.*\.(gif|png|jpg|svg))
 
 - url: /sounds
   mime_type: application/octet-stream
