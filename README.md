@@ -10,7 +10,7 @@ The following streamable projects may be launched for demonstration purposes on 
 
 - [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter.
 
-## Stream Seeds
+### Stream Seeds
 The following gists cover various use cases for Fusion using a base cloud template. Seeds do provide video guides or application zips and require manual configuration of Fusion to achieve resulsts.
 
 - [Indexing XKCD with Lucidwork's Fusion and Google Image API](https://gist.github.com/kordless/f63a6ec9a5bfde81b811d439282ef2d2)
