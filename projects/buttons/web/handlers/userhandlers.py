@@ -87,11 +87,11 @@ class CallbackLoginHandler(BaseHandler):
 		# get the destination URL from the next parameter
 		next = self.request.get('next')
 
-		print "here"
 		# retrieve the access token using the code and auth
 		try:
 				access_token = github_helper.get_access_token(code)
 				user_data = github.get_user_info(access_token)
+				print user_data
 		except:
 				message = 'Error while tokening with Github.'
 				self.add_message(message, 'error')
