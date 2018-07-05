@@ -203,55 +203,30 @@ The SKG (semantic knowledge graph) plugin can be searched using the `curl` comma
 
 The program is called with the server's `IP` and a `search term`. Here, we are searching US congressional accounts for the term `wednesday` to get a list of accounts and related hashtags:
 
-**Command:**
+**Sample Output:**
 ```
-$ python skg-query.py 35.233.205.143 netneutrality
-
-netneutrality topics
+$ python skg-query.py 35.233.205.143 summer
+ 
+summer topics
 ---------------------------------------
-overrule 0.97218
-cra 0.9711
-haven't 0.96842
-promised 0.96526
-rules 0.96522
-save 0.96367
-fcc 0.96335
-vote 0.95216
-netneutrality 0.9348
-why 0.9285
-for 0.8339
-you 0.82472
-didn’t 0.82378
-our 0.82102
-t.co 0.81233
-https 0.80748
-thi 0.78815
-issue 0.78137
-and 0.76862
-matte 0.76826
-rule 0.76397
-repbrady 0.75416
-repjimcosta 0.73696
-mat 0.72273
-repcartwright 0.71408
-th 0.70024
-to 0.65614
-repgonzalez 0.65139
-the 0.62401
-t 0.61986
-repdavidscott 0.60377
-repmarciafudge 0.58652
-repdwightevans 0.56372
-clyburn 0.54643
-repbeatty 0.54013
-repgenegreen 0.5339
-gnbppnkrnu 0.52719
-repstephmurphy 0.52399
-repschneider 0.52079
-reppaulcook 0.52023
-congressmanruiz 0.51808
-repamata 0.50493
-repjoshg 0.50144
+summer 0.95067
+vincent 0.80314
+maricopadems 0.69245
+blend 0.69239
+blends 0.64285
+activism 0.59652
+vacation 0.58812
+buys 0.52076
+prices 0.50527
+gas 0.49476
+bedminster 0.48286
+tents 0.42633
+gasoline 0.41779
+heat 0.38312
+interns 0.36353
+supply 0.3534
+competed 0.30752
+target 0.30733
 ```
 
 If you find this demo useful to you or your company's search processes, please star this repo and [contact Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information.
