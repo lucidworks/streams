@@ -12,10 +12,9 @@ gcloud compute instances create dev-crawler-$NEW_UUID \
 --zone us-central1-b \
 --labels ready=true \
 --tags lucid \
---preemptible \
 --metadata startup-script='#! /bin/bash
 sudo su -
-
+sudo mkdir /huge/
 apt-get update -y
 apt-get install unzip -y
 apt-get install python-setuptools -y
@@ -29,5 +28,5 @@ gcloud compute instances attach-disk dev-crawler-$NEW_UUID --disk crawler-data -
 IP=$(gcloud compute instances describe dev-crawler-$NEW_UUID --zone us-central1-b  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 echo "Server started with $IP. Use the SSH button to login."
-echo "Run `sudo mount /dev/sdb1 /huge/` and then `cd /huge/bots/` to get started..."
+echo "Run 'sudo mount /dev/sdb1 /huge/' and then 'cd /huge/bots/' to get started..."
 echo "API access available in a few minutes at: https://$IP:8764/lucidlabs/api/..." 

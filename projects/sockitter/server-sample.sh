@@ -38,7 +38,7 @@ if [ ! -d "/fusion" ]; then
 #############################
 # if fusion not installed
 #############################
-wget https://storage.googleapis.com/streams-fusion/fusion-4.0.2.tar.gz
+wget -nv https://storage.googleapis.com/streams-fusion/fusion-4.0.2.tar.gz
 tar xvfz fusion-4.0.2.tar.gz
 
 # link up fusion
@@ -85,4 +85,6 @@ curl http://localhost:8983/solr/sockitter/config -H 'Content-type:application/js
 #############################
 # end if fusion not installed
 #############################
+else
+/fusion/bin/fusion restart
 fi

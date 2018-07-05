@@ -46,26 +46,27 @@ s,%GOOGLE_API_KEY%,$GOOGLE_API_KEY,g;
 
 gcloud compute instances create fusion-sockitter-$NEW_UUID \
 --machine-type "n1-standard-4" \
---image "ubuntu-1604-xenial-v20180522" \
+--image "ubuntu-1604-xenial-v20180612" \
 --image-project "ubuntu-os-cloud" \
---boot-disk-size "50" \
+--boot-disk-size "200" \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NEW_UUID" \
 --zone $ZONE \
---labels ready=true \
---tags lucid \
+--labels type=fusion \
+--tags fusion \
 $PROD \
 --metadata-from-file startup-script=server.sh
 
 sleep 15
 
 IP=$(gcloud compute instances describe fusion-sockitter-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+gcloud compute firewall-rules create fusion --allow tcp:8764
 gcloud compute firewall-rules create fusion --allow tcp:8763
 gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
 gcloud compute firewall-rules create fusion-webapp --allow tcp:8780
 
 echo "Thank you for running me. Here's what I know:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
-echo "Admin UI available in a few minutes at: http://$IP:8780/sockitter-editor/editor.html"
+echo "Admin UI available in a few minutes at: http://$IP:8780/sockitter-editor/"
 echo "API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html"
 
