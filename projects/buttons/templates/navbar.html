@@ -12,16 +12,34 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand navbar-logo" href="/"><img src="/img/header_logo_labs_1x.png"></a>
+              <a class="navbar-brand navbar-logo" href="/labs/"><img src="/img/header_logo_labs_1x.png"></a>
             </div>
             <div class="navbar-collapse collapse navbar-right">
               <ul class="nav navbar-nav">
-                <li><a class='active' href='/instances/'>Instances</a></li>
-                <li><a href='/apps/'>Apps</a></li>
-                <li><a href='https://github.com/lucidworks/streams/'>Streams</a></li>
-
+                <li><a href='/instances/'>Instances</a></li>
+                <li><a class='active' href='/streams/'>Streams</a></li>
+                {% if user_id %}
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="//{{ gravatar_url }}" class="img-circle img-responsive" alt="Author Image" class="img-circle"/>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-header">Account</li>
+                    <li><a href="{{ uri_for('account-status') }}">Status</a></li>
+                    <li><a href="{{ uri_for('account-settings') }}">Settings</a></li>
+                    {% if admin %}
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Pool Actions</li>
+                    <li><a href="{{ uri_for('admin') }}">Admin</a></li>
+                    <li><a target="_blank" href="{{ admin_interface_url }}">AppEngine</a></li>
+                    {% endif %}
+                    <li class="divider"></li>
+                    <li><a href="{{ uri_for('logout') }}">Logout</a></li>
+                  </ul>
+                </li>
+                {% elif path != "/login" %}
                 <li><button id="nav-login" class="btn btn-info" >Sign In</button></li>
-                
+                {% endif %}
               </ul>
             </div>
           </div>
