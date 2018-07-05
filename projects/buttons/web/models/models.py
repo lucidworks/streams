@@ -71,12 +71,6 @@ class App(ndb.Model):
 		return articles
 
 	@classmethod
-	def get_blog_posts(cls, num_articles=1, offset=0):
-		article_query = cls.query().filter(cls.article_type == 'post', cls.draft == False).order(-cls.created)
-		articles = article_query.fetch(limit=num_articles)
-		return articles
-
-	@classmethod
 	def get_by_user(cls, user):
 		article_query = cls.query().filter(cls.owner == user).order(-Article.created)
 		articles = article_query.fetch()

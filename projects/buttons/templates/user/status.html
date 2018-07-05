@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
@@ -26,7 +27,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="bs-callout bs-callout-info bs-callout-top">
-                  <h4>Welcome to Wisdom!</h4>
+                  <h4>Welcome to Lucidworks Labs!</h4>
                   <p>{% if not twofactor_enabled %}Please begin by turning on <strong>Two Factor Authentication</strong> and setting up your <strong>Account Information</strong> by clicking on the <span class="label label-danger">Review Settings</span> button below.{% endif %}</p>
                 </div>
                 <p>At this time this page is a holder. You may want to <a href="https://wisdom.sh/docs">check out the API</a>.</p>
@@ -44,6 +45,11 @@
     </div>
   </div> 
 </div>
+<br/><br/> <!--take this crap out-->
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
 {% endblock %}
 
 {% block javascript %}

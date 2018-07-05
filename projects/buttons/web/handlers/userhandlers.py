@@ -87,6 +87,7 @@ class CallbackLoginHandler(BaseHandler):
 		# get the destination URL from the next parameter
 		next = self.request.get('next')
 
+		print "here"
 		# retrieve the access token using the code and auth
 		try:
 				access_token = github_helper.get_access_token(code)
@@ -94,16 +95,16 @@ class CallbackLoginHandler(BaseHandler):
 		except:
 				message = 'Error while tokening with Github.'
 				self.add_message(message, 'error')
-				return self.redirect_to('blog')
+				return self.redirect_to('labs-index')
 
 		# see if user is in database
 		uid = str(user_data['id']) # github id
 		user_info = User.get_by_uid(uid)
 
 		# less than ideal way to handle excessive 2FA requests
-		if not user_info.activated:
-			self.add_message("This account has been deactivated due to excessive 2FA requests. Please contact us to resolve.", "error")
-			return self.redirect_to('about')
+		#if not user_info.activated:
+		#	self.add_message("This account has been deactivated due to excessive 2FA requests. Please contact us to resolve.", "error")
+		#	return self.redirect_to('about')
 
 		# never seen them, so create user
 		if not user_info:
