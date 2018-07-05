@@ -1,0 +1,59 @@
+{% extends base_layout %}
+
+<!-- Set Title -->
+{% block title %}
+    Create App - 
+{% endblock %}
+
+{% block extra_nav %}{{ macros.nav_menu('', user_id) }}{% endblock %}
+
+
+{% block header_title_lead %}
+    <h1><a href="{{ uri_for("apps") }}">Apps</a> / New App</h1>
+    <p class="lead">
+        Create a new app below.  Choose a name and a URL of an existing <a href="http://gist.github.com/">gist on Github</a>.
+    </p>
+{% endblock %}
+
+{% block content %}
+    <form id="form_register" action="{{ url|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            {{ macros.input(form, "appname", _("App Name"), placeholder=_("Fine Young App"), class="input-xlarge focused required", type="appname") }}
+            {{ macros.input(form, "appurl", _("App URL"), placeholder=_("https://gist.github.com/3778020"), class="input-xlarge focused required", type="appurl") }}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-inverse btn-large">{% trans %}Create App{% endtrans %}</button>
+            </div>
+        </fieldset>
+    </form>
+    <script type="text/javascript" language="JavaScript">
+    $(window).load(function(){
+        $("#email").focus();
+    });
+    </script>
+{% endblock %}
+
+{% block mediaJS %}
+<script type="text/javascript">
+    $().ready(function() {
+        $("#form_register").validate({
+            submitHandler: function(form) {
+                    form.submit();
+            },
+            rules: {
+                password: 'required',
+                c_password: {
+                    required: true,
+                    equalTo: '#password'
+                }
+            },
+            errorPlacement: function(error, element) {
+                element.parent().parent().addClass("error");
+                error.addClass("help-inline").appendTo( element.parent() );
+            }
+        });
+    });
+</script>
+{% endblock %}
+

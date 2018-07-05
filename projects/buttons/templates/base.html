@@ -1,0 +1,135 @@
+{% import "macros.html" as macros %}
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" lang="{{ locale_language_id }}"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow"/>
+    <title>{% if isdev %}DEV :: {% endif %}{% block title %}{% endblock %}{{ app_name }}</title>
+
+    <!-- Standard Fare -->
+    <meta name="description" content="{{app_description}}">
+    <meta name="generator" content="Google AppEngine/Webapp2">
+
+    {% block cards %}
+    <!-- Twitter Cards -->
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Labs | Lucidworks" />
+    <meta property="og:description" content="{{app_description}}" />
+    <meta property="og:url" content="https://lucidworks.com/labs" />
+    <meta property="og:site_name" content="Lucidworks" />
+    <meta property="og:image" content="/img/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:description" content="Code, tools, and snippets to amplify and extend your Lucidworks Fusion applications."/>
+    <meta name="twitter:title" content="Labs | Lucidworks"/>
+    <meta name="twitter:image" content="/img/twitter-image.jpg"/>
+    {% endblock %}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/jquery.min.js"><\/script>')</script>
+
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('require', 'displayfeatures');ga('create', '{{ google_analytics_code }}', '{{ app_domain }}');ga('send', 'pageview');
+    </script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootflat CSS -->
+    <link href="/css/bootflat.css" rel="stylesheet">
+
+    <!-- Alert Styles -->
+    <link rel="stylesheet" href="/css/alertify-core.css" />
+    <link rel="stylesheet" href="/css/alertify-default.css" />
+    <link rel="stylesheet" href="/css/alertify-bootstrap.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/font-awesome.css">
+
+    <!-- Page Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+
+    {% block page_styles %}
+    {% endblock %}
+
+    <!-- Favicons -->
+    <link href="/favicon.ico" rel="shortcut icon">
+
+    {% if is_mobile %}
+    <!-- Mobile Handling -->
+    <link rel="apple-touch-icon" href="img/ico/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/ico/apple-touch-icon-72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/ico/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/ico/apple-touch-icon-144.png">
+    {% endif %}
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+
+    {% block navbar %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+    {% endblock %}
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- JavaScript Libraries -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/alertify.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+
+    <!-- Base Javascript -->
+    <script type="text/javascript">
+      $().ready(function() {
+        console.log("base online");
+        // login button
+        $('#nav-login').on('click', function(e) { 
+          window.location = "{{ uri_for('account-status') }}" 
+        });
+      
+        {% if messages|safe %}
+          {% for message in messages %}
+            alertify.log("{{ message[0] }}", "{{ message[1] }}");
+          {% endfor %}
+        {% endif %}
+
+      });
+    </script>
+
+    {% block javascript %}
+    {% endblock %}
+
+    {% block extras %}
+    {% endblock %}
+    
+  </body>
+</html>
