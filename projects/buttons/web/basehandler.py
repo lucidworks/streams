@@ -38,7 +38,7 @@ def user_required(handler):
 			# avoid AttributeError when the session was deleted from the server
 			logging.error(e)
 			self.auth.unset_session()
-			self.redirect_to('home')
+			self.redirect_to('labs-index')
 
 	return check_login
 
@@ -52,7 +52,7 @@ def admin_required(handler):
 		if user_info.admin:
 			return handler(self, *args, **kwargs)
 		else:
-			return self.redirect_to('home')
+			return self.redirect_to('labs-index')
 
 	return check_login
 
