@@ -52,7 +52,9 @@ class LoginHandler(BaseHandler):
 		
 		except Exception as ex:
 			print "oh noes: %s" % ex
+
 			# add error notice for user TODO
+			self.auth.unset_session()
 			self.redirect("/")
 
 
