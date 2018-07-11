@@ -250,13 +250,14 @@ class BaseHandler(webapp2.RequestHandler):
 	@webapp2.cached_property
 	def is_admin(self):
 		if self.user:
-			# load user
-			user_info = models.User.get_by_id(long(self.user_id))
-			
-			if user_info.admin:
-				return True
-		else:
-			return False
+			try:
+				# load user
+				user_info = models.User.get_by_id(long(self.user_id))
+				return bool(user_info.admin)
+			except AttributeError, e:
+				# logging.error(e)
+				self.auth.unset_session()
+				self.redirect_to('home')
 
 	@webapp2.cached_property
 	def twofactor_enabled(self):
