@@ -305,15 +305,19 @@ class BaseHandler(webapp2.RequestHandler):
 		if self.user:
 			try:
 				user_info = models.User.get_by_id(long(self.user_id))
-
-				# build gravatar URL
-				gravatar_hash = md5.new(user_info.email.lower().strip()).hexdigest()
-				gravatar_url = "www.gravatar.com/avatar/%s?s=24" % gravatar_hash
-				return gravatar_url
+				if not user_info:
+					self.auth.unset_session()
+					self.redirect_to('labs-index')
+				else:	
+					# build gravatar URL
+					gravatar_hash = md5.new(user_info.email.lower().strip()).hexdigest()
+					gravatar_url = "www.gravatar.com/avatar/%s?s=24" % gravatar_hash
+					return gravatar_url
 
 			except AttributeError, e:
 				logging.error(e)
-				self.redirect_to('home')
+				self.redirect_to('labs-index')
+
 		return None
 
 	@webapp2.cached_property
