@@ -33,7 +33,7 @@ gcloud compute instances create button-$SID-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NEW_UUID" \
 --zone $ZONE \
---labels type=fusion,sid=lou \
+--labels type=button,sid=$SID,iid=$IID \
 --tags fusion \
 $PROD \
 --metadata-from-file startup-script=bin/start-button.sh
