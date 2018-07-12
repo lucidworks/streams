@@ -25,11 +25,15 @@ echo "IID: $IID"
 # etc....
 # }
 
-STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz"}'
+STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tar.gz"}'
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 
-wget -nv https://storage.cloud.google.com/buttons-streams/$DISTRO
+gsutil cp gs://buttons-streams/$DISTRO .
 tar xvfz $DISTRO
+
+chmod +x buttons-start.sh # TODO: this will be made executable in the build
+./buttons-start.sh
+
 
 
 # apt-get update -y
