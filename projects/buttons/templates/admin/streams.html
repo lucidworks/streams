@@ -31,6 +31,7 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
+                      <th>Stream ID</th>
                       <th>Name</th>
                       <th>Description</th>
                       <th>Fusion Version</th>
@@ -41,6 +42,7 @@
                   <tbody>
                     {% for stream in streams %}
                     <tr>
+                      <td>{{ stream.sid }}</td>
                       <td>{{ stream.name }}</td>
                       <td>{{ stream.description }}</td>
                       <td>{{ stream.fusion_version }}</td>

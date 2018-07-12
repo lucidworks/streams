@@ -58,15 +58,15 @@ class StatusHandler(BaseHandler):
 		self.response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
 		return
 
-# /api/stream/<sid>
-class StreamHandler(BaseHandler):
+# /api/instance/<iid>
+class InstanceHandler(BaseHandler):
 	# disable csrf check in basehandler
 	csrf_exempt = True
 
-	def get(self, sid):
+	def get(self, iid):
 		return
 
-	def post(self, path=None):
+	def post(self):
 		# response, type, cross posting:
 		params = {}
 		self.response.headers['Content-Type'] = "application/json"
