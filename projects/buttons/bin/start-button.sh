@@ -2,10 +2,13 @@
 
 # ... Galvanize
 
-# Call to get metadata/tags from instance
-# curl ....
-
 sudo su -
+
+# `jq` is in the "main universe"
+echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
+sudo apt-get update
+apt-get install jq -y
+
 
 # hostname convention: button-<stream id>-<instance id>
 SID=`hostname | cut -d '-' -f 2`
@@ -13,6 +16,21 @@ IID=`hostname | cut -d '-' -f 3`
 
 echo "SID: $SID"
 echo "IID: $IID"
+
+# Look up details for stream $SID, say `lou`
+# curl https://streams.lucidworks.com/api/instance/y4xt
+# {'id': 'y4xt',
+# 'fusion_version': '7.4',
+# 'repo': 'https://github.com/lucidworks/streams/projects/sockitter/dev',
+# etc....
+# }
+
+STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz"}'
+DISTRO=(echo $STREAM_JSON | jq -r .distro)
+
+wget -nv https://storage.cloud.google.com/buttons-streams/$DISTRO
+tar xvfz $DISTRO
+
 
 # apt-get update -y
 # sudo add-apt-repository ppa:webupd8team/java -y
@@ -39,6 +57,7 @@ IP=$(wget -qO- http://ipecho.net/plain)
 # #############################
 # # if fusion not installed
 # #############################
+# https://storage.cloud.google.com/buttons-streams/fusion-4.0.2.tar.gz
 # wget -nv https://storage.googleapis.com/streams-fusion/fusion-4.0.2.tar.gz
 # tar xvfz fusion-4.0.2.tar.gz
 #
