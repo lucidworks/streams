@@ -18,20 +18,18 @@ else
    echo "Starting a production version of button $SID..."
 fi
 
-NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+IID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west1-c
 
 SID=lou
 
-# --labels webserver=backend,media=images
-
-gcloud compute instances create button-$SID-$NEW_UUID \
+gcloud compute instances create button-$SID-$IID \
 --machine-type "n1-standard-4" \
 --image "ubuntu-1604-xenial-v20180627" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "200" \
 --boot-disk-type "pd-ssd" \
---boot-disk-device-name "$NEW_UUID" \
+--boot-disk-device-name "$IID" \
 --zone $ZONE \
 --labels type=button,sid=$SID,iid=$IID \
 --tags fusion \
@@ -40,7 +38,7 @@ $PROD \
 
 sleep 15
 
-IP=$(gcloud compute instances describe button-$SID-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+IP=$(gcloud compute instances describe button-$SID-$IID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 gcloud compute firewall-rules create fusion --allow tcp:8764
 gcloud compute firewall-rules create fusion --allow tcp:8763
 gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
