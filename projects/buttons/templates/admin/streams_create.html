@@ -22,6 +22,7 @@
     <form id="form_add_stream" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            {{ macros.input(form, "sid", _("Stream Slug"), placeholder=_("streambeam"), class="input-xlarge focused required") }}
             {{ macros.input(form, "name", _("Name"), placeholder=_("Stream Beam"), class="input-xlarge focused required") }}
             {{ macros.input(form, "description", _("Description"), placeholder=_("Live streaming from a fish."), class="input-xlong focused required") }}
             {{ macros.input(form, "zipurl", _("Application Zip URL"), placeholder=_("https://googlebucket.com/blah/blah"), class="input-xlarge focused") }}

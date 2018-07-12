@@ -54,7 +54,7 @@ class StreamsCreateHandler(BaseHandler):
         user_info = User.get_by_id(long(self.user_id))
         
         # load values out of the form, including whether the gist should be public or not
-        sid = 'fx78' # fix this
+        sid = self.form.sid.data.strip()
         name = self.form.name.data.strip()
         description = self.form.description.data.strip()
         zipurl = self.form.zipurl.data.strip()
@@ -63,6 +63,7 @@ class StreamsCreateHandler(BaseHandler):
 
         # save the stream          
         stream = Stream(
+        	sid = sid,
             name = name,
             description = description,
    			zipurl = zipurl,
