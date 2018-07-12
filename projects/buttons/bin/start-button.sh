@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# ... Galvanize
+
+ID=....
+
 sudo su -
 apt-get update -y
 sudo add-apt-repository ppa:webupd8team/java -y
@@ -14,6 +19,7 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 apt-get install unzip -y
 apt-get install maven -y
 apt-get install ant -y
+# apt-get install jq -y  ??
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
