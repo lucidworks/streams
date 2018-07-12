@@ -26,7 +26,7 @@ echo "IID: $IID"
 # }
 
 STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz"}'
-DISTRO=(echo $STREAM_JSON | jq -r .distro)
+DISTRO=`echo $STREAM_JSON | jq -r .distro`
 
 wget -nv https://storage.cloud.google.com/buttons-streams/$DISTRO
 tar xvfz $DISTRO
