@@ -11,22 +11,12 @@ class BaseForm(Form):
         super(BaseForm, self).__init__(request_handler.request.POST)
 
 
-class LoginForm(BaseForm):
-    password = fields.TextField('Password', [validators.Required(), validators.Length(max=50)], id='l_password')
-    username = fields.TextField('Username', [validators.Required(), validators.Length(max=50)], id='l_username')
-
-
-class BlogArticleForm(BaseForm):
-    title = fields.TextField('Article_Title', [validators.Required(), validators.Length(max=50)], id='title')
-    summary = fields.TextField('Article_Summary', [validators.Required(), validators.Length(max=140)], id='summary')
-    filename = fields.TextField('Article_Filename', [validators.Required(), validators.Length(max=140)], id='filename')
-    article_type = fields.SelectField('Article Type', [validators.Required()], id='type', choices=[('post', 'Blog Post'), ('page', 'Page Content'), ('partial', 'Partial Content')])   
-
-
-class AboutForm(BaseForm):
-    email = fields.TextField('Email', [validators.Required(), validators.Length(max=100), validators.regexp(utils.EMAIL_REGEXP, message='Invalid email address.')])
-    name = fields.TextField('Name', [validators.Required(), validators.Length(max=50)])
-    message = fields.TextAreaField('Message', [validators.Required(), validators.Length(max=2048)])
+class StreamForm(BaseForm):
+    name = fields.TextField('Name', [validators.Required(), validators.Length(max=50)], id='name')
+    description = fields.TextField('Description', [validators.Required(), validators.Length(max=140)], id='description')
+    zipurl = fields.TextField('Zip URL', [validators.Required(), validators.Length(max=140)], id='zipurl')
+    fusion_version = fields.SelectField('Fusion Version', [validators.Required()], id='version', choices=[('fusion_4.0.2', 'Fusion 4.0.2'), ('fusion_4.1', 'Fusion 4.1')])   
+    github_repo = fields.TextField('Github Repo', [validators.Required(), validators.Length(max=140)], id='github_repo')
 
 
 class EditProfileForm(BaseForm):

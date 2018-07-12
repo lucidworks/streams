@@ -53,40 +53,27 @@ class User(User):
 
 
 # blog posts and pages
-class App(ndb.Model):
+class Stream(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
-	owner = ndb.KeyProperty(kind=User)
-	title = ndb.StringProperty()
-	summary = ndb.StringProperty()
-	filename = ndb.StringProperty()
-	slug = ndb.StringProperty()
-	article_type = ndb.StringProperty()
-	draft = ndb.BooleanProperty(default=True)
-	
+	sid = ndb.StringProperty()
+	name = ndb.StringProperty()
+	description = ndb.StringProperty()
+	zipurl = ndb.StringProperty()
+	fusion_version = ndb.StringProperty()
+	github_repo = ndb.StringProperty()
+
 	@classmethod
 	def get_all(cls):
-		article_query = cls.query().filter().order(-cls.created)
-		articles = article_query.fetch()
-		return articles
+		query = cls.query().filter().order(-cls.created)
+		streams = query.fetch()
+		return streams
 
 	@classmethod
-	def get_by_user(cls, user):
-		article_query = cls.query().filter(cls.owner == user).order(-Article.created)
-		articles = article_query.fetch()
-		return articles
-
-	@classmethod
-	def get_by_type(cls, article_type):
-		article_query = cls.query().filter(cls.article_type == article_type).order(-Article.created)
-		articles = article_query.fetch()
-		return articles
-
-	@classmethod
-	def get_by_slug(cls, slug):
-		article_query = cls.query().filter(cls.slug == slug)
-		article = article_query.get()
-		return article
+	def get_by_id(cls, sid):
+		query = cls.query().filter(cls.sid == sid).order(-Article.created)
+		streams = article_query.fetch()
+		return streams
 
 
 # log tracking pings

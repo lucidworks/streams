@@ -23,7 +23,7 @@ from web.basehandler import BaseHandler
 
 from web.models.models import LogTracking
 
-# http://0.0.0.0/api/status
+# /api/status
 class StatusHandler(BaseHandler):
 	# disable csrf check in basehandler
 	csrf_exempt = True
@@ -58,22 +58,20 @@ class StatusHandler(BaseHandler):
 		self.response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
 		return
 
-# http://0.0.0.0/api/
-class AddHandler(BaseHandler):
+# /api/stream/<sid>
+class StreamHandler(BaseHandler):
 	# disable csrf check in basehandler
 	csrf_exempt = True
 
+	def get(self, sid):
+		return
+
 	def post(self, path=None):
-		# response, type, cross posting
+		# response, type, cross posting:
 		params = {}
 		self.response.headers['Content-Type'] = "application/json"
 		self.response.headers['Access-Control-Allow-Origin'] = '*'
 
-		# extract the parameters
-
-		# call the kong API to add
-
-		# return the kong response
 
 	def options(self):
 		self.response.headers['Access-Control-Allow-Origin'] = '*'
