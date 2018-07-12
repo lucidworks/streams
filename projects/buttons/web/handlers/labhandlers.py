@@ -36,7 +36,7 @@ from lib.markdown import markdown
 class AppsIndexHandler(BaseHandler):
     def get(self):
         params = {}
-        return self.render_template('app/index.html', **params)
+        return self.render_template('stream/index.html', **params)
 
 class AppsServeContentHandler(BaseHandler):
     # look up our app
