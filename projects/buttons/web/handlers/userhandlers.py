@@ -73,7 +73,7 @@ class LogoutHandler(BaseHandler):
 			self.add_message(message, 'info')
 
 		self.auth.unset_session()
-		self.redirect_to('home')
+		self.redirect_to('labs-index')
 
 
 # google auth callback
