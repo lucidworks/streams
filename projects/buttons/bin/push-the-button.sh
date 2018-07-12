@@ -27,7 +27,7 @@ SID=lou
 
 gcloud compute instances create button-$SID-$NEW_UUID \
 --machine-type "n1-standard-4" \
---image "ubuntu-1604-xenial-v20180612" \
+--image "ubuntu-1604-xenial-v20180627" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "200" \
 --boot-disk-type "pd-ssd" \
