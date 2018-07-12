@@ -31,8 +31,9 @@ _routes = [
 
 	# admin
 	RedirectRoute('/admin/', adminhandlers.AdminHandler, name='admin', strict_slash=True),
-	RedirectRoute('/admin/users/', adminhandlers.UsersHandler, name='admin-users', strict_slash=True),
+	RedirectRoute('/admin/streams/', adminhandlers.StreamsHandler, name='admin-streams', strict_slash=True),
 	RedirectRoute('/admin/users/export/', adminhandlers.UsersExportHandler, name='admin-users-export', strict_slash=True),
+	RedirectRoute('/admin/streams/create/', adminhandlers.StreamsCreateHandler, name='admin-streams-create', strict_slash=True)
 ]
 
 def get_routes():
