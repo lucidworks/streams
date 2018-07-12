@@ -70,7 +70,7 @@ class Stream(ndb.Model):
 		return streams
 
 	@classmethod
-	def get_by_id(cls, sid):
+	def get_by_sid(cls, sid):
 		query = cls.query().filter(cls.sid == sid).order(-Article.created)
 		streams = article_query.fetch()
 		return streams
