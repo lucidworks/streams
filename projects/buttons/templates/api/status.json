@@ -1,0 +1,6 @@
+{ 
+ "response": "{{ response }}", 
+ "message": "{{ message }}",
+ "view": "https://wisdom.sh/status",
+ "timestamp": {{ timestamp }}
+}

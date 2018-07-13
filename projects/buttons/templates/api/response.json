@@ -1,0 +1,6 @@
+{ 
+ "response": "{{ response }}", 
+ "message": "{{ message }}",
+ "timestamp": "{{ timestamp }}"
+}
+

@@ -1,0 +1,54 @@
+{% import "macros.html" as macros %}
+{% extends base_layout %}
+
+{% block title %}Admin :: {% endblock %}
+
+{% block page_styles %}
+  <link href="/css/configure.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
+
+<div class="container content">
+  <div class="row">
+    <div class="col-md-2">
+    {{ macros.admin_side_menu("status") }}
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-header">
+            <h2><small>Admin Status</small></h2>
+            <div class="row">
+              <div class="col-md-12">
+                <p>All systems nominal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/js/jquery.qrcode.js"></script>
+<script type="text/javascript" src="/js/qrcode.js"></script>
+<script type="text/javascript" src="/js/toggles.js"></script>
+
+<script type="text/javascript">
+  $().ready(function() {
+    // standard stuff
+    var username = "{{username}}";
+    var csrf_token = "{{ csrf_token() }}";
+  });
+</script>
+
+{% endblock %}

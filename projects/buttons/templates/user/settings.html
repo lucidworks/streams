@@ -1,0 +1,241 @@
+{% import "macros.html" as macros %}
+{% extends base_layout %}
+
+{% block title %}Settings :: {% endblock %}
+
+{% block page_styles %}
+  <link href="/css/configure.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+{% if not tfenabled %}
+<!-- hidden tfactor enable modal -->
+<div id="two-factor-auth-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Enable Two Factor Authentication</h4>
+      </div>
+      <div class="modal-body">
+        <p>You need to scan this QRCode with the Google Authenticator app.  If you don't have Google Authenticator, you can install the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank">Android</a> or <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iPhone</a> version on your phone.</p>
+        <div class="text-center" id="qrcode"></div>
+        <p class="text-center"><strong>{{ secret }}</strong></p>
+        <p>Once you've added the secret to your Authenticator app, enter the displayed verification code in the field below to confirm setting up two factor authentication on {{ app_name }}.</p>
+        <div class="row">
+          <div class="col-md-5 form-padding" id="authcode-form">
+            <label class="control-label" for="authcode">Auth Code</label>
+            <input length=20 class="form-control" id="authcode" name="authcode" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="two-factor-auth-close-button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="two-factor-auth-confirm-button" class="btn btn-danger">Confirm Code</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
+{% else %}
+<!-- hidden tfactor disable modal -->
+<div id="two-factor-auth-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Disable Two Factor Authentication</h4>
+      </div>
+      <div class="modal-body">
+        <p>Disabling two factor authentication is not recommended.  If you are insistent on this action, please enter an authentication code below and click the disable button to continue.</p>
+        <div class="row">
+          <div class="col-md-5 form-padding" id="authcode-form">
+            <label class="control-label" for="authcode">Auth Code</label>
+            <input length=20 class="form-control" id="authcode" name="authcode" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="two-factor-auth-close-button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="two-factor-auth-confirm-button" class="btn btn-danger">Disable Two Factor Auth</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
+{% endif %}
+<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
+<div class="container content">
+  <div class="row">
+    <div class="col-md-2">
+    {{ macros.side_menu("settings", user_id, provider) }}
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-header">
+            <h2><small>Account Settings</small></h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            {{ macros.input(form, "username", "Username", placeholder="your username", class="form-control focused required") }}
+            {{ macros.input(form, "name", "Name", placeholder="your name", class="form-control") }}
+            {{ macros.input(form, "email", "Email", placeholder="email address", class="form-control") }}
+            {{ macros.input(form, "company", "Company", placeholder="company name", class="form-control") }}
+            {{ macros.input(form, "timezone", "Timezone", class="form-control pulldown") }}
+            {{ macros.input(form, "country", "Country", class="form-control pulldown") }}
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success">Save Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-header">
+            <h2><small>Two Factor Authentication</small></h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          {% if tfenabled %}
+            <p>Two factor authentication is enabled.</p>
+            <div class="toggle-modern">
+              <div id="two-factor-auth-slider" class="toggle enabled"></div>
+            </div>
+          {% else %}
+            <p>You need to enable two factor authentication!</p>
+            <div class="toggle-modern">
+              <div id="two-factor-auth-slider" class="toggle"></div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--take this crap out-->
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/js/jquery.qrcode.js"></script>
+<script type="text/javascript" src="/js/qrcode.js"></script>
+<script type="text/javascript" src="/js/toggles.js"></script>
+<script type="text/javascript">
+  $().ready(function() {
+    // standard stuff
+    var username = "{{username}}";
+    var csrf_token = "{{ csrf_token() }}";
+
+    // gravatar update link
+    $("label[for='email'").append("&nbsp;<small>+ <a href='https://gravatar.com/' target='_blank'>Gravatar Image</a></small>");
+    
+    // two factor auth slider
+    $('#two-factor-auth-slider').toggles({
+      ontext:'ON',
+      offtext:'OFF',
+      on: $('#two-factor-auth-slider').hasClass('enabled')
+    });
+
+    {% if not tfenabled %}
+      // create the qr code
+      $("#qrcode").qrcode({text: "{{ qrcode }}"});
+
+      // show the modal when slider is toggled to off
+      $('#two-factor-auth-slider').on('toggle', function (e, active) {
+        if (active) {
+          $('#two-factor-auth-modal').modal();
+        }
+      });
+
+      // set focus on input when modal is done showing up
+      $('#two-factor-auth-modal').on('shown.bs.modal', function () {
+        $('#authcode').focus();
+      });
+
+      // toggle slider off (by clicking however) when modal is dismissed
+      $('#two-factor-auth-modal').on('hidden.bs.modal', function () {
+        $('#two-factor-auth-slider').click();
+      });
+      
+      // when confirm button is clicked make ajax call to enable tfa on server
+      $('#two-factor-auth-confirm-button').click( function() {
+        $.ajax({
+          url: '/settings/tfa?authcode='+$('#authcode').val()+'&action=enable',
+          type: 'GET',
+          success: function() {
+            // reload the page
+            $('#authcode').val('');
+            location.reload();
+          },
+          error: function() {
+            // code failed, clear value and alert
+            $('#authcode').val('');
+            $('#authcode-form').addClass('has-error');
+            alertify.log("Authentication code failure. Try again.", "error");
+          }
+        });
+      });
+    {% else %}
+      // show the modal when slider is toggled to on
+      $('#two-factor-auth-slider').on('toggle', function (e, active) {
+        if (!active) {
+          $('#two-factor-auth-modal').modal();
+        }
+      });
+
+      // set focus on input when modal is done showing up
+      $('#two-factor-auth-modal').on('shown.bs.modal', function () {
+        $('#authcode').focus();
+      });
+
+      // toggle slider back on (by clicking however) when modal is dismissed
+      $('#two-factor-auth-modal').on('hidden.bs.modal', function () {
+        $('#two-factor-auth-slider').click();
+      });
+
+      // when disable button is clicked make ajax call to disable tfa on server
+      $('#two-factor-auth-confirm-button').click( function() {
+        $.ajax({
+          url: '/settings/tfa?authcode='+$('#authcode').val()+'&action=disable',
+          type: 'GET',
+          success: function() {
+            // reload the page
+            $('#authcode').val('');
+            location.reload();
+          },
+          error: function() {
+            // code failed, clear value and alert
+            $('#authcode').val('');
+            $('#authcode-form').addClass('has-error');
+            alertify.log("Authentication code failure. Try again.", "error");
+          }
+        });
+      });
+    {% endif %}
+    
+    // handle hitting enter on code input
+    $('#authcode').keypress(function (e) {
+      if (e.which == 13) {
+        $('#two-factor-auth-confirm-button').click();
+      }
+    });
+  });
+</script>
+
+{% endblock %}
+

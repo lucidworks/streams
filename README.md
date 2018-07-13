@@ -3,13 +3,17 @@ This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repos
 
 You can view Streams episodes over on [Lucidwork's YouTube Channel](https://www.youtube.com/user/LucidWorksSearch).
 
-## List of Projects
-The following streamable projects may be launched for demonstration purposes on Google Cloud Compute and/or modified to run on other cloud platforms:
+## Stream Projects
+The following streamable projects may be launched for demonstration purposes on Google Cloud Compute and/or modified to run on other cloud platforms. These projects typically include a video guide and accompanying Fusion application.
 
 - [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
 
 - [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter.
 
+### Stream Seeds
+The following gists cover various use cases for Fusion using a base cloud template. Seeds do NOT provide video guides or application zips and require manual configuration of Fusion to achieve results.
+
+- [Indexing XKCD with Lucidwork's Fusion and Google Image API](https://gist.github.com/kordless/f63a6ec9a5bfde81b811d439282ef2d2)
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 

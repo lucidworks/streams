@@ -1,0 +1,115 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+env_variables:
+  # Replace with your Firebase project ID.
+  FIREBASE_PROJECT_ID: '<PROJECT_ID>'
+
+# In production, uncomment line below.
+default_expiration: "30d"
+
+#inbound_services:
+#- warmup
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?tests$
+- ^(.*/)?test$
+- ^Makefile
+- ^COPYING.LESSER
+- ^README.rdoc
+- \.gitignore
+- ^\.git/.*
+- \.*\.lint$
+
+builtins:
+- appstats: on #/_ah/stats/
+- remote_api: on #/_ah/remote_api/
+
+inbound_services:
+- warmup
+- channel_presence
+
+handlers:
+- url: /favicon\.ico
+  mime_type: image/vnd.microsoft.icon
+  static_files: static/favicon.ico
+  upload: static/favicon.ico
+
+- url: /apple-touch-icon\.png
+  static_files: static/apple-touch-icon.png
+  upload: static/apple-touch-icon.png
+
+- url: /apple-touch-icon-precomposed\.png
+  static_files: static/apple-touch-icon-precomposed.png
+  upload: static/apple-touch-icon-precomposed.png
+
+- url: /(robots\.txt|humans\.txt|crossdomain\.xml|sitemap\.xml)
+  static_files: static/\1
+  upload: static/(robots\.txt|humans\.txt|crossdomain\.xml|sitemap\.xml)
+
+- url: /img/(.*\.(gif|png|jpg|svg))
+  static_files: static/img/\1
+  upload: static/img/(.*\.(gif|png|jpg|svg))
+
+- url: /sounds
+  mime_type: application/octet-stream
+  static_dir: static/sounds
+
+- url: /css
+  mime_type: text/css
+  static_dir: static/css
+
+- url: /js
+  mime_type: text/javascript
+  static_dir: static/js
+
+- url: /fonts
+  mime_type: application/octet-stream
+  static_dir: static/fonts
+
+- url: /assets
+  mime_type: text/plain
+  static_dir: static/assets
+
+- url: /.*
+  script: main.app
+  secure: always
+
+- url: /tasks/instances/
+  script: main.app
+  login: admin
+
+- url: /tasks/sendinvite/
+  script: main.app
+  login: admin
+
+libraries:
+- name: jinja2
+  version: "2.6"
+- name: webapp2
+  version: "2.5.1"
+- name: markupsafe
+  version: "0.15"
+- name: pycrypto
+  version: "2.3"
+
+error_handlers:
+  # Only errors with error_code, don't put a default error here
+  - error_code: over_quota
+    file: templates/errors/over_quota.html
+
+  - error_code: dos_api_denial
+    file: templates/errors/dos_api_denial.html
+
+  - error_code: timeout
+    file: templates/errors/timeout.html

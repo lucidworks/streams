@@ -1,0 +1,58 @@
+{% import "macros.html" as macros %}
+{% extends base_layout %}
+
+{% block page_styles %}
+    <!-- Instance Styles -->
+    <link href="/css/instance.css" rel="stylesheet">
+{% endblock %}
+
+{% block description %}Code, tools, and snippets to amplify and extend your Lucidworks Fusion applications.{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
+<div class="container">
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer.html' %}
+{% endblock %}
+
+<!--what are you looking at?-->
+{% block javascript %}
+  <script type="text/javascript">
+    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+
+    if(isOpera) $('.browser-name').text("Opera");
+    else if(isFirefox){
+       $('.browser-name').text("FireFox");
+       $('.fa-chrome').addClass('fa-firefox').removeClass("fa-chrome");
+    }
+    else {
+      $('.browser-name').text("Chrome");
+    $('.browser-name').addClass("active");
+    }
+
+    $(document).ready( function(e){
+      $('.bg-img-1').show();
+      
+      // buttons
+      $('#hero-login-button').on('click', function(e) { 
+        window.location = "/login"; 
+      });
+      $('#ready-login-button').on('click', function(e) { 
+        window.location = "/login"; 
+      });
+      $('#hero-docs-button').on('click', function(e) { 
+        window.location = "/docs/#api-add"; 
+      });
+
+    });
+  </script>
+{% endblock %}
