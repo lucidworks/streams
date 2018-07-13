@@ -12,9 +12,19 @@ echo "IID: $IID"
 
 sudo su -
 
+# First some Java...
+add-apt-repository ppa:webupd8team/java -y
+echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+
+
+apt-get update -y
+apt-get install oracle-java8-installer -y
+apt install oracle-java8-set-default -y
+echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+
 # `jq` is in the "main universe"
 echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
-sudo apt-get update -y
 apt-get install jq -y
 apt-get install unzip -y
 
@@ -43,15 +53,6 @@ cd $SID
 tar xvfz $DISTRO
 ./buttons-start.sh
 
-# sudo add-apt-repository ppa:webupd8team/java -y
-# echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-# echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-# apt-get update -y
-#
-# sudo apt-get install oracle-java8-installer -y
-# sudo apt install oracle-java8-set-default -y
-#
-# echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 #
 # apt-get install unzip -y
 # apt-get install maven -y
