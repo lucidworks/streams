@@ -21,7 +21,9 @@ fi
 IID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west1-c
 
-SID=lou
+# TODO: SID will come from launcher
+SID=rules
+# SID=lou
 
 gcloud compute instances create button-$SID-$IID \
 --machine-type "n1-standard-4" \
@@ -43,6 +45,7 @@ gcloud compute firewall-rules create fusion --allow tcp:8764
 gcloud compute firewall-rules create fusion --allow tcp:8763
 gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
 gcloud compute firewall-rules create fusion-webapp --allow tcp:8780
+gcloud compute firewall-rules create fusion-webapp --allow tcp:9999
 
 echo "Button $SID pressed and launched:"
 echo "Fusion UI available in a few minutes at: http://$IP:8764"
