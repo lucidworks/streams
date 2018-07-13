@@ -22,6 +22,19 @@ from lib import utils, httpagentparser
 from web.basehandler import BaseHandler
 from web.basehandler import user_required
 
+# index lives at /labs on streams.lucidworks.com
+class IndexHandler(BaseHandler):
+    def get(self):
+        params = {}
+        return self.render_template('site/index.html', **params)
+
+# home redirects / to lucidworks.com/labs (thanks marketing) 
+class HomeRequestHandler(BaseHandler):
+	def get(self):
+		params = {}
+		return self.redirect('https://lucidworks.com/labs')
+
+
 class SendEmailHandler(BaseHandler):
 	# disable csrf check in basehandler
 	csrf_exempt = True
@@ -69,7 +82,3 @@ class DocsHandler(BaseHandler):
 		return self.render_template('site/docs.html', **params)
 
 
-class HomeRequestHandler(BaseHandler):
-	def get(self):
-		params = {}
-		return self.redirect('https://lucidworks.com/labs')

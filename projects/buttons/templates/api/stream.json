@@ -1,1 +1,10 @@
-stream.json
+{ 
+  "created": "{{ created }}",
+  "updated": "{{ updated }}",
+  "sid": "{{ sid }}",
+  "name": "{{ name }}",
+  "description": "{{ description }}",
+  "zipurl": "{{ zipurl }}",
+  "fusion_version": "{{ fusion_version }}",
+  "github_repo": "{{ github_repo }}"
+}
