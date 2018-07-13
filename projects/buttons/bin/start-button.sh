@@ -56,7 +56,7 @@ if [ ! -d "/fusion" ]; then
 
 gsutil cp gs://buttons-streams/fusion-4.0.2.tar.gz .
 
-tar xvfz fusion-4.0.2.tar.gz
+tar xfz fusion-4.0.2.tar.gz
 
 # link up fusion
 ln -s /fusion/ /root/fusion
@@ -67,7 +67,7 @@ s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.r
 " /fusion/conf/fusion.properties
 
 # restart
-/fusion/bin/fusion restart
+/fusion/4.0.2/bin/fusion restart
 
 # set the password
 curl -X POST -H 'Content-type: application/json' -d '{"password":"$ADMIN_PASSWORD"}' http://localhost:8764/api
@@ -87,7 +87,7 @@ mkdir $SID
 gsutil cp gs://buttons-streams/$DISTRO $SID/
 
 cd $SID
-tar xvfz $DISTRO
+tar xfz $DISTRO
 ./buttons-start.sh
 
 echo "$SID has been Galvanized"
