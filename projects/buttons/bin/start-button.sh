@@ -43,6 +43,8 @@ STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
+FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
+FUSION_API_BASE=http://localhost:8764/api
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
@@ -70,12 +72,12 @@ s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.r
 /fusion/4.0.2/bin/fusion restart
 
 # set the password
-curl -X POST -H 'Content-type: application/json' -d '{"password":"$ADMIN_PASSWORD"}' http://localhost:8764/api
+curl -X POST -H 'Content-type: application/json' -d '{"password":"password123"}' http://localhost:8764/api
 
 # #############################
 # # end if fusion not installed
 # #############################
-# else
+else
 /fusion/bin/fusion restart
 fi
 
