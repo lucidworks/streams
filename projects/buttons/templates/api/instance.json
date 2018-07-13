@@ -1,0 +1,8 @@
+{ 
+  "created": "{{ created }}",
+  "updated": "{{ updated }}",
+  "iid": "{{ iid }}",
+  "name": "{{ name }}",
+  "running": "{{ running}}"
+}
+
