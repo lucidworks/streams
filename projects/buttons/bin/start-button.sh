@@ -90,6 +90,6 @@ gsutil cp gs://buttons-streams/$DISTRO $SID/
 
 cd $SID
 tar xfz $DISTRO
-export $FUSION_API_BASE; export FUSION_API_CREDENTIALS; ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; ./buttons-start.sh
 
 echo "$SID has been Galvanized"
