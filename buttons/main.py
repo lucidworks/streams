@@ -37,7 +37,7 @@ def start():
         	]
     }]
 
-    operation = compute.instances().insert(project='wisdom-172109', zone='us-west1-b', body=config).execute()
+    operation = compute.instances().insert(project='labs-209320', zone='us-west1-b', body=config).execute()
 
     return template('start')
 
