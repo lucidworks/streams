@@ -27,6 +27,8 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
 apt-get install jq -y
 apt-get install unzip -y
+# apt-get install maven -y
+# apt-get install ant -y
 
 # Look up details for stream $SID, say "lou"
 # curl https://streams.lucidworks.com/api/stream/lou
@@ -42,21 +44,6 @@ STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
 
-##
-#    stream/app-specific handling
-##
-mkdir $SID
-
-gsutil cp gs://buttons-streams/$DISTRO $SID/
-
-cd $SID
-tar xvfz $DISTRO
-./buttons-start.sh
-
-#
-# apt-get install maven -y
-# apt-get install ant -y
-
 IP=$(wget -qO- http://ipecho.net/plain)
 
 cd /; git clone https://github.com/lucidworks/streams
@@ -67,7 +54,8 @@ if [ ! -d "/fusion" ]; then
 # # if fusion not installed
 # #############################
 
-wget -nv https://storage.cloud.google.com/buttons-streams/fusion-4.0.2.tar.gz
+gsutil cp gs://buttons-streams/fusion-4.0.2.tar.gz .
+
 tar xvfz fusion-4.0.2.tar.gz
 
 # link up fusion
@@ -79,7 +67,7 @@ s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.r
 " /fusion/conf/fusion.properties
 
 # restart
-/fusion/4.0.2/bin/fusion restart
+/fusion/bin/fusion restart
 
 # set the password
 curl -X POST -H 'Content-type: application/json' -d '{"password":"$ADMIN_PASSWORD"}' http://localhost:8764/api
@@ -90,5 +78,16 @@ curl -X POST -H 'Content-type: application/json' -d '{"password":"$ADMIN_PASSWOR
 # else
 /fusion/bin/fusion restart
 fi
+
+##
+#    stream/app-specific handling
+##
+mkdir $SID
+
+gsutil cp gs://buttons-streams/$DISTRO $SID/
+
+cd $SID
+tar xvfz $DISTRO
+./buttons-start.sh
 
 echo "$SID has been Galvanized"
