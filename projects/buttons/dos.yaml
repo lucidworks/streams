@@ -1,0 +1,3 @@
+blacklist:
+- subnet: 173.173.173.173
+  description: Bad Actor

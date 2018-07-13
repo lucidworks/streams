@@ -1,0 +1,58 @@
+{% import "macros.html" as macros %}
+{% extends base_layout %}
+
+{% block title %}Settings :: {% endblock %}
+
+{% block page_styles %}
+  <link href="/css/configure.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container content">
+  <div class="row">
+    <div class="col-md-2">
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="/login/">Sign In</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-header">
+            <h2><small>Two Factor Authentication Required</small></h2>
+            <p>This account has two factor authentication enabled.  Use your Google Authenticator application and enter the authentication code to continue.</p>
+          </div>
+          <div class="col-md-5 form-padding">
+            <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
+              <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+              <label class="control-label" for="authcode">Auth Code</label>
+              <input length=20 class="form-control" id="authcode" name="authcode" type="text">
+              <div class="form-actions">
+                <button type="submit" id="login-tfa" class="btn btn-danger">Authenticate</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $().ready(function() {
+    // standard stuff
+    var username = "{{username}}";
+    var csrf_token = "{{ csrf_token() }}";
+
+    // set focus to authcode field
+    $("#authcode").focus();
+  });
+</script>
+{% endblock %}
+

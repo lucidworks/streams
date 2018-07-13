@@ -1,0 +1,86 @@
+/* ERROR STYLES
+-------------------------------------------------- */
+
+body {
+  color: #5a5a5a;
+}
+.container {
+  width: 98% !important;
+  margin-left: 14px;
+  padding-right: 30px;
+}
+/* the almighty map */
+#map {
+  position:absolute; 
+  top:0; 
+  bottom:0; 
+  width:100%;
+  z-index: -1;
+  opacity:0.8;
+  filter:alpha(opacity=80);
+}
+
+/* navbar positioning */
+.navbar-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+/* flip around the padding for proper display in narrow viewports */
+.navbar-wrapper .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.navbar-wrapper .navbar {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 4px;
+}
+.navbar-inverse .navbar-toggle {
+  margin-top: 12px;
+}
+
+/* responsive crap */
+@media (min-width: 768px) {
+  .navbar-wrapper {
+    margin-top: 20px;
+  }
+  .navbar-wrapper .container {
+    padding-left:  15px;
+    padding-right: 15px;
+  }
+  .navbar-wrapper .navbar {
+    padding-left:  0;
+    padding-right: 0;
+  }
+}
+
+/* page overlay */
+.splash-container {
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 30%;
+  width: 60%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(30, 30, 30, 0.5);
+  padding: 20px 60px 40px 60px;
+}
+.splash-container h1 {
+  color: white;
+  margin-bottom: 0px;
+}
+.splash-message {
+  padding-top: 12px;
+  color: white;
+}
+.splash-instructions a:link {
+  color: white;
+  text-decoration: underline;
+}
