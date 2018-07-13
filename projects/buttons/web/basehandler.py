@@ -38,7 +38,7 @@ def user_required(handler):
 			# avoid AttributeError when the session was deleted from the server
 			logging.error(e)
 			self.auth.unset_session()
-			self.redirect_to('labs-index')
+			self.redirect_to('index')
 
 	return check_login
 
@@ -52,7 +52,7 @@ def admin_required(handler):
 		if user_info.admin:
 			return handler(self, *args, **kwargs)
 		else:
-			return self.redirect_to('labs-index')
+			return self.redirect_to('index')
 
 	return check_login
 
@@ -63,13 +63,6 @@ def generate_csrf_token():
 	return session['_csrf_token']
 
 # jinja2 custom filters
-def bleach_clean(value):
-	return bleach.clean(value, config.bleach_tags, config.bleach_attributes)
-
-def appliance_update(value):
-	appliance_time = int(value.strftime("%s"))
-	return utils.pretty_date(appliance_time)
-
 def epoch(value):
 	return int(value.strftime("%s"))
 
@@ -80,8 +73,6 @@ def jinja2_factory(app):
 	j = jinja2.Jinja2(app)
 	j.environment.filters.update({
 		# Set filters.
-		'bleach': bleach_clean,
-		'appliance_update': appliance_update,
 		'epoch': epoch,
 		'base64encode': base64encode,
 	})
@@ -305,9 +296,9 @@ class BaseHandler(webapp2.RequestHandler):
 		if self.user:
 			try:
 				user_info = models.User.get_by_id(long(self.user_id))
-				if not user_info:
+				if not user_info: # this is hackish - TODO
 					self.auth.unset_session()
-					self.redirect_to('labs-index')
+					self.redirect_to('index')
 				else:	
 					# build gravatar URL
 					gravatar_hash = md5.new(user_info.email.lower().strip()).hexdigest()
@@ -316,7 +307,7 @@ class BaseHandler(webapp2.RequestHandler):
 
 			except AttributeError, e:
 				logging.error(e)
-				self.redirect_to('labs-index')
+				self.redirect_to('index')
 
 		return None
 

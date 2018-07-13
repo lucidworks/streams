@@ -1,0 +1,78 @@
+{% import "macros.html" as macros %}
+{% extends base_layout %}
+
+{% block title %}Streams Admin :: {% endblock %}
+
+{% block page_styles %}
+  <link href="/css/configure.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
+
+<div class="container content">
+  <div class="row">
+    <div class="col-md-2">
+    {{ macros.admin_side_menu("streams") }}
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-header">
+            <h2><small>Admin Streams</small></h2>
+            <div class="row">
+              <div class="col-md-12">
+                <p>The following are streams on the system. You may also <a href="{{ uri_for('admin-streams-create') }}">add a new one</a>.</p>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Stream ID</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Fusion Version</th>
+                      <th>Zip URL</th>
+                      <th>Github Repo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for stream in streams %}
+                    <tr>
+                      <td>{{ stream.sid }}</td>
+                      <td>{{ stream.name }}</td>
+                      <td>{{ stream.description }}</td>
+                      <td>{{ stream.fusion_version }}</td>
+                      <td>{{ stream.zipurl }}</td>
+                      <td>{{ stream.github_repo }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/js/jquery.qrcode.js"></script>
+<script type="text/javascript" src="/js/qrcode.js"></script>
+<script type="text/javascript" src="/js/toggles.js"></script>
+
+<script type="text/javascript">
+  $().ready(function() {
+    // standard stuff
+    var username = "{{ username }}";
+    var csrf_token = "{{ csrf_token() }}";
+  });
+</script>
+
+{% endblock %}

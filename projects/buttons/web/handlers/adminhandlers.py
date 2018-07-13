@@ -9,31 +9,31 @@ from web.basehandler import user_required, admin_required
 from web.models.models import User, Stream
 
 class AdminHandler(BaseHandler):
-	@user_required
-	@admin_required
-	def get(self):
-		# lookup user's auth info
-		user_info = User.get_by_id(long(self.user_id))
-		params = {}
+    @user_required
+    @admin_required
+    def get(self):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
+        params = {}
 
-		return self.render_template('admin/status.html', **params)
+        return self.render_template('admin/status.html', **params)
 
 
 class StreamsHandler(BaseHandler):
-	@user_required
-	@admin_required
-	def get(self):
-		# lookup user's auth info
-		user_info = User.get_by_id(long(self.user_id))
+    @user_required
+    @admin_required
+    def get(self):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
 
-		# look up usrs
-		streams = Stream.get_all()
+        # look up usrs
+        streams = Stream.get_all()
 
-		params = {
-			'streams': streams
-		}
+        params = {
+            'streams': streams
+        }
 
-		return self.render_template('admin/streams.html', **params)
+        return self.render_template('admin/streams.html', **params)
 
 class StreamsCreateHandler(BaseHandler):
     @user_required
@@ -63,12 +63,12 @@ class StreamsCreateHandler(BaseHandler):
 
         # save the stream          
         stream = Stream(
-        	sid = sid,
+            sid = sid,
             name = name,
             description = description,
-   			zipurl = zipurl,
-   			fusion_version = fusion_version,
-   			github_repo = github_repo
+            zipurl = zipurl,
+            fusion_version = fusion_version,
+            github_repo = github_repo
         )
 
         stream.put()
@@ -87,21 +87,21 @@ class StreamsCreateHandler(BaseHandler):
 
 
 class UsersExportHandler(BaseHandler):
-	@user_required
-	@admin_required
-	def get(self):
-		# lookup user's auth info
-		user_info = User.get_by_id(long(self.user_id))
+    @user_required
+    @admin_required
+    def get(self):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
 
-		# look up usrs
-		users = User.get_all()
+        # look up usrs
+        users = User.get_all()
 
-		params = {
-			'users': users
-		}
+        params = {
+            'users': users
+        }
 
-		# mime it up
-		self.response.headers['Content-Type'] = "text/csv"
-		self.response.headers['Content-Disposition'] = "attachment; filename=users.csv"
-		return self.render_template('admin/user.csv', **params)
+        # mime it up
+        self.response.headers['Content-Type'] = "text/csv"
+        self.response.headers['Content-Disposition'] = "attachment; filename=users.csv"
+        return self.render_template('admin/user.csv', **params)
 
