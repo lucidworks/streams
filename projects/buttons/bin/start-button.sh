@@ -67,7 +67,7 @@ ln -s /fusion/ /root/fusion
 # replace line in /fusion/conf/fusion.properties
 sed -i "
 s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.runtime.lib=true,g;
-" /fusion/conf/fusion.properties
+" /fusion/4.0.2/conf/fusion.properties
 
 # restart
 /fusion/4.0.2/bin/fusion restart
@@ -97,6 +97,6 @@ gsutil cp gs://buttons-streams/$DISTRO .
 tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
-export FUSION_API_BASE; export FUSION_API_CREDENTIALS; ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export IP; ./buttons-start.sh
 
 echo "$SID-$IID has been Galvanized"
