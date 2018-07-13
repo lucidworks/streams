@@ -6,9 +6,6 @@ import time
 
 import webapp2
 
-from google.auth import compute_engine
-import googleapiclient.discovery
-
 import config
 import web.forms as forms
 from web.basehandler import BaseHandler
