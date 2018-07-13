@@ -1,42 +1,48 @@
 #!/bin/bash
 
-# ... Galvanize
+# Button has been pushed...
+#                          ... Galvanize
+
+# hostname convention: button-<stream id>-<instance id>
+SID=`hostname | cut -d '-' -f 2` # stream ID (aka app name)
+IID=`hostname | cut -d '-' -f 3` # instance ID
+
+echo "SID: $SID"
+echo "IID: $IID"
 
 sudo su -
 
 # `jq` is in the "main universe"
 echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
-sudo apt-get update
+sudo apt-get update -y
 apt-get install jq -y
+apt-get install unzip -y
 
-
-# hostname convention: button-<stream id>-<instance id>
-SID=`hostname | cut -d '-' -f 2`
-IID=`hostname | cut -d '-' -f 3`
-
-echo "SID: $SID"
-echo "IID: $IID"
-
-# Look up details for stream $SID, say `lou`
-# curl https://streams.lucidworks.com/api/instance/y4xt
+# Look up details for stream $SID, say "lou"
+# curl https://streams.lucidworks.com/api/stream/lou
 # {'id': 'y4xt',
 # 'fusion_version': '7.4',
 # 'repo': 'https://github.com/lucidworks/streams/projects/sockitter/dev',
 # etc....
 # }
 
-STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz"}'
+# Fake a stream/app definition for now...
+STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
+
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
+ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
 
-gsutil cp gs://buttons-streams/$DISTRO .
+##
+#    stream/app-specific handling
+##
+mkdir $SID
+
+gsutil cp gs://buttons-streams/$DISTRO $SID/
+
+cd $SID
 tar xvfz $DISTRO
-
-#chmod +x buttons-start.sh # TODO: this will be made executable in the build
 ./buttons-start.sh
 
-
-
-# apt-get update -y
 # sudo add-apt-repository ppa:webupd8team/java -y
 # echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 # echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
@@ -77,7 +83,7 @@ IP=$(wget -qO- http://ipecho.net/plain)
 # /fusion/4.0.2/bin/fusion restart
 #
 # # set the password
-# curl -X POST -H 'Content-type: application/json' -d '{"password":"%FUSION_PASSWORD%"}' http://localhost:8764/api
+# curl -X POST -H 'Content-type: application/json' -d '{"password":"$ADMIN_PASSWORD"}' http://localhost:8764/api
 #
 # # install the twitter app
 # #cd /streams/projects/sockitter/dev;
