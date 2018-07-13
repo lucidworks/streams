@@ -52,7 +52,7 @@ class User(User):
 		return cls.query().filter().order(-cls.created).fetch()
 
 
-# blog posts and pages
+# streams
 class Stream(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
@@ -71,9 +71,34 @@ class Stream(ndb.Model):
 
 	@classmethod
 	def get_by_sid(cls, sid):
-		query = cls.query().filter(cls.sid == sid).order(-Article.created)
-		streams = article_query.fetch()
-		return streams
+		return cls.query(cls.sid == sid).get()
+
+
+# instances
+class Instance(ndb.Model):
+	created = ndb.DateTimeProperty(auto_now_add=True)
+	updated = ndb.DateTimeProperty(auto_now=True)
+	owner = ndb.KeyProperty(kind=User)
+	stream = ndb.KeyProperty(kind=Stream)
+	iid = ndb.StringProperty()
+	name = ndb.StringProperty()
+	state = ndb.IntegerProperty()
+
+	@classmethod
+	def get_by_user(cls, user):
+		instance_query = cls.query().filter(cls.user == user).order(-cls.created)
+		instances = instance_query.fetch()
+		return instances
+
+	@classmethod
+	def get_all(cls):
+		query = cls.query().filter().order(-cls.created)
+		instances = query.fetch()
+		return instances
+
+	@classmethod
+	def get_by_iid(cls, iid):
+		return cls.query().filter(cls.iid == iid).get()
 
 
 # log tracking pings

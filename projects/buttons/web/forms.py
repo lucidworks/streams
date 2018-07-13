@@ -11,6 +11,9 @@ class BaseForm(Form):
         super(BaseForm, self).__init__(request_handler.request.POST)
 
 
+class InstanceForm(BaseForm):
+    stream = fields.SelectField('Stream', id='stream')
+
 class StreamForm(BaseForm):
     sid = fields.TextField('Stream ID', [validators.Required(), validators.Length(max=50)], id='sid')
     name = fields.TextField('Name', [validators.Required(), validators.Length(max=50)], id='name')

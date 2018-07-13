@@ -1,7 +1,7 @@
 """
 The MIT License (MIT)
 
-Copyright (c) 2017 Kord Campbell, Stackgeek
+Copyright (c) 2018, Lucidworks, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-__author__ = 'Kord Campbell'
-__website__ = 'https://wisdom.sh/'
+__author__ = 'Lucidworks, Inc.'
+__website__ = 'https://streams.lucidworks.com/labs'
 
 import os,sys
 
