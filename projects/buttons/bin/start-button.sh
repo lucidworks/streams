@@ -4,8 +4,8 @@
 #         (To arouse to awareness or action)
 
 # hostname convention: button-<stream id>-<instance id>
-SID=`hostname | cut -d '-' -f 2` # stream ID (aka app name)
-IID=`hostname | cut -d '-' -f 3` # instance ID
+export SID=`hostname | cut -d '-' -f 2` # stream ID (aka app name)
+export IID=`hostname | cut -d '-' -f 3` # instance ID
 
 echo "SID: $SID"
 echo "IID: $IID"
@@ -43,8 +43,8 @@ STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
-FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
-FUSION_API_BASE=http://localhost:8764/api
+export FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
+export FUSION_API_BASE=http://localhost:8764/api
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
