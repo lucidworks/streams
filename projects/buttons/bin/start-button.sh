@@ -38,9 +38,18 @@ apt-get install ant -y
 # etc....
 # }
 
-# Fake a stream/app definition for now...
-#STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
-STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
+if [ "$SID" = "rules" ]; then
+  STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
+fi
+
+if [ "$SID" = "rules" ]; then
+  STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
+fi;
+
+if [ -z "$1" ]; then
+  echo "ERROR: No $SID stream metadata available"
+  exit 42
+fi
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
