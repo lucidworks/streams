@@ -42,11 +42,11 @@ if [ "$SID" = "rules" ]; then
   STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
 fi
 
-if [ "$SID" = "rules" ]; then
+if [ "$SID" = "lou" ]; then
   STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
 fi;
 
-if [ -z "$1" ]; then
+if [ -z "$STREAM_JSON" ]; then
   echo "ERROR: No $SID stream metadata available"
   exit 42
 fi
