@@ -6,6 +6,7 @@ import time
 
 import webapp2
 
+import lib
 import config
 import web.forms as forms
 from web.basehandler import BaseHandler
