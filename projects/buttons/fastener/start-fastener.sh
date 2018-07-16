@@ -38,7 +38,7 @@ pip install google-auth-httplib2
 
 cd /;
 git clone https://github.com/lucidworks/streams
-cd /streams/buttons/;
+cd /streams/projects/buttons/fastener/;
 screen -dmS buttons sudo python main.py
 '
 
