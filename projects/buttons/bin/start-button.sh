@@ -27,8 +27,8 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
 apt-get install jq -y
 apt-get install unzip -y
-# apt-get install maven -y
-# apt-get install ant -y
+apt-get install maven -y
+apt-get install ant -y
 
 # Look up details for stream $SID, say "lou"
 # curl https://streams.lucidworks.com/api/stream/lou
@@ -38,8 +38,18 @@ apt-get install unzip -y
 # etc....
 # }
 
-# Fake a stream/app definition for now...
-STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
+if [ "$SID" = "rules" ]; then
+  STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
+fi
+
+if [ "$SID" = "lou" ]; then
+  STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
+fi;
+
+if [ -z "$STREAM_JSON" ]; then
+  echo "ERROR: No $SID stream metadata available"
+  exit 42
+fi
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
@@ -66,7 +76,7 @@ ln -s /fusion/ /root/fusion
 # replace line in /fusion/conf/fusion.properties
 sed -i "
 s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.runtime.lib=true,g;
-" /fusion/conf/fusion.properties
+" /fusion/4.0.2/conf/fusion.properties
 
 # restart
 /fusion/4.0.2/bin/fusion restart
@@ -84,12 +94,18 @@ fi
 ##
 #    stream/app-specific handling
 ##
+
+
 mkdir $SID
-
-gsutil cp gs://buttons-streams/$DISTRO $SID/
-
 cd $SID
-tar xfz $DISTRO
-export FUSION_API_BASE; export FUSION_API_CREDENTIALS; ./buttons-start.sh
 
-echo "$SID has been Galvanized"
+# TODO: conditional on DISTRO: fetch if specified, otherwise ignore
+#   - if no DISTRO to fetch, then this is becomes a simple Fusion 4.0.2 out of the box, box
+
+gsutil cp gs://buttons-streams/$DISTRO .
+tar xfz $DISTRO
+
+# check for existence (and executable-ness) of ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export IP; ./buttons-start.sh
+
+echo "$SID-$IID has been Galvanized"
