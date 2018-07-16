@@ -2,7 +2,7 @@
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west1-c
-NAME=button
+NAME=fastener-api
 
 option="$1"
 PREEMPTIBLE="--preemptible"
