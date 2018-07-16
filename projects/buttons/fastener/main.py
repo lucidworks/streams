@@ -5,11 +5,10 @@ from json import dumps
 import random
 import string
 import sys
-def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
+def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(rando
+m.choice(chars) for _ in range(size))
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
-image_response = compute.images().getFromFamily(project='debian-cloud', family='debian-8').execute()
-source_disk_image = image_response['selfLink']
 app = Bottle(__name__)
 @app.route('/')
 def main():
@@ -31,18 +30,27 @@ def start():
     pass
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
+
     # config
+    iid = id_generator()
     config = {
-        'name': 'button-%s-%s' % (stream_slug, id_generator()), 
-        'machineType': "zones/us-west1-c/machineTypes/n1-standard-1" 
+        'name': 'button-%s-%s' % (stream_slug, iid), 
+        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4" 
     }
+
     config['disks'] = [{
-                'boot': True,
-                'autoDelete': True,
-                'initializeParams': {
-                        'sourceImage': source_disk_image,
-                }
+        'boot': True,
+        'type': "PERSISTENT",
+        'autoDelete': True,
+        'initializeParams': {
+                "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20180627",
+        "diskType": "projects/labs-209320/zones/us-west1-c/diskTypes/pd-ssd",
+        "diskSizeGb": "100"
+        }
     }]
+
+    config['tags'] = { 'items': ["fusion"] }
+    config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid }
 
     config['networkInterfaces'] =  [{
                 'network': 'global/networks/default',
@@ -54,7 +62,7 @@ def create(stream_slug='lou'):
     config["metadata"] = {
         "items": [{
                 "key": "startup-script-url",
-                "value": "gs://buttons-streams/start-button.sh"
+                "value": "https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/fastener/scripts/start-button.sh"
         }]
     }
 
