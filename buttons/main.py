@@ -17,10 +17,35 @@ source_disk_image = image_response['selfLink']
 def main():
     return template('main')
 
-@route('/start')
+
+@route('/api/instance/list', methods=['GET'])
+def list():
+    pass
+
+
+@route('/api/instance/<instance_id>/stop', methods=['GET'])
+def stop():
+    pass
+
+
+@route('/api/instance/<instance_id>/restart', methods=['GET'])
+def restart():
+    pass
+
+
+@route('/api/instance/<instance_id>/start', methods=['GET'])
 def start():
+    pass
+
+
+@route('/api/stream/<stream_slug>', methods=['POST'])
+def create():
+
     # config
-    config = {'name': 'demo-%s' % id_generator(), 'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" }
+    config = {
+        'name': 'button-%s-%s' % (stream_slug, id_generator()), 
+        'machineType': "zones/us-west1-b/machineTypes/n1-standard-1" 
+    }
 
     config['disks'] = [{
         	'boot': True,
@@ -37,11 +62,16 @@ def start():
         	]
     }]
 
-    operation = compute.instances().insert(project='labs-209320', zone='us-west1-b', body=config).execute()
+    operation = compute.instances().insert(
+        project='labs-209320',
+        zone='us-west1-c',
+        body=config
+    ).execute()
+
+    print operation
 
     return template('start')
 
 # start off
 run(host='0.0.0.0', port=8080, debug=True)
-
 
