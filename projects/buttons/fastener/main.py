@@ -25,16 +25,19 @@ def list():
 
 @route('/api/instance/<instance_id>/stop', methods=['GET'])
 def stop():
+    print instance_id
     pass
 
 
 @route('/api/instance/<instance_id>/restart', methods=['GET'])
 def restart():
+    print instance_id
     pass
 
 
 @route('/api/instance/<instance_id>/start', methods=['GET'])
 def start():
+    print instance_id
     pass
 
 
