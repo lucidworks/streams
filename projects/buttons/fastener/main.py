@@ -43,10 +43,22 @@ def create(stream_slug='lou'):
         'type': "PERSISTENT",
         'autoDelete': True,
         'initializeParams': {
-                "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20180627",
-        "diskType": "projects/labs-209320/zones/us-west1-c/diskTypes/pd-ssd",
-        "diskSizeGb": "100"
+            "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20180627",
+            "diskType": "projects/labs-209320/zones/us-west1-c/diskTypes/pd-ssd",
+            "diskSizeGb": "100"
         }
+    }]
+
+    config["serviceAccounts"] = [{
+        "email": "473791411459-compute@developer.gserviceaccount.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/devstorage.read_only",
+            "https://www.googleapis.com/auth/logging.write",
+            "https://www.googleapis.com/auth/monitoring.write",
+            "https://www.googleapis.com/auth/servicecontrol",
+            "https://www.googleapis.com/auth/service.management.readonly",
+            "https://www.googleapis.com/auth/trace.append"
+        ]
     }]
 
     config['tags'] = { 'items': ["fusion"] }
