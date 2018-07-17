@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo su -
 
 # ... Galvanize
 #         (To arouse to awareness or action)
@@ -9,26 +10,6 @@ IID=`hostname | cut -d '-' -f 3` # instance ID
 
 echo "SID: $SID"
 echo "IID: $IID"
-
-sudo su -
-
-# First some Java...
-add-apt-repository ppa:webupd8team/java -y
-echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-
-
-apt-get update -y
-apt-get install oracle-java8-installer -y
-apt install oracle-java8-set-default -y
-echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
-
-# `jq` is in the "main universe"
-echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
-apt-get install jq -y
-apt-get install unzip -y
-apt-get install maven -y
-apt-get install ant -y
 
 # Look up details for stream $SID, say "lou"
 # curl https://streams.lucidworks.com/api/stream/lou
@@ -60,6 +41,23 @@ IP=$(wget -qO- http://ipecho.net/plain)
 
 cd /; git clone https://github.com/lucidworks/streams
 
+# First some Java...
+add-apt-repository ppa:webupd8team/java -y
+echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+
+apt-get update -y
+apt-get install oracle-java8-installer -y
+apt install oracle-java8-set-default -y
+echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+
+# `jq` is in a different vivid universe
+echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
+apt-get install jq -y
+apt-get install unzip -y
+apt-get install maven -y
+apt-get install ant -y
+
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 # #############################
@@ -89,6 +87,10 @@ curl -X POST -H 'Content-type: application/json' -d '{"password":"password123"}'
 # #############################
 else
 /fusion/bin/fusion restart
+
+# stop, remove, restart webapps to get them working through 8764
+# workaround for https://jira.lucidworks.com/browse/APOLLO-14303
+/fusion/bin/webapps stop && rm /fusion/var/webapps/webapps/* && /fusion/bin/webapps start
 fi
 
 ##
