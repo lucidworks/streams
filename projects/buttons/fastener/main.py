@@ -5,6 +5,9 @@ from json import dumps
 import random
 import string
 import sys
+import os
+print(os.environ['TOKEN'])
+
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
@@ -34,6 +37,10 @@ def start():
 
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
+    # token
+    token = request.query['token']
+
+    if token == ''
 
     # name and machine type
     iid = id_generator()
@@ -77,6 +84,7 @@ def create(stream_slug='lou'):
         ]
     }]
 
+    # metadata
     config["metadata"] = {
         "items": [{
                 "key": "startup-script-url",
