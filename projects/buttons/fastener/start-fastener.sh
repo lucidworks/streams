@@ -14,13 +14,15 @@ esac
 if [ -f secrets.sh ]; then
    source secrets.sh # truly, a travesty
    echo "Here's where I say, hold on a second while we fire things up."
+   gcloud compute project-info add-metadata --metadata token=$TOKEN 
    echo;
 else
-	echo "Create `secrets.sh`, put a TOKEN=f00bar statement in it and then rerun this script."
-	echo;
+   echo "Create 'secrets.sh', put a TOKEN=f00bar statement in it and then rerun this script."
+   echo;
+   exit;
 fi
 
-gcloud compute instances create $NAME-$NEW_UUID \
+gcloud beta compute instances create $NAME-$NEW_UUID \
 --machine-type "n1-standard-1" \
 --image "ubuntu-1604-xenial-v20180627" \
 --image-project "ubuntu-os-cloud" \
@@ -28,17 +30,18 @@ gcloud compute instances create $NAME-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
---labels ready=true \
+--labels token=$TOKEN \
 --tags lucid \
 --scopes compute-rw \
 --subnet=default --address=35.230.26.45 --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
 $PREEMPTIBLE \
---metadata token=$TOKEN, startup-script='#! /bin/bash
+--metadata token=$TOKEN,startup-script='#! /bin/bash
 sudo su -
 
 apt-get update -y
 apt-get install unzip -y
+apt-get install build-essential -y
 apt-get install python-setuptools -y
 easy_install pip
 pip install bottle
@@ -49,6 +52,7 @@ pip install google-auth-httplib2
 cd /;
 git clone https://github.com/lucidworks/streams
 cd /streams/projects/buttons/fastener/;
+echo $TOKEN > token.txt;
 screen -dmS buttons sudo python main.py
 '
 
