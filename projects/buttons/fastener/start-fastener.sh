@@ -58,13 +58,7 @@ screen -dmS buttons sudo python main.py
 '
 
 #gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
-FIREWALL=$(gcloud compute firewall-rules list)
-if [[ $FIREWALL =~ .*80.* ]]
-then
-  echo "Firewall rule already created."
-else
-  gcloud compute firewall-rules create fastener-api --allow tcp:80
-fi 
+gcloud compute firewall-rules create fastener-api --allow tcp:80
 
 sleep 20
 IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
