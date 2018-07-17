@@ -34,7 +34,7 @@ def main():
     return template('main')
 
 @app.route('/api/instance/list', method='GET')
-def list():
+def list(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -52,9 +52,7 @@ def list():
 
 
 @app.route('/api/instance/<instance_id>/stop', method='GET')
-def stop():
-    print instance_id
-
+def stop(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -72,7 +70,7 @@ def stop():
     return dumps(result['items'])
 
 @app.route('/api/instance/<instance_id>/delete', method='GET')
-def delete():
+def delete(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -90,9 +88,7 @@ def delete():
     return dumps(result['items'])
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
-def restart():
-    print instance_id
-
+def restart(instance_id):
     # token
     try:
         if request.query['token'] != token:
