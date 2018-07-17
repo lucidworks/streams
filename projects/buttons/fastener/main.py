@@ -63,6 +63,14 @@ def stop():
     except:
         return dumps({'error': "need token"})
 
+    result = compute.instances().stop(
+        project='labs-209320',
+        zone='us-west1-c',
+        instance=instance_id
+    ).execute()
+
+    return dumps(result['items'])
+
 @app.route('/api/instance/<instance_id>/delete', method='GET')
 def delete():
     # token
@@ -93,6 +101,14 @@ def restart():
     except:
         return dumps({'error': "need token"})
 
+    result = compute.instances().reset(
+        project='labs-209320',
+        zone='us-west1-c',
+        instance=instance_id
+    ).execute()
+
+    return dumps(result['items'])
+
 @app.route('/api/instance/<instance_id>/start', method='GET')
 def start():
     print instance_id
@@ -104,6 +120,14 @@ def start():
 
     except:
         return dumps({'error': "need token"})
+
+    result = compute.instances().start(
+        project='labs-209320',
+        zone='us-west1-c',
+        instance=instance_id
+    ).execute()
+
+    return dumps(result['items'])
 
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
