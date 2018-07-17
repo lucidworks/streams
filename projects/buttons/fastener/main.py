@@ -6,12 +6,28 @@ import random
 import string
 import sys
 import os
-print(os.environ['TOKEN'])
-
-def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
+def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in ran
+ge(size))
+# get the token
+import httplib2
+http = httplib2.Http()
+url = 'http://metadata.google.internal/computeMetadata/v1/instance/tags'
+headers = {'Metadata-Flavor': 'Google'}
+response, content = http.request(url, 'GET', headers=headers)
+evalcontent = eval(content)
+for item in evalcontent:
+        if 'token' in item:
+                key,token = item.split('-')
+if not token:
+        sys.exit()
+        
+# google creds
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
+                "key": "startup-script-url",
+# app
 app = Bottle(__name__)
+
 @app.route('/')
 def main():
     return template('main')
@@ -38,9 +54,12 @@ def start():
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
     # token
-    token = request.query['token']
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
 
-    if token == ''
+    except:
+        return dumps({'error': "need token"})
 
     # name and machine type
     iid = id_generator()
@@ -97,7 +116,6 @@ def create(stream_slug='lou'):
         zone='us-west1-c',
         body=config
     ).execute()
-    print operation
 
     response.content_type = 'application/json'
     return dumps({'instance': name})
