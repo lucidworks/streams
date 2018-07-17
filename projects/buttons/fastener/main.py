@@ -50,7 +50,7 @@ def create(stream_slug='lou'):
     }]
 
     config["serviceAccounts"] = [{
-        "email": "473791411459-compute@developer.gserviceaccount.com",
+        "email": "kord.campbell@lucidworks.com",
         "scopes": [
             "https://www.googleapis.com/auth/devstorage.read_only",
             "https://www.googleapis.com/auth/logging.write",
