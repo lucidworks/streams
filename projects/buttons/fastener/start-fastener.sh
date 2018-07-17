@@ -3,12 +3,14 @@
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west1-c
 NAME=fastener-api
-TOKEN="$2"
 
+option=$1
 PREEMPTIBLE="--preemptible"
 case $option in
     -p|--prod|--production)
     unset PREEMPTIBLE
+    echo "Production mode enabled..."
+    echo;
 esac
 
 if [ -f secrets.sh ]; then
@@ -30,7 +32,7 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
---tags lucid token=$TOKEN \
+--tags lucid,token-$TOKEN \
 --scopes compute-rw \
 --subnet=default --address=35.230.26.45 --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
@@ -52,7 +54,6 @@ pip install google-auth-httplib2
 cd /;
 git clone https://github.com/lucidworks/streams
 cd /streams/projects/buttons/fastener/;
-echo $token > token.txt;
 screen -dmS buttons sudo python main.py
 '
 

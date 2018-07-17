@@ -7,8 +7,7 @@ import string
 import sys
 import os
 
-def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in ran
-ge(size))
+def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 
 # get the token
 import httplib2
