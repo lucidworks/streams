@@ -6,9 +6,10 @@ import random
 import string
 import sys
 import os
-<<<<<<< HEAD
+
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in ran
 ge(size))
+
 # get the token
 import httplib2
 http = httplib2.Http()
@@ -23,12 +24,6 @@ if not token:
         sys.exit()
         
 # google creds
-=======
-
-print(os.environ['TOKEN'])
-
-def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
->>>>>>> c091117fe53dca706313c773b6603469e0d333e3
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
                 "key": "startup-script-url",
@@ -60,7 +55,6 @@ def start():
 
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
-<<<<<<< HEAD
     # token
     try:
         if request.query['token'] != token:
@@ -69,8 +63,6 @@ def create(stream_slug='lou'):
     except:
         return dumps({'error': "need token"})
 
-=======
->>>>>>> c091117fe53dca706313c773b6603469e0d333e3
     # name and machine type
     iid = id_generator()
     name = 'button-%s-%s' % (stream_slug, iid)
