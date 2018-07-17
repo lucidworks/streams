@@ -30,13 +30,12 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
---labels token=$TOKEN \
---tags lucid \
+--tags lucid token=$TOKEN \
 --scopes compute-rw \
 --subnet=default --address=35.230.26.45 --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
 $PREEMPTIBLE \
---metadata token=$TOKEN,startup-script='#! /bin/bash
+--metadata startup-script='#! /bin/bash
 sudo su -
 
 apt-get update -y
