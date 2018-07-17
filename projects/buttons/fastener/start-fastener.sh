@@ -22,7 +22,7 @@ gcloud compute instances create $NAME-$NEW_UUID \
 --labels ready=true \
 --tags lucid \
 --scopes compute-rw \
---service-account kord.campbell@lucidworks.com \
+--service-account labs-209320@appspot.gserviceaccount.com \
 $PROD \
 --metadata startup-script='#! /bin/bash
 sudo su -

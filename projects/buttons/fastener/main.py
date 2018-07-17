@@ -50,14 +50,11 @@ def create(stream_slug='lou'):
     }]
 
     config["serviceAccounts"] = [{
-        "email": "kord.campbell@lucidworks.com",
+        "email": "labs-209320@appspot.gserviceaccount.com",
         "scopes": [
             "https://www.googleapis.com/auth/devstorage.read_only",
-            "https://www.googleapis.com/auth/logging.write",
-            "https://www.googleapis.com/auth/monitoring.write",
             "https://www.googleapis.com/auth/servicecontrol",
             "https://www.googleapis.com/auth/service.management.readonly",
-            "https://www.googleapis.com/auth/trace.append"
         ]
     }]
 
