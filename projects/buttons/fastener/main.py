@@ -64,7 +64,7 @@ def stop(instance_id):
         instance=instance_id
     ).execute()
 
-    return dumps(result['items'])
+    return dumps(result)
 
 @app.route('/api/instance/<instance_id>/delete', method='GET')
 def delete(instance_id):
@@ -82,7 +82,7 @@ def delete(instance_id):
         instance=instance_id
     ).execute()
 
-    return dumps(result['items'])
+    return dumps(result)
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
 def restart(instance_id):
@@ -100,7 +100,7 @@ def restart(instance_id):
         instance=instance_id
     ).execute()
 
-    return dumps(result['items'])
+    return dumps(result)
 
 @app.route('/api/instance/<instance_id>/start', method='GET')
 def start(instance_id):
@@ -118,7 +118,7 @@ def start(instance_id):
         instance=instance_id
     ).execute()
 
-    return dumps(result['items'])
+    return dumps(result)
 
 @app.route('/api/stream/<stream_slug>', method='POST')
 def create(stream_slug='lou'):
