@@ -3,13 +3,22 @@
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west1-c
 NAME=fastener-api
+TOKEN="$2"
 
-option="$1"
 PREEMPTIBLE="--preemptible"
 case $option in
     -p|--prod|--production)
     unset PREEMPTIBLE
 esac
+
+if [ -f secrets.sh ]; then
+   source secrets.sh # truly, a travesty
+   echo "Here's where I say, hold on a second while we fire things up."
+   echo;
+else
+	echo "Create `secrets.sh`, put a TOKEN=f00bar statement in it and then rerun this script."
+	echo;
+fi
 
 gcloud compute instances create $NAME-$NEW_UUID \
 --machine-type "n1-standard-1" \
@@ -22,9 +31,10 @@ gcloud compute instances create $NAME-$NEW_UUID \
 --labels ready=true \
 --tags lucid \
 --scopes compute-rw \
+--subnet=default --address=35.230.26.45 --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
-$PROD \
---metadata startup-script='#! /bin/bash
+$PREEMPTIBLE \
+--metadata token=$TOKEN, startup-script='#! /bin/bash
 sudo su -
 
 apt-get update -y
