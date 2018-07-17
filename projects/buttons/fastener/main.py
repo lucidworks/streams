@@ -25,7 +25,7 @@ if not token:
 # google creds
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
-                "key": "startup-script-url",
+
 # app
 app = Bottle(__name__)
 
