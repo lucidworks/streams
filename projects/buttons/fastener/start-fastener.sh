@@ -63,7 +63,7 @@ if [[ $FIREWALL =~ .*8080.* ]]
 then
   echo "Firewall rule already created."
 else
-  gcloud compute firewall-rules create fusion-appkit --allow tcp:8080
+  gcloud compute firewall-rules create fusion-appkit --allow tcp:80
 fi 
 
 sleep 20
