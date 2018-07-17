@@ -6,9 +6,7 @@ import random
 import string
 import sys
 import os
-
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
-
 # get the token
 import httplib2
 http = httplib2.Http()
@@ -21,7 +19,6 @@ for item in evalcontent:
                 key,token = item.split('-')
 if not token:
         sys.exit()
-        
 # google creds
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
@@ -34,7 +31,7 @@ def main():
     return template('main')
 
 @app.route('/api/instance/list', method='GET')
-def list():
+def list(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -52,9 +49,7 @@ def list():
 
 
 @app.route('/api/instance/<instance_id>/stop', method='GET')
-def stop():
-    print instance_id
-
+def stop(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -72,7 +67,7 @@ def stop():
     return dumps(result['items'])
 
 @app.route('/api/instance/<instance_id>/delete', method='GET')
-def delete():
+def delete(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -90,9 +85,7 @@ def delete():
     return dumps(result['items'])
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
-def restart():
-    print instance_id
-
+def restart(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -110,9 +103,7 @@ def restart():
     return dumps(result['items'])
 
 @app.route('/api/instance/<instance_id>/start', method='GET')
-def start():
-    print instance_id
-
+def start(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -129,7 +120,7 @@ def start():
 
     return dumps(result['items'])
 
-@app.route('/api/stream/<stream_slug>', method='POST') 
+@app.route('/api/stream/<stream_slug>', method='POST')
 def create(stream_slug='lou'):
     # token
     try:
@@ -144,7 +135,7 @@ def create(stream_slug='lou'):
     name = 'button-%s-%s' % (stream_slug, iid)
     config = {
         'name': name,
-        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4" 
+        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4"
     }
 
     # boot disk and type
