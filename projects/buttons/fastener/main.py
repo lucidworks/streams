@@ -6,6 +6,7 @@ import random
 import string
 import sys
 import os
+
 print(os.environ['TOKEN'])
 
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
@@ -37,11 +38,6 @@ def start():
 
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
-    # token
-    token = request.query['token']
-
-    if token == ''
-
     # name and machine type
     iid = id_generator()
     name = 'button-%s-%s' % (stream_slug, iid)
@@ -97,7 +93,6 @@ def create(stream_slug='lou'):
         zone='us-west1-c',
         body=config
     ).execute()
-    print operation
 
     response.content_type = 'application/json'
     return dumps({'instance': name})
