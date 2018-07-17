@@ -42,6 +42,7 @@ sudo su -
 apt-get update -y
 apt-get install unzip -y
 apt-get install build-essential -y
+apt-get install python-dev -y
 apt-get install python-setuptools -y
 easy_install pip
 pip install bottle
@@ -52,7 +53,7 @@ pip install google-auth-httplib2
 cd /;
 git clone https://github.com/lucidworks/streams
 cd /streams/projects/buttons/fastener/;
-echo $TOKEN > token.txt;
+echo $token > token.txt;
 screen -dmS buttons sudo python main.py
 '
 
