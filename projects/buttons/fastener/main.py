@@ -12,31 +12,38 @@ app = Bottle(__name__)
 @app.route('/')
 def main():
     return template('main')
+
 @app.route('/api/instance/list', method='GET')
 def list():
     pass
+
 @app.route('/api/instance/<instance_id>/stop', method='GET')
 def stop():
     print instance_id
     pass
+
 @app.route('/api/instance/<instance_id>/restart', method='GET')
 def restart():
     print instance_id
     pass
+
 @app.route('/api/instance/<instance_id>/start', method='GET')
 def start():
     print instance_id
     pass
+
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
 
-    # config
+    # name and machine type
     iid = id_generator()
+    name = 'button-%s-%s' % (stream_slug, iid)
     config = {
-        'name': 'button-%s-%s' % (stream_slug, iid), 
+        'name': name,
         'machineType': "zones/us-west1-c/machineTypes/n1-standard-4" 
     }
 
+    # boot disk and type
     config['disks'] = [{
         'boot': True,
         'type': "PERSISTENT",
@@ -48,6 +55,7 @@ def create(stream_slug='lou'):
         }
     }]
 
+    # service account
     config["serviceAccounts"] = [{
         "email": "labs-209320@appspot.gserviceaccount.com",
         "scopes": [
@@ -57,14 +65,16 @@ def create(stream_slug='lou'):
         ]
     }]
 
+    # tags ad labels
     config['tags'] = { 'items': ["fusion"] }
     config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid }
 
+    # network interface
     config['networkInterfaces'] =  [{
-                'network': 'global/networks/default',
-                'accessConfigs': [
-                        {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
-                ]
+        'network': 'global/networks/default',
+        'accessConfigs': [
+            {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
+        ]
     }]
 
     config["metadata"] = {
@@ -82,7 +92,7 @@ def create(stream_slug='lou'):
     print operation
 
     response.content_type = 'application/json'
-    return dumps({'instance': "foo"})
+    return dumps({'instance': name})
 
 # start off
 app.run(host='0.0.0.0', port=8080, debug=True)
