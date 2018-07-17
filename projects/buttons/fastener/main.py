@@ -35,22 +35,75 @@ def main():
 
 @app.route('/api/instance/list', method='GET')
 def list():
-    pass
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+
+    except:
+        return dumps({'error': "need token"})
+
+    result = compute.instances().list(
+        project='labs-209320',
+        zone='us-west1-c'
+    ).execute()
+
+    return dumps(result['items'])
+
 
 @app.route('/api/instance/<instance_id>/stop', method='GET')
 def stop():
     print instance_id
-    pass
+
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+
+    except:
+        return dumps({'error': "need token"})
+
+@app.route('/api/instance/<instance_id>/delete', method='GET')
+def delete():
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+
+    except:
+        return dumps({'error': "need token"})
+
+    result = compute.instances().delete(
+        project='labs-209320',
+        zone='us-west1-c',
+        instance=instance_id
+    ).execute()
+
+    return dumps(result['items'])
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
 def restart():
     print instance_id
-    pass
+
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+
+    except:
+        return dumps({'error': "need token"})
 
 @app.route('/api/instance/<instance_id>/start', method='GET')
 def start():
     print instance_id
-    pass
+
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+
+    except:
+        return dumps({'error': "need token"})
 
 @app.route('/api/stream/<stream_slug>', method='POST') 
 def create(stream_slug='lou'):
@@ -122,4 +175,4 @@ def create(stream_slug='lou'):
     return dumps({'instance': name})
 
 # start off
-app.run(host='0.0.0.0', port=8080, debug=True)
+app.run(host='0.0.0.0', port=80, debug=True)
