@@ -59,15 +59,15 @@ screen -dmS buttons sudo python main.py
 
 #gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
 FIREWALL=$(gcloud compute firewall-rules list)
-if [[ $FIREWALL =~ .*8080.* ]]
+if [[ $FIREWALL =~ .*80.* ]]
 then
   echo "Firewall rule already created."
 else
-  gcloud compute firewall-rules create fusion-appkit --allow tcp:80
+  gcloud compute firewall-rules create fastener-api --allow tcp:80
 fi 
 
 sleep 20
 IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 echo "Server started with $IP. Use the SSH button to login."
-echo "Try http://$IP:8080"
+echo "Try http://$IP"
