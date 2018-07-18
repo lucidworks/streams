@@ -16,6 +16,7 @@ from web.models.models import User, Instance, Stream
 class InstanceTenderHandler(BaseHandler):
     def get(self):
         print "tender"
+        return self.render_template('instance/tender.html')
 
 class InstancesHandler(BaseHandler):
     @user_required
