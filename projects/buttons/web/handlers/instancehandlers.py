@@ -15,7 +15,19 @@ from web.models.models import User, Instance, Stream
 
 class InstanceTenderHandler(BaseHandler):
     def get(self):
-        print "tender"
+        try:
+            http = httplib2.Http()
+            url = 'http://35.230.26.45/api/instance/list?token=%s' % config.fastener_api_token
+            print url
+            response, content = http.request(url, 'GET')
+            print content
+            instances = json.loads(content)
+            print instances
+
+        except Exception as ex:
+            print "yeah, no %s" % ex
+            pass
+
         return self.render_template('instance/tender.html')
 
 class InstancesHandler(BaseHandler):
