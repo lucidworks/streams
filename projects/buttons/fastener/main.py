@@ -6,7 +6,9 @@ import random
 import string
 import sys
 import os
+
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
+
 # get the token
 import httplib2
 http = httplib2.Http()
@@ -19,6 +21,7 @@ for item in evalcontent:
                 key,token = item.split('-')
 if not token:
         sys.exit()
+
 # google creds
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
