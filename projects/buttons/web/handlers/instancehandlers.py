@@ -6,12 +6,29 @@ import time
 
 import webapp2
 
-import lib
 import config
 import web.forms as forms
 from web.basehandler import BaseHandler
 from web.basehandler import user_required, admin_required
 from web.models.models import User, Instance, Stream
+
+
+class InstanceTenderHandler(BaseHandler):
+    def get(self):
+        try:
+            http = httplib2.Http()
+            url = 'http://35.230.26.45/api/instance/list?token=%s' % config.fastener_api_token
+            print url
+            response, content = http.request(url, 'GET')
+            print content
+            instances = json.loads(content)
+            print instances
+
+        except Exception as ex:
+            print "yeah, no %s" % ex
+            pass
+
+        return self.render_template('instance/tender.html')
 
 class InstancesHandler(BaseHandler):
     @user_required
@@ -67,11 +84,11 @@ class InstanceCreateHandler(BaseHandler):
         # know the user
         user_info = User.get_by_id(long(self.user_id))
         
-        iid = 'f00' # some hash
-
         # get form values
         stream = Stream.get_by_id(int(self.form.stream.data.strip()))
-        name = stream.name
+        sid = stream.sid
+
+        print sid
 
         # validate form
         # not working
@@ -79,9 +96,8 @@ class InstanceCreateHandler(BaseHandler):
         #    self.add_message("The new instance did not validate.", "error")
         #    return self.get()
 
-        # save the stream          
+        # set up an instance 
         instance = Instance(
-            iid = iid,
             owner = user_info.key,
             stream = stream.key
         )

@@ -32,7 +32,7 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
---tags lucid,token-$TOKEN \
+--tags http-server,lucid,token-$TOKEN \
 --scopes compute-rw \
 --subnet=default --address=35.230.26.45 --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
@@ -45,10 +45,12 @@ apt-get install unzip -y
 apt-get install build-essential -y
 apt-get install python-dev -y
 apt-get install python-setuptools -y
+apt-get install python-paste -y
 easy_install pip
 pip install bottle
 pip install google-cloud
 pip install --upgrade google-api-python-client
+pip install --upgrade pyasn1-modules
 pip install google-auth-httplib2
 
 cd /;

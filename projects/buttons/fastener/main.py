@@ -1,12 +1,14 @@
 from google.auth import compute_engine
 import googleapiclient.discovery
-from bottle import route, run, template, Bottle, response, request
+from bottle import Bottle, route, run, template, response, request, redirect
 from json import dumps
 import random
 import string
 import sys
 import os
+
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
+
 # get the token
 import httplib2
 http = httplib2.Http()
@@ -19,6 +21,7 @@ for item in evalcontent:
                 key,token = item.split('-')
 if not token:
         sys.exit()
+
 # google creds
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
@@ -28,10 +31,10 @@ app = Bottle(__name__)
 
 @app.route('/')
 def main():
-    return template('main')
+    redirect("https://lucidworks.com/labs")
 
 @app.route('/api/instance/list', method='GET')
-def list(instance_id):
+def list():
     # token
     try:
         if request.query['token'] != token:
@@ -135,7 +138,11 @@ def create(stream_slug='lou'):
     name = 'button-%s-%s' % (stream_slug, iid)
     config = {
         'name': name,
-        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4"
+        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4",
+        'scheduling':
+        {
+            'preemptible': True
+        }
     }
 
     # boot disk and type
@@ -165,7 +172,7 @@ def create(stream_slug='lou'):
     config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid }
 
     # network interface
-    config['networkInterfaces'] =  [{
+    config['networkInterfaces'] = [{
         'network': 'global/networks/default',
         'accessConfigs': [
             {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
@@ -190,4 +197,4 @@ def create(stream_slug='lou'):
     return dumps({'instance': name})
 
 # start off
-app.run(host='0.0.0.0', port=80, debug=True)
+app.run(server='paste', host='0.0.0.0', port=80, debug=True)
