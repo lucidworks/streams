@@ -26,19 +26,12 @@ fi
 
 if [ "$SID" = "lou" ]; then
   STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
-fi;
+fi
 
 if [ -z "$STREAM_JSON" ]; then
   echo "ERROR: No $SID stream metadata available"
   exit 42
 fi
-
-DISTRO=`echo $STREAM_JSON | jq -r .distro`
-ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
-FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
-FUSION_API_BASE=http://localhost:8764/api
-
-echo "DISTRO: $DISTRO"
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
@@ -60,6 +53,13 @@ apt-get install jq -y
 apt-get install unzip -y
 apt-get install maven -y
 apt-get install ant -y
+
+DISTRO=`echo $STREAM_JSON | jq -r .distro`
+ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
+FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
+FUSION_API_BASE=http://localhost:8764/api
+
+echo "DISTRO: $DISTRO"
 
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
