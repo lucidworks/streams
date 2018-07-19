@@ -31,7 +31,7 @@ app = Bottle(__name__)
 
 @app.route('/')
 def main():
-    template('main')
+    redirect("https://lucidworks.com/labs")
 
 @app.route('/api/instance/list', method='GET')
 def list():
