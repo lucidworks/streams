@@ -1,6 +1,6 @@
 from google.auth import compute_engine
 import googleapiclient.discovery
-from bottle import route, run, template, Bottle, response, request
+from bottle import Bottle, route, run, template, response, request, redirect
 from json import dumps
 import random
 import string
@@ -31,7 +31,7 @@ app = Bottle(__name__)
 
 @app.route('/')
 def main():
-    return template('main')
+    template('main')
 
 @app.route('/api/instance/list', method='GET')
 def list():
