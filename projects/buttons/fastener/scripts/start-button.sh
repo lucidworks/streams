@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 sudo su -
 
 # ... Galvanize
@@ -36,6 +37,8 @@ DISTRO=`echo $STREAM_JSON | jq -r .distro`
 ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
 FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
 FUSION_API_BASE=http://localhost:8764/api
+
+echo "DISTRO: $DISTRO"
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
