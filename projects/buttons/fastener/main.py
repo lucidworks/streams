@@ -172,7 +172,7 @@ def create(stream_slug='lou'):
     config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid }
 
     # network interface
-    config['networkInterfaces'] = u [{
+    config['networkInterfaces'] = [{
         'network': 'global/networks/default',
         'accessConfigs': [
             {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
