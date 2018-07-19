@@ -138,7 +138,11 @@ def create(stream_slug='lou'):
     name = 'button-%s-%s' % (stream_slug, iid)
     config = {
         'name': name,
-        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4"
+        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4",
+        'scheduling':
+        {
+            'preemptible': true
+        }
     }
 
     # boot disk and type
@@ -168,7 +172,7 @@ def create(stream_slug='lou'):
     config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid }
 
     # network interface
-    config['networkInterfaces'] =  [{
+    config['networkInterfaces'] = u [{
         'network': 'global/networks/default',
         'accessConfigs': [
             {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
