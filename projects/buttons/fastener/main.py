@@ -141,7 +141,7 @@ def create(stream_slug='lou'):
         'machineType': "zones/us-west1-c/machineTypes/n1-standard-4",
         'scheduling':
         {
-            'preemptible': true
+            'preemptible': True
         }
     }
 
