@@ -34,7 +34,7 @@ def main():
     return template('main')
 
 @app.route('/api/instance/list', method='GET')
-def list(instance_id):
+def list():
     # token
     try:
         if request.query['token'] != token:
