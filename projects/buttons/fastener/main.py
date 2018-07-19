@@ -193,4 +193,4 @@ def create(stream_slug='lou'):
     return dumps({'instance': name})
 
 # start off
-app.run(host='0.0.0.0', port=80, debug=True)
+app.run(server='paste', host='0.0.0.0', port=80, debug=True)

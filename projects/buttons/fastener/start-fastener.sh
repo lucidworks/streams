@@ -45,6 +45,7 @@ apt-get install unzip -y
 apt-get install build-essential -y
 apt-get install python-dev -y
 apt-get install python-setuptools -y
+apt-get install python-paste -y
 easy_install pip
 pip install bottle
 pip install google-cloud
