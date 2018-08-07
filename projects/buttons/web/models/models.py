@@ -78,11 +78,12 @@ class Stream(ndb.Model):
 class Instance(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
+	expires = ndb.DateTimeProperty()
 	owner = ndb.KeyProperty(kind=User)
 	stream = ndb.KeyProperty(kind=Stream)
-	iid = ndb.StringProperty()
 	name = ndb.StringProperty()
-	state = ndb.IntegerProperty()
+	ip = ndb.StringProperty()
+	status = ndb.StringProperty()
 
 	@classmethod
 	def get_by_user(cls, user):
@@ -99,6 +100,10 @@ class Instance(ndb.Model):
 	@classmethod
 	def get_by_iid(cls, iid):
 		return cls.query().filter(cls.iid == iid).get()
+
+	@classmethod
+	def get_by_name(cls, name):
+		return cls.query().filter(cls.name == name).get()
 
 
 # log tracking pings
