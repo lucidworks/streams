@@ -142,16 +142,15 @@ class CallbackLoginHandler(BaseHandler):
 			log_message = "new user registered"
 
 			# slack the new user signup
-			"""
 			if config.debug:
 				in_dev = "in development"
 			else:
 				in_dev = ""
 
 			slack_data = {
-				'text': "Woot! New user %s just signed up %s!" % (user_info.username, in_dev),
-				'username': "VP of Cloud",
-				'icon_emoji': ":cloud:" 
+				'text': "New user %s just signed up %s!" % (user_info.username, in_dev),
+				'username': "Lou",
+				'icon_emoji': ":cloud:"
 			}
 			h = httplib2.Http()
 
@@ -159,7 +158,6 @@ class CallbackLoginHandler(BaseHandler):
 		        'POST', 
 		        json.dumps(slack_data),
 		        headers={'Content-Type': 'application/json'})
-			"""
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)
@@ -184,8 +182,7 @@ class CallbackLoginHandler(BaseHandler):
 			ip = self.request.remote_addr
 		)
 		log.put()
-		message = "You have successfully logged in!"
-		print message          
+		message = "You have successfully logged in!"      
 		self.add_message(message, 'success')
 
 		# take user to next page
