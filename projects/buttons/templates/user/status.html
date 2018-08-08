@@ -23,14 +23,14 @@
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
-            <h2><small>Account Status</small></h2>
+            <h2>Account Status</h2>
             <div class="row">
               <div class="col-md-12">
                 <div class="bs-callout bs-callout-info bs-callout-top">
                   <h4>Welcome to Lucidworks Labs!</h4>
                   <p>{% if not twofactor_enabled %}Please begin by turning on <strong>Two Factor Authentication</strong> and setting up your <strong>Account Information</strong> by clicking on the <span class="label label-danger">Review Settings</span> button below.{% endif %}</p>
                 </div>
-                <p>You may want to <a href="{{ uri_for('instance-create') }}">start an instance</a>.</p>
+                <p>You may also <a href="{{ uri_for('instance-create') }}">start an instance</a>.</p>
               </div>
             </div>
           </div>

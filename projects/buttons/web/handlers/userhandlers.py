@@ -73,7 +73,7 @@ class LogoutHandler(BaseHandler):
 			self.add_message(message, 'info')
 
 		self.auth.unset_session()
-		self.redirect_to('labs-index')
+		self.redirect_to('index')
 
 
 # google auth callback
@@ -97,7 +97,7 @@ class CallbackLoginHandler(BaseHandler):
 		except:
 				message = 'Error while tokening with Github.'
 				self.add_message(message, 'error')
-				return self.redirect_to('labs-index')
+				return self.redirect_to('index')
 
 		# see if user is in database
 		uid = str(user_data['id']) # github id
@@ -110,8 +110,11 @@ class CallbackLoginHandler(BaseHandler):
 
 		# never seen them, so create user
 		if not user_info:
+			name = user_data['name']
 			username = user_data['login']
 			email = user_data['email']
+			location = user_data['location']
+			company = user_data['company']
 
 			# create entry in db
 			user_info = User(
@@ -139,27 +142,25 @@ class CallbackLoginHandler(BaseHandler):
 
 			# wait a few seconds for database server to update
 			time.sleep(1) # seriously?
-			log_message = "new user registered"
 
 			# slack the new user signup
-			"""
 			if config.debug:
-				in_dev = "in development"
+				in_dev = " in development"
 			else:
 				in_dev = ""
 
 			slack_data = {
-				'text': "Woot! New user %s just signed up %s!" % (user_info.username, in_dev),
-				'username': "VP of Cloud",
+				'text': "New user signed up%s: %s|%s|%s|%s|%s" % (in_dev, name, username, email, location, company),
+				'username': "Loubot",
 				'icon_emoji': ":cloud:" 
 			}
 			h = httplib2.Http()
 
 			resp, content = h.request(config.slack_webhook, 
-		        'POST', 
-		        json.dumps(slack_data),
-		        headers={'Content-Type': 'application/json'})
-			"""
+				'POST', 
+				json.dumps(slack_data),
+				headers={'Content-Type': 'application/json'}
+			)
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)
@@ -184,8 +185,7 @@ class CallbackLoginHandler(BaseHandler):
 			ip = self.request.remote_addr
 		)
 		log.put()
-		message = "You have successfully logged in!"
-		print message          
+		message = "You have successfully logged in!"         
 		self.add_message(message, 'success')
 
 		# take user to next page

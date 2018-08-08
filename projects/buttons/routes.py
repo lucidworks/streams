@@ -19,7 +19,7 @@ _routes = [
 	RedirectRoute('/status/', userhandlers.StatusHandler, name='account-status', strict_slash=True),
 
 	# instances
-	RedirectRoute('/instances/', instancehandlers.InstancesHandler, name='instances', strict_slash=True),
+	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
 	RedirectRoute('/instance/create/', instancehandlers.InstanceCreateHandler, name='instance-create', strict_slash=True),
 	RedirectRoute('/instance/tender', instancehandlers.InstanceTenderHandler, name='instance-tender', strict_slash=True),
 	RedirectRoute('/instance/<name>', instancehandlers.InstanceDetailHandler, name='instance-detail', strict_slash=True),
