@@ -2,7 +2,9 @@
 import logging, os
 import urllib, urllib2, httplib2
 import hashlib, json
-import time
+import time, datetime
+
+from lib.dateutil import parser as DUp
 
 import webapp2
 
@@ -19,14 +21,13 @@ class InstanceTenderHandler(BaseHandler):
             # update list of instances we have
             http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
+
             response, content = http.request(url, 'GET')
 
             # list of instance from google cloud (see ./fastener/sample-output.json)
             finstances = json.loads(content)
-            print finstances
 
             for finstance in finstances:
-                print finstance
                 # only look at instances with button in them
                 if 'button' in finstance['name']:
                     instance = Instance.get_by_name(finstance['name'])
@@ -44,12 +45,33 @@ class InstanceTenderHandler(BaseHandler):
                         instance = Instance(
                             name = finstance['name'],
                             status = "PENDING",
+                            expires = datetime.now() + timedelta(0, 86400), # + 1 day
                             owner = None, # TODO might need fixing 
-                            stream = stream.key,
-                            #expires = #SOMEFUTUREDATE
+                            stream = stream.key
                         )
                         instance.put()
 
+
+            # list of instances from db
+            instances = Instance.get_all()
+
+            for instance in instances:
+                name = instance.name
+                print instance.updated
+
+                for finstance in finstances:
+                    if name == finstance['name']:
+                        print "found it"
+                        # use google start timestamp for created timestamp
+                        fcreated = DUp.parse(finstance['creationTimestamp'])
+                        instance.created = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(fcreated))
+                        instance.put()
+                        break
+                else:
+                    print "didn't find it - deleting entry"
+                    # only delete if instance create time is greater than 30 minutes...
+                    # if instance.created < date
+                    instance.key.delete()
 
         try:
             pass
@@ -61,7 +83,7 @@ class InstanceTenderHandler(BaseHandler):
 
 
 # list of a user's instances
-class InstancesHandler(BaseHandler):
+class InstancesListHandler(BaseHandler):
     @user_required
     def get(self):
         # lookup user's auth info
@@ -139,7 +161,7 @@ class InstanceCreateHandler(BaseHandler):
             status = "PENDING",
             owner = user_info.key,
             stream = stream.key,
-            #expires = #SOMEFUTUREDATE
+            expires = datetime.now() + timedelta(0, 86400), # + 1 day
         )
         instance.put()
 

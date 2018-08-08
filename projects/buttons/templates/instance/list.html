@@ -23,30 +23,25 @@
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
-            <h2><small>Admin Streams</small></h2>
+            <h2>Instances</h2>
             <div class="row">
               <div class="col-md-12">
-                <p>The following are instances on the system. You may also <a href="{{ uri_for('admin-streams-create') }}">add a new one</a>.</p>
+                <p>These are your instances. You may also <a href="{{ uri_for('admin-streams-create') }}">add a new one</a>.</p>
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Stream ID</th>
-                      <th>Name</th>
-                      <th>Description</th>
+                      <th>Instance</th>
+                      <th>Date</th>
+                      <th>Type</th>
                       <th>Fusion Version</th>
-                      <th>Zip URL</th>
-                      <th>Github Repo</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for stream in streams %}
                     <tr>
-                      <td>{{ stream.sid }}</td>
-                      <td>{{ stream.name }}</td>
-                      <td>{{ stream.description }}</td>
-                      <td>{{ stream.fusion_version }}</td>
-                      <td>{{ stream.zipurl }}</td>
-                      <td>{{ stream.github_repo }}</td>
+                      <td>{{ instance.name }}</td>
+                      <td>{{ instance.date }}</td>
+                      <td>{{ instance.type }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
