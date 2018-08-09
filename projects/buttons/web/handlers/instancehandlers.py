@@ -107,6 +107,7 @@ class InstanceDetailHandler(BaseHandler):
         # look up user's instances
         instance = Instance.get_by_name(name)
         stream = Stream.get_by_id(instance.stream.id())
+        print stream
 
         params = {
             'instance': instance,
@@ -172,7 +173,7 @@ class InstanceCreateHandler(BaseHandler):
         # give the db a second to update
         time.sleep(1)
 
-        self.add_message('Instance created! Grab some coffee and wait for %s to start.' % (sid), 'success')
+        self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
 
         params = {'name': name}
         return self.redirect_to('instance-detail', **params)
