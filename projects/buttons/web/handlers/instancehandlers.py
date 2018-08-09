@@ -21,7 +21,7 @@ class InstanceTenderHandler(BaseHandler):
             # update list of instances we have
             http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
-
+            print url
             response, content = http.request(url, 'GET')
 
             # list of instance from google cloud (see ./fastener/sample-output.json)
@@ -37,7 +37,7 @@ class InstanceTenderHandler(BaseHandler):
                         except:
                             instance.ip = "255.255.255.255"
 
-                        instance.status = finstance['status'] # whatever it should be
+                        instance.status = finstance['status']
                         instance.put()
                     else:
                         # create instance (needed if instance is created directly using fastener API)
@@ -45,7 +45,7 @@ class InstanceTenderHandler(BaseHandler):
                         instance = Instance(
                             name = finstance['name'],
                             status = "PENDING",
-                            expires = datetime.now() + timedelta(0, 86400), # + 1 day
+                            expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
                             owner = None, # TODO might need fixing 
                             stream = stream.key
                         )
@@ -57,22 +57,17 @@ class InstanceTenderHandler(BaseHandler):
 
             for instance in instances:
                 name = instance.name
-                print instance.updated
 
                 for finstance in finstances:
                     if name == finstance['name']:
-                        print "found it"
-                        # use google start timestamp for created timestamp
-                        fcreated = DUp.parse(finstance['creationTimestamp'])
-                        instance.created = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(fcreated))
-                        instance.put()
                         break
                 else:
-                    print "didn't find it - deleting entry"
                     # only delete if instance create time is greater than 30 minutes...
-                    # if instance.created < date
-                    instance.key.delete()
-
+                    if instance.created < datetime.datetime.now() - datetime.timedelta(0, 300):
+                        print "didn't find it - deleting entry"
+                        instance.key.delete()
+                    else:
+                        print "waiting to delete"
         try:
             pass
         except Exception as ex:
@@ -147,8 +142,11 @@ class InstanceCreateHandler(BaseHandler):
         # TODO validate form here
 
         # make the instance call to the control box
-        http = httplib2.Http()
+        http = httplib2.Http(timeout=10)
         url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
+        
+        if config.debug: 
+            print url
 
         # pull the response back TODO add error handling
         response, content = http.request(url, 'POST', None, headers={})
@@ -161,14 +159,14 @@ class InstanceCreateHandler(BaseHandler):
             status = "PENDING",
             owner = user_info.key,
             stream = stream.key,
-            expires = datetime.now() + timedelta(0, 86400), # + 1 day
+            expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
         )
         instance.put()
 
         # give the db a second to update
         time.sleep(1)
 
-        self.add_message('%s stream instance created!' % (sid), 'success')
+        self.add_message('Instance created! Grab some coffee and wait for %s to start.' % (sid), 'success')
 
         params = {'name': name}
         return self.redirect_to('instance-detail', **params)
