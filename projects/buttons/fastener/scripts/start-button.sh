@@ -24,6 +24,10 @@ if [ "$SID" = "rules" ]; then
   STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
 fi
 
+if [ "$SID" = "fusion" ]; then
+  STREAM_JSON='{"sid": "fusion", "fusion_version":"4.0.2", "distro": "fusion-buttons.tgz", "admin_password": "password123"}'
+fi
+
 if [ "$SID" = "lou" ]; then
   STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
 fi
