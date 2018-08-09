@@ -2,6 +2,6 @@ indexes:
 
 - kind: Instance
   properties:
-  - name: owner
+  - name: user
   - name: created
     direction: desc
