@@ -2,6 +2,3 @@ cron:
 - description: "instance tender"
   url: /instance/tender
   schedule: every 3 min
-  retry_parameters:
-    min_backoff_seconds: 5
-    max_doublings: 5
