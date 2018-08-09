@@ -8,7 +8,7 @@ _routes = [
 	# website
 	RedirectRoute('/', sitehandlers.HomeRequestHandler, name='home', strict_slash=True),
 	RedirectRoute('/labs/', sitehandlers.IndexHandler, name='index', strict_slash=True),
-
+	RedirectRoute('/labnotes/', sitehandlers.DocsHandler, name='labnotes', strict_slash=True),
 	# users
 	RedirectRoute('/login/', userhandlers.LoginHandler, name='login', strict_slash=True),
 	RedirectRoute('/logout/', userhandlers.LogoutHandler, name='logout', strict_slash=True),
