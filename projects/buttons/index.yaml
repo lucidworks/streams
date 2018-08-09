@@ -10,14 +10,3 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-- kind: Instance
-  properties:
-  - name: owner
-  - name: created
-    direction: desc
-
-- kind: Stream
-  properties:
-  - name: sid
-  - name: created
-    direction: desc
