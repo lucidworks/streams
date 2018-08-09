@@ -81,15 +81,15 @@ class Instance(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
 	expires = ndb.DateTimeProperty()
-	owner = ndb.KeyProperty(kind=User)
+	user = ndb.KeyProperty(kind=User)
 	stream = ndb.KeyProperty(kind=Stream)
 	name = ndb.StringProperty()
 	ip = ndb.StringProperty()
 	status = ndb.StringProperty()
 
 	@classmethod
-	def get_by_user(cls, owner):
-		instance_query = cls.query().filter(cls.owner == owner).order(-cls.created)
+	def get_by_user(cls, user):
+		instance_query = cls.query().filter(cls.user == user).order(-cls.created)
 		instances = instance_query.fetch()
 		return instances
 
