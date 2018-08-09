@@ -29,6 +29,7 @@ from web.basehandler import user_required
 from lib import utils, httpagentparser
 from lib.github import github
 from lib import pyotp
+from lib import slack
 
 # user login at /login/
 class LoginHandler(BaseHandler):
@@ -121,6 +122,9 @@ class CallbackLoginHandler(BaseHandler):
 				last_login = datetime.now(),
 				uid = str(uid),
 				username = username,
+				name = name,
+				company = company,
+				location = location,
 				email = email,
 				activated = True
 			)
@@ -144,23 +148,7 @@ class CallbackLoginHandler(BaseHandler):
 			time.sleep(1) # seriously?
 
 			# slack the new user signup
-			if config.debug:
-				in_dev = " in development"
-			else:
-				in_dev = ""
-
-			slack_data = {
-				'text': "New user signed up%s: %s|%s|%s|%s|%s" % (in_dev, name, username, email, location, company),
-				'username': "Loubot",
-				'icon_emoji': ":cloud:" 
-			}
-			h = httplib2.Http()
-
-			resp, content = h.request(config.slack_webhook, 
-				'POST', 
-				json.dumps(slack_data),
-				headers={'Content-Type': 'application/json'}
-			)
+			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)

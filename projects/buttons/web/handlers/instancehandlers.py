@@ -13,11 +13,12 @@ import web.forms as forms
 from web.basehandler import BaseHandler
 from web.basehandler import user_required, admin_required
 from web.models.models import User, Instance, Stream
+from lib import slack
 
 # API methods for keeping cloud status and appengine db in sync via fastner box
 class InstanceTenderHandler(BaseHandler):
     def get(self):
-        if True:
+        try:
             # update list of instances we have
             http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
@@ -45,7 +46,7 @@ class InstanceTenderHandler(BaseHandler):
                         instance = Instance(
                             name = finstance['name'],
                             status = "PENDING",
-                            expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
+                            expires = datetime.datetime.now() + datetime.timedelta(0, 172800), # + 2 days
                             owner = None, # TODO might need fixing 
                             stream = stream.key
                         )
@@ -65,12 +66,11 @@ class InstanceTenderHandler(BaseHandler):
                 else:
                     # only delete if instance create time is greater than 30 minutes...
                     if instance.created < datetime.datetime.now() - datetime.timedelta(0, 300):
-                        print "didn't find it - deleting entry"
+                        slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
                         instance.key.delete()
                     else:
-                        print "waiting to delete"
-        try:
-            pass
+                        slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
+
         except Exception as ex:
             print "yeah, no: %s" % ex
             pass
@@ -88,8 +88,10 @@ class InstancesListHandler(BaseHandler):
         # look up user's instances
         instances = Instance.get_by_user(user_info.key)
 
+        print instances
         params = {
-            'instances': instances
+            'instances': instances,
+            'user_id': self.user_id
         }
 
         return self.render_template('instance/list.html', **params)
@@ -164,6 +166,8 @@ class InstanceCreateHandler(BaseHandler):
             expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
         )
         instance.put()
+
+        slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
         # give the db a second to update
         time.sleep(1)

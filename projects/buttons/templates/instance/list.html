@@ -17,7 +17,7 @@
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.admin_side_menu("streams") }}
+    {{ macros.side_menu("instances", user_id) }}
     </div>
     <div class="col-md-9">
       <div class="row">
@@ -26,22 +26,21 @@
             <h2>Instances</h2>
             <div class="row">
               <div class="col-md-12">
-                <p>These are your instances. You may also <a href="{{ uri_for('admin-streams-create') }}">add a new one</a>.</p>
+                <p>These are your instances. You may also <a href="{{ uri_for('instance-create') }}">add a new one</a>.</p>
                 <table class="table table-hover">
                   <thead>
                     <tr>
                       <th>Instance</th>
-                      <th>Date</th>
-                      <th>Type</th>
-                      <th>Fusion Version</th>
+                      <th>Created</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for stream in streams %}
+                    {% for instance in instances %}
                     <tr>
-                      <td>{{ instance.name }}</td>
-                      <td>{{ instance.date }}</td>
-                      <td>{{ instance.type }}</td>
+                      <td><a href="/instance/{{ instance.name }}">{{ instance.name }}</a></td>
+                      <td>{{ instance.created }}</td>
+                      <td>{{ instance.status }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>

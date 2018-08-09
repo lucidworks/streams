@@ -12,12 +12,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand navbar-logo" href="/labs/"><img src="/img/header_logo_labs_1x.png"></a>
+              <a class="navbar-brand navbar-logo" href="/"><img src="/img/header_logo_labs_1x.png"></a>
             </div>
             <div class="navbar-collapse collapse navbar-right">
               <ul class="nav navbar-nav">
-                <li><a href='/instances/'>Instances</a></li>
-                <li><a class='active' href='/streams/'>Streams</a></li>
+                <li><a href="/">Streams</a></li>
+                <li><a href="{{ uri_for('labnotes') }}">Lab Notes</a></li>
                 {% if user_id %}
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -26,6 +26,7 @@
                   <ul class="dropdown-menu">
                     <li class="dropdown-header">Account</li>
                     <li><a href="{{ uri_for('account-status') }}">Status</a></li>
+                    <li><a href="{{ uri_for('instances-list') }}">Instances</a></li>
                     <li><a href="{{ uri_for('account-settings') }}">Settings</a></li>
                     {% if admin %}
                     <li class="divider"></li>

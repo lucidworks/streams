@@ -29,6 +29,7 @@ class User(User):
 	name = ndb.StringProperty()
 	timezone = ndb.StringProperty()
 	country = ndb.StringProperty()
+	location = ndb.StringProperty()
 	company = ndb.StringProperty()
 	activated = ndb.BooleanProperty(default=False)
 	created = ndb.DateTimeProperty(auto_now_add=True)
@@ -86,8 +87,8 @@ class Instance(ndb.Model):
 	status = ndb.StringProperty()
 
 	@classmethod
-	def get_by_user(cls, user):
-		instance_query = cls.query().filter(cls.user == user).order(-cls.created)
+	def get_by_user(cls, owner):
+		instance_query = cls.query().filter(cls.owner == owner).order(-cls.created)
 		instances = instance_query.fetch()
 		return instances
 
