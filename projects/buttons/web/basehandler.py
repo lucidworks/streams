@@ -305,7 +305,7 @@ class BaseHandler(webapp2.RequestHandler):
 						gravatar_hash = md5.new(user_info.email.lower().strip()).hexdigest()
 						gravatar_url = "www.gravatar.com/avatar/%s?s=24" % gravatar_hash
 					except:
-						gravatar_url = "www.gravatar.com/avatar/%s?d=identicon&f=y" % long(self.user_id)
+						gravatar_url = "www.gravatar.com/avatar/%s?d=identicon&f=y&s=24" % long(self.user_id)
 
 				return gravatar_url
 			
