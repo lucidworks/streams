@@ -35,7 +35,7 @@ class InstanceTenderHandler(BaseHandler):
                         try:
                             instance.ip = finstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
                         except:
-                            instance.ip = "255.255.255.255"
+                            instance.ip = "None"
 
                         instance.status = finstance['status']
                         instance.put()
@@ -60,6 +60,7 @@ class InstanceTenderHandler(BaseHandler):
 
                 for finstance in finstances:
                     if name == finstance['name']:
+                        # found a match
                         break
                 else:
                     # only delete if instance create time is greater than 30 minutes...
@@ -134,7 +135,8 @@ class InstanceCreateHandler(BaseHandler):
     def post(self):
         # know the user
         user_info = User.get_by_id(long(self.user_id))
-        
+        print user_info, "X", user_info.key, "X"
+
         # get form values
         stream = Stream.get_by_id(int(self.form.stream.data.strip()))
         sid = stream.sid
