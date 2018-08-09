@@ -60,6 +60,7 @@ class StreamsCreateHandler(BaseHandler):
         zipurl = self.form.zipurl.data.strip()
         fusion_version = self.form.fusion_version.data.strip()
         github_repo = self.form.github_repo.data.strip()
+        url_stub = self.form.url_stub.data.strip()
 
         # save the stream          
         stream = Stream(
@@ -68,7 +69,8 @@ class StreamsCreateHandler(BaseHandler):
             description = description,
             zipurl = zipurl,
             fusion_version = fusion_version,
-            github_repo = github_repo
+            github_repo = github_repo,
+            url_stub = url_stub
         )
 
         stream.put()
