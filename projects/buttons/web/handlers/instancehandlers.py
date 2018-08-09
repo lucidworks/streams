@@ -20,7 +20,7 @@ class InstanceTenderHandler(BaseHandler):
     def get(self):
         if True:
             # update list of instances we have
-            http = httplib2.Http(timeout=15)
+            http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
 
             response, content = http.request(url, 'GET')
