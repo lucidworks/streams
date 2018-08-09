@@ -22,7 +22,7 @@ class InstanceTenderHandler(BaseHandler):
             # update list of instances we have
             http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
-            print url
+
             response, content = http.request(url, 'GET')
 
             # list of instance from google cloud (see ./fastener/sample-output.json)
@@ -86,9 +86,16 @@ class InstancesListHandler(BaseHandler):
         user_info = User.get_by_id(long(self.user_id))
 
         # look up user's instances
-        instances = Instance.get_by_user(user_info.key)
+        db_instances = Instance.get_all()
 
-        print instances
+        # work around index warning/errors using a .filter() in models.py
+        instances = []
+        for db_instance in db_instances:
+            # limit to instances the user has started
+            if db_instance.user == user_info.key:
+                instances.append(db_instance)
+
+
         params = {
             'instances': instances,
             'user_id': self.user_id
