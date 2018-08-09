@@ -47,7 +47,7 @@ class InstanceTenderHandler(BaseHandler):
                             name = finstance['name'],
                             status = "PENDING",
                             expires = datetime.datetime.now() + datetime.timedelta(0, 172800), # + 2 days
-                            owner = None, # TODO might need fixing 
+                            user = None, # TODO might need fixing 
                             stream = stream.key
                         )
                         instance.put()
@@ -162,7 +162,7 @@ class InstanceCreateHandler(BaseHandler):
         instance = Instance(
             name = name,
             status = "PENDING",
-            owner = user_info.key,
+            user = user_info.key,
             stream = stream.key,
             expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
         )
