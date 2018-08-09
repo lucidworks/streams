@@ -87,11 +87,13 @@ class Instance(ndb.Model):
 	ip = ndb.StringProperty()
 	status = ndb.StringProperty()
 
+	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
 	def get_by_user(cls, user):
 		instance_query = cls.query().filter(cls.user == user).order(-cls.created)
 		instances = instance_query.fetch()
 		return instances
+	"""
 
 	@classmethod
 	def get_all(cls):
