@@ -18,7 +18,7 @@ from lib import slack
 # API methods for keeping cloud status and appengine db in sync via fastner box
 class InstanceTenderHandler(BaseHandler):
     def get(self):
-        if True:
+        try:
             # update list of instances we have
             http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
@@ -41,17 +41,7 @@ class InstanceTenderHandler(BaseHandler):
                         instance.status = finstance['status']
                         instance.put()
                     else:
-                        # create instance (needed if instance is created directly using fastener API)
-                        stream = Stream.get_by_sid(finstance['labels']['sid'])
-                        instance = Instance(
-                            name = finstance['name'],
-                            status = "PENDING",
-                            expires = datetime.datetime.now() + datetime.timedelta(0, 172800), # + 2 days
-                            user = None, # TODO might need fixing 
-                            stream = stream.key
-                        )
-                        instance.put()
-
+                        slack.slack_message("Instance %s found, but no record in database exists for it." % finstance['name'])
 
             # list of instances from db
             instances = Instance.get_all()
@@ -71,8 +61,6 @@ class InstanceTenderHandler(BaseHandler):
                     else:
                         slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
 
-        try:
-            pass
         except Exception as ex:
             print "yeah, no: %s" % ex
             pass
