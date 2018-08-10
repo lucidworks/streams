@@ -94,7 +94,6 @@ class CallbackLoginHandler(BaseHandler):
 		try:
 				access_token = github_helper.get_access_token(code)
 				user_data = github.get_user_info(access_token)
-				print user_data
 		except:
 				message = 'Error while tokening with Github.'
 				self.add_message(message, 'error')
@@ -216,7 +215,7 @@ class TwoFactorLoginHandler(BaseHandler):
 			# user has completed tfa - update login time
 			user_info.last_login = datetime.now()
 			user_info.put()
-			time.sleep(2)
+			time.sleep(1)
 
 			# reset attempt count
 			if user_info.tfa_attempt_count:

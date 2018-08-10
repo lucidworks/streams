@@ -68,6 +68,63 @@ class InstanceTenderHandler(BaseHandler):
         return self.render_template('instance/tender.html')
 
 
+class StreamsStarterHandler(BaseHandler):
+    @user_required
+    def get(self, sid):
+        # know the user
+        user_info = User.get_by_id(long(self.user_id))
+
+        # look up user's instances
+        db_instances = Instance.get_all()
+
+        # check the user's limits
+        instance_count = 0
+        for db_instance in db_instances:
+            # limit to instances the user has started
+            if db_instance.user == user_info.key:
+                instance_count = instance_count + 1
+
+        # warn and redirect if limit is reached
+        if (instance_count + 1) > user_info.max_instances:
+            self.add_message('Instance limit reached. This account may only start %s instances. Please delete an existing instance to start a new one!' % user_info.max_instances, 'warning')
+            return self.redirect_to('instances-list')
+
+        # get stream
+        stream = Stream.get_by_sid(sid)
+
+        # make the instance call to the control box
+        http = httplib2.Http(timeout=10)
+        url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
+        
+        if config.debug: 
+            print url
+
+        # pull the response back TODO add error handling
+        response, content = http.request(url, 'POST', None, headers={})
+        finstance = json.loads(content)
+        name = finstance['instance']
+
+        # set up an instance 
+        instance = Instance(
+            name = name,
+            status = "PENDING",
+            user = user_info.key,
+            stream = stream.key,
+            expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
+        )
+        instance.put()
+
+        slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+
+        # give the db a second to update
+        time.sleep(1)
+
+        self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
+
+        params = {'name': name}
+        return self.redirect_to('instance-detail', **params)
+
+
 # list of a user's instances
 class InstancesListHandler(BaseHandler):
     @user_required
@@ -103,8 +160,12 @@ class InstanceDetailHandler(BaseHandler):
 
         # look up user's instances
         instance = Instance.get_by_name(name)
+
+        if not instance:
+            params = {}
+            return self.redirect_to('instances-list', **params)
+
         stream = Stream.get_by_id(instance.stream.id())
-        print stream
 
         params = {
             'instance': instance,
@@ -135,13 +196,25 @@ class InstanceCreateHandler(BaseHandler):
     def post(self):
         # know the user
         user_info = User.get_by_id(long(self.user_id))
-        print user_info, "X", user_info.key, "X"
 
         # get form values
         stream = Stream.get_by_id(int(self.form.stream.data.strip()))
         sid = stream.sid
 
-        # TODO validate form here
+        # look up user's instances
+        db_instances = Instance.get_all()
+
+        # check the user's limits
+        instance_count = 0
+        for db_instance in db_instances:
+            # limit to instances the user has started
+            if db_instance.user == user_info.key:
+                instance_count = instance_count + 1
+
+        # warn and redirect if limit is reached
+        if (instance_count + 1) > user_info.max_instances:
+            self.add_message('Instance limit reached. This account may only start %s instances. Please delete an existing instance to start a new one!' % user_info.max_instances, 'warning')
+            return self.redirect_to('instances-list')
 
         # make the instance call to the control box
         http = httplib2.Http(timeout=10)

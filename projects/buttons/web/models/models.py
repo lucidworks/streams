@@ -35,6 +35,7 @@ class User(User):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
 	last_login = ndb.DateTimeProperty()
+	max_instances = ndb.IntegerProperty(default=3)
 	tfsecret = ndb.StringProperty()
 	tfenabled = ndb.BooleanProperty(default=False)
 	tfa_attempt_timestamp = ndb.DateTimeProperty()
