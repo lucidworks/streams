@@ -22,11 +22,9 @@ _routes = [
 	# instances
 	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
 	RedirectRoute('/instance/create/', instancehandlers.InstanceCreateHandler, name='instance-create', strict_slash=True),
+	RedirectRoute('/instance/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),	
 	RedirectRoute('/instance/tender', instancehandlers.InstanceTenderHandler, name='instance-tender', strict_slash=True),
 	RedirectRoute('/instance/<name>', instancehandlers.InstanceDetailHandler, name='instance-detail', strict_slash=True),
-
-	# streams
-	RedirectRoute('/streams/<sid>', instancehandlers.StreamsStarterHandler, name='streams-start', strict_slash=True),
 
 	# tasks
 	RedirectRoute('/tasks/mail/', sitehandlers.SendEmailHandler, name='taskqueue-send-email', strict_slash=True),

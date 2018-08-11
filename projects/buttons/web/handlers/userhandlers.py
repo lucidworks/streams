@@ -312,14 +312,12 @@ class SettingsHandler(BaseHandler):
 			user_info.tfsecret = secret
 			user_info.put()
 
-			# tell the user they need to setup 2fa
-			self.add_message("Please take a moment and set up two factor authentication.", "error")
 
 		return self.render_template('user/settings.html', **params)
 
 	def post(self):
 		if not self.form.validate():
-			self.add_message("There were errors in subbitting the form.", "error")
+			self.add_message("There were errors in submitting the form.", "error")
 			return self.get()
 
 		username = self.form.username.data.lower()
