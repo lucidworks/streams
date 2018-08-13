@@ -28,6 +28,7 @@
             {{ macros.input(form, "zipurl", _("Application Zip URL"), placeholder=_("https://googlebucket.com/blah/blah"), class="input-xlarge focused") }}
             {{ macros.input(form, "github_repo", _("Github Repo URL"), placeholder=_("https://github.com/lucidworks/streams/projects/sockitter/"), class="input-xlarge focused") }}
             {{ macros.input(form, "fusion_version", _("Fusion Version")) }}
+            {{ macros.input(form, "url_stub", _("URL Stub"), placeholder=_(":8764/webapp/foo"), class="input-xlarge focused") }}
             <div class="form-actions">
                 <button type="submit" class="btn btn-inverse btn-large"><i class="icon-white icon-ok"></i> {% trans %}Create{% endtrans %}</button>
             </div>

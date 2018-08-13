@@ -12,46 +12,107 @@
 {% endblock %}
 
 {% block content %}
+<!-- hidden create instance modal -->
+{% if user_info.email %}
+<div id="create-instance-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create a Fusion Instance</h4>
+      </div>
+      <div class="modal-body">
+        <p>Use the pulldown below to select a Fusion application stream template. Click <strong>Create Instance</strong> to create a new instance from the selected stream.</p>
+        <div class="row">
+          <div class="col-md-5 form-padding" id="stream-form">
+            <label class="control-label" for="stream">Select Stream</label>
+            <select class="form-control pulldown" id="stream" name="stream" type="text">
+              {% for stream in streams %}
+              <option value="{{ stream.sid }}">{{ stream.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close-button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="create-button" class="btn btn-success">Create Instance</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div id="update-email-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Update Your Email Address</h4>
+      </div>
+      <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
+        <div class="modal-body">
+          <p>The system was unable to find an email address for your associated Github account.</p>
+          <p>Please update the field below with a valid email address. Your email address will be used to  notify you of changes in instance status and/or helping us establish interest in our products.</p>
+          <div class="row">
+            <div class="col-md-5 form-padding" id="stream-form">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                {{ macros.input(form, "email", "Your Email Address", placeholder="you@email.com", class="form-control focused required") }}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close-button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" id="start-button" class="btn btn-success">Update Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+<!-- end modal -->
 
 <img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
 
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.admin_side_menu("streams") }}
+    {{ macros.side_menu("instances", user_id) }}
     </div>
     <div class="col-md-9">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
-            <h2><small>Admin Streams</small></h2>
+            <h2>Instances</h2>
             <div class="row">
               <div class="col-md-12">
-                <p>The following are streams on the system. You may also <a href="{{ uri_for('admin-streams-create') }}">add a new one</a>.</p>
+                {% if instances %}
+                <p>The following instances are assigned to this account.</p>
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Stream ID</th>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Fusion Version</th>
-                      <th>Zip URL</th>
-                      <th>Github Repo</th>
+                      <th>Instance</th>
+                      <th>Created</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for stream in streams %}
+                    {% for instance in instances %}
                     <tr>
-                      <td>{{ stream.sid }}</td>
-                      <td>{{ stream.name }}</td>
-                      <td>{{ stream.description }}</td>
-                      <td>{{ stream.fusion_version }}</td>
-                      <td>{{ stream.zipurl }}</td>
-                      <td>{{ stream.github_repo }}</td>
+                      <td><a href="/instance/{{ instance.name }}">{{ instance.name }}</a></td>
+                      <td>{{ instance.created }}</td>
+                      <td>{{ instance.status }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
+                {% else %}
+                <p>There are no instances assigned to this account. Click the <strong>Create Instance</strong> button below to start a new instance from a stream source. Application streams can  be explored in more detail from the <a href="https://lucidworks.com/labs">Labs page</a>.</p>
+                {% endif %}
+                <div class="row">
+                  <div class="col-md-5">
+                    <button type="button" id="create-instance-button" class="btn btn-success">Create Instance</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -69,9 +130,36 @@
 
 <script type="text/javascript">
   $().ready(function() {
+    {% if user_info.email %}
+      $('#create-instance-button').click( function() {
+        $('#create-instance-modal').modal();
+      });
+      $('#create-button').click( function() {
+        window.location.href = '/instance/create/' + $("#stream").val();
+      });
+
+    {% else %}
+      $('#update-email-modal').modal();
+      $('#email').focus();
+      $('#create-instance-button').click( function() {
+        $('#update-email-modal').modal();
+        $('#email').focus();
+      });
+    {% endif %}
+
     // standard stuff
     var username = "{{ username }}";
     var csrf_token = "{{ csrf_token() }}";
+    var time = new Date().getTime();
+
+    function refresh() {
+      if(new Date().getTime() - time >= 60000) {
+        window.location.reload(true);
+      } else { 
+        setTimeout(refresh, 10000);
+      }
+    }
+    setTimeout(refresh, 10000);
   });
 </script>
 
