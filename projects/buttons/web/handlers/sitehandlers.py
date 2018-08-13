@@ -24,9 +24,9 @@ from web.basehandler import user_required
 
 # index lives at /labs on streams.lucidworks.com
 class IndexHandler(BaseHandler):
-    def get(self):
-        params = {}
-        return self.render_template('site/index.html', **params)
+	def get(self):
+		params = {}
+		return self.redirect('/dashboard')
 
 # home redirects / to lucidworks.com/labs (thanks marketing) 
 class HomeRequestHandler(BaseHandler):

@@ -180,10 +180,10 @@ class CallbackLoginHandler(BaseHandler):
 		if next:
 			return self.redirect(str(next))
 		else:
-			return self.redirect_to('account-status')
+			return self.redirect_to('account-dashboard')
 
 		try:
-			pass				
+			pass
 		except Exception as ex:
 			message = "User login went wrong: %s" % ex            
 			self.add_message(message, 'error')
@@ -227,7 +227,7 @@ class TwoFactorLoginHandler(BaseHandler):
 			if next:
 				return self.redirect(str(next))
 			else:
-				return self.redirect_to('account-status')
+				return self.redirect_to('account-dashboard')
 		else:
 			# 2fa failed
 			user_info.tfa_attempt_timestamp = datetime.now()
@@ -390,7 +390,7 @@ class SettingsHandler(BaseHandler):
 		return forms.EditProfileForm(self)
 
 
-class StatusHandler(BaseHandler):
+class DashboardHandler(BaseHandler):
 	@user_required
 	def get(self):
 		# lookup user's auth info
@@ -400,7 +400,7 @@ class StatusHandler(BaseHandler):
 		params = {
 		}
 
-		return self.render_template('user/status.html', **params)
+		return self.render_template('user/dashboard.html', **params)
 
 
 class AccountHandler(BaseHandler):
