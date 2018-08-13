@@ -301,10 +301,14 @@ class BaseHandler(webapp2.RequestHandler):
 					self.redirect_to('index')
 				else:	
 					# build gravatar URL
-					gravatar_hash = md5.new(user_info.email.lower().strip()).hexdigest()
-					gravatar_url = "www.gravatar.com/avatar/%s?s=24" % gravatar_hash
-					return gravatar_url
+					try:
+						gravatar_hash = md5.new(user_info.email.lower().strip()).hexdigest()
+						gravatar_url = "www.gravatar.com/avatar/%s?s=24" % gravatar_hash
+					except:
+						gravatar_url = "www.gravatar.com/avatar/%s?d=identicon&f=y&s=24" % long(self.user_id)
 
+				return gravatar_url
+			
 			except AttributeError, e:
 				logging.error(e)
 				self.redirect_to('index')

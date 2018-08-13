@@ -52,7 +52,7 @@
         <h4 class="modal-title" id="myModalLabel">Disable Two Factor Authentication</h4>
       </div>
       <div class="modal-body">
-        <p>Disabling two factor authentication is not recommended.  If you are insistent on this action, please enter an authentication code below and click the disable button to continue.</p>
+        <p>Disabling two factor authentication is not recommended.  Please enter an authentication code below and click the disable button to continue.</p>
         <div class="row">
           <div class="col-md-5 form-padding" id="authcode-form">
             <label class="control-label" for="authcode">Auth Code</label>
@@ -73,7 +73,7 @@
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.side_menu("settings", user_id, provider) }}
+    {{ macros.side_menu("settings", user_id) }}
     </div>
     <div class="col-md-9">
       <div class="row">
@@ -114,7 +114,7 @@
               <div id="two-factor-auth-slider" class="toggle enabled"></div>
             </div>
           {% else %}
-            <p>You need to enable two factor authentication!</p>
+            <p>You may want to enable two factor authentication.</p>
             <div class="toggle-modern">
               <div id="two-factor-auth-slider" class="toggle"></div>
             </div>

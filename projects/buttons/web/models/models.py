@@ -29,11 +29,13 @@ class User(User):
 	name = ndb.StringProperty()
 	timezone = ndb.StringProperty()
 	country = ndb.StringProperty()
+	location = ndb.StringProperty()
 	company = ndb.StringProperty()
 	activated = ndb.BooleanProperty(default=False)
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
 	last_login = ndb.DateTimeProperty()
+	max_instances = ndb.IntegerProperty(default=3)
 	tfsecret = ndb.StringProperty()
 	tfenabled = ndb.BooleanProperty(default=False)
 	tfa_attempt_timestamp = ndb.DateTimeProperty()
@@ -62,6 +64,7 @@ class Stream(ndb.Model):
 	zipurl = ndb.StringProperty()
 	fusion_version = ndb.StringProperty()
 	github_repo = ndb.StringProperty()
+	url_stub = ndb.StringProperty()
 
 	@classmethod
 	def get_all(cls):
@@ -78,17 +81,20 @@ class Stream(ndb.Model):
 class Instance(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
-	owner = ndb.KeyProperty(kind=User)
+	expires = ndb.DateTimeProperty()
+	user = ndb.KeyProperty(kind=User)
 	stream = ndb.KeyProperty(kind=Stream)
-	iid = ndb.StringProperty()
 	name = ndb.StringProperty()
-	state = ndb.IntegerProperty()
+	ip = ndb.StringProperty()
+	status = ndb.StringProperty()
 
+	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
 	def get_by_user(cls, user):
 		instance_query = cls.query().filter(cls.user == user).order(-cls.created)
 		instances = instance_query.fetch()
 		return instances
+	"""
 
 	@classmethod
 	def get_all(cls):
@@ -99,6 +105,10 @@ class Instance(ndb.Model):
 	@classmethod
 	def get_by_iid(cls, iid):
 		return cls.query().filter(cls.iid == iid).get()
+
+	@classmethod
+	def get_by_name(cls, name):
+		return cls.query().filter(cls.name == name).get()
 
 
 # log tracking pings

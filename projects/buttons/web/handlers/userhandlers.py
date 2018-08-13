@@ -29,6 +29,7 @@ from web.basehandler import user_required
 from lib import utils, httpagentparser
 from lib.github import github
 from lib import pyotp
+from lib import slack
 
 # user login at /login/
 class LoginHandler(BaseHandler):
@@ -73,7 +74,7 @@ class LogoutHandler(BaseHandler):
 			self.add_message(message, 'info')
 
 		self.auth.unset_session()
-		self.redirect_to('labs-index')
+		self.redirect_to('index')
 
 
 # google auth callback
@@ -93,11 +94,10 @@ class CallbackLoginHandler(BaseHandler):
 		try:
 				access_token = github_helper.get_access_token(code)
 				user_data = github.get_user_info(access_token)
-				print user_data
 		except:
 				message = 'Error while tokening with Github.'
 				self.add_message(message, 'error')
-				return self.redirect_to('labs-index')
+				return self.redirect_to('index')
 
 		# see if user is in database
 		uid = str(user_data['id']) # github id
@@ -110,14 +110,20 @@ class CallbackLoginHandler(BaseHandler):
 
 		# never seen them, so create user
 		if not user_info:
+			name = user_data['name']
 			username = user_data['login']
 			email = user_data['email']
+			location = user_data['location']
+			company = user_data['company']
 
 			# create entry in db
 			user_info = User(
 				last_login = datetime.now(),
 				uid = str(uid),
 				username = username,
+				name = name,
+				company = company,
+				location = location,
 				email = email,
 				activated = True
 			)
@@ -139,25 +145,9 @@ class CallbackLoginHandler(BaseHandler):
 
 			# wait a few seconds for database server to update
 			time.sleep(1) # seriously?
-			log_message = "new user registered"
 
 			# slack the new user signup
-			if config.debug:
-				in_dev = "in development"
-			else:
-				in_dev = ""
-
-			slack_data = {
-				'text': "New user %s just signed up %s!" % (user_info.username, in_dev),
-				'username': "Lou",
-				'icon_emoji': ":cloud:"
-			}
-			h = httplib2.Http()
-
-			resp, content = h.request(config.slack_webhook, 
-		        'POST', 
-		        json.dumps(slack_data),
-		        headers={'Content-Type': 'application/json'})
+			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)
@@ -182,7 +172,8 @@ class CallbackLoginHandler(BaseHandler):
 			ip = self.request.remote_addr
 		)
 		log.put()
-		message = "You have successfully logged in!"      
+		message = "You have successfully logged in!"         
+
 		self.add_message(message, 'success')
 
 		# take user to next page
@@ -225,7 +216,7 @@ class TwoFactorLoginHandler(BaseHandler):
 			# user has completed tfa - update login time
 			user_info.last_login = datetime.now()
 			user_info.put()
-			time.sleep(2)
+			time.sleep(1)
 
 			# reset attempt count
 			if user_info.tfa_attempt_count:
@@ -322,14 +313,12 @@ class SettingsHandler(BaseHandler):
 			user_info.tfsecret = secret
 			user_info.put()
 
-			# tell the user they need to setup 2fa
-			self.add_message("Please take a moment and set up two factor authentication.", "error")
 
 		return self.render_template('user/settings.html', **params)
 
 	def post(self):
 		if not self.form.validate():
-			self.add_message("There were errors in subbitting the form.", "error")
+			self.add_message("There were errors in submitting the form.", "error")
 			return self.get()
 
 		username = self.form.username.data.lower()
