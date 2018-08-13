@@ -173,6 +173,7 @@ class CallbackLoginHandler(BaseHandler):
 		)
 		log.put()
 		message = "You have successfully logged in!"         
+
 		self.add_message(message, 'success')
 
 		# take user to next page
