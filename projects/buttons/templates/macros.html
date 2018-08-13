@@ -17,6 +17,37 @@
   </ul>
 {%- endmacro %}
 
+<!-- instance states side menu widget -->
+{% macro instance_state(state) %}
+  {% if state==0 %}
+    <span id="state" class="label label-danger btn-lg instance-state">Inactive</span>
+  {% endif %}
+  {% if state==1 %}
+    <span id="state" class="label label-warning btn-lg instance-state">Waiting on Payment</span>
+  {% endif %}
+  {% if state==2 %}
+    <span id="state" class="label label-info btn-lg instance-state">Payment Received</span>
+  {% endif %}
+  {% if state==3 %}
+    <span id="state" class="label label-success btn-lg instance-state">Starting</span>
+  {% endif %}
+  {% if state==4 %}
+    <span id="state" class="label label-success btn-lg instance-state">Running</span>
+  {% endif %}
+  {% if state==5 %}
+    <span id="state" class="label label-warning btn-lg instance-state">Suspended</span>
+  {% endif %}
+  {% if state==6 %}
+    <span id="state" class="label label-info btn-lg instance-state">Unsupended</span>
+  {% endif %}
+  {% if state==7 %}
+    <span id="state" class="label label-danger btn-lg instance-state">Decommissioned</span>
+  {% endif %}
+  {% if state==10 %}
+    <span id="state" class="label label-info btn-lg instance-state">Reserved</span>
+  {% endif %}
+{% endmacro %}
+
 <!-- admin side menu widget -->
 {% macro admin_side_menu(page) -%}
   <ul class="nav nav-pills nav-stacked">
