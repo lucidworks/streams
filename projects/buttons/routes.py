@@ -17,9 +17,9 @@ _routes = [
 	RedirectRoute('/login/tfa', userhandlers.TwoFactorLoginHandler, name='login-tfa', strict_slash=True),
 	RedirectRoute('/settings/', userhandlers.SettingsHandler, name='account-settings', strict_slash=True),
 	RedirectRoute('/settings/tfa', userhandlers.TwoFactorSettingsHandler, name='account-tfa', strict_slash=True),
-	RedirectRoute('/status/', userhandlers.StatusHandler, name='account-status', strict_slash=True),
+	RedirectRoute('/dashboard/', userhandlers.DashboardHandler, name='account-dashboard', strict_slash=True),
 
-	# instances
+	# user's instances
 	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
 	RedirectRoute('/instance/create/', instancehandlers.InstanceCreateHandler, name='instance-create', strict_slash=True),
 	RedirectRoute('/instance/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),	
@@ -30,9 +30,9 @@ _routes = [
 	RedirectRoute('/tasks/mail/', sitehandlers.SendEmailHandler, name='taskqueue-send-email', strict_slash=True),
 
 	# admin
-	RedirectRoute('/admin/', adminhandlers.AdminHandler, name='admin', strict_slash=True),
-	RedirectRoute('/admin/streams/', adminhandlers.StreamsHandler, name='admin-streams', strict_slash=True),
-	RedirectRoute('/admin/streams/create/', adminhandlers.StreamsCreateHandler, name='admin-streams-create', strict_slash=True),
+	RedirectRoute('/admin/streams/', adminhandlers.AdminStreamsHandler, name='admin-streams', strict_slash=True),
+	RedirectRoute('/admin/instances/', adminhandlers.AdminInstancesHandler, name='admin-instances', strict_slash=True),
+	RedirectRoute('/admin/users/', adminhandlers.AdminusersHandler, name='admin-users', strict_slash=True),
 	RedirectRoute('/admin/users/export/', adminhandlers.UsersExportHandler, name='admin-users-export', strict_slash=True)
 ]
 

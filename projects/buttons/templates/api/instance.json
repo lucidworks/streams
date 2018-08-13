@@ -1,8 +1,6 @@
 { 
-  "created": "{{ created }}",
-  "updated": "{{ updated }}",
-  "iid": "{{ iid }}",
+  "created": "{{ instance.created }}",
+  "updated": "{{ instance.updated }}",
   "name": "{{ name }}",
-  "running": "{{ running}}"
+  "status": "{{ status }}"
 }
-

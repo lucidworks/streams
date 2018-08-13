@@ -113,7 +113,7 @@
         console.log("base online");
         // login button
         $('#nav-login').on('click', function(e) { 
-          window.location = "{{ uri_for('account-status') }}" 
+          window.location = "{{ uri_for('account-dashboard') }}" 
         });
       
         {% if messages|safe %}
