@@ -260,7 +260,7 @@ class InstanceDetailHandler(BaseHandler):
             'stream': stream
         }
 
-        return self.render_template('instance/detail.html', **params)
+        return self.render_template('instance/detail2.html', **params)
 
 
 # create new instance
