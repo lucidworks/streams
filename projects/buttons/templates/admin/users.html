@@ -57,8 +57,14 @@
                       <td>{{ user.created }}
                       <td>{{ user.name }}</td>
                       <td>{{ user.email }}</td>
-                      <td>[--]</td>
-                      <td>X</td>
+                      <td>
+                        <div class="toggle-modern">
+                          <div id="user-employee-slider" class="toggle enabled"></div>
+                        </div>
+                      </td>
+                      <td>
+                        <button type="button" id="remove-{{user.key.id()}}" class="btn btn-danger btn-xs" title="Remove User" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                      </td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -94,6 +100,13 @@
     // standard stuff
     var username = "{{ username }}";
     var csrf_token = "{{ csrf_token() }}";
+
+    // two factor auth slider
+    $('#user-employee-slider').toggles({
+      ontext:'ON',
+      offtext:'OFF',
+      on: $('#user-employee-slider').hasClass('enabled')
+    });
   });
 </script>
 

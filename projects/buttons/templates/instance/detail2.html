@@ -5,6 +5,7 @@
 
 {% block page_styles %}
   <link href="/css/docs.css" rel="stylesheet">
+  <link href="/css/documentation.css" rel="stylesheet">
   <link href="/css/lab.css" rel="stylesheet">
 {% endblock %}
 
@@ -13,17 +14,25 @@
 {% endblock %}
 
 {% block content %}
+<div class="inverse">
+  <div class="container">
+    <div class="row">
+      <h1>The Instance</h1>
+      <p class="blurb">&#8220;The secret of getting ahead is getting started.&#8221; ― Mark Twain</p>
+    </div>
+  </div>
+</div>
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.side_menu("clouds", user_id) }}
+    {{ macros.side_menu("instances", user_id) }}
     </div>
     <div class="col-md-9">
       <div class="row">
 
         <div class="col-md-12">
           <div class="section-header">
-            <h2><small>Instance <strong>{{ instance.name }}</strong></small></h2>
+            <h2>Instance <strong>{{ instance.name }}</strong></h2>
             <div class="row instance-detail-row">
               <div class="col-md-4">
                 <div class="text-center"><h3><small>Instance Timer</small></h3></div>
@@ -99,13 +108,23 @@
       </div>
       <div class="row button-padding">
         <div class="col-md-12">
-          <button id="back-to-cloud" class="btn btn-info"><span class="glyphicon glyphicon-arrow-left"></span> Back to </button>
-          <button id="open-launcher" class="btn btn-success">Add New Instance</button>
+          <button id="back-to-cloud" class="btn btn-info"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
+          <button id="open-launcher" class="btn btn-success">Create a New Instance</button>
         </div>
       </div>
     </div>
   </div> 
 </div>
+{% endblock %}
+
+{% block footer %}
+<div class="footer-strip">
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
 {% endblock %}
 
 {% block javascript %}

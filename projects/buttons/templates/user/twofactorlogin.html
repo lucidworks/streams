@@ -4,7 +4,9 @@
 {% block title %}Settings :: {% endblock %}
 
 {% block page_styles %}
-  <link href="/css/configure.css" rel="stylesheet">
+  <link href="/css/docs.css" rel="stylesheet">
+  <link href="/css/documentation.css" rel="stylesheet">
+  <link href="/css/lab.css" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
@@ -12,11 +14,19 @@
 {% endblock %}
 
 {% block content %}
+<div class="inverse">
+  <div class="container">
+    <div class="row">
+      <h1>2FA Login</h1>
+      <p class="blurb">&#8220;There is not much collective security in a flock of sheep on the way to the butcher.&#8221; ― Winston Churchill</p>
+    </div>
+  </div>
+</div>
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="/login/">Sign In</a></li>
+        <li class="active"><a href="/login/">Login</a></li>
       </ul>
     </div>
     <div class="col-md-9">
@@ -24,12 +34,12 @@
         <div class="col-md-12">
           <div class="section-header">
             <h2><small>Two Factor Authentication Required</small></h2>
-            <p>This account has two factor authentication enabled.  Use your Google Authenticator application and enter the authentication code to continue.</p>
+            <p>This account has two factor authentication enabled.  Launch your Google Authenticator application and  enter the code below to proceed.</p>
           </div>
           <div class="col-md-5 form-padding">
             <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
               <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-              <label class="control-label" for="authcode">Auth Code</label>
+              <label class="control-label" for="authcode">Authentication Code</label>
               <input length=20 class="form-control" id="authcode" name="authcode" type="text">
               <div class="form-actions">
                 <button type="submit" id="login-tfa" class="btn btn-danger">Authenticate</button>
