@@ -141,6 +141,12 @@ class InstancesListHandler(BaseHandler):
         if sid and user_info.email:
             return self.post(sid)
 
+        if not user_info.email or not user_info.name or not user_info.company:
+            need_more_info = True
+            print "meh"
+        else:
+            need_more_info = False
+
         # look up user's instances
         db_instances = Instance.get_all()
 
@@ -157,7 +163,9 @@ class InstancesListHandler(BaseHandler):
             'instances': instances,
             'streams': streams,
             'user_id': self.user_id,
-            'user_info': user_info
+            'user_info': user_info,
+            'sid': sid,
+            'need_more_info': need_more_info
         }
 
         return self.render_template('instance/list.html', **params)
@@ -260,7 +268,7 @@ class InstanceDetailHandler(BaseHandler):
             'stream': stream
         }
 
-        return self.render_template('instance/detail.html', **params)
+        return self.render_template('instance/detail2.html', **params)
 
 
 # create new instance

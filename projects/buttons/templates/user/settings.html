@@ -4,7 +4,9 @@
 {% block title %}Settings :: {% endblock %}
 
 {% block page_styles %}
-  <link href="/css/configure.css" rel="stylesheet">
+  <link href="/css/docs.css" rel="stylesheet">
+  <link href="/css/documentation.css" rel="stylesheet">
+  <link href="/css/lab.css" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
@@ -52,7 +54,7 @@
         <h4 class="modal-title" id="myModalLabel">Disable Two Factor Authentication</h4>
       </div>
       <div class="modal-body">
-        <p>Disabling two factor authentication is not recommended.  Please enter an authentication code below and click the disable button to continue.</p>
+        <p>Disabling two factor authentication might make you sad.  Please enter an authentication code below and click the disable button to continue.</p>
         <div class="row">
           <div class="col-md-5 form-padding" id="authcode-form">
             <label class="control-label" for="authcode">Auth Code</label>
@@ -62,14 +64,21 @@
       </div>
       <div class="modal-footer">
         <button type="button" id="two-factor-auth-close-button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="two-factor-auth-confirm-button" class="btn btn-danger">Disable Two Factor Auth</button>
+        <button type="button" id="two-factor-auth-confirm-button" class="btn btn-danger">Disable Two Factor Authentication</button>
       </div>
     </div>
   </div>
 </div>
 <!-- end modal -->
 {% endif %}
-<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
+<div class="inverse">
+  <div class="container">
+    <div class="row">
+      <h1>Account Settings</h1>
+      <p class="blurb">&#8220;You are an aperture through which the universe is looking at and exploring itself.&#8221; ― Alan Watts</p>
+    </div>
+  </div>
+</div>
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
@@ -79,12 +88,35 @@
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
-            <h2><small>Account Settings</small></h2>
+            <h2>Two Factor Authentication</h2>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-12">
+          {% if tfenabled %}
+            <p>Two factor authentication is enabled.</p>
+            <div class="toggle-modern">
+              <div id="two-factor-auth-slider" class="toggle enabled"></div>
+            </div>
+          {% else %}
+            <p>If you value security, you may want to enable two factor authentication.</p>
+            <div class="toggle-modern">
+              <div id="two-factor-auth-slider" class="toggle"></div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-header">
+            <h2>Account Profile</h2>
+          </div>
+        </div>
+      </div>
+      <p>The more we know about you, the more instances you can start on the system. That said, privacy rules.</p>
+      <div class="row">
+        <div class="col-md-6">
           <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             {{ macros.input(form, "username", "Username", placeholder="your username", class="form-control focused required") }}
@@ -99,28 +131,6 @@
           </form>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="section-header">
-            <h2><small>Two Factor Authentication</small></h2>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-5">
-          {% if tfenabled %}
-            <p>Two factor authentication is enabled.</p>
-            <div class="toggle-modern">
-              <div id="two-factor-auth-slider" class="toggle enabled"></div>
-            </div>
-          {% else %}
-            <p>You may want to enable two factor authentication.</p>
-            <div class="toggle-modern">
-              <div id="two-factor-auth-slider" class="toggle"></div>
-            </div>
-          {% endif %}
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -128,7 +138,13 @@
 {% endblock %}
 
 {% block footer %}
-  {% include 'footer.html' %}
+<div class="footer-strip">
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
 {% endblock %}
 
 {% block javascript %}

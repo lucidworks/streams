@@ -4,7 +4,9 @@
 {% block title %}Streams Admin :: {% endblock %}
 
 {% block page_styles %}
-  <link href="/css/configure.css" rel="stylesheet">
+  <link href="/css/docs.css" rel="stylesheet">
+  <link href="/css/documentation.css" rel="stylesheet">
+  <link href="/css/lab.css" rel="stylesheet">
 {% endblock %}
 
 {% block navbar %}
@@ -52,9 +54,9 @@
       <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
         <div class="modal-body">
           <p>The system was unable to find an email address for your associated Github account.</p>
-          <p>Please update the field below with a valid email address. Your email address will be used to  notify you of changes in instance status and/or helping us establish interest in our products.</p>
+          <p>Please update the field below with a valid email address. Your email address will be used to notify you of changes in instance status and helping your establish interest in our product line.</p>
           <div class="row">
-            <div class="col-md-5 form-padding" id="stream-form">
+            <div class="col-md-6 form-padding" id="stream-form">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                 {{ macros.input(form, "email", "Your Email Address", placeholder="you@email.com", class="form-control focused required") }}
             </div>
@@ -70,9 +72,14 @@
 </div>
 {% endif %}
 <!-- end modal -->
-
-<img src="/img/labs_bg.png" alt="background-image" class="img-responsive nav-bg">
-
+<div class="inverse">
+  <div class="container">
+    <div class="row">
+      <h1>Start Your Instances</h1>
+      <p class="blurb">&#8220;We are not makers of history. We are made by history.&#8221; ― Martin Luther King, Jr.</p>
+    </div>
+  </div>
+</div>
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
@@ -86,27 +93,44 @@
             <div class="row">
               <div class="col-md-12">
                 {% if instances %}
-                <p>The following instances are assigned to this account.</p>
+                <p>Your instances are shown in the list below. To create a new Fusion based instance, click the <strong>Create Instance</strong> button below. Click on the instance name to view detailed information about a given instance.</p>
+                {% else %}
+                <p>There are no instances assigned to this account. Click the <strong>Create Instance</strong> button below to start a new instance from a stream source. Application streams can  be explored in more detail from the <a href="https://lucidworks.com/labs">Labs index</a>.</p>
+                {% endif %}
+
+                {% if need_more_info %}
+                <div class="bs-callout bs-callout-warning bs-callout-top">
+                  <h4>We need more information about you!</h4>
+                  <p>While we're grateful we've been able to authenticate you with your Github account, we were sadly unable to gather other information about you, such as your name, email address and company name. If you wouldn't mind too terribly much, please update your profile with this information so we can better serve you in the future!</p>
+                  <button type="button" id="account-settings" class="btn btn-warning">Update Your Profile</button>
+                </div>
+                {% endif %}
+                <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>.</p>
+                {% if instances %}
                 <table class="table table-hover">
                   <thead>
                     <tr>
                       <th>Instance</th>
+                      <th>Stream</th>
                       <th>Created</th>
                       <th>Status</th>
+                      <th>Action?</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for instance in instances %}
                     <tr>
                       <td><a href="/instance/{{ instance.name }}">{{ instance.name }}</a></td>
+                      <td>{{ instance.stream.get().sid}}
                       <td>{{ instance.created }}</td>
                       <td>{{ instance.status }}</td>
+                      <td>
+                        <button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                      </td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
-                {% else %}
-                <p>There are no instances assigned to this account. Click the <strong>Create Instance</strong> button below to start a new instance from a stream source. Application streams can  be explored in more detail from the <a href="https://lucidworks.com/labs">Labs page</a>.</p>
                 {% endif %}
                 <div class="row">
                   <div class="col-md-5">
@@ -121,6 +145,16 @@
     </div>
   </div> 
 </div>
+{% endblock %}
+
+{% block footer %}
+<div class="footer-strip">
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
 {% endblock %}
 
 {% block javascript %}
@@ -139,13 +173,23 @@
       });
 
     {% else %}
-      $('#update-email-modal').modal();
-      $('#email').focus();
       $('#create-instance-button').click( function() {
         $('#update-email-modal').modal();
         $('#email').focus();
       });
     {% endif %}
+
+    {% if sid %}
+    $('#applications-index').click(function() {
+      $('#update-email-modal').modal();
+      $('#email').focus();
+    });
+    {% endif %}
+
+    // apps index
+    $('#account-settings').click(function() {
+      window.location = "{{ uri_for('account-settings') }}";
+    });
 
     // standard stuff
     var username = "{{ username }}";
