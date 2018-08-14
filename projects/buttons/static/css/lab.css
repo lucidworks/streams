@@ -1,8 +1,10 @@
 html, body {
 }
 body {
-  background-image: url("/img/labs_bg.png");
-  background-repeat: no-repeat;
+}
+h1, h2, h3 {
+    margin-top: 15px;
+    margin-bottom: 3px;
 }
 input.ip, input.ip:focus {
   border: 0px;
@@ -28,8 +30,11 @@ pre {
   padding-right: 30px;
 }
 .content {
-	margin-top: 70px;
+	margin-top: 20px;
   margin-bottom: 70px;
+}
+.padding {
+  margin-bottom: 200px;
 }
 .page-header > h1, .page-header > h2 , .page-header {
 	margin-top: 0px;
@@ -70,17 +75,20 @@ pre {
 .steps {
   margin-bottom: 30px;
 }
+.nav-pills > li > a {
+    color: #14C6BC;
+}
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-  color: #3BAFDA;
+  color: #14C6BC;
   background-color: #FFF;
-  border: 1px solid #3BAFDA;
-  border-left: 6px solid #3BAFDA;
+  border: 1px solid #14C6BC;
+  border-left: 6px solid #14C6BC;
 }
 .nav-pills a {
 	text-decoration: none;
 }
 span.label-info {
-  background-color: #3BAFDA;
+  background-color: #14C6BC;
 }
 button.btn-inverse {
   background-color: #444;

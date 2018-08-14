@@ -26,6 +26,11 @@ h5 {
 	padding-bottom: 30px;
 	margin-bottom: 20px;
 }
+.footer-strip {
+    background-color: #252525;
+    padding-bottom: 1px;
+    margin-bottom: 20px;
+}
 .bs-docs-sidebar {
 	margin-top: 200px;
 }

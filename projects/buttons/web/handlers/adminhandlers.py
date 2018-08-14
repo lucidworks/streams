@@ -6,27 +6,16 @@ import config
 import web.forms as forms
 from web.basehandler import BaseHandler
 from web.basehandler import user_required, admin_required
-from web.models.models import User, Stream
+from web.models.models import User, Stream, Instance
 
-class AdminHandler(BaseHandler):
+class AdminStreamsHandler(BaseHandler):
     @user_required
     @admin_required
-    def get(self):
-        # lookup user's auth info
-        user_info = User.get_by_id(long(self.user_id))
-        params = {}
-
-        return self.render_template('admin/status.html', **params)
-
-
-class StreamsHandler(BaseHandler):
-    @user_required
-    @admin_required
-    def get(self):
+    def get(self, sid=None):
         # lookup user's auth info
         user_info = User.get_by_id(long(self.user_id))
 
-        # look up usrs
+        # look up streams
         streams = Stream.get_all()
 
         params = {
@@ -35,17 +24,13 @@ class StreamsHandler(BaseHandler):
 
         return self.render_template('admin/streams.html', **params)
 
-class StreamsCreateHandler(BaseHandler):
     @user_required
     @admin_required
-    def get(self):
-        # pull the github token out of the social user db
-        user_info = User.get_by_id(long(self.user_id))
+    def delete(self, sid):
+        pass
 
-        params = {}
-        return self.render_template('admin/streams_create.html', **params)
-        
     @user_required
+    @admin_required
     def post(self):
         if not self.form.validate():
             return self.get()
@@ -88,7 +73,41 @@ class StreamsCreateHandler(BaseHandler):
         return forms.StreamForm(self)
 
 
-class UsersExportHandler(BaseHandler):
+class AdminInstancesHandler(BaseHandler):
+    @user_required
+    @admin_required
+    def get(self):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
+
+        # look up instances
+        instances = Instance.get_all()
+
+        params = {
+            'instances': instances
+        }
+
+        return self.render_template('admin/instances.html', **params)
+
+
+class AdminUsersHandler(BaseHandler):
+    @user_required
+    @admin_required
+    def get(self):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
+
+        # look up users
+        users = User.get_all()
+
+        params = {
+            'users': users
+        }
+
+        return self.render_template('admin/users.html', **params)
+
+
+class AdminUsersExportHandler(BaseHandler):
     @user_required
     @admin_required
     def get(self):
@@ -106,4 +125,3 @@ class UsersExportHandler(BaseHandler):
         self.response.headers['Content-Type'] = "text/csv"
         self.response.headers['Content-Disposition'] = "attachment; filename=users.csv"
         return self.render_template('admin/user.csv', **params)
-

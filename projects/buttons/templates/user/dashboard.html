@@ -17,7 +17,7 @@
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.side_menu("status", user_id) }}
+    {{ macros.side_menu("dashboard", user_id) }}
     </div>
     <div class="col-md-9">
       <div class="row">
@@ -28,7 +28,7 @@
               <div class="col-md-12">
                 <div class="bs-callout bs-callout-info bs-callout-top">
                   <h4>Welcome to Lucidworks Labs!</h4>
-                  <p>{% if not twofactor_enabled %}Please begin by turning on <strong>Two Factor Authentication</strong> and setting up your <strong>Account Information</strong> by clicking on the <span class="label label-danger">Review Settings</span> button below.{% endif %}</p>
+                  <p>
                 </div>
                 <p>You may also <a href="{{ uri_for('instance-create') }}">start an instance</a>.</p>
               </div>

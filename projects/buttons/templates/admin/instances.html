@@ -18,46 +18,44 @@
   <div class="container">
     <div class="row">
       <h1>The Admin</h1>
-      <p class="blurb">&#8220;To conquer oneself is a greater task than conquering others.&#8221; ― Gautama Buddha</p>
+      <p class="blurb">&#8220;There is no instance of a nation benefitting from prolonged warfare.&#8221; ― Sun Tzu</p>
     </div>
   </div>
 </div>
 <div class="container content padding">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.admin_side_menu("users") }}
+    {{ macros.admin_side_menu("instances") }}
     </div>
     <div class="col-md-9">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
-            <h2>Users</h2>
+            <h2>Instances</h2>
             <div class="row">
               <div class="col-md-12">
-                <p>Below is a list of users on the Lab's system. These users are employees, customers or trial users.</p>
+                <p>Below is a list of instances running on Google Cloud. These instances were started using the <a href="https://github.com/lucidworks/streams">Buttons project</a>.</p>
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>Notice!</h4>
-                  <p>Do be careful about deleting or upgrading users!</p>
+                  <p>Instances may be in use. Do be careful about deleting instances, as they cannot be recovered once they are removed.</p>
                 </div>
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Username</th>
-                      <th>Created</th>
                       <th>Name</th>
-                      <th>Email</th>
-                      <th>Employee?</th>
-                      <th>Action?</th>
+                      <th>Owner</th>
+                      <th>Created</th>
+                      <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for user in users %}
+                    {% for instance in instances %}
                     <tr>
-                      <td>{{ user.username }}</td>
-                      <td>{{ user.created }}
-                      <td>{{ user.name }}</td>
-                      <td>{{ user.email }}</td>
-                      <td>[--]</td>
+                      <td>{{ instance.name }}</td>
+                      <td>{{ instance.user.get().username }}
+                      <td>{{ instance.created }}</td>
+                      <td>{{ instance.status }}</td>
                       <td>X</td>
                     </tr>
                     {% endfor %}
