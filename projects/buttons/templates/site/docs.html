@@ -8,6 +8,7 @@
     <link href="/css/font-awesome.css" rel="stylesheet">
     <link href="/css/docs.css" rel="stylesheet">
     <link href="/css/documentation.css" rel="stylesheet">
+    <link href="/css/lab.css" rel="stylesheet">
 {% endblock %}
 
 {% block description %}It looks like you've managed to find the Wisdom documentation; things are looking up for you!{% endblock %}
@@ -30,6 +31,7 @@
   <div class="container">
     <div class="row">
       <h1>Labs Documentation</h1>
+      <p class="blurb">&#8220;The Things which hurt, instruct.&#8221; ― Benjamin Franklin</p>
     </div>
   </div>
 </div>
@@ -96,7 +98,16 @@ curl https://streams.lucidworks.com/api/button-fusion-ewyp
     </nav>
   </div>  
 </div>
+{% endblock %}
 
+{% block footer %}
+<div class="footer-strip">
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
 {% endblock %}
 
 {% block javascript %}
