@@ -106,6 +106,7 @@ blockquote {
  */
 .btn {
   color: white;
+  border-radius: 0px;
 }
 .btn, .btn.disabled, .btn[disabled] {
   border-color: #aab2bd;
@@ -177,16 +178,16 @@ blockquote {
   background-color: #48cfad;
 }
 .btn-success, .btn-success:active, .btn-success.active, .btn-success.disabled, .btn-success[disabled] {
-  border-color: #8cc152;
-  background-color: #8cc152;
+  border-color: #14C6BC;
+  background-color: #14C6BC;
 }
 .btn-success:hover, .btn-success:focus {
-  border-color: #a0d468;
-  background-color: #a0d468;
+  border-color: #11a199;
+  background-color: #11a199;
 }
 .open .dropdown-toggle.btn-success {
-  border-color: #a0d468;
-  background-color: #a0d468;
+  border-color: #11a199;
+  background-color: #11a199;
 }
 .btn-warning, .btn-warning:active, .btn-warning.active, .btn-warning.disabled, .btn-warning[disabled] {
   border-color: #f6bb42;

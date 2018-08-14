@@ -1,8 +1,7 @@
 {% import "macros.html" as macros %}
 {% extends base_layout %}
 
-<!-- Set Title -->
-{% block title %}New Instance :: {% endblock %}
+{% block title %}Instance {{ instance.name }} :: Labs :: {% endblock %}
 
 {% block page_styles %}
   <link href="/css/docs.css" rel="stylesheet">
@@ -30,62 +29,135 @@
     </div>
     <div class="col-md-9">
       <div class="row">
+
         <div class="col-md-12">
           <div class="section-header">
-            <h2>Instance {{ instance.name }}</h2>
-            <div class="row">
-              <div class="col-md-12">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Instance</th>
-                      <th>Created</th>
-                      <th>Fusion Link</th>
-                      <th>Name</th>
-                      <th>Version</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{ instance.created }}</td>
-                      <td>{{ instance.name }}</td>
-                      <td><a target=_blank href="http://{{ instance.ip }}{{ stream.url_stub }}">{{ instance.ip }}</a></td>
-                      <td>{{ stream.name }}</td>
-                      <td>{{ stream.fusion_version }}</td>
-                      <td>{{ instance.status }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+            <h2>Instance <strong>{{ instance.name }}</strong></h2>
+            <div class="row instance-detail-row">
+              <div class="col-md-4">
+                <div class="text-center"><h3><small>Instance Timer</small></h3></div>
+                <div class="text-center">
+                  <input id="timer" data-state="{{ instance.status }}" data-expires="{{ instance.expires }}" data-updated="{{ instance.updated|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="18000" data-width="230" data-height="230">
+                </div>
+                <div class="text-center timer-state">
+                  <p>{{ macros.instance_state(instance.status) }}</p>
+                </div>
               </div>
             </div>
+            
+
+            <div class="row">
+
+              <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                <li class="active"><a href="#instance" data-toggle="tab">Instance</a></li>
+                <li><a href="#console" data-toggle="tab">Console Log</a></li>
+              </ul>
+              
+              <div class="tab-content">
+                <div class="tab-pane active" id="instance">
+                  {% if instance.status > 3 %}
+                  <div class="col-md-6">
+                    <h3><small>Instance IPs</small></h3>
+                    <table class="table table-striped table-responsive">
+                      <tr>
+                        <td><strong>Public IPv6</strong></td>
+                        <td><input id="{% if instance.ipv6_address %}{{ instance.ipv6_address }}{% else %}None{% endif %}" class="ip" value="{% if instance.ipv6_address %}{{ instance.ipv6_address }}{% else %}None{% endif %}"></input></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Public IPv4</strong></td>
+                        <td><input id="{% if instance.ipv4_address %}{{ instance.ipv4_address }}{% else %}None{% endif %}" class="ip" value="{% if instance.ipv4_address %}{{ instance.ipv4_address }}{% else %}None{% endif %}"></input></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Private IPv4</strong></td>
+                        <td><input id="{% if instance.ipv4_private_address %}{{ instance.ipv4_private_address }}{% else %}None{% endif %}" class="ip" value="{% if instance.ipv4_private_address %}{{ instance.ipv4_private_address }}{% else %}None{% endif %}"></input></td>
+                      </tr>
+                    </table>
+                  </div>
+                  {% endif %}
+                
+                  <div class="col-md-6">
+                    <div><h3><small>Instance Attributes</small></h3></div>
+                    <div>
+                      <table class="table table-striped table-responsive">
+                        <tr>
+                          <td><strong>VPUs</strong></td>
+                          <td colspan="2">4 Core</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Memory</strong></td>
+                          <td colspan="2">15 GB</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Disk</strong></td>
+                          <td colspan=2>50 GB</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="tab-pane" id="console">
+                  <pre id="console_log">{% if instance.console_output %}{{ instance.console_output }}{% else %}Waiting on console log...{% endif %}</pre>
+                </div>
+              
+              </div>
+            </div>
+
           </div>
+        </div>
+      </div>
+      <div class="row button-padding">
+        <div class="col-md-12">
+          <button id="back-to-cloud" class="btn btn-info"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
+          <button id="open-launcher" class="btn btn-success">Create a New Instance</button>
         </div>
       </div>
     </div>
   </div> 
 </div>
-<br/><br/>
-
 {% endblock %}
 
 {% block footer %}
-  {% include 'footer.html' %}
+<div class="footer-strip">
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+</div>
+{% include 'footer.html' %}
 {% endblock %}
 
 {% block javascript %}
 <script type="text/javascript">
   $().ready(function() {
-    var time = new Date().getTime();
+    // standard stuff
+    var csrf_token = "{{ csrf_token() }}";
+    var channel_token = "{{ channel_token }}";
+    var refresh_channel = "{{ refresh_channel }}";
 
-    function refresh() {
-      if(new Date().getTime() - time >= 60000) {
-        window.location.reload(true);
-      } else { 
-        setTimeout(refresh, 10000);
+    // current state when page loads
+    var state = "{{ instance.status }}";
+
+    // timer knob
+    $('#timer').knob();
+    setInterval(function() {
+      var epoch_time = parseInt((new Date).getTime()/1000);
+      var expires = parseInt($('#timer').attr('data-expires'));
+      var state = parseInt($('#timer').attr('data-state'));
+      var timer2 = expires - epoch_time;
+      if (timer2 > -1) {
+        $('#timer').val(timer2).trigger("change");
+      } else {
+        $('#timer').val(0).trigger("change");
       }
-    }
-    setTimeout(refresh, 10000);
+    }, 1000);
+
   });
+
 </script>
+{% endblock %}
+
+{% block extras %}
+  <script type="text/javascript" src="/js/jquery.knob.js"></script>
+  <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 {% endblock %}
