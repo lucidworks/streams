@@ -24,6 +24,12 @@ pre {
 #spinner {
   height: 200px;
 }
+.glyphicon {
+  top: 2px;
+}
+.nav-pills>li>a {
+  border-radius: 0px;
+}
 .container {
   width: 98% !important;
   margin-left: 14px;
