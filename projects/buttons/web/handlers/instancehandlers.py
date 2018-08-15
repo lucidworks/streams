@@ -28,51 +28,59 @@ class InstanceTenderHandler(BaseHandler):
             # list of instance from google cloud (see ./fastener/sample-output.json)
             finstances = json.loads(content)
 
-            for finstance in finstances:
-                # only look at instances with button in them
-                if 'button' in finstance['name']:
-                    instance = Instance.get_by_name(finstance['name'])
-                    if instance:
-                        try:
-                            instance.ip = finstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
-                        except:
-                            instance.ip = "None"
-
-                        instance.status = finstance['status']
-                        instance.put()
-                    else:
-                        pass
-                        # this was too noisy during dev
-                        # slack.slack_message("Instance %s found, but no record in database exists for it." % finstance['name'])
-
             # list of instances from db
             instances = Instance.get_all()
 
             # fast fail connection for checking if fusion is up
             http_test = httplib2.Http(timeout=2)
 
+            # loop through list of instances in DB (or local DB if in dev)
             for instance in instances:
                 name = instance.name
 
                 for finstance in finstances:
                     if name == finstance['name']:
-                        # found a match, so check if its ready
-                        test_url = 'http://%s:8764' % instance.ip
-                        response, content = http_test.request(url, 'GET')
-                        status = response['status']
-                        if status == "200":
-                            instance.admin_link = test_url
-                        else:
-                            instance.status = "PROVISIONING"
+                        # got a match
+                        try:
+                            # grab the IP address and status
+                            instance.ip = finstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
+                            instance.status = finstance['status']
 
+                            # check if the box is running fusion admin yet
+                            try:
+                                test_url = 'http://%s:8764' % instance.ip
+                                response, content = http_test.request(test_url, 'GET')
+                                test_status = response['status']
+                            except:
+                                test_status = "404"
+
+                            if finstance['status'] == "RUNNING" and test_status == "200":
+                                instance.admin_link = test_url
+                            else:
+                                instance.status = "CONFIGURING"
+                                instance.admin_link = None
+                                instance.app_link = None
+
+                        except:
+                            # got limited data about instance
+                            instance.ip = "None"
+                            instance.status = finstance['status']
+                            instance.admin_link = None
+                            instance.app_link = None
+
+                        # instance has been terminated
+                        if finstance['status'] == "TERMINATED":
+                            pass
+                            
                         instance.put()
-                        break
+                        break # no need to keep looking
                 else:
-                    # only delete if instance create time is greater than 30 minutes...
+                    # no instances were found on Google Cloud for this local instance record
                     if instance.created < datetime.datetime.now() - datetime.timedelta(0, 300):
                         slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
                         instance.key.delete()
                     else:
+                        # only delete if instance create time is greater than 30 minutes...
                         slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
 
         except Exception as ex:
@@ -82,6 +90,7 @@ class InstanceTenderHandler(BaseHandler):
         return self.render_template('instance/tender.html')
 
 
+# provide useful link to directly start an instance from another page
 class StreamsStarterHandler(BaseHandler):
     @user_required
     def get(self, sid):
@@ -114,9 +123,6 @@ class StreamsStarterHandler(BaseHandler):
         # make the instance call to the control box
         http = httplib2.Http(timeout=10)
         url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
-        
-        if config.debug: 
-            print url
 
         # pull the response back TODO add error handling
         response, content = http.request(url, 'POST', None, headers={})
@@ -126,7 +132,7 @@ class StreamsStarterHandler(BaseHandler):
         # set up an instance 
         instance = Instance(
             name = name,
-            status = "PENDING",
+            status = "PROVISIONING",
             user = user_info.key,
             stream = stream.key,
             expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
@@ -144,7 +150,7 @@ class StreamsStarterHandler(BaseHandler):
         return self.redirect_to('instance-detail', **params)
 
 
-# list of a user's instances
+# list of a user's instances and create new instance
 class InstancesListHandler(BaseHandler):
     @user_required
     def get(self, sid=None):
@@ -157,7 +163,6 @@ class InstancesListHandler(BaseHandler):
 
         if not user_info.email or not user_info.name or not user_info.company:
             need_more_info = True
-            print "meh"
         else:
             need_more_info = False
 
@@ -213,9 +218,6 @@ class InstancesListHandler(BaseHandler):
             # make the instance call to the control box
             http = httplib2.Http(timeout=10)
             url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
-            
-            if config.debug: 
-                print url
 
             # pull the response back TODO add error handling
             response, content = http.request(url, 'POST', None, headers={})
@@ -225,7 +227,7 @@ class InstancesListHandler(BaseHandler):
             # set up an instance 
             instance = Instance(
                 name = name,
-                status = "PENDING",
+                status = "PROVISIONING",
                 user = user_info.key,
                 stream = stream.key,
                 expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
@@ -284,92 +286,3 @@ class InstanceDetailHandler(BaseHandler):
         }
 
         return self.render_template('instance/detail.html', **params)
-
-
-# create new instance
-class InstanceCreateHandler(BaseHandler):
-    @user_required
-    def get(self):
-        # stream choice pulldown
-        self.form.stream.choices=[]
-
-        # add list of streams to pulldown
-        streams = Stream.get_all()
-        for stream in streams:
-            self.form.stream.choices.insert(0, (stream.key.id(), stream.name))
-
-        # know the user
-        user_info = User.get_by_id(long(self.user_id))
-        params = {}
-        return self.render_template('instance/create.html', **params)
-        
-    @user_required
-    def post(self):
-        # know the user
-        user_info = User.get_by_id(long(self.user_id))
-
-        # get form values
-        stream = Stream.get_by_id(int(self.form.stream.data.strip()))
-        sid = stream.sid
-
-        # check if we have their email
-        if not user_info.email:
-            self.add_message('Please update your email address before starting an instance!', 'warning')
-            return self.redirect_to('account-settings')
-
-        # look up user's instances
-        db_instances = Instance.get_all()
-
-        # check the user's limits
-        instance_count = 0
-        for db_instance in db_instances:
-            # limit to instances the user has started
-            if db_instance.user == user_info.key:
-                instance_count = instance_count + 1
-
-        # warn and redirect if limit is reached
-        if (instance_count + 1) > user_info.max_instances:
-            self.add_message('Instance limit reached. This account may only start %s instances. Please delete an existing instance to start a new one!' % user_info.max_instances, 'warning')
-            return self.redirect_to('instances-list')
-
-        # make the instance call to the control box
-        http = httplib2.Http(timeout=10)
-        url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
-        
-        if config.debug: 
-            print url
-
-        # pull the response back TODO add error handling
-        response, content = http.request(url, 'POST', None, headers={})
-        finstance = json.loads(content)
-        name = finstance['instance']
-
-        # set up an instance 
-        instance = Instance(
-            name = name,
-            status = "PENDING",
-            user = user_info.key,
-            stream = stream.key,
-            expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
-        )
-        instance.put()
-
-        slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
-
-        # give the db a second to update
-        time.sleep(1)
-
-        self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
-
-        params = {'name': name}
-        return self.redirect_to('instance-detail', **params)
-
-
-    @user_required
-    def delete(self):
-        pass
-
-        
-    @webapp2.cached_property
-    def form(self):
-        return forms.InstanceForm(self)

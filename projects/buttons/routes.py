@@ -20,7 +20,6 @@ _routes = [
 
 	# user's instances
 	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
-	RedirectRoute('/instance/create/', instancehandlers.InstanceCreateHandler, name='instance-create', strict_slash=True),
 	RedirectRoute('/instance/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),	
 	RedirectRoute('/instances/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),
 	RedirectRoute('/instance/tender', instancehandlers.InstanceTenderHandler, name='instance-tender', strict_slash=True),

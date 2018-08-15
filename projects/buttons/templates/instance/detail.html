@@ -18,7 +18,7 @@
   <div class="container">
     <div class="row">
       <h1>The Instance</h1>
-      <p class="blurb">&#8220;The secret of getting ahead is getting started.&#8221; ― Mark Twain</p>
+      <p class="blurb">&#8220;We are not makers of history. We are made by history.&#8221; ― Martin Luther King, Jr.</p>
     </div>
   </div>
 </div>
@@ -32,20 +32,22 @@
 
         <div class="col-md-12">
           <div class="section-header">
-            <h2>Instance <strong>{{ instance.name }}</strong></h2>
+            <h2>Instance <em>{{ instance.name }}</em></h2>
             <div class="row instance-detail-row">
               <div class="col-md-4">
-                <div class="text-center"><h3><small>Instance Timer</small></h3></div>
+                <div class="text-center"><h3><small>Run Timer</small></h3></div>
                 <div class="text-center">
-                  <input id="timer" data-state="{{ instance.status }}" data-expires="{{ instance.expires }}" data-updated="{{ instance.updated|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="18000" data-width="230" data-height="230">
+                  <input id="run-timer" data-angleArc="180" data-angleOffset="270" data-state="{{ instance.status }}" data-expires="{{ instance.expires|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="86400" data-width="230" data-height="120">
                 </div>
-                <div class="text-center timer-state">
-                  <p>{{ macros.instance_state(instance.status) }}</p>
+              </div>
+              <div class="col-md-4">
+                <div class="text-center"><h3><small>Life Timer</small></h3></div>
+                <div class="text-center">
+                  <input id="life-timer" data-angleArc="180" data-angleOffset="270" data-state="{{ instance.status }}" data-expires="{{ instance.expires|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="86400" data-width="230" data-height="120">
                 </div>
               </div>
             </div>
             
-
             <div class="row">
 
               <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -55,7 +57,10 @@
               
               <div class="tab-content">
                 <div class="tab-pane active" id="instance">
-                  {% if instance.status > 3 %}
+
+                <div class="text-center timer-state">
+
+                </div>
                   <div class="col-md-6">
                     <h3><small>Instance Access</small></h3>
                     <table class="table table-striped table-responsive">
@@ -64,21 +69,35 @@
                         <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
                       </tr>
                       <tr>
-                        <td><strong>Fusion Admin</strong></td>
-                        <td>{% if instance.admin_link %}<a target=_blank href="{{ instance.admin_link }}"><span class="label label-success">Login</span></a>{% else %}<span class="label label-danger">Loading...</span>{% endif %}</td>
+                        <td><strong>Application Link</strong></td>
+                        <td>{% if instance.app_link %}<a target=_blank href="{{ instance.app_link }}"><span class="label label-success">Click to View App</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
                       </tr>
                       <tr>
-                        <td><strong>Application Link</strong></td>
-                        <td>{% if instance.app_link %}<a target=_blank href="{{ instance.app_link }}"><span class="label label-success">View App</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
+                        <td><strong>Fusion Admin</strong></td>
+                        <td>{% if instance.admin_link != None %}<a target=_blank class="fusion-link" href="{{ instance.admin_link }}"><span class="label label-success">Click to Login</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
+                      </tr>
+                        <td><strong>Admin Username</strong></td>
+                        <td><strong>admin</strong></td>
+                      </tr>
+                     </tr>
+                        <td><strong>Admin Password</strong></td>
+                        <td><strong>{% if instance.password %}{{ instance.password }}{% else %}N/A{% endif %}</strong></td>
                       </tr>
                     </table>
                   </div>
-                  {% endif %}
                 
                   <div class="col-md-6">
                     <div><h3><small>Instance Attributes</small></h3></div>
                     <div>
                       <table class="table table-striped table-responsive">
+                        <tr>
+                          <td><strong>Stream</strong></td>
+                          <td colspan="2">{{ instance.stream.get().name }}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Status</strong></td>
+                          <td colspan="2">{{ macros.instance_status(instance.status) }}</td>
+                        </tr>
                         <tr>
                           <td><strong>VPUs</strong></td>
                           <td colspan="2">4 Core</td>
@@ -97,12 +116,15 @@
                 </div>
               
                 <div class="tab-pane" id="console">
-                  <pre id="console_log">{% if instance.console_output %}{{ instance.console_output }}{% else %}Waiting on console log...{% endif %}</pre>
+                  <pre id="console_log">{% if console %}{{ console }}{% else %}Loading serial port output...{% endif %}</pre>
                 </div>
               
               </div>
             </div>
-
+            <div class="bs-callout bs-callout-success bs-callout-top">
+              <h4>Instance Timers</h4>
+              <p>Please note that an instance may occasionally be preempted before the <em>run timer</em> runs out! Instances may be restarted at any time before the instance <em>life timer</em> has run out. Instance <em>life timers</em> are fixed by default to <strong>604,800 seconds/7 days</strong>. At the end of an instance's <em>life timer</em>, the instance will be permanently terminated and deleted, even if the <em>run timer</em> still has time on it.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -140,16 +162,16 @@
     var state = "{{ instance.status }}";
 
     // timer knob
-    $('#timer').knob();
+    $('#life-timer').knob();
+    $('#run-timer').knob();
     setInterval(function() {
       var epoch_time = parseInt((new Date).getTime()/1000);
-      var expires = parseInt($('#timer').attr('data-expires'));
-      var state = parseInt($('#timer').attr('data-state'));
+      var expires = parseInt($('#life-timer').attr('data-expires'));
       var timer2 = expires - epoch_time;
       if (timer2 > -1) {
-        $('#timer').val(timer2).trigger("change");
+        $('#run-timer').val(timer2).trigger("change");
       } else {
-        $('#timer').val(0).trigger("change");
+        $('#run-timer').val(0).trigger("change");
       }
     }, 1000);
 

@@ -53,6 +53,25 @@ def list():
     return dumps(result['items'])
 
 
+@app.route('/api/instance/<instance_id>/console', method='GET')
+def console(instance_id):
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+
+    except:
+        return dumps({'error': "need token"})
+
+    result = compute.instances().getSerialPortOutput(
+        project='labs-209320',
+        zone='us-west1-c',
+        instance=instance_id
+    ).execute()
+
+    return dumps(result)
+
+
 @app.route('/api/instance/<instance_id>/stop', method='GET')
 def stop(instance_id):
     # token
