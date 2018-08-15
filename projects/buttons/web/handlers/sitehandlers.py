@@ -26,12 +26,6 @@ from web.basehandler import user_required
 class IndexHandler(BaseHandler):
 	def get(self):
 		params = {}
-		return self.redirect('/dashboard')
-
-# home redirects / to lucidworks.com/labs (thanks marketing) 
-class HomeRequestHandler(BaseHandler):
-	def get(self):
-		params = {}
 		return self.redirect('https://lucidworks.com/labs')
 
 

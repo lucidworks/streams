@@ -35,7 +35,7 @@ class User(User):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
 	last_login = ndb.DateTimeProperty()
-	max_instances = ndb.IntegerProperty(default=3)
+	max_instances = ndb.IntegerProperty(default=3) # min limit set here
 	tfsecret = ndb.StringProperty()
 	tfenabled = ndb.BooleanProperty(default=False)
 	tfa_attempt_timestamp = ndb.DateTimeProperty()
@@ -86,6 +86,8 @@ class Instance(ndb.Model):
 	stream = ndb.KeyProperty(kind=Stream)
 	name = ndb.StringProperty()
 	ip = ndb.StringProperty()
+	admin_link = ndb.StringProperty() # just uses IP + :8764
+	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
 
 	""" Appengine is barfing on the indexes, so disabling

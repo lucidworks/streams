@@ -101,11 +101,16 @@
                 {% if need_more_info %}
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>We need more information about you!</h4>
-                  <p>While we're grateful we've been able to authenticate you with your Github account, we were sadly unable to gather other information about you, such as your name, email address and company name. If you wouldn't mind too terribly much, please update your profile with this information so we can better serve you in the future!</p>
+                  <p>We're grateful we've been able to authenticate you with your Github account. We have been unable to gather other information about you, such as your name, email address and company name. If you wouldn't mind too terribly much, please update your profile with this information so we can better serve you in the future!</p>
                   <button type="button" id="account-settings" class="btn btn-warning">Update Your Profile</button>
                 </div>
                 {% endif %}
-                <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>
+                {% if user_info.max_instances == num_instances %}
+                <div class="bs-callout bs-callout-warning bs-callout-top">
+                  <h4>At Max Instance Limit</h4>
+                  <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>
+                </div>
+                {% endif %}
                 {% if instances %}
                 <table class="table table-hover">
                   <thead>

@@ -41,17 +41,31 @@ class InstanceTenderHandler(BaseHandler):
                         instance.status = finstance['status']
                         instance.put()
                     else:
-                        slack.slack_message("Instance %s found, but no record in database exists for it." % finstance['name'])
+                        pass
+                        # this was too noisy during dev
+                        # slack.slack_message("Instance %s found, but no record in database exists for it." % finstance['name'])
 
             # list of instances from db
             instances = Instance.get_all()
+
+            # fast fail connection for checking if fusion is up
+            http_test = httplib2.Http(timeout=2)
 
             for instance in instances:
                 name = instance.name
 
                 for finstance in finstances:
                     if name == finstance['name']:
-                        # found a match
+                        # found a match, so check if its ready
+                        test_url = 'http://%s:8764' % instance.ip
+                        response, content = http_test.request(url, 'GET')
+                        status = response['status']
+                        if status == "200":
+                            instance.admin_link = test_url
+                        else:
+                            instance.status = "PROVISIONING"
+
+                        instance.put()
                         break
                 else:
                     # only delete if instance create time is greater than 30 minutes...
@@ -161,6 +175,7 @@ class InstancesListHandler(BaseHandler):
 
         params = {
             'instances': instances,
+            'num_instances': len(instances),
             'streams': streams,
             'user_id': self.user_id,
             'user_info': user_info,
@@ -350,6 +365,11 @@ class InstanceCreateHandler(BaseHandler):
         return self.redirect_to('instance-detail', **params)
 
 
+    @user_required
+    def delete(self):
+        pass
+
+        
     @webapp2.cached_property
     def form(self):
         return forms.InstanceForm(self)

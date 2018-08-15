@@ -57,19 +57,19 @@
                 <div class="tab-pane active" id="instance">
                   {% if instance.status > 3 %}
                   <div class="col-md-6">
-                    <h3><small>Instance IPs</small></h3>
+                    <h3><small>Instance Access</small></h3>
                     <table class="table table-striped table-responsive">
                       <tr>
-                        <td><strong>Public IPv6</strong></td>
-                        <td><input id="{% if instance.ipv6_address %}{{ instance.ipv6_address }}{% else %}None{% endif %}" class="ip" value="{% if instance.ipv6_address %}{{ instance.ipv6_address }}{% else %}None{% endif %}"></input></td>
-                      </tr>
-                      <tr>
                         <td><strong>Public IPv4</strong></td>
-                        <td><input id="{% if instance.ipv4_address %}{{ instance.ipv4_address }}{% else %}None{% endif %}" class="ip" value="{% if instance.ipv4_address %}{{ instance.ipv4_address }}{% else %}None{% endif %}"></input></td>
+                        <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
                       </tr>
                       <tr>
-                        <td><strong>Private IPv4</strong></td>
-                        <td><input id="{% if instance.ipv4_private_address %}{{ instance.ipv4_private_address }}{% else %}None{% endif %}" class="ip" value="{% if instance.ipv4_private_address %}{{ instance.ipv4_private_address }}{% else %}None{% endif %}"></input></td>
+                        <td><strong>Fusion Admin</strong></td>
+                        <td>{% if instance.admin_link %}<a target=_blank href="{{ instance.admin_link }}"><span class="label label-success">Login</span></a>{% else %}<span class="label label-danger">Loading...</span>{% endif %}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Application Link</strong></td>
+                        <td>{% if instance.app_link %}<a target=_blank href="{{ instance.app_link }}"><span class="label label-success">View App</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
                       </tr>
                     </table>
                   </div>
@@ -108,8 +108,9 @@
       </div>
       <div class="row button-padding">
         <div class="col-md-12">
-          <button id="back-to-cloud" class="btn btn-info"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
-          <button id="open-launcher" class="btn btn-success">Create a New Instance</button>
+          <button id="instance-list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
+          <button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>
+          <button id="instance-duplicate" class="btn btn-success"><span class="glyphicon glyphicon-transfer"></span> Duplicate Instance</button>
         </div>
       </div>
     </div>
