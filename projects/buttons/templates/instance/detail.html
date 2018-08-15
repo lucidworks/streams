@@ -51,7 +51,7 @@
             <div class="row">
 
               <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a href="#instance" data-toggle="tab">Instance</a></li>
+                <li class="active"><a href="#instance" data-toggle="tab">Access & Attributes</a></li>
                 <li><a href="#console" data-toggle="tab">Console Log</a></li>
               </ul>
               
@@ -77,11 +77,11 @@
                         <td>{% if instance.admin_link != None %}<a target=_blank class="fusion-link" href="{{ instance.admin_link }}"><span class="label label-success">Click to Login</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
                       </tr>
                         <td><strong>Admin Username</strong></td>
-                        <td><strong>admin</strong></td>
+                        <td><em>admin</em></td>
                       </tr>
                      </tr>
                         <td><strong>Admin Password</strong></td>
-                        <td><strong>{% if instance.password %}{{ instance.password }}{% else %}N/A{% endif %}</strong></td>
+                        <td><em>{% if instance.password %}{{ instance.password }}{% else %}N/A{% endif %}</em></td>
                       </tr>
                     </table>
                   </div>
@@ -116,7 +116,7 @@
                 </div>
               
                 <div class="tab-pane" id="console">
-                  <pre id="console_log">{% if console %}{{ console }}{% else %}Loading serial port output...{% endif %}</pre>
+                  <pre style="white-space: pre-line" id="console_log">{% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}</pre>
                 </div>
               
               </div>
@@ -174,6 +174,11 @@
         $('#run-timer').val(0).trigger("change");
       }
     }, 1000);
+
+    $.get("/instance/{{ instance.name }}/console", function( data ) {
+      $("#console_log").html(data);
+      console.log( "Load was performed." );
+    });           
 
   });
 

@@ -48,8 +48,6 @@ def list():
         zone='us-west1-c'
     ).execute()
 
-    print result
-
     return dumps(result['items'])
 
 

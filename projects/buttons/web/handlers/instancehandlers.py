@@ -71,7 +71,7 @@ class InstanceTenderHandler(BaseHandler):
                         # instance has been terminated
                         if finstance['status'] == "TERMINATED":
                             pass
-                            
+
                         instance.put()
                         break # no need to keep looking
                 else:
@@ -286,3 +286,33 @@ class InstanceDetailHandler(BaseHandler):
         }
 
         return self.render_template('instance/detail.html', **params)
+
+
+# instance detail page
+class InstanceConsoleHandler(BaseHandler):
+    @user_required
+    def get(self, name):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
+
+        # look up user's instances
+        instance = Instance.get_by_name(name)
+
+        self.response.headers['Content-Type'] = "text/plain"
+
+        if not instance:
+            params = {"contents": "Waiting on serial console output..."}
+            return self.render_template('instance/console.txt', **params)
+
+        try:
+            # update list of instances we have
+            http = httplib2.Http()
+            url = '%s/api/instance/%s/console?token=%s' % (config.fastener_host_url, name, config.fastener_api_token)
+            response, content = http.request(url, 'GET')
+            stuff = json.loads(content)
+
+            params = {"contents": stuff['contents']}
+        except Exception as ex:
+            params = {"contents": "Waiting on serial console output..."}
+
+        return self.render_template('instance/console.txt', **params)

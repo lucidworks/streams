@@ -12,11 +12,16 @@ input.ip, input.ip:focus {
   outline: 0;
   background-color: inherit;
 }
+.tab-content {
+  padding: 0px;
+}
 pre {
+  font-size: 11px;
   height: auto;
-  max-height: 900px;
   overflow: auto;
   background-color: #F9F9F9;
+  border: 0px;
+  border-radius: 0px;
 }
 .nav-tabs {
   background-color: #F9F9F9;
