@@ -6,8 +6,7 @@ secure_scheme = 'https'
 
 _routes = [
 	# website
-	RedirectRoute('/', sitehandlers.HomeRequestHandler, name='home', strict_slash=True),
-	RedirectRoute('/labs/', sitehandlers.IndexHandler, name='index', strict_slash=True),
+	RedirectRoute('/', sitehandlers.IndexHandler, name='index', strict_slash=True),
 	RedirectRoute('/labdocs/', sitehandlers.DocsHandler, name='labdocs', strict_slash=True),
 	
 	# users

@@ -52,11 +52,9 @@ class LoginHandler(BaseHandler):
 			self.redirect(login_url)
 		
 		except Exception as ex:
-			print "oh noes: %s" % ex
-
 			# add error notice for user TODO
 			self.auth.unset_session()
-			self.redirect("/")
+			self.redirect_to('index')
 
 
 # user logout
@@ -187,7 +185,7 @@ class CallbackLoginHandler(BaseHandler):
 		except Exception as ex:
 			message = "User login went wrong: %s" % ex            
 			self.add_message(message, 'error')
-			return self.redirect_to('home')
+			return self.redirect_to('index')
 
 
 class TwoFactorLoginHandler(BaseHandler):
