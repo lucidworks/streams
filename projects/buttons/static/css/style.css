@@ -7,6 +7,10 @@ a:link, a:visited, a:hover, a:active {
   text-decoration: underline;
   color: #0D1A31;
 }
+.fusion-link {
+    text-decoration: underline;
+    color: white !important;
+}
 .breadcrumb-arrow {
   background-color: #f8f8f8;
 }

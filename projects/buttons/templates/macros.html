@@ -18,33 +18,24 @@
 {%- endmacro %}
 
 <!-- instance states side menu widget -->
-{% macro instance_state(state) %}
-  {% if state==0 %}
-    <span id="state" class="label label-danger btn-lg instance-state">Inactive</span>
+{% macro instance_status(status) %}
+  {% if status=="PROVISIONING" %}
+    <span id="state" class="label label-warning">Provisioning</span>
   {% endif %}
-  {% if state==1 %}
-    <span id="state" class="label label-warning btn-lg instance-state">Waiting on Payment</span>
+  {% if status=="STAGING" %}
+    <span id="state" class="label label-warning">Staging</span>
   {% endif %}
-  {% if state==2 %}
-    <span id="state" class="label label-info btn-lg instance-state">Payment Received</span>
+  {% if status=="CONFIGURING" %}
+    <span id="state" class="label label-warning">Configuring</span>
   {% endif %}
-  {% if state==3 %}
-    <span id="state" class="label label-success btn-lg instance-state">Starting</span>
+  {% if status=="RUNNING" %}
+    <span id="state" class="label label-success">Running</span>
   {% endif %}
-  {% if state==4 %}
-    <span id="state" class="label label-success btn-lg instance-state">Running</span>
+  {% if status=="STOPPING" %}
+    <span id="state" class="label label-danger">Stopping</span>
   {% endif %}
-  {% if state==5 %}
-    <span id="state" class="label label-warning btn-lg instance-state">Suspended</span>
-  {% endif %}
-  {% if state==6 %}
-    <span id="state" class="label label-info btn-lg instance-state">Unsupended</span>
-  {% endif %}
-  {% if state==7 %}
-    <span id="state" class="label label-danger btn-lg instance-state">Decommissioned</span>
-  {% endif %}
-  {% if state==10 %}
-    <span id="state" class="label label-info btn-lg instance-state">Reserved</span>
+  {% if status=="TERMINATED" %}
+    <span id="state" class="label label-danger">Terminated</span>
   {% endif %}
 {% endmacro %}
 
