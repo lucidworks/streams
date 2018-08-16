@@ -65,7 +65,8 @@ class Stream(ndb.Model):
 	zipurl = ndb.StringProperty()
 	fusion_version = ndb.StringProperty()
 	github_repo = ndb.StringProperty()
-	url_stub = ndb.StringProperty()
+	app_stub = ndb.StringProperty()
+	labs_link = ndb.StringProperty()
 
 	@classmethod
 	def get_all(cls):
