@@ -59,7 +59,8 @@ apt-get install maven -y
 apt-get install ant -y
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
-ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
+# ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
+ADMIN_PASSWORD=`curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/password -H "Metadata-Flavor: Google"`
 FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
 FUSION_API_BASE=http://localhost:8764/api
 
