@@ -4,7 +4,9 @@
   "sid": "{{ sid }}",
   "name": "{{ name }}",
   "description": "{{ description }}",
-  "zipurl": "{{ zipurl }}",
+  "distro": "{{ distro }}",
   "fusion_version": "{{ fusion_version }}",
-  "github_repo": "{{ github_repo }}"
+  "github_repo": "{{ github_repo }}",
+  "app_stub": "{{ github_repo }}",
+  "labs_link": "{{ labs_link }}"
 }
