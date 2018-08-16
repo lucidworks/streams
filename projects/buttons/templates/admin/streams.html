@@ -14,6 +14,58 @@
 {% endblock %}
 
 {% block content %}
+<!-- hidden delete modal -->
+<div id="delete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this very fine stream?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Stream</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="create-stream-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create New Stream</h4>
+      </div>
+      <form id="form_create_stream" action="{{ url|safe }}" method="post" class="">
+        <div class="modal-body">
+          <p>Please fill out the following form to create a new stream. To edit an existing stream, create a new on and then delete the old one. The Stream SID must match [a-z0-9]!</p>
+          <div class="row">
+            <div class="col-md-12 form-padding" id="stream-form">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                  {{ macros.input(form, "sid", _("Stream ID"), size=100, placeholder=_("streambeam"), class="input-xlarge focused required") }}
+                  {{ macros.input(form, "name", _("Name"), placeholder=_("Stream Beam"), class="input-xlarge steam focused required") }}
+                  {{ macros.input(form, "description", _("Description"), placeholder=_("Live streaming from our guest fish."), class="input-xlarge focused required") }}
+                  {{ macros.input(form, "tgzfile", _("Distro Filename"), placeholder=_("streambeam-buttons.tgz"), class="input-xlarge focused") }}
+                  {{ macros.input(form, "github_repo", _("Github Repo URL (optional)"), placeholder=_("https://github.com/lucidworks/streams/projects/sockitter/"), class="input-xlarge focused") }}
+                  {{ macros.input(form, "app_stub", _("Application Stub"), placeholder=_(":8764/webapp/foo"), class="input-xlarge focused") }}
+                  {{ macros.input(form, "labs_link", _("Labs Link (Wordpress)"), placeholder=_("https://lucidworks.com/labs/apps/view/"), class="input-xlarge focused") }}                
+                  {{ macros.input(form, "fusion_version", _("Fusion Version")) }}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close-button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" id="create-button" class="btn btn-danger">Create Stream</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
+
 <div class="inverse">
   <div class="container">
     <div class="row">
@@ -34,37 +86,54 @@
             <h2>Streams</h2>
             <div class="row">
               <div class="col-md-12">
-                <p>Below is a list of streams on the system. These streams will visible and usable by employees, customers and trial users.</p>
+                <p>Below is a list of streams on the system. These streams will visible and usable by employees, customers and trial users.</p> 
+                <p>
+                  <ul>
+                    <li>To edit a stream, delete the old one and create a new one with the proper entries.</li>
+                    <li>For new streams, contact marketing to have an application page added to the Labs index.</li>
+                    <li>Streams creation URLs are located under the link on the stream ID. Right click it, copy the link address and give to marketing!</li>
+                    <li>Upload the application files to the <strong>buttons-streams</strong> bucket on Google Cloud.</li>
+                  </ul>
+                </p>
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>Notice!</h4>
-                  <p>This list should be a mirror what is manually maintained at <a href="https://lucidworks.com/labs">https://lucidworks.com/labs</a>, which runs on a custom Wordpress install. Please see the Marketing department for more information about adding a new application to the <a href="https://lucidworks.com/labs">Labs pages</a>.</p>
+                  <p>Please take care when deleting existing streams, given they may have accompanying pages on the main Labs index.</p>
                 </div>
                 <table class="table table-hover">
                   <thead>
                     <tr>
                       <th>Stream ID</th>
                       <th>Name</th>
-                      <th>Description</th>
                       <th>Fusion Version</th>
-                      <th>Zip URL</th>
+                      <th>Distro</th>
+                      <th>Labs Link</th>
                       <th>Github Repo</th>
-                      <th>URL Stub</th>
+                      <th>App Stub</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for stream in streams %}
                     <tr>
-                      <td>{{ stream.sid }}</td>
+                      <td><a href="/instance/create/{{ stream.sid }}">{{ stream.sid }}</a></td>
                       <td>{{ stream.name }}</td>
-                      <td>{{ stream.description }}</td>
                       <td>{{ stream.fusion_version }}</td>
-                      <td>{{ stream.zipurl }}</td>
-                      <td>{{ stream.github_repo }}</td>
-                      <td>{{ stream.url_stub }}</td>
+                      <td>{{ stream.tgzfile }}</td>
+                      <td>{% if stream.labs_link %}<a href="{{ stream.labs_link }}">link</a>{% else %}None{% endif %}</td>
+                      <td>{% if stream.github_repo %}<a href="{{ stream.github_repo }}">link</a>{% else %}None{% endif %}</td>
+                      <td>{% if stream.github_repo %}{{ stream.github_repo }}{% else %}None{% endif %}</td>
+                      <td>
+                        <button type="button" id="remove-{{stream.key.id()}}" class="btn btn-danger btn-xs" title="Delete Stream" href="#"><span class="glyphicon glyphicon-remove"></span></button> 
+                      </td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
+                <div class="row">
+                  <div class="col-md-5">
+                    <button type="button" id="create-stream-button" class="btn btn-danger">Create Stream</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -96,6 +165,26 @@
     // standard stuff
     var username = "{{ username }}";
     var csrf_token = "{{ csrf_token() }}";
+
+    $('#create-stream-button').click( function() {
+      $('#create-stream-modal').modal();
+    });
+
+    // remove buttons
+    $('button[id^="remove-"]').each(function(index){
+      $('#'+this.id).click(function() {
+        stream_id = this.id.split("-").pop();
+        button_id = '#'+this.id;
+        $('#delete').modal();
+        $('#delete-button').click(function() {
+          $('#delete').modal('hide');
+          $.ajax({
+            url: '/admin/streams/'+stream_id+'/?_csrf_token='+csrf_token,
+            type: 'DELETE'
+          }).done(function(){location.reload();});
+        });
+      })
+    });
   });
 </script>
 

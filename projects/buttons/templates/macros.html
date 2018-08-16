@@ -1,7 +1,7 @@
 <!-- creates a form input field -->
 {% macro input(form, name, label, size, type='text') -%}
   <div class="{{size|safe}} {% if getattr(form,name).errors %} has-error{% endif %} form-padding" id="{{name}}-field">
-    <label class="control-label" for="{{ name }}">{{ label|safe }}</label>
+    <label class="control-label" for="{{ name }}">{{ label|safe }}</label><br/>
     {{ getattr(form,name)(type=type, **kwargs)|safe }}
   </div>
 {%- endmacro %}
