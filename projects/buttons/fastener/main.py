@@ -8,6 +8,7 @@ import sys
 import os
 
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
+def password_generator(size=12, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 
 # get the token
 import httplib2
@@ -155,6 +156,8 @@ def create(stream_slug='lou'):
     # name and machine type
     iid = id_generator()
     name = 'button-%s-%s' % (stream_slug, iid)
+    password = password_generator()
+    
     config = {
         'name': name,
         'machineType': "zones/us-west1-c/machineTypes/n1-standard-4",
@@ -201,8 +204,8 @@ def create(stream_slug='lou'):
     # metadata
     config["metadata"] = {
         "items": [{
-                "key": "startup-script-url",
-                "value": "https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/fastener/scripts/start-button.sh"
+            "key": "startup-script-url",
+            "value": "https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/fastener/scripts/start-button.sh"
         }]
     }
 
@@ -213,7 +216,7 @@ def create(stream_slug='lou'):
     ).execute()
 
     response.content_type = 'application/json'
-    return dumps({'instance': name})
+    return dumps({'instance': name, 'password': password})
 
 # start off
 app.run(server='paste', host='0.0.0.0', port=80, debug=True)

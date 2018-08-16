@@ -37,13 +37,13 @@
               <div class="col-md-4">
                 <div class="text-center"><h3><small>Run Timer</small></h3></div>
                 <div class="text-center">
-                  <input id="run-timer" data-angleArc="180" data-angleOffset="270" data-state="{{ instance.status }}" data-expires="{{ instance.expires|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="86400" data-width="230" data-height="120">
+                  <input id="run-timer" data-angleArc="180" data-angleOffset="270" data-started="{{ instance.started|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="86400" data-width="230" data-height="120" data-inputColor="#689636" data-fgcolor="#8cc152">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="text-center"><h3><small>Life Timer</small></h3></div>
                 <div class="text-center">
-                  <input id="life-timer" data-angleArc="180" data-angleOffset="270" data-state="{{ instance.status }}" data-expires="{{ instance.expires|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="86400" data-width="230" data-height="120">
+                  <input id="life-timer" data-angleArc="180" data-angleOffset="270" data-expires="{{ instance.expires|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="604800" data-width="230" data-height="120" data-inputColor="#25a7da" data-fgcolor="#87ceeb">
                 </div>
               </div>
             </div>
@@ -122,8 +122,8 @@
               </div>
             </div>
             <div class="bs-callout bs-callout-success bs-callout-top">
-              <h4>Note: Instance Timers</h4>
-              <p>Instances may occasionally be preempted before their <em>run timer</em> expires. Stopped instances may be restarted at any time before their <em>life timer</em> runs out. Instance <em>life timers</em> for this accont are a maximum of <strong>604,800 seconds or 7 days</strong>. Once a <em>life timer</em> has run out, the instance will be terminated and deleted, even if the <em>run timer</em> has time left on it.</p>
+              <h4>About Instance Timers</h4>
+              <p>Instances may occasionally be preempted before their <em>run timer</em> expires. Stopped instances may be restarted at any time before their <em>life timer</em> runs out. Instance <em>life timers</em> are set to a maximum of <strong>604,800 seconds or 7 days</strong> for this account. When a <em>life timer</em> runs out, the instance will be terminated and deleted.</p>
             </div>
           </div>
         </div>
@@ -158,20 +158,24 @@
     var channel_token = "{{ channel_token }}";
     var refresh_channel = "{{ refresh_channel }}";
 
-    // current state when page loads
-    var state = "{{ instance.status }}";
-
     // timer knob
     $('#life-timer').knob();
     $('#run-timer').knob();
     setInterval(function() {
       var epoch_time = parseInt((new Date).getTime()/1000);
       var expires = parseInt($('#life-timer').attr('data-expires'));
-      var timer2 = expires - epoch_time;
-      if (timer2 > -1) {
-        $('#run-timer').val(timer2).trigger("change");
+      var sleeps = parseInt($('#run-timer').attr('data-started'))+86400;
+      var life_timer = expires - epoch_time;
+      var run_timer = sleeps - epoch_time;
+      if (run_timer > -1) {
+        $('#run-timer').val(run_timer).trigger("change");
       } else {
         $('#run-timer').val(0).trigger("change");
+      }
+      if (life_timer > -1) {
+       $('#life-timer').val(life_timer).trigger("change");
+      } else {
+        $('#life-timer').val(0).trigger("change");
       }
     }, 1000);
 
