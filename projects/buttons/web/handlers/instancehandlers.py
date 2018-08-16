@@ -83,11 +83,13 @@ class InstanceTenderHandler(BaseHandler):
                         # only delete if instance create time is greater than 30 minutes...
                         slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
 
+            params = { "message": "ok" }
+
         except Exception as ex:
             print "yeah, no: %s" % ex
-            pass
+            params = { "message": ex }
 
-        return self.render_template('instance/tender.html')
+        return self.render_template('instance/tender.html', **params)
 
 
 # provide useful link to directly start an instance from another page
@@ -130,6 +132,7 @@ class StreamsStarterHandler(BaseHandler):
         response, content = http.request(url, 'POST', None, headers={})
         finstance = json.loads(content)
         name = finstance['instance']
+        password = finstance['password']
 
         # set up an instance (note there are two ways to create an instance - see below)
         instance = Instance(
@@ -137,6 +140,7 @@ class StreamsStarterHandler(BaseHandler):
             status = "PROVISIONING",
             user = user_info.key,
             stream = stream.key,
+            password = password,
             expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
             started = datetime.dateime.now()
         )
@@ -228,6 +232,7 @@ class InstancesListHandler(BaseHandler):
             response, content = http.request(url, 'POST', None, headers={})
             finstance = json.loads(content)
             name = finstance['instance']
+            password = finstance['password']
 
             # set up an instance 
             instance = Instance(
@@ -235,6 +240,7 @@ class InstancesListHandler(BaseHandler):
                 status = "PROVISIONING",
                 user = user_info.key,
                 stream = stream.key,
+                password = password,
                 expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                 started = datetime.datetime.now()
             )

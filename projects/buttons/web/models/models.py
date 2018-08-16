@@ -89,6 +89,7 @@ class Instance(ndb.Model):
 	name = ndb.StringProperty()
 	ip = ndb.StringProperty()
 	admin_link = ndb.StringProperty() # just uses IP + :8764
+	password = ndb.StringProperty() # admin password
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
 
