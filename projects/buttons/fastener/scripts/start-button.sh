@@ -59,6 +59,7 @@ apt-get install maven -y
 apt-get install ant -y
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
+FUSION_VERSION=`echo $STREAM_JSON | jq -r .fusion_version`
 # ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
 ADMIN_PASSWORD=`curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/password -H "Metadata-Flavor: Google"`
 FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
@@ -72,9 +73,9 @@ if [ ! -d "/fusion" ]; then
 # # if fusion not installed
 # #############################
 
-gsutil cp gs://buttons-streams/fusion-4.0.2.tar.gz .
+gsutil cp gs://buttons-streams/fusion-${FUSION_VERSION}.tar.gz .
 
-tar xfz fusion-4.0.2.tar.gz
+tar xfz fusion-${FUSION_VERSION}.tar.gz
 
 # link up fusion
 ln -s /fusion/ /root/fusion
@@ -82,10 +83,10 @@ ln -s /fusion/ /root/fusion
 # replace line in /fusion/conf/fusion.properties
 sed -i "
 s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.runtime.lib=true,g;
-" /fusion/4.0.2/conf/fusion.properties
+" /fusion/${FUSION_VERSION}/conf/fusion.properties
 
 # restart
-/fusion/4.0.2/bin/fusion restart
+/fusion/${FUSION_VERSION}/bin/fusion restart
 
 # set the password
 curl -X POST -H 'Content-type: application/json' -d "{\"password\":\"${ADMIN_PASSWORD}\"}" http://localhost:8764/api
@@ -110,7 +111,7 @@ mkdir $SID
 cd $SID
 
 # TODO: conditional on DISTRO: fetch if specified, otherwise ignore
-#   - if no DISTRO to fetch, then this is becomes a simple Fusion 4.0.2 out of the box, box
+#   - if no DISTRO to fetch, then this becomes a simple Fusion out of the box, box
 
 gsutil cp gs://buttons-streams/$DISTRO .
 tar xfz $DISTRO
