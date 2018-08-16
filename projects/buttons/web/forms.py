@@ -22,11 +22,12 @@ class EmailForm(BaseForm):
 class StreamForm(BaseForm):
     sid = fields.TextField('Stream ID', [validators.Required(), validators.Length(max=50)], id='sid')
     name = fields.TextField('Name', [validators.Required(), validators.Length(max=50)], id='name')
-    description = fields.TextField('Description', [validators.Required(), validators.Length(max=140)], id='description')
-    zipurl = fields.TextField('Zip URL', [validators.Required(), validators.Length(max=140)], id='zipurl')
-    fusion_version = fields.SelectField('Fusion Version', [validators.Required()], id='version', choices=[('fusion_4.0.2', 'Fusion 4.0.2')])   
-    github_repo = fields.TextField('Github Repo', [validators.Required(), validators.Length(max=140)], id='github_repo')
-    url_stub = fields.TextField('URL Stub', [validators.Required(), validators.Length(max=140)], id='url_stub')
+    description = fields.TextField('Description', [validators.Required(), validators.Length(max=200)], id='description')
+    tgzfile = fields.TextField('Application Tar Zip Filename', [validators.Required(), validators.Length(max=200)], id='tgzfile')
+    github_repo = fields.TextField('Github Repo', [validators.Length(max=200)], id='github_repo')
+    app_stub = fields.TextField('App Stub', [validators.Length(max=200)], id='app_stub')
+    labs_link = fields.TextField('Labs Link (Wordpress)', [validators.Required(), validators.Length(max=200)], id='labs_link')
+    fusion_version = fields.SelectField('Fusion Version', [validators.Required()], id='version', choices=[('4.0.2', 'Fusion 4.0.2'),('4.1.0', 'Fusion 4.1.0')])
 
 
 class EditProfileForm(BaseForm):

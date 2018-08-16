@@ -15,6 +15,9 @@ input.ip, input.ip:focus {
 .tab-content {
   padding: 0px;
 }
+.input-xlarge {
+  width: 400px;
+}
 pre {
   font-size: 11px;
   height: auto;

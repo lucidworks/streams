@@ -8,6 +8,19 @@ from web.basehandler import BaseHandler
 from web.basehandler import user_required, admin_required
 from web.models.models import User, Stream, Instance
 
+
+class AdminStreamsAPIHandler(BaseHandler):
+    def get(self, sid=None):
+        # look up streams
+        stream = Stream.get_by_sid(sid)
+
+        params = {
+            'stream': stream
+        }
+        self.response.headers['Content-Type'] = "application/json"
+        return self.render_template('api/stream.json', **params)
+
+
 class AdminStreamsHandler(BaseHandler):
     @user_required
     @admin_required
@@ -24,15 +37,32 @@ class AdminStreamsHandler(BaseHandler):
 
         return self.render_template('admin/streams.html', **params)
 
+
     @user_required
     @admin_required
-    def delete(self, sid):
-        pass
+    def delete(self, stream_id=None):
+        # delete the entry from the db
+        stream = Stream.get_by_id(long(stream_id))
+
+        if stream:
+            stream.key.delete()
+            self.add_message('Stream successfully deleted!', 'success')
+        else:
+            self.add_message('Something went horribly wrong somewhere!', 'warning')
+
+        # hangout for a second
+        if config.isdev:
+            time.sleep(1)
+
+        params = {}
+        return self.redirect_to('admin-streams', **params)
+ 
 
     @user_required
     @admin_required
     def post(self):
         if not self.form.validate():
+            self.add_message('Form did not validate. Try again!', 'error')
             return self.get()
 
         # pull the github token out of the social user db
@@ -42,20 +72,22 @@ class AdminStreamsHandler(BaseHandler):
         sid = self.form.sid.data.strip()
         name = self.form.name.data.strip()
         description = self.form.description.data.strip()
-        zipurl = self.form.zipurl.data.strip()
+        tgzfile = self.form.tgzfile.data.strip()
         fusion_version = self.form.fusion_version.data.strip()
         github_repo = self.form.github_repo.data.strip()
-        url_stub = self.form.url_stub.data.strip()
+        app_stub = self.form.app_stub.data.strip()
+        labs_link = self.form.labs_link.data.strip()
 
         # save the stream          
         stream = Stream(
             sid = sid,
             name = name,
             description = description,
-            zipurl = zipurl,
+            tgzfile = tgzfile,
             fusion_version = fusion_version,
             github_repo = github_repo,
-            url_stub = url_stub
+            app_stub = app_stub,
+            labs_link = labs_link
         )
 
         stream.put()
