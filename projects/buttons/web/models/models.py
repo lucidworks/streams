@@ -82,6 +82,7 @@ class Stream(ndb.Model):
 class Instance(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
+	started = ndb.DateTimeProperty()
 	expires = ndb.DateTimeProperty()
 	user = ndb.KeyProperty(kind=User)
 	stream = ndb.KeyProperty(kind=Stream)
