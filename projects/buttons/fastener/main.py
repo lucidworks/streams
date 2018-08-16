@@ -157,7 +157,7 @@ def create(stream_slug='lou'):
     iid = id_generator()
     name = 'button-%s-%s' % (stream_slug, iid)
     password = password_generator()
-    
+
     config = {
         'name': name,
         'machineType': "zones/us-west1-c/machineTypes/n1-standard-4",
@@ -191,7 +191,7 @@ def create(stream_slug='lou'):
 
     # tags ad labels
     config['tags'] = { 'items': ["fusion"] }
-    config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid }
+    config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid, 'password': password}
 
     # network interface
     config['networkInterfaces'] = [{
@@ -203,9 +203,14 @@ def create(stream_slug='lou'):
 
     # metadata
     config["metadata"] = {
-        "items": [{
+        "items": [
+        {
             "key": "startup-script-url",
             "value": "https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/fastener/scripts/start-button.sh"
+        },
+        {
+            "key": "password",
+            "value": password
         }]
     }
 
