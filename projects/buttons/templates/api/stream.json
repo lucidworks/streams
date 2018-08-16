@@ -7,6 +7,6 @@
   "distro": "{{ stream.tgzfile }}",
   "fusion_version": "{{ stream.fusion_version }}",
   "github_repo": "{{ stream.github_repo }}",
-  "app_stub": "{{ stream.github_repo }}",
+  "app_stub": "{{ stream.app_stub }}",
   "labs_link": "{{ stream.labs_link }}"
 }
