@@ -121,7 +121,7 @@
                       <td>{{ stream.tgzfile }}</td>
                       <td>{% if stream.labs_link %}<a href="{{ stream.labs_link }}">link</a>{% else %}None{% endif %}</td>
                       <td>{% if stream.github_repo %}<a href="{{ stream.github_repo }}">link</a>{% else %}None{% endif %}</td>
-                      <td>{% if stream.github_repo %}{{ stream.github_repo }}{% else %}None{% endif %}</td>
+                      <td>{% if stream.app_stub %}{{ stream.app_stub }}{% else %}None{% endif %}</td>
                       <td>
                         <button type="button" id="remove-{{stream.key.id()}}" class="btn btn-danger btn-xs" title="Delete Stream" href="#"><span class="glyphicon glyphicon-remove"></span></button> 
                       </td>
