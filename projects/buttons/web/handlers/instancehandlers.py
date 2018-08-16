@@ -137,7 +137,7 @@ class StreamsStarterHandler(BaseHandler):
             status = "PROVISIONING",
             user = user_info.key,
             stream = stream.key,
-            expires = datetime.datetime.now() + datetime.timedelta(0, 86400),
+            expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
             started = datetime.dateime.now()
         )
         instance.put()
@@ -145,10 +145,10 @@ class StreamsStarterHandler(BaseHandler):
         slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
         # give the db a second to update
-        if config.is_dev:
+        if config.isdev:
             time.sleep(1)
 
-        self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
+        self.add_message('Instance created! Give the system a few minutes to start %s.' % stream.name, 'success')
 
         params = {'name': name}
         return self.redirect_to('instance-detail', **params)
@@ -236,14 +236,14 @@ class InstancesListHandler(BaseHandler):
                 user = user_info.key,
                 stream = stream.key,
                 expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-                started = datetime.dateime.now()
+                started = datetime.datetime.now()
             )
             instance.put()
 
             slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
             # give the db a second to update
-            if config.is_dev:
+            if config.isdev:
                 time.sleep(1)
 
             self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
@@ -295,8 +295,9 @@ class InstanceControlHandler(BaseHandler):
 
                 # pull the response back TODO add error handling
                 response, content = http.request(url, 'POST', None, headers={})
-                finstance = json.loads(content)
+                instance = json.loads(content)
             
+
             elif command == "delete":
                 # delete stuff
                 pass
