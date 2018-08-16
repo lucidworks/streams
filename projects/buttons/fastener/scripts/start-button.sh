@@ -88,7 +88,7 @@ s,solr.jvmOptions = -Xmx2g -Xss256k,solr.jvmOptions = -Xmx2g -Xss256k -Denable.r
 /fusion/4.0.2/bin/fusion restart
 
 # set the password
-curl -X POST -H 'Content-type: application/json' -d '{"password":"password123"}' http://localhost:8764/api
+curl -X POST -H 'Content-type: application/json' -d "{\"password\":\"${ADMIN_PASSWORD}\"}" http://localhost:8764/api
 
 # #############################
 # # end if fusion not installed
