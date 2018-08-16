@@ -91,6 +91,8 @@ class InstanceTenderHandler(BaseHandler):
 
 
 # provide useful link to directly start an instance from another page
+# /instance/create/<sid>
+# this method and the InstancesListHandler POST method use duplicated code (take care, needs to be refactored)
 class StreamsStarterHandler(BaseHandler):
     @user_required
     def get(self, sid):
@@ -129,20 +131,22 @@ class StreamsStarterHandler(BaseHandler):
         finstance = json.loads(content)
         name = finstance['instance']
 
-        # set up an instance 
+        # set up an instance (note there are two ways to create an instance - see below)
         instance = Instance(
             name = name,
             status = "PROVISIONING",
             user = user_info.key,
             stream = stream.key,
-            expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
+            expires = datetime.datetime.now() + datetime.timedelta(0, 86400),
+            started = datetime.dateime.now()
         )
         instance.put()
 
         slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
         # give the db a second to update
-        time.sleep(1)
+        if config.is_dev:
+            time.sleep(1)
 
         self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
 
@@ -151,6 +155,7 @@ class StreamsStarterHandler(BaseHandler):
 
 
 # list of a user's instances and create new instance
+# this method and the StreamsStarterHandler GET method use duplicated code (take care, needs to be refactored)
 class InstancesListHandler(BaseHandler):
     @user_required
     def get(self, sid=None):
@@ -230,14 +235,16 @@ class InstancesListHandler(BaseHandler):
                 status = "PROVISIONING",
                 user = user_info.key,
                 stream = stream.key,
-                expires = datetime.datetime.now() + datetime.timedelta(0, 86400), # + 1 day
+                expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                started = datetime.dateime.now()
             )
             instance.put()
 
             slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
             # give the db a second to update
-            time.sleep(1)
+            if config.is_dev:
+                time.sleep(1)
 
             self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
 
@@ -262,6 +269,39 @@ class InstancesListHandler(BaseHandler):
     @webapp2.cached_property
     def form(self):
         return forms.EmailForm(self)
+
+
+class InstanceControlHandler(BaseHandler):
+    @user_required
+    def get(self, name, command):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
+
+        # look up user's instances
+        instance = Instance.get_by_name(name)
+
+        if not instance:
+            params = {}
+            return self.redirect_to('instances-list', **params)
+        else:
+            if command == "start" and instance.status != "RUNNING":
+                # make the instance call to the control box
+                http = httplib2.Http(timeout=10)
+                url = '%s/api/instance/%s/start?token=%s' % (
+                    config.fastener_host_url, 
+                    name,
+                    config.fastener_api_token
+                )
+
+                # pull the response back TODO add error handling
+                response, content = http.request(url, 'POST', None, headers={})
+                finstance = json.loads(content)
+            
+            elif command == "delete":
+                # delete stuff
+                pass
+            else:
+                pass
 
 
 # instance detail page

@@ -1,5 +1,5 @@
 cron:
 - description: "instance tender"
   url: /instance/tender
-  schedule: every 3 mins
+  schedule: every 2 mins
   

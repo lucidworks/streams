@@ -91,7 +91,7 @@
                     <div>
                       <table class="table table-striped table-responsive">
                         <tr>
-                          <td><strong>Stream</strong></td>
+                          <td><strong>Stream Template</strong></td>
                           <td colspan="2">{{ instance.stream.get().name }}</td>
                         </tr>
                         <tr>
@@ -122,8 +122,8 @@
               </div>
             </div>
             <div class="bs-callout bs-callout-success bs-callout-top">
-              <h4>Instance Timers</h4>
-              <p>Please note that an instance may occasionally be preempted before the <em>run timer</em> runs out! Instances may be restarted at any time before the instance <em>life timer</em> has run out. Instance <em>life timers</em> are fixed by default to <strong>604,800 seconds/7 days</strong>. At the end of an instance's <em>life timer</em>, the instance will be permanently terminated and deleted, even if the <em>run timer</em> still has time on it.</p>
+              <h4>Note: Instance Timers</h4>
+              <p>Instances may occasionally be preempted before their <em>run timer</em> expires. Stopped instances may be restarted at any time before their <em>life timer</em> runs out. Instance <em>life timers</em> for this accont are a maximum of <strong>604,800 seconds or 7 days</strong>. Once a <em>life timer</em> has run out, the instance will be terminated and deleted, even if the <em>run timer</em> has time left on it.</p>
             </div>
           </div>
         </div>

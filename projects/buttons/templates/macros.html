@@ -10,7 +10,7 @@
 {% macro side_menu(page, user_id) -%}
   <ul class="nav nav-pills nav-stacked">
     {% if user_id %}
-    <li{% if page=="dashboard" %} class="active"{% endif %}><a href="{{ uri_for('account-dashboard') }}">Dashbaord</a></li>
+    <li{% if page=="dashboard" %} class="active"{% endif %}><a href="{{ uri_for('account-dashboard') }}">Dashboard</a></li>
     <li{% if page=="instances" %} class="active"{% endif %}><a href="{{ uri_for('instances-list') }}">Instances</a></li>
     <li{% if page=="settings" %} class="active"{% endif %}><a href="{{ uri_for('account-settings') }}">Settings</a></li>
     {% endif %}
