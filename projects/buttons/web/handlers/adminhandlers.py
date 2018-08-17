@@ -43,6 +43,7 @@ class AdminStreamsHandler(BaseHandler):
     def delete(self, stream_id=None):
         # delete the entry from the db
         stream = Stream.get_by_id(long(stream_id))
+        sid = stream.sid
 
         if stream:
             stream.key.delete()
@@ -54,8 +55,8 @@ class AdminStreamsHandler(BaseHandler):
         if config.isdev:
             time.sleep(1)
 
-        params = {}
-        return self.redirect_to('admin-streams', **params)
+        params = {"response": "success", "message": "stream %s deleted" % sid}
+        return self.render_template('api/response.json', **params)
  
 
     @user_required
@@ -121,6 +122,29 @@ class AdminInstancesHandler(BaseHandler):
 
         return self.render_template('admin/instances.html', **params)
 
+    @user_required
+    @admin_required
+    def delete(self, instance_id=None):
+        print instance_id
+        # delete the entry from the db
+        instance = Instance.get_by_id(long(instance_id))
+        name = instance.name
+        
+        # kill it via API call
+
+        if instance:
+            instance.key.delete()
+            self.add_message('Instance successfully deleted!', 'success')
+        else:
+            self.add_message('Something went horribly wrong somewhere!', 'warning')
+
+        # hangout for a second
+        if config.isdev:
+            time.sleep(1)
+
+        params = {"response": "success", "message": "instance %s deleted" % name}
+        return self.render_template('api/response.json', **params)
+ 
 
 class AdminUsersHandler(BaseHandler):
     @user_required
