@@ -66,6 +66,11 @@ def generate_csrf_token():
 def epoch(value):
 	return int(value.strftime("%s"))
 
+def timendate(value):
+	pattern = '%Y-%m-%d %H:%M:%S.%f'
+	epoch = int(time.mktime(time.strptime(str(value), pattern)))
+	return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(epoch))
+		 
 def base64encode(value):
 	return base64.b64encode(value)
 
@@ -74,6 +79,7 @@ def jinja2_factory(app):
 	j.environment.filters.update({
 		# Set filters.
 		'epoch': epoch,
+		'timendate': timendate,
 		'base64encode': base64encode,
 	})
 	j.environment.globals.update({

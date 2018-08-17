@@ -56,6 +56,13 @@ class InstanceTenderHandler(BaseHandler):
 
                             if finstance['status'] == "RUNNING" and test_status == "200":
                                 instance.admin_link = test_url
+
+                                # build app link, if it exists
+                                if instance.stream.get().app_stub:
+                                    app_stub = instance.stream.get().app_stub
+                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                                else:
+                                    instance.app_link = None  
                             else:
                                 instance.status = "CONFIGURING"
                                 instance.admin_link = None
@@ -286,6 +293,11 @@ class InstanceControlHandler(BaseHandler):
         # look up user's instances
         instance = Instance.get_by_name(name)
 
+        # check user owns it
+        if long(instance.user.id()) != long(self.user_id):
+            self.add_message("That's not your instance.", 'danger')
+
+
         if not instance:
             params = {}
             return self.redirect_to('instances-list', **params)
@@ -306,9 +318,16 @@ class InstanceControlHandler(BaseHandler):
 
             elif command == "delete":
                 # delete stuff
-                pass
+
+                instance.key.delete()
+                self.add_message('Instance successfully deleted!', 'success')
+            
             else:
                 pass
+                
+        # hangout for a second
+        if config.isdev:
+            time.sleep(1)
 
 
 # instance detail page

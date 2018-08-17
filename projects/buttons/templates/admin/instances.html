@@ -73,7 +73,7 @@
                     <tr>
                       <td>{{ instance.name }}</td>
                       <td>{{ instance.user.get().username }}
-                      <td>{{ instance.created }}</td>
+                      <td>{{ instance.created|timendate }}</td>
                       <td>{{ instance.status }}</td>
                       <td><button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button> </td>
                     </tr>
