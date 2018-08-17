@@ -237,6 +237,18 @@
       });
     });
 
+    setInterval(function() {
+      $.ajax({
+        url: '/instance/{{ instance.name }}/status?_csrf_token='+csrf_token,
+        type: 'GET',
+        success: function(data) {
+          if (data['status'] != "{{ instance.status }}") {
+            location.reload();
+          }
+        }
+      });
+    }, 10000);
+
     $.get("/instance/{{ instance.name }}/console", function( data ) {
       $("#console_log").html(data);
       console.log( "Load was performed." );

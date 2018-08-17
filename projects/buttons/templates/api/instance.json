@@ -1,6 +1,6 @@
 { 
   "created": "{{ instance.created }}",
   "updated": "{{ instance.updated }}",
-  "name": "{{ name }}",
-  "status": "{{ status }}"
+  "name": "{{ instance.name }}",
+  "status": "{{ instance.status }}"
 }
