@@ -183,7 +183,8 @@
             type: 'DELETE',
             statusCode: {
               200: function() {
-                location.reload();
+                alertify.success("Deleted. Farwell sweet, sweet stream!");
+                setTimeout(function(){ location.reload(); }, 2000);
               }
             }
           });

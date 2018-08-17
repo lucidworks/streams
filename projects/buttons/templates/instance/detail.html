@@ -14,6 +14,25 @@
 {% endblock %}
 
 {% block content %}
+<!-- hidden delete modal -->
+<div id="delete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this instance? Batman would do it.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Instance</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
 <div class="inverse">
   <div class="container">
     <div class="row">
@@ -70,11 +89,11 @@
                       </tr>
                       <tr>
                         <td><strong>Application Link</strong></td>
-                        <td>{% if instance.app_link %}<a class="fusion-link" target=_blank href="{{ instance.app_link }}"><span class="label label-success">Click to View App</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
+                        <td>{% if instance.app_link %}<a class="fusion-link" target=_blank href="{{ instance.app_link }}"><span class="label label-default">Click to View App</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
                       </tr>
                       <tr>
                         <td><strong>Fusion Admin</strong></td>
-                        <td>{% if instance.admin_link != None %}<a target=_blank class="fusion-link" href="{{ instance.admin_link }}"><span class="label label-success">Click to Login</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
+                        <td>{% if instance.admin_link != None %}<a target=_blank class="fusion-link" href="{{ instance.admin_link }}"><span class="label label-default">Click to Login</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
                       </tr>
                         <td><strong>Admin Username</strong></td>
                         <td><em>admin</em></td>
@@ -130,13 +149,15 @@
       </div>
       <div class="row button-padding">
         <div class="col-md-12">
-          <button id="instance-list" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
+          <button id="instance-list" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
           <button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>
-          <button id="instance-duplicate" class="btn btn-success"><span class="glyphicon glyphicon-transfer"></span> Duplicate Instance</button>
+          {% if instance.status == "TERMINATED" %}
+            <button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Instance</button>                    
+          {% endif %}
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
 {% endblock %}
 
@@ -178,6 +199,43 @@
         $('#life-timer').val(0).trigger("change");
       }
     }, 1000);
+
+    // apps index
+    $('#instance-list').click(function() {
+      window.location = "/instances/";
+    });
+
+    // delete button
+    $('#instance-delete').click(function() {
+      $('#delete').modal();
+    });
+      
+    $('#delete-button').click(function() {
+      $('#delete').modal('hide');
+      $.ajax({
+        url: '/instance/{{ instance.name }}/delete?_csrf_token='+csrf_token,
+        type: 'GET',
+        statusCode: {
+          200: function() {
+            alertify.success("Instance {{ instance.name }} deleted!");
+            setTimeout(function(){ location.reload(); }, 2000);
+          }
+        }
+      });
+    });
+
+    $('#instance-start').click(function() {
+      $.ajax({
+        url: '/instance/{{ instance.name }}/start?_csrf_token='+csrf_token,
+        type: 'GET',
+        statusCode: {
+          200: function() {
+            alertify.success("Instance {{ instance.name }} started!");
+            setTimeout(function(){ location.reload(); }, 2000);
+          }
+        }
+      });
+    });
 
     $.get("/instance/{{ instance.name }}/console", function( data ) {
       $("#console_log").html(data);

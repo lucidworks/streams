@@ -77,6 +77,8 @@ class InstanceTenderHandler(BaseHandler):
 
                         # instance has been terminated
                         if finstance['status'] == "TERMINATED":
+                            # set start time to far in the past
+                            instance.started = instance.created - datetime.timedelta(0, 604800)
                             pass
 
                         instance.put()
@@ -290,44 +292,69 @@ class InstanceControlHandler(BaseHandler):
         # lookup user's auth info
         user_info = User.get_by_id(long(self.user_id))
 
-        # look up user's instances
+        # delete instance
         instance = Instance.get_by_name(name)
-
-        # check user owns it
-        if long(instance.user.id()) != long(self.user_id):
-            self.add_message("That's not your instance.", 'danger')
-
 
         if not instance:
             params = {}
             return self.redirect_to('instances-list', **params)
         else:
-            if command == "start" and instance.status != "RUNNING":
-                # make the instance call to the control box
-                http = httplib2.Http(timeout=10)
-                url = '%s/api/instance/%s/start?token=%s' % (
-                    config.fastener_host_url, 
-                    name,
-                    config.fastener_api_token
-                )
-
-                # pull the response back TODO add error handling
-                response, content = http.request(url, 'POST', None, headers={})
-                instance = json.loads(content)
-            
-
-            elif command == "delete":
-                # delete stuff
-
-                instance.key.delete()
-                self.add_message('Instance successfully deleted!', 'success')
-            
+            # check user owns it
+            if long(instance.user.id()) != long(self.user_id):
+                params = {"response": "failure", "message": "instance %s not owned by calling user" % name}
+                response.set_status(500)
             else:
-                pass
+                # start the instance
+                if command == "start" and instance.status != "RUNNING":
+                    # make the instance call to the control box
+                    http = httplib2.Http(timeout=10)
+                    url = '%s/api/instance/%s/start?token=%s' % (
+                        config.fastener_host_url, 
+                        name,
+                        config.fastener_api_token
+                    )
+
+                    # pull the response back TODO add error handling
+                    response, content = http.request(url, 'GET', None, headers={})
+                    print content
+
+                    # update if google returns pending
+                    if json.loads(content)['status'] == "PENDING":
+                        params = {"response": "success", "message": "instance %s started" % name }
+                        instance.status = "STAGING"
+                        instance.started = datetime.datetime.now()
+                        instance.put()
+                    else:
+                        params = {"response": "failure", "message": "instance %s operation failure" % name }
+                        response.set_status(500)
+
+                # delete the instance - C'est la vie
+                elif command == "delete":
+                    # make the instance call to the control box
+                    http = httplib2.Http(timeout=10)
+                    url = '%s/api/instance/%s/delete?token=%s' % (
+                        config.fastener_host_url, 
+                        name,
+                        config.fastener_api_token
+                    )
+
+                    # pull the response back TODO add error handling
+                    response, content = http.request(url, 'GET', None, headers={})
+                    print content
+
+                    # delete if google returns pending
+                    if json.loads(content)['status'] == "PENDING":
+                        params = {"response": "success", "message": "instance %s deleted" % name }
+                        instance.key.delete()
+                    else:
+                        params = {"response": "failure", "message": "instance %s operation failure" % name }
+                        response.set_status(500)
+
+                else:
+                    params = {"response": "failure", "message": "bad command, skippy" }                    
+                    response.set_status(500)
                 
-        # hangout for a second
-        if config.isdev:
-            time.sleep(1)
+                return self.render_template('api/response.json', **params)
 
 
 # instance detail page
