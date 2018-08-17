@@ -1,5 +1,5 @@
 import time
-
+import httplib2, json
 import webapp2
 
 import config
@@ -130,14 +130,23 @@ class AdminInstancesHandler(BaseHandler):
         instance = Instance.get_by_id(long(instance_id))
         name = instance.name
         
-        # kill it via API call
-
+        # kill it via API call and delete via API
         if instance:
-            instance.key.delete()
-            self.add_message('Instance successfully deleted!', 'success')
-        else:
-            self.add_message('Something went horribly wrong somewhere!', 'warning')
+            # make the instance call to the control box
+            http = httplib2.Http(timeout=10)
+            url = '%s/api/instance/%s/delete?token=%s' % (
+                config.fastener_host_url, 
+                name,
+                config.fastener_api_token
+            )
 
+            # pull the response back TODO add error handling
+            response, content = http.request(url, 'GET', None, headers={})
+
+            # delete if google returns pending
+            if json.loads(content)['status'] == "PENDING":
+                instance.key.delete()
+                
         # hangout for a second
         if config.isdev:
             time.sleep(1)
