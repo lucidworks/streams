@@ -34,6 +34,7 @@ class InstanceTenderHandler(BaseHandler):
             # fast fail connection for checking if fusion is up
             http_test = httplib2.Http(timeout=2)
 
+            print "looping"
             # loop through list of instances in DB (or local DB if in dev)
             for instance in instances:
                 name = instance.name
@@ -339,6 +340,8 @@ class InstanceControlHandler(BaseHandler):
 
                     # pull the response back TODO add error handling
                     response, content = http.request(url, 'GET', None, headers={})
+
+                    print content
 
                     # delete if google returns pending
                     if json.loads(content)['status'] == "PENDING":
