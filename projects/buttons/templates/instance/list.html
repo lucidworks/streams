@@ -14,6 +14,24 @@
 {% endblock %}
 
 {% block content %}
+<!-- hidden delete modal -->
+<div id="delete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this very fine instance?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Instance</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- hidden create instance modal -->
 {% if user_info.email %}
 <div id="create-instance-modal" class="modal fade">
@@ -133,15 +151,15 @@
                       <td>{{ instance.expires|timendate }}</td>
                       <td>
                         {% if instance.status == "TERMINATED" %}                      
-                        <button type="button" id="start-{{instance.key.id()}}" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="glyphicon glyphicon-play"></span></button>
+                        <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="glyphicon glyphicon-play"></span></button>
                         {% endif %}
                         {% if instance.admin_link %}
-                        <button type="button" id="admin-link-{{instance.key.id()}}" class="btn btn-info btn-xs" title="Fusion Admin" href="#"><span class="glyphicon glyphicon-cog"></span></button>
+                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="glyphicon glyphicon-cog"></span></button>
                         {% endif %}
                         {% if instance.app_link %}
-                        <button type="button" id="app-link-{{instance.key.id()}}" class="btn btn-info btn-xs" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
+                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
                         {% endif %}
-                        <button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
                       </td>
                     </tr>
                     {% endfor %}
@@ -205,6 +223,61 @@
     // apps index
     $('#account-settings').click(function() {
       window.location = "{{ uri_for('account-settings') }}";
+    });
+
+    // applink buttons
+    $('button[id^="applink-"]').each(function(index){
+      app_link = this.getAttribute('value');
+      $('#'+this.id).click(function() {
+        window.open(app_link);
+      });
+    });
+
+    // applink buttons
+    $('button[id^="adminlink-"]').each(function(index){
+      admin_link = this.getAttribute('value');
+      $('#'+this.id).click(function() {
+        window.open(admin_link);
+      });
+    });
+
+    // remove button
+    $('button[id^="remove_"]').each(function(index){
+      $('#'+this.id).click(function() {
+        name = this.id.split("_").pop();
+        $('#delete').modal();
+        $('#delete-button').click(function() {
+          $('#delete').modal('hide');
+          $.ajax({
+            url: '/instance/'+name+'/delete?_csrf_token='+csrf_token,
+            type: 'GET',
+            statusCode: {
+              200: function() {
+                alertify.success("Instance deleted!");
+                setTimeout(function(){ location.reload(); }, 2000);
+              }
+            }
+          });
+
+        });
+      })
+    });
+
+    // start button
+    $('button[id^="start_"]').each(function(index){
+      $('#'+this.id).click(function() {
+        name = this.id.split("_").pop();
+        $.ajax({
+          url: '/instance/'+name+'/start?_csrf_token='+csrf_token,
+          type: 'GET',
+          statusCode: {
+            200: function() {
+              alertify.success("Instance started!");
+              setTimeout(function(){ location.reload(); }, 2000);
+            }
+          }
+        });
+      })
     });
 
     // standard stuff

@@ -114,7 +114,7 @@
     var username = "{{ username }}";
     var csrf_token = "{{ csrf_token() }}";
 
-    // remove button
+    // remove button (it's delete, silly)
     $('button[id^="remove-"]').each(function(index){
       $('#'+this.id).click(function() {
         iid = this.id.split("-").pop();

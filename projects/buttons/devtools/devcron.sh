@@ -3,7 +3,7 @@ cd ..
 while [ 1 ] 
 do
   echo "Running tasks"
-  curl -s http://0.0.0.0:8079/tasks/foo/
+  curl -s http://0.0.0.0:8079/instance/tender
 
   echo "Running in 60"
   sleep 30
