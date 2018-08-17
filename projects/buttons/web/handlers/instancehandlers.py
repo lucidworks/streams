@@ -316,7 +316,6 @@ class InstanceControlHandler(BaseHandler):
 
                     # pull the response back TODO add error handling
                     response, content = http.request(url, 'GET', None, headers={})
-                    print content
 
                     # update if google returns pending
                     if json.loads(content)['status'] == "PENDING":
@@ -340,7 +339,6 @@ class InstanceControlHandler(BaseHandler):
 
                     # pull the response back TODO add error handling
                     response, content = http.request(url, 'GET', None, headers={})
-                    print content
 
                     # delete if google returns pending
                     if json.loads(content)['status'] == "PENDING":
@@ -350,10 +348,17 @@ class InstanceControlHandler(BaseHandler):
                         params = {"response": "failure", "message": "instance %s operation failure" % name }
                         response.set_status(500)
 
+                # just the status
+                elif command == "status":
+                    params = {"instance": instance}
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/instance.json', **params)
+
                 else:
                     params = {"response": "failure", "message": "bad command, skippy" }                    
                     response.set_status(500)
                 
+                self.response.headers['Content-Type'] = "application/json"
                 return self.render_template('api/response.json', **params)
 
 
