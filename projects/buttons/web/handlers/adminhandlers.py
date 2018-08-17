@@ -125,8 +125,7 @@ class AdminInstancesHandler(BaseHandler):
     @user_required
     @admin_required
     def delete(self, instance_id=None):
-        print instance_id
-        # delete the entry from the db
+        # delete instance
         instance = Instance.get_by_id(long(instance_id))
         name = instance.name
         
@@ -146,7 +145,10 @@ class AdminInstancesHandler(BaseHandler):
             # delete if google returns pending
             if json.loads(content)['status'] == "PENDING":
                 instance.key.delete()
-                
+        else:
+            pass
+            # TODO implement this, even thought it's likely not to happen
+
         # hangout for a second
         if config.isdev:
             time.sleep(1)

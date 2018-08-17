@@ -62,9 +62,10 @@
                   <thead>
                     <tr>
                       <th>Name</th>
+                      <th>Status</th>
                       <th>Owner</th>
                       <th>Created</th>
-                      <th>Status</th>
+                      <th>End of Life</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -72,9 +73,10 @@
                     {% for instance in instances %}
                     <tr>
                       <td>{{ instance.name }}</td>
-                      <td>{{ instance.user.get().username }}
+                      <td>{{ macros.instance_status(instance.status) }}</td>
+                      <td>{{ instance.user.get().username }}</td>
                       <td>{{ instance.created|timendate }}</td>
-                      <td>{{ instance.status }}</td>
+                      <td>{{ instance.expires|timendate }}</td>
                       <td><button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button> </td>
                     </tr>
                     {% endfor %}
@@ -124,7 +126,8 @@
             type: 'DELETE',
             statusCode: {
               200: function() {
-                location.reload();
+                alertify.success("Instance deleted!");
+                setTimeout(function(){ location.reload(); }, 2000);
               }
             }
           });

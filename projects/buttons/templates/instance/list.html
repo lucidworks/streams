@@ -116,20 +116,31 @@
                   <thead>
                     <tr>
                       <th>Instance</th>
+                      <th>Status</th>
                       <th>Stream</th>
                       <th>Created</th>
-                      <th>Status</th>
-                      <th>Action?</th>
+                      <th>End of Life</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for instance in instances %}
                     <tr>
                       <td><a href="/instance/{{ instance.name }}">{{ instance.name }}</a></td>
+                      <td>{{ macros.instance_status(instance.status) }}</td>
                       <td>{{ instance.stream.get().sid}}
-                      <td>{{ instance.created }}</td>
-                      <td>{{ instance.status }}</td>
+                      <td>{{ instance.created|timendate }}</td>
+                      <td>{{ instance.expires|timendate }}</td>
                       <td>
+                        {% if instance.status == "TERMINATED" %}                      
+                        <button type="button" id="start-{{instance.key.id()}}" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="glyphicon glyphicon-play"></span></button>
+                        {% endif %}
+                        {% if instance.admin_link %}
+                        <button type="button" id="admin-link-{{instance.key.id()}}" class="btn btn-info btn-xs" title="Fusion Admin" href="#"><span class="glyphicon glyphicon-cog"></span></button>
+                        {% endif %}
+                        {% if instance.app_link %}
+                        <button type="button" id="app-link-{{instance.key.id()}}" class="btn btn-info btn-xs" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
+                        {% endif %}
                         <button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
                       </td>
                     </tr>
