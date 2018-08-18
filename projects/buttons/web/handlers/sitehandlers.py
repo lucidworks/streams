@@ -25,8 +25,7 @@ from web.basehandler import user_required
 # index lives at /labs on streams.lucidworks.com
 class IndexHandler(BaseHandler):
 	def get(self):
-		params = {}
-		return self.redirect('https://lucidworks.com/labs')
+		return self.redirect_to('login')
 
 
 class SendEmailHandler(BaseHandler):

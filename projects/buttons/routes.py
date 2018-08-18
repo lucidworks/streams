@@ -7,6 +7,7 @@ secure_scheme = 'https'
 _routes = [
 	# website
 	RedirectRoute('/', sitehandlers.IndexHandler, name='index', strict_slash=True),
+	RedirectRoute('/labs', sitehandlers.IndexHandler, name='index', strict_slash=True),
 	RedirectRoute('/labdocs/', sitehandlers.DocsHandler, name='labdocs', strict_slash=True),
 	
 	# users
@@ -21,7 +22,7 @@ _routes = [
 	# user's instances
 	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
 	RedirectRoute('/instance/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),	
-	RedirectRoute('/instances/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),
+	RedirectRoute('/instances/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start2', strict_slash=True),
 	RedirectRoute('/instance/tender', instancehandlers.InstanceTenderHandler, name='instance-tender', strict_slash=True),
 	RedirectRoute('/instance/<name>', instancehandlers.InstanceDetailHandler, name='instance-detail', strict_slash=True),
 	RedirectRoute('/instance/<name>/console', instancehandlers.InstanceConsoleHandler, name='instance-console', strict_slash=True),

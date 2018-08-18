@@ -149,9 +149,13 @@ def create(stream_slug='lou'):
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
     except:
         return dumps({'error': "need token"})
+
+    try:
+        user = request.query['user']
+    else:
+        user = "prod-unknown"
 
     # name and machine type
     iid = id_generator()
@@ -191,7 +195,7 @@ def create(stream_slug='lou'):
 
     # tags ad labels
     config['tags'] = { 'items': ["fusion"] }
-    config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid, 'password': password}
+    config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid, 'password': password, 'user': user}
 
     # network interface
     config['networkInterfaces'] = [{

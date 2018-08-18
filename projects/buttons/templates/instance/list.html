@@ -214,6 +214,9 @@
     {% endif %}
 
     {% if sid %}
+    $('#update-email-modal').modal();
+    $('#email').focus();
+    
     $('#applications-index').click(function() {
       $('#update-email-modal').modal();
       $('#email').focus();

@@ -34,7 +34,6 @@ class InstanceTenderHandler(BaseHandler):
             # fast fail connection for checking if fusion is up
             http_test = httplib2.Http(timeout=2)
 
-            print "looping"
             # loop through list of instances in DB (or local DB if in dev)
             for instance in instances:
                 name = instance.name
@@ -136,7 +135,19 @@ class StreamsStarterHandler(BaseHandler):
 
         # make the instance call to the control box
         http = httplib2.Http(timeout=10)
-        url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
+
+        # where and who created it
+        if config.isdev:
+            iuser = "%s-%s" % ("dev", user_info.username)
+        else:
+            iuser = "%s-%s" % ("prod", user_info.username)
+
+        url = '%s/api/stream/%s?token=%s&user=%s' % (
+            config.fastener_host_url,
+            sid,
+            config.fastener_api_token,
+            iuser
+        )
 
         # pull the response back TODO add error handling
         response, content = http.request(url, 'POST', None, headers={})
@@ -234,9 +245,22 @@ class InstancesListHandler(BaseHandler):
                 self.add_message('Instance limit reached. This account may only start %s instances. Please delete an existing instance to start a new one!' % user_info.max_instances, 'warning')
                 return self.redirect_to('instances-list')
 
-            # make the instance call to the control box
+            # make the instance call handle
             http = httplib2.Http(timeout=10)
-            url = '%s/api/stream/%s?token=%s' % (config.fastener_host_url, sid, config.fastener_api_token)
+            
+            # where and who created it
+            if config.isdev:
+                iuser = "%s-%s" % ("dev", user_info.username)
+            else:
+                iuser = "%s-%s" % ("prod", user_info.username)
+
+            # build url to create new instance from stream
+            url = '%s/api/stream/%s?token=%s&user=%s' % (
+                config.fastener_host_url, 
+                sid, 
+                config.fastener_api_token,
+                iuser
+            )
 
             # pull the response back TODO add error handling
             response, content = http.request(url, 'POST', None, headers={})
@@ -280,7 +304,9 @@ class InstancesListHandler(BaseHandler):
             user_info.put()
 
             self.add_message("Thank you! Your email has been updated.", 'success')
-            return self.redirect_to('instances-list')
+            
+            # redirect back to GET on list, but with a sid AND email in place this time to create
+            return self.redirect_to('streams-start', sid=sid)
 
     @webapp2.cached_property
     def form(self):
@@ -338,18 +364,21 @@ class InstanceControlHandler(BaseHandler):
                         config.fastener_api_token
                     )
 
-                    # pull the response back TODO add error handling
-                    response, content = http.request(url, 'GET', None, headers={})
+                    try:
+                        # pull the response back TODO add error handling
+                        response, content = http.request(url, 'GET', None, headers={})
 
-                    print content
-
-                    # delete if google returns pending
-                    if json.loads(content)['status'] == "PENDING":
-                        params = {"response": "success", "message": "instance %s deleted" % name }
+                        # delete if google returns pending
+                        if json.loads(content)['status'] == "PENDING":
+                            params = {"response": "success", "message": "instance %s deleted" % name }
+                            instance.key.delete()
+                        else:
+                            params = {"response": "failure", "message": "instance %s operation failure" % name }
+                            response.set_status(500)
+                    except:
+                        params = {"response": "failure", "message": "instance %s failure" % name }
+                        # probably shouldn't do this, but whatever
                         instance.key.delete()
-                    else:
-                        params = {"response": "failure", "message": "instance %s operation failure" % name }
-                        response.set_status(500)
 
                 # just the status
                 elif command == "status":
