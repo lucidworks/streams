@@ -36,12 +36,9 @@ class LoginHandler(BaseHandler):
 	def get(self):
 		callback_url = "%s/login/complete" % (self.request.host_url)
 
+		# deal with next page handling after logging in
 		next = self.request.get('next')
-
-		if next:
-			dest_url=self.uri_for('login-complete', next=next)
-		else:
-			dest_url=self.uri_for('login-complete')
+		utils.write_cookie(self, "next", str(next), '/', expires=7200)
 
 		try:
 			scope = 'user:email'
@@ -49,7 +46,7 @@ class LoginHandler(BaseHandler):
 
 			# create a github login url and go
 			login_url = github_helper.get_authorize_url()
-			self.redirect(login_url)
+			self.redirect(login_url+"&next=steve")
 		
 		except Exception as ex:
 			# add error notice for user TODO
@@ -68,11 +65,8 @@ class LogoutHandler(BaseHandler):
 				user_info.last_login = datetime.now() + timedelta(0, -config.session_age)
 				user_info.put()
 
-			message = "You have been logged out."
-			self.add_message(message, 'info')
-
 		self.auth.unset_session()
-		self.redirect_to('index')
+		self.redirect('https://lucidworks.com/labs')
 
 
 # google auth callback
@@ -393,6 +387,12 @@ class DashboardHandler(BaseHandler):
 	def get(self):
 		# lookup user's auth info
 		user_info = User.get_by_id(long(self.user_id))
+
+		# if we came in from a stream create, redirect back to it
+		next = utils.read_cookie(self, "next")
+		if next > "":
+			utils.write_cookie(self, "next", "", '/', expires=7200)
+			return self.redirect(next)
 
 		# params build out
 		params = {
