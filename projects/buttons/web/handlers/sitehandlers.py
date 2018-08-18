@@ -28,6 +28,13 @@ class IndexHandler(BaseHandler):
 		return self.redirect_to('login')
 
 
+# slackbot card hancler
+class SlackbotHandler(BaseHandler):
+	def get(self):
+		params = {}
+		return self.render_template('site/slack.html', **params)
+
+
 class SendEmailHandler(BaseHandler):
 	# disable csrf check in basehandler
 	csrf_exempt = True
