@@ -42,8 +42,9 @@ _routes = [
 	RedirectRoute('/admin/streams/<stream_id>/', adminhandlers.AdminStreamsHandler, name='admin-streams-sid', strict_slash=True),
 	RedirectRoute('/admin/instances/<instance_id>/', adminhandlers.AdminInstancesHandler, name='admin-instances-name', strict_slash=True),
 	
-	# api
-	RedirectRoute('/api/stream/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=True)
+	# api/slack
+	RedirectRoute('/api/stream/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=True),
+	RedirectRoute('/slack', sitehandlers.SlackbotHandler, name='slack-card', strict_slash=True)
 ]
 
 def get_routes():

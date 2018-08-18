@@ -18,7 +18,8 @@ push:
 	git push
 
 upload:
-	gcloud app deploy app.yaml --project lucidworks-labs
+	gcloud app deploy app.yaml --project labs-209320
+	gcloud app deploy cron.yaml
 
 cron:
 	./devtools/devcron.sh	
