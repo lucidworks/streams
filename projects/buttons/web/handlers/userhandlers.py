@@ -34,6 +34,11 @@ from lib import slack
 # user login at /login/
 class LoginHandler(BaseHandler):
 	def get(self):
+		# card for slack
+		if "slackbot" in self.request.headers.get('User-Agent').lower():
+			next = self.request.url
+			return self.redirect(self.uri_for('slack-card', next=next))
+
 		callback_url = "%s/login/complete" % (self.request.host_url)
 
 		# deal with next page handling after logging in

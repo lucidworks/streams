@@ -25,11 +25,6 @@ import web.models.models as models
 # decorator for auth required
 def user_required(handler):
 	def check_login(self, *args, **kwargs):
-		# card for slack
-		if "slackbot" in self.request.headers.get('User-Agent').lower():
-			next = self.request.url
-			return self.redirect(self.uri_for('slack-card', next=next))
-
 		# handle authenticating user
 		try:
 			auth = self.auth.get_user_by_session()
