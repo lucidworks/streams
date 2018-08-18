@@ -154,7 +154,7 @@ def create(stream_slug='lou'):
 
     try:
         user = request.query['user']
-    else:
+    except:
         user = "prod-unknown"
 
     # name and machine type
