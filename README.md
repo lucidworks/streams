@@ -6,7 +6,7 @@ You can view Streams episodes over on [Lucidwork's YouTube Channel](https://www.
 ## Stream Projects
 The following streamable projects may be launched for demonstration purposes on Google Cloud Compute and/or modified to run on other cloud platforms. These projects typically include a video guide and accompanying Fusion application.
 
-- [Buttons](https://github.com/lucidworks/streams/tree/master/projects/buttons) - Buttons is a meta-project which provides a framework for future Stream work at Lucidworks. The Buttons project is the code base for the site running at [https://streams.lucidworks.com/](https://streams.lucidworks.com/). The site may be used to launch demo instances of Lucidworks Fusion and streams such as those listed below. A comprehensive list of Application Streams will soon be available at [Lucidworks Labs](https://lucidworks.com/labs).
+- [Buttons](https://github.com/lucidworks/streams/tree/master/projects/buttons) - The Buttons project implements [https://streams.lucidworks.com/](https://streams.lucidworks.com/), which may be used by Github users to launch instances of Lucidworks Fusion running various Application Streams. A comprehensive list of Streams will soon be available at [Lucidworks Labs](https://lucidworks.com/labs).
 
 - [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
 
