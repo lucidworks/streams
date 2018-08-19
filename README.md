@@ -6,9 +6,11 @@ You can view Streams episodes over on [Lucidwork's YouTube Channel](https://www.
 ## Stream Projects
 The following streamable projects may be launched for demonstration purposes on Google Cloud Compute and/or modified to run on other cloud platforms. These projects typically include a video guide and accompanying Fusion application.
 
+- [Buttons](https://github.com/lucidworks/streams/tree/master/projects/buttons) - Buttons is a meta-project which provides a framework for future Stream work at Lucidworks. The Buttons project is the code base for the site running at [https://streams.lucidworks.com/](https://streams.lucidworks.com/). The site may be used to launch demo instances of Lucidworks Fusion and streams such as those listed below. A comprehensive list of Application Streams will soon be available at [Lucidworks Labs](https://lucidworks.com/labs).
+
 - [Samjna Image Perception for Fusion](https://github.com/lucidworks/streams/tree/master/projects/samjna) - Samjna (sam-ji-na) adds image-based perception capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/) using a general AI network.
 
-- [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter.
+- [Sockitter Twitter Tool for Fusion](https://github.com/lucidworks/streams/tree/master/projects/sockitter) - Sockitter adds powerful semantic graph capabilities to Lucidwork's [Fusion 4.x](https://lucidworks.com/products/fusion-server/), allowing it to do real-time traversal and ranking of data relationships on Twitter. (Please note that Twitter has suspended support for their streaming APIs, so this project no longer works.
 
 ### Stream Seeds
 The following gists cover various use cases for Fusion using a base cloud template. Seeds do NOT provide video guides or application zips and require manual configuration of Fusion to achieve results.
