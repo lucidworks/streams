@@ -18,7 +18,7 @@ from lib import slack
 # API methods for keeping cloud status and appengine db in sync via fastner box
 class InstanceTenderHandler(BaseHandler):
     def get(self):
-		if True:
+        if True:
             # update list of instances we have
             http = httplib2.Http()
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
