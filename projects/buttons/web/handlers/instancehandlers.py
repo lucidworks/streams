@@ -93,13 +93,11 @@ class InstanceTenderHandler(BaseHandler):
                         slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
 
             params = { "message": "ok" }
-
-		"""
-        except Exception as ex:
+        else:
+            # except Exception as ex:
             print "yeah, no: %s" % ex
             params = { "message": ex }
-		"""
-		
+
         return self.render_template('instance/tender.html', **params)
 
 
