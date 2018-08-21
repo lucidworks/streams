@@ -14,6 +14,7 @@ from web.basehandler import BaseHandler
 from web.basehandler import user_required, admin_required
 from web.models.models import User, Instance, Stream
 from lib import slack
+from lib import utils
 
 from lib.marketorestpython.client import MarketoClient
 
@@ -550,7 +551,13 @@ class InstanceDetailHandler(BaseHandler):
 
         stream = Stream.get_by_id(instance.stream.id())
 
+        if utils.read_cookie(self, "guide") == "closed":
+            guide = False
+        else:
+            guide = True
+
         params = {
+            'guide': guide,
             'instance': instance,
             'stream': stream
         }
