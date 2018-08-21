@@ -405,19 +405,20 @@ class InstancesListHandler(BaseHandler):
             user_info.email = email.strip()
             user_info.put()
 
-            mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
-            leads = [{
-                "email": user_info.email,
-                "firstName": user_info.name,
-                "company": user_info.company
-            }]
-            lead = mc.execute(
-                method='push_lead',
-                leads=leads,
-                lookupField='email',
-                programName='Lucidworks Streams - GitHub',
-                programStatus='Visited'
-            )
+            if len(email) > 3 and not config.idev:
+                mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+                leads = [{
+                    "email": user_info.email,
+                    "firstName": user_info.name,
+                    "company": user_info.company
+                }]
+                lead = mc.execute(
+                    method='push_lead',
+                    leads=leads,
+                    lookupField='email',
+                    programName='Lucidworks Streams - GitHub',
+                    programStatus='Visited'
+                )
 
             slack.slack_message("We got an instance launch from %s updating their email!" % user_info)
 
