@@ -20,17 +20,19 @@ echo "IID: $IID"
 # etc....
 # }
 
-if [ "$SID" = "rules" ]; then
-  STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
-fi
+STREAM_JSON=`curl https://streams.lucidworks.com/api/stream/$SID`
 
-if [ "$SID" = "starter" ]; then
-  STREAM_JSON='{"sid": "starter", "fusion_version":"4.0.2", "distro": "starter-buttons.tgz", "admin_password": "password123"}'
-fi
-
-if [ "$SID" = "lou" ]; then
-  STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
-fi
+# if [ "$SID" = "rules" ]; then
+#   STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
+# fi
+#
+# if [ "$SID" = "starter" ]; then
+#   STREAM_JSON='{"sid": "starter", "fusion_version":"4.0.2", "distro": "starter-buttons.tgz", "admin_password": "password123"}'
+# fi
+#
+# if [ "$SID" = "lou" ]; then
+#   STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
+# fi
 
 if [ -z "$STREAM_JSON" ]; then
   echo "ERROR: No $SID stream metadata available"
