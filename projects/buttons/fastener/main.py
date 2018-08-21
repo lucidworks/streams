@@ -44,12 +44,16 @@ def list():
     except:
         return dumps({'error': "need token"})
 
-    result = compute.instances().list(
-        project='labs-209320',
-        zone='us-west1-c'
-    ).execute()
+    try:
+        result = compute.instances().list(
+            project='labs-209320',
+            zone='us-west1-c'
+        ).execute()
+        return dumps(result['items'])
 
-    return dumps(result['items'])
+    except Exception as ex:
+        print "error: %s" % ex
+        return dumps([])
 
 
 @app.route('/api/instance/<instance_id>/console', method='GET')
