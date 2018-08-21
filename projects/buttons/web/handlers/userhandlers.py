@@ -31,6 +31,10 @@ from lib.github import github
 from lib import pyotp
 from lib import slack
 
+# don't run in dev
+if not config.isdev:
+	from lib.marketorestpython.client import MarketoClient
+
 # user login at /login/
 class LoginHandler(BaseHandler):
 	def get(self):
@@ -145,6 +149,21 @@ class CallbackLoginHandler(BaseHandler):
 
 			# slack the new user signup
 			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
+
+			# send to marketo if we have email
+			if len(email) > 3 and not config.idev:
+				mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+				leads = [{
+					"email": email,
+					"firstName": name
+				}]
+				lead = mc.execute(
+					method='push_lead',
+					leads=leads,
+					lookupField='email',
+					programName='Lucidworks Streams - GitHub',
+					programStatus='Visited'
+				)
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)
