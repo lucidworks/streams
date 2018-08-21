@@ -150,10 +150,20 @@ class CallbackLoginHandler(BaseHandler):
 			# if len(email) > 3:
 			if len(email) > 3 and not config.idev:
 				mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+				try:
+					first = name.split()[0]
+				except:
+					first = ""
+
+				try:
+					last = name.split()[1]
+				except:
+					last = ""
+
 				leads = [{
 					"email": email,
-					"firstName": name.split()[0],
-					"lastName": name.split()[1],
+					"firstName": first,
+					"lastName": last,
 					"company": company
 				}]
 				lead = mc.execute(
