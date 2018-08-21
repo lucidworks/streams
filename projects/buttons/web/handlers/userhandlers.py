@@ -53,7 +53,7 @@ class LoginHandler(BaseHandler):
 
 			# create a github login url and go
 			login_url = github_helper.get_authorize_url()
-			self.redirect(login_url+"&next=steve")
+			self.redirect(login_url)
 		
 		except Exception as ex:
 			# add error notice for user TODO
@@ -143,18 +143,17 @@ class CallbackLoginHandler(BaseHandler):
 			user_info.put()
 
 			# wait a few seconds for database server to update
-			time.sleep(1) # seriously?
-
-			# slack the new user signup
-			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
+			if config.isdev:
+				time.sleep(1) # seriously?
 
 			# send to marketo if we have email
-			if len(email) > 3:
-			#if len(email) > 3 and not config.idev:
+			# if len(email) > 3:
+			if len(email) > 3 and not config.idev:
 				mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
 				leads = [{
 					"email": email,
-					"firstName": name
+					"firstName": name,
+					"company": company
 				}]
 				lead = mc.execute(
 					method='push_lead',
@@ -163,6 +162,9 @@ class CallbackLoginHandler(BaseHandler):
 					programName='Lucidworks Streams - GitHub',
 					programStatus='Visited'
 				)
+
+		# slack the new user signup
+		slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)

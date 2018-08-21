@@ -15,54 +15,55 @@ from web.basehandler import user_required, admin_required
 from web.models.models import User, Instance, Stream
 from lib import slack
 
-# API methods for keeping cloud status and appengine db in sync via fastner box
+# API methods for keeping cloud status and appengine db in sync via fastner box API
 class InstanceTenderHandler(BaseHandler):
     def get(self):
         try:
-            # update list of instances we have
+            # grab a list of instances from the Fastener API
             http = httplib2.Http(timeout=15)
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
-            print url
             response, content = http.request(url, 'GET')
         
-            # list of instance from google cloud (see ./fastener/sample-output.json)
-            finstances = json.loads(content)
+            # list of instances from Google Cloud (see ./fastener/sample-output.json)
+            gcinstances = json.loads(content)
 
-            if len(finstances) > 0:
+            if len(gcinstances) > 0:
                 message = "ok"
             else:
                 message = "no instances were returned from fastener API"
 
         except Exception as ex:
-            finstances = []
+            gcinstances = []
             message = "failed to contact fastener API"
 
         # list of instances from db
         instances = Instance.get_all()
 
         # bail if we didn't get any instances from Google
-        if len(finstances) == 0:
+        if len(gcinstances) == 0:
             params = { 
                 "message": message, 
-                "gcinstance_count": len(finstances), 
-                "dbinstance_count": len(instances)
+                "gc_count": len(gcinstances), 
+                "db_count": len(instances)
             }
-            return self.render_template('instance/tender.html', **params)
+            self.response.headers['Content-Type'] = "application/json"
+            return self.render_template('api/tender.json', **params)
+            ######
 
         # loop through list of instances in local or production DB
         for instance in instances:
             name = instance.name
 
             # loop through the instances we got from google
-            for finstance in finstances:
+            for gcinstance in gcinstances:
 
                 # check if the names match
-                if name == finstance['name']:
+                if name == gcinstance['name']:
                     # got a match
                     try:
                         # grab the IP address and status
-                        instance.ip = finstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
-                        instance.status = finstance['status']
+                        instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
+                        instance.status = gcinstance['status']
 
                         # check if the box is running fusion admin yet
                         try:
@@ -75,7 +76,7 @@ class InstanceTenderHandler(BaseHandler):
                             test_status = "404"
 
                         # set admin_link if box is running and test comes back 200
-                        if finstance['status'] == "RUNNING" and test_status == "200":
+                        if gcinstance['status'] == "RUNNING" and test_status == "200":
                             instance.admin_link = test_url
 
                             # build app link and update, if it exists
@@ -93,12 +94,12 @@ class InstanceTenderHandler(BaseHandler):
                     except:
                         # got limited or no data about instance
                         instance.ip = "None"
-                        instance.status = finstance['status']
+                        instance.status = gcinstance['status']
                         instance.admin_link = None
                         instance.app_link = None
 
                     # instance has been terminated
-                    if finstance['status'] == "TERMINATED":
+                    if gcinstance['status'] == "TERMINATED":
                         # set start time to far in the past
                         instance.started = instance.created - datetime.timedelta(0, 604800)
                         pass
@@ -124,14 +125,82 @@ class InstanceTenderHandler(BaseHandler):
             # no instances in db
             pass
 
+        # cleanup stray and EOL instances
+        for gcinstance in gcinstances:
+            instance = Instance.get_by_name(gcinstance['name'])
+
+            if instance:
+                name = instance.name
+
+                # if instance is expired, end it
+                if instance.expires < datetime.datetime.now():
+                    # make the instance call to the control box
+                    try:
+                        http = httplib2.Http(timeout=10)
+                        url = '%s/api/instance/%s/delete?token=%s' % (
+                            config.fastener_host_url, 
+                            name,
+                            config.fastener_api_token
+                        )
+
+                        # pull the response back
+                        response, content = http.request(url, 'GET', None, headers={})
+                        if content['status'] == "PENDING":
+                            instance.key.delete()          
+                            slack.slack_message("DELETING instance %s's from Google Cloud." % name)
+                    
+                    except:
+                        slack.slack_message("ERROR: failed deleting instance %s's from Google Cloud." % name)
+
+            else:
+                # instance wasn't found in db
+                # make sure we don't delete non-demo instances
+                name = gcinstance['name']
+
+                if 'button' in name:
+                    # handle dev vs. prod instances (need to stage cloud, but all mixed for now)
+                    delete = False
+                    if config.isdev:
+                        if 'dev' in gcinstance['labels']['user']:
+                            delete = True
+                    else:
+                        if 'prod' in gcinstance['labels']['user']:
+                            delete = True
+
+                    if delete:        
+                        # make the instance call to the control box
+                        try:
+                            http = httplib2.Http(timeout=10)
+                            url = '%s/api/instance/%s/delete?token=%s' % (
+                                config.fastener_host_url, 
+                                name,
+                                config.fastener_api_token
+                            )
+
+                            # pull the response back
+                            response, content = http.request(url, 'GET', None, headers={})
+
+                            if content['status'] == "PENDING":      
+                                slack.slack_message("DELETING instance %s's from Google Cloud." % name)
+                            else:
+                                slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
+                        
+                        except:
+                            slack.slack_message("ERROR: failed deleting instance %s's from Google Cloud." % name)
+
+        else:
+            # no instances from cloud - this should never run
+            pass
+
         params = { 
             "message": message, 
-            "gcinstance_count": len(finstances), 
-            "dbinstance_count": len(instances)
+            "gc_count": len(gcinstances), 
+            "db_count": len(instances)
         }
 
-
-        return self.render_template('instance/tender.html', **params)
+        self.response.headers['Content-Type'] = "application/json"
+        return self.render_template('api/tender.json', **params)
+        ######
 
 
 # provide useful link to directly start an instance from another page
@@ -184,9 +253,9 @@ class StreamsStarterHandler(BaseHandler):
 
         # pull the response back TODO add error handling
         response, content = http.request(url, 'POST', None, headers={})
-        finstance = json.loads(content)
-        name = finstance['instance']
-        password = finstance['password']
+        gcinstance = json.loads(content)
+        name = gcinstance['instance']
+        password = gcinstance['password']
 
         # set up an instance (note there are two ways to create an instance - see below)
         instance = Instance(
@@ -297,9 +366,9 @@ class InstancesListHandler(BaseHandler):
 
             # pull the response back TODO add error handling
             response, content = http.request(url, 'POST', None, headers={})
-            finstance = json.loads(content)
-            name = finstance['instance']
-            password = finstance['password']
+            gcinstance = json.loads(content)
+            name = gcinstance['instance']
+            password = gcinstance['password']
 
             # set up an instance 
             instance = Instance(
@@ -335,6 +404,22 @@ class InstancesListHandler(BaseHandler):
             user_info = User.get_by_id(long(self.user_id))
             user_info.email = email.strip()
             user_info.put()
+
+            mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+            leads = [{
+                "email": user_info.email,
+                "firstName": user_info.name,
+                "company": user_info.company
+            }]
+            lead = mc.execute(
+                method='push_lead',
+                leads=leads,
+                lookupField='email',
+                programName='Lucidworks Streams - GitHub',
+                programStatus='Visited'
+            )
+
+            slack.slack_message("We got an instance launch from %s updating their email!" % user_info)
 
             self.add_message("Thank you! Your email has been updated.", 'success')
             

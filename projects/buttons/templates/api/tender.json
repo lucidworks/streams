@@ -1,0 +1,5 @@
+{
+	"response": "{{ message }}",
+	"gcinstance_count": "{{ gc_count }}",
+	"dbinstance_count": "{{ db_count }}"
+}
