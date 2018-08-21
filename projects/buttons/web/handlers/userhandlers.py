@@ -31,9 +31,7 @@ from lib.github import github
 from lib import pyotp
 from lib import slack
 
-# don't run in dev
-if not config.isdev:
-	from lib.marketorestpython.client import MarketoClient
+from lib.marketorestpython.client import MarketoClient
 
 # user login at /login/
 class LoginHandler(BaseHandler):
@@ -151,7 +149,8 @@ class CallbackLoginHandler(BaseHandler):
 			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
 
 			# send to marketo if we have email
-			if len(email) > 3 and not config.idev:
+			if len(email) > 3:
+			#if len(email) > 3 and not config.idev:
 				mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
 				leads = [{
 					"email": email,

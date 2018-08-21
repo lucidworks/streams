@@ -229,7 +229,7 @@ class BaseHandler(webapp2.RequestHandler):
 				# avoid AttributeError when the session was delete from the server
 				logging.error(e)
 				self.auth.unset_session()
-				self.redirect_to('home')
+				self.redirect_to('index')
 		return  None
 
 	@webapp2.cached_property
@@ -242,7 +242,7 @@ class BaseHandler(webapp2.RequestHandler):
 				# avoid AttributeError when the session was delete from the server
 				logging.error(e)
 				self.auth.unset_session()
-				self.redirect_to('home')
+				self.redirect_to('index')
 		return None
 
 	@webapp2.cached_property
@@ -255,7 +255,7 @@ class BaseHandler(webapp2.RequestHandler):
 			except AttributeError, e:
 				# logging.error(e)
 				self.auth.unset_session()
-				self.redirect_to('home')
+				self.redirect_to('index')
 
 	@webapp2.cached_property
 	def twofactor_enabled(self):
@@ -267,7 +267,7 @@ class BaseHandler(webapp2.RequestHandler):
 				# avoid AttributeError when the session was delete from the server
 				logging.error(e)
 				self.auth.unset_session()
-				self.redirect_to('home')
+				self.redirect_to('index')
 		return None
 
 	@webapp2.cached_property
@@ -280,7 +280,7 @@ class BaseHandler(webapp2.RequestHandler):
 				# avoid AttributeError when the session was delete from the server
 				logging.error(e)
 				self.auth.unset_session()
-				self.redirect_to('home')
+				self.redirect_to('index')
 		return None
 
 	@webapp2.cached_property
@@ -295,7 +295,7 @@ class BaseHandler(webapp2.RequestHandler):
 				# avoid AttributeError when the session was delete from the server
 				logging.error(e)
 				self.auth.unset_session()
-				self.redirect_to('home')
+				self.redirect_to('index')
 		return None
 
 	@webapp2.cached_property

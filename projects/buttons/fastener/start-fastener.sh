@@ -25,7 +25,7 @@ else
 fi
 
 gcloud beta compute instances create $NAME-$NEW_UUID \
---machine-type "n1-standard-1" \
+--machine-type "n1-standard-2" \
 --image "ubuntu-1604-xenial-v20180627" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \

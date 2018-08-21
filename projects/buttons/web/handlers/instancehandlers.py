@@ -18,85 +18,107 @@ from lib import slack
 # API methods for keeping cloud status and appengine db in sync via fastner box
 class InstanceTenderHandler(BaseHandler):
     def get(self):
-        if True:
+        try:
             # update list of instances we have
-            http = httplib2.Http()
+            http = httplib2.Http(timeout=15)
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
-
+            print url
             response, content = http.request(url, 'GET')
-
+        
             # list of instance from google cloud (see ./fastener/sample-output.json)
             finstances = json.loads(content)
 
-            # list of instances from db
-            instances = Instance.get_all()
+            message = "ok"
 
-            # fast fail connection for checking if fusion is up
-            http_test = httplib2.Http(timeout=2)
+        except Exception as ex:
+            print "fail: %s" % ex
+            finstances = []
+            message = "failed to grab instances from fastener API"
 
-            # loop through list of instances in DB (or local DB if in dev)
-            for instance in instances:
-                name = instance.name
+        # list of instances from db
+        instances = Instance.get_all()
 
-                for finstance in finstances:
-                    if name == finstance['name']:
-                        # got a match
+        # loop through list of instances in local or production DB
+        for instance in instances:
+            name = instance.name
+
+            # loop through the instances we got from google
+            for finstance in finstances:
+
+                # check if the names match
+                if name == finstance['name']:
+                    # got a match
+                    try:
+                        # grab the IP address and status
+                        instance.ip = finstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
+                        instance.status = finstance['status']
+
+                        # check if the box is running fusion admin yet
                         try:
-                            # grab the IP address and status
-                            instance.ip = finstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
-                            instance.status = finstance['status']
-
-                            # check if the box is running fusion admin yet
-                            try:
-                                test_url = 'http://%s:8764' % instance.ip
-                                response, content = http_test.request(test_url, 'GET')
-                                test_status = response['status']
-                            except:
-                                test_status = "404"
-
-                            if finstance['status'] == "RUNNING" and test_status == "200":
-                                instance.admin_link = test_url
-
-                                # build app link, if it exists
-                                if instance.stream.get().app_stub:
-                                    app_stub = instance.stream.get().app_stub
-                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)
-                                else:
-                                    instance.app_link = None  
-                            else:
-                                instance.status = "CONFIGURING"
-                                instance.admin_link = None
-                                instance.app_link = None
-
+                            # fast fail connection for checking if fusion is up
+                            http_test = httplib2.Http(timeout=2)
+                            test_url = 'http://%s:8764' % instance.ip
+                            response, content = http_test.request(test_url, 'GET')
+                            test_status = response['status']
                         except:
-                            # got limited data about instance
-                            instance.ip = "None"
-                            instance.status = finstance['status']
+                            test_status = "404"
+
+                        # set admin_link if box is running and test comes back 200
+                        if finstance['status'] == "RUNNING" and test_status == "200":
+                            instance.admin_link = test_url
+
+                            # build app link and update, if it exists
+                            if instance.stream.get().app_stub:
+                                app_stub = instance.stream.get().app_stub
+                                instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                            else:
+                                instance.app_link = None  
+                        else:
+                            # show the box is in configuration mode
+                            instance.status = "CONFIGURING"
                             instance.admin_link = None
                             instance.app_link = None
 
-                        # instance has been terminated
-                        if finstance['status'] == "TERMINATED":
-                            # set start time to far in the past
-                            instance.started = instance.created - datetime.timedelta(0, 604800)
-                            pass
+                    except:
+                        # got limited or no data about instance
+                        instance.ip = "None"
+                        instance.status = finstance['status']
+                        instance.admin_link = None
+                        instance.app_link = None
 
-                        instance.put()
-                        break # no need to keep looking
+                    # instance has been terminated
+                    if finstance['status'] == "TERMINATED":
+                        # set start time to far in the past
+                        instance.started = instance.created - datetime.timedelta(0, 604800)
+                        pass
+
+                    instance.put()
+
+                    break # no need to keep looking
+
                 else:
-                    # no instances were found on Google Cloud for this local instance record
-                    if instance.created < datetime.datetime.now() - datetime.timedelta(0, 300):
-                        slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
-                        instance.key.delete()
-                    else:
-                        # only delete if instance create time is greater than 30 minutes...
-                        slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
+                    # instance doesn't match
+                    pass
 
-            params = { "message": "ok" }
+            else:
+                # no instances were found on Google Cloud for this local instance record
+                if instance.created < datetime.datetime.now() - datetime.timedelta(0, 300):
+                    slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
+                    instance.key.delete()
+                else:
+                    # only delete if instance create time is greater than 30 minutes...
+                    slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
+
         else:
-            # except Exception as ex:
-            print "yeah, no: %s" % ex
-            params = { "message": ex }
+            # no instances in db
+            pass
+
+        params = { 
+            "message": message, 
+            "gcinstance_count": len(finstances), 
+            "dbinstance_count": len(instances)
+        }
+
 
         return self.render_template('instance/tender.html', **params)
 
