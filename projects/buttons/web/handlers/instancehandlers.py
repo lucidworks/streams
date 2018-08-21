@@ -28,15 +28,26 @@ class InstanceTenderHandler(BaseHandler):
             # list of instance from google cloud (see ./fastener/sample-output.json)
             finstances = json.loads(content)
 
-            message = "ok"
+            if len(finstances) > 0:
+                message = "ok"
+            else:
+                message = "no instances were returned from fastener API"
 
         except Exception as ex:
-            print "fail: %s" % ex
             finstances = []
-            message = "failed to grab instances from fastener API"
+            message = "failed to contact fastener API"
 
         # list of instances from db
         instances = Instance.get_all()
+
+        # bail if we didn't get any instances from Google
+        if len(finstances) == 0:
+            params = { 
+                "message": message, 
+                "gcinstance_count": len(finstances), 
+                "dbinstance_count": len(instances)
+            }
+            return self.render_template('instance/tender.html', **params)
 
         # loop through list of instances in local or production DB
         for instance in instances:
