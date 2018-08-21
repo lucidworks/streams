@@ -15,6 +15,8 @@ from web.basehandler import user_required, admin_required
 from web.models.models import User, Instance, Stream
 from lib import slack
 
+from lib.marketorestpython.client import MarketoClient
+
 # API methods for keeping cloud status and appengine db in sync via fastner box API
 class InstanceTenderHandler(BaseHandler):
     def get(self):
@@ -405,27 +407,46 @@ class InstancesListHandler(BaseHandler):
             user_info.email = email.strip()
             user_info.put()
 
-            if len(email) > 3 and not config.idev:
-                mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
-                leads = [{
-                    "email": user_info.email,
-                    "firstName": user_info.name,
-                    "company": user_info.company
-                }]
-                lead = mc.execute(
-                    method='push_lead',
-                    leads=leads,
-                    lookupField='email',
-                    programName='Lucidworks Streams - GitHub',
-                    programStatus='Visited'
-                )
+            if len(email) > 3 and not config.isdev:
+                name = user_info.name
+                try:
+                    mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+                    try:
+                        first = name.split()[0]
+                    except:
+                        first = ""
 
-            slack.slack_message("We got an instance launch from %s updating their email!" % user_info)
+                    try:
+                        last = name.split()[1]
+                    except:
+                        last = ""
+
+                    leads = [{
+                        "email": user_info.email,
+                        "firstName": first,
+                        "lastName": last,
+                        "company": user_info.company
+                    }]
+                    lead = mc.execute(
+                        method='push_lead',
+                        leads=leads,
+                        lookupField='email',
+                        programName='Lucidworks Streams - GitHub',
+                        programStatus='Visited'
+                    )
+
+                except Exception as ex:
+                    slack.slack_message("Marketo lead create failed because %s." % ex)
+
+            slack.slack_message("We got %s to update their email for instance launch!" % user_info.username)
 
             self.add_message("Thank you! Your email has been updated.", 'success')
             
             # redirect back to GET on list, but with a sid AND email in place this time to create
-            return self.redirect_to('streams-start', sid=sid)
+            if sid:
+                return self.redirect_to('streams-start', sid=sid)
+            else:
+                return self.redirect_to('instances-list')
 
     @webapp2.cached_property
     def form(self):

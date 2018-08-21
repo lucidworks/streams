@@ -148,31 +148,34 @@ class CallbackLoginHandler(BaseHandler):
 
 			# send to marketo if we have email
 			# if len(email) > 3:
-			if len(email) > 3 and not config.idev:
-				mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+			if len(email) > 3 and not config.isdev:
 				try:
-					first = name.split()[0]
-				except:
-					first = ""
+					mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
+					try:
+						first = name.split()[0]
+					except:
+						first = ""
 
-				try:
-					last = name.split()[1]
-				except:
-					last = ""
+					try:
+						last = name.split()[1]
+					except:
+						last = ""
 
-				leads = [{
-					"email": email,
-					"firstName": first,
-					"lastName": last,
-					"company": company
-				}]
-				lead = mc.execute(
-					method='push_lead',
-					leads=leads,
-					lookupField='email',
-					programName='Lucidworks Streams - GitHub',
-					programStatus='Visited'
-				)
+					leads = [{
+						"email": email,
+						"firstName": first,
+						"lastName": last,
+						"company": company
+					}]
+					lead = mc.execute(
+						method='push_lead',
+						leads=leads,
+						lookupField='email',
+						programName='Lucidworks Streams - GitHub',
+						programStatus='Visited'
+					)
+				except Exception as ex:
+					slack.slack_message("Marketo lead create failed because %s." % ex)
 
 			# slack the new user signup
 			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
