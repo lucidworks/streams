@@ -152,7 +152,8 @@ class CallbackLoginHandler(BaseHandler):
 				mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
 				leads = [{
 					"email": email,
-					"firstName": name,
+					"firstName": name.split()[0],
+					"lastName": name.split()[1],
 					"company": company
 				}]
 				lead = mc.execute(
@@ -163,8 +164,8 @@ class CallbackLoginHandler(BaseHandler):
 					programStatus='Visited'
 				)
 
-		# slack the new user signup
-		slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
+			# slack the new user signup
+			slack.slack_message("New user signed up: %s|%s|%s|%s|%s" % (name, username, email, location, company))
 
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)
