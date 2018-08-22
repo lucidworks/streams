@@ -19,11 +19,10 @@ The following gists cover various use cases for Fusion using a base cloud templa
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
-[![Launch Starter](https://img.shields.io/badge/launch-starter-green.svg)](https://streams.lucidworks.com/instance/create/starter)
-
 ## Launching a Fusion 4.x Demo Instance in 5 Minutes On Lucidworks Labs
 A demo instance of Fusion 4.x may be started by using your Github account to login to [Lucidworks Labs](https://lucidworks.com/labs). Click the button below and follow the instructions provided on the Streams Labs page to begin using Fusion.
 
+[![Launch Starter](https://img.shields.io/badge/launch-starter-green.svg)](https://streams.lucidworks.com/instance/create/starter)
 
 ## Launching a Fusion 4.x Instance on Your Own Cloud
 A demo instance of Fusion 4.x may be started on your own Google Cloud account by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
