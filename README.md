@@ -1,5 +1,5 @@
 # Lucidworks Streams
-This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repository is maintained by the Streams Team at Lucidworks. Streams are designed to educate, inspire and create meaningful search/AI product marketing discourse in and around emerging technology markets.
+This is the [Lucidworks](https://lucidworks.com/) Streams repository. This repository is maintained by the Streams Team at Lucidworks. Streams are Fusion application templates designed to educate, inspire and create meaningful search/AI product marketing discourse in and around emerging technology markets.
 
 You can view Streams episodes over on [Lucidwork's YouTube Channel](https://www.youtube.com/user/LucidWorksSearch).
 
@@ -24,8 +24,14 @@ If you do not already have a Google Cloud account, head on over to [https://clou
 
 Once you have your account configured, you will be able to start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
 
-## Launching a Fusion 4.x Demo Instance
-A demo instance of Fusion 4.x may be started by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
+## Launching a Fusion 4.x Demo Instance in 5 Minutes On Lucidworks Labs
+A demo instance of Fusion 4.x may be started by using your Github account to login to [Lucidworks Labs](https://lucidworks.com/labs). Click the button below and follow the instructions provided on the Streams Labs page to begin using Fusion.
+
+<!-- Place this tag where you want the button to render. -->
+<a class="github-button" href="https://streams.lucidworks.com/instance/create/starter" data-icon="octicon-cloud-download" aria-label="Download ntkme/github-buttons on GitHub">Start Fusion</a>
+
+## Launching a Fusion 4.x Instance on Your Own Cloud
+A demo instance of Fusion 4.x may be started on your own Google Cloud account by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/cloudshell.gif?raw=true)
 
