@@ -19,16 +19,11 @@ The following gists cover various use cases for Fusion using a base cloud templa
 
 If you find these demos useful to you or your company's search processes, please star this repo and get in touch with [Lucidworks directly](https://lucidworks.com/ppc/lucidworks-fusion-solr/?utm_source=streams) for more information. 
 
-## Google Cloud Setup
-If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. You will need to add a credit card to your account.
-
-Once you have your account configured, you will be able to start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
+[![Launch Starter](https://img.shields.io/badge/launch-starter-green.svg)](https://streams.lucidworks.com/instance/create/starter)
 
 ## Launching a Fusion 4.x Demo Instance in 5 Minutes On Lucidworks Labs
 A demo instance of Fusion 4.x may be started by using your Github account to login to [Lucidworks Labs](https://lucidworks.com/labs). Click the button below and follow the instructions provided on the Streams Labs page to begin using Fusion.
 
-<!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://streams.lucidworks.com/instance/create/starter" data-icon="octicon-cloud-download" aria-label="Download ntkme/github-buttons on GitHub">Start Fusion</a>
 
 ## Launching a Fusion 4.x Instance on Your Own Cloud
 A demo instance of Fusion 4.x may be started on your own Google Cloud account by running a simple script which may be checked out from Github using the `git` command from the Google Cloud Shell. To start a new shell, navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and click on the `>_` button toward the top right of the screen.
@@ -83,5 +78,10 @@ API Docs are here: https://doc.lucidworks.com/fusion-server/4.0/index.html
 The startup process takes about 10 minutes to complete. After that, you can click on the `Fusion UI URL` and navigate to the Fusion UI!
 
 ![animation](https://github.com/lucidworks/streams/blob/master/assets/images/startfusion.gif?raw=true)
+
+## Google Cloud Setup
+If you do not already have a Google Cloud account, head on over to [https://cloud.google.com/](https://cloud.google.com/) and click on the `TRY IT FREE` button to get a $300 credit with a new account. You will need to add a credit card to your account.
+
+Once you have your account configured, you will be able to start a preemptible instance running Fusion 4.x, *which will live at most for 24 hours*. The run cost for this instance is about $1 per 24 hours, but your mileage may vary. Do keep in mind you may need to restart your instance from time to time.
 
 If you have any questions or comments for the Stream Team, [please open an issue](https://github.com/lucidworks/streams/issues)!
