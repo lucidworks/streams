@@ -295,11 +295,13 @@ class InstancesListHandler(BaseHandler):
         # redirect to a POST if we have a sid in the URL
         if sid and user_info.email:
             return self.post(sid)
-
-        if not user_info.email or not user_info.name or not user_info.company:
+        try:
+            if not user_info.email or not user_info.name or not user_info.company:
+                need_more_info = True
+            else:
+                need_more_info = False
+        except:
             need_more_info = True
-        else:
-            need_more_info = False
 
         # look up user's instances
         db_instances = Instance.get_all()
@@ -422,11 +424,16 @@ class InstancesListHandler(BaseHandler):
                     except:
                         last = ""
 
+                    try:
+                        company = user_info.company
+                    except:
+                        company = "None"
+
                     leads = [{
                         "email": user_info.email,
                         "firstName": first,
                         "lastName": last,
-                        "company": user_info.company
+                        "company": company
                     }]
                     lead = mc.execute(
                         method='push_lead',
