@@ -5,8 +5,13 @@ The software in this repository is running at [https://streams.lucidworks.com/](
 
 Bugs and feature requests may be opened and managed on the [issues page for Lucidworks Stream's Github](https://github.com/lucidworks/streams/issues?q=is%3Aopen+is%3Aissue+project%3Alucidworks%2Fstreams%2F2). Please ensure all new issues have a **Buttons** project tag added to them.
 
+## Launching a Fusion 4.x Demo Instance in Minutes via Lucidworks Labs
+A demo instance of Fusion 4.x may be started by using your Github account by clicking the button below and following the instructions provided on the Streams Labs page to begin using Fusion.
+
+[![Launch Starter](https://img.shields.io/badge/launch-starter-green.svg)](https://streams.lucidworks.com/instance/create/starter)
+
 ## Documentation
-This page contains documention for utilizing the [Lucidworks Labs site](https://lucidworks.com/labs). Lucidworks Labs allows users to launch demonstrative instances of Fusion instances running a variety of Fusion applications. These instances are launched on Lucidworks' Google Cloud account.
+The following provides information for utilizing the [Lucidworks Labs site](https://lucidworks.com/labs). Lucidworks Labs allows users to launch demonstrative instances of Fusion instances running a variety of Fusion applications. These instances are launched on Lucidworks' Google Cloud account.
 
 Documentation for Lucidwork's Fusion line of products is located on the [Lucidworks Documentation page](https://doc.lucidworks.com/).
 
@@ -27,10 +32,10 @@ Your Lucidworks Labs account settings may be updated by navigating to the [Accou
 
 ![image](https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/static/img/accountsettingssmall.png)
 
-To start instances, we will need a current **email address** from you. If you attempt to start an instance without an email address, the system will prompt you for the email address.
+To start instances, we will need a current **email address** from you. If you attempt to start an instance without an email address, the system will prompt you for your email address before starting an instance.
 
 #### Two Factor Authentication
-You may enable 2FA on your Lucidworks Labs account to add an extra layer of security to the instances you are launching. To enable 2FA, click on the on/off slider at the top of your setting page and then use Google Authenticator to scan the QR code on the screen.
+You may enable 2FA on your Lucidworks Labs account to add an extra layer of security to data about the instances you are launching. To enable 2FA, click on the on/off slider at the top of your setting page and then use Google Authenticator to scan the QR code on the screen.
 
 ![image](https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/static/img/2fasetupsmall.png)
 
