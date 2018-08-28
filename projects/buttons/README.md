@@ -22,6 +22,20 @@ Lucidworks Labs uses your [Github account](https://github.com) for authenticaton
 
 When visiting **streams.lucidworks.com**, Lucidworks does not request permission to access your public or private repositories on Github. Visits to other **lucidworks.com** pages do not require access to your Github account.
 
+#### Updating Your Profile
+Your Lucidworks Labs account settings may be updated by navigating to the [Account Settings](https://streams.lucidworks.com/settings/) page.
+
+To start instances, we will need a current **email address** from you. If you attempt to start an instance without an email address, the system will prompt you for the email address.
+
+#### Two Factor Authentication
+You may enable 2FA on your Lucidworks Labs account to add an extra layer of security to the instances you are launching. To enable 2FA, click on the on/off slider at the top of your setting page and then use Google Authenticator to scan the QR code on the screen.
+
+![image](https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/static/img/2fasetup.png)
+
+Type in the **auth code** and then click **Confirm Code** to finish setting up 2FA on your account.
+
+You may disable 2FA by clicking on the **on/off button** to set it to off.
+
 #### Unlinking Your Account
 To revoke the Lucidworks Labs application from your Github account, navigate to your [Github Applications list](https://github.com/settings/applications) and click on the *revoke* button next to the **Lucidworks Labs** application.
 
@@ -30,9 +44,6 @@ To revoke the Lucidworks Labs application from your Github account, navigate to 
 For reference, Lucidworks does not share your information with any third parties.
 
 For more information on how we use this data, you may refer to our [Privacy Policy](https://lucidworks.com/legal/privacy-policy/).
-
-#### Updating Your Profile
-
 
 ### Creating Instances
 
