@@ -30,7 +30,7 @@ To start instances, we will need a current **email address** from you. If you at
 #### Two Factor Authentication
 You may enable 2FA on your Lucidworks Labs account to add an extra layer of security to the instances you are launching. To enable 2FA, click on the on/off slider at the top of your setting page and then use Google Authenticator to scan the QR code on the screen.
 
-![image](https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/static/img/2fasetup.png)
+![image](https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/static/img/2fasetupsmall.png)
 
 Type in the **auth code** and then click **Confirm Code** to finish setting up 2FA on your account.
 
