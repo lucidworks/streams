@@ -16,6 +16,24 @@
 {% block content %}
 
 {% if not tfenabled %}
+<!-- hidden delete modal -->
+<div id="delete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please confirm you wish to delete your account information. You may also be interested in <a href="https://github.com/#">removing access persmissions for this application from Github's account settings</a>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Instance</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- hidden tfactor enable modal -->
 <div id="two-factor-auth-modal" class="modal fade">
   <div class="modal-dialog">
@@ -129,6 +147,7 @@
               <button type="submit" class="btn btn-success">Save Settings</button>
             </div>
           </form>
+          <button type="button" id="user-delete" class="btn btn-success">Remove Account</button>
         </div>
       </div>
     </div>
@@ -159,7 +178,16 @@
 
     // gravatar update link
     $("label[for='email'").append("&nbsp;<small>+ <a href='https://gravatar.com/' target='_blank'>Gravatar Image</a></small>");
-    
+
+    $('#user-delete').click( function() {
+      $('#delete').modal();
+    });
+
+    $('#delete-button').click( function() {
+      console.log("would delete this user");
+      alert("We will be implementing delete here shortly. For now, please remove this application's persmissions from your Github account.");
+    });
+
     // two factor auth slider
     $('#two-factor-auth-slider').toggles({
       ontext:'ON',
