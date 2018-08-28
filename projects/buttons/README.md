@@ -25,6 +25,8 @@ When visiting **streams.lucidworks.com**, Lucidworks does not request permission
 #### Updating Your Profile
 Your Lucidworks Labs account settings may be updated by navigating to the [Account Settings](https://streams.lucidworks.com/settings/) page.
 
+![image](https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/static/img/accountsettings.png)
+
 To start instances, we will need a current **email address** from you. If you attempt to start an instance without an email address, the system will prompt you for the email address.
 
 #### Two Factor Authentication
