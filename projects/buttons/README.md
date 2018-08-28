@@ -6,11 +6,13 @@ The software in this repository is running at [https://streams.lucidworks.com/](
 Bugs and feature requests may be opened and managed on the [issues page for Lucidworks Stream's Github](https://github.com/lucidworks/streams/issues?q=is%3Aopen+is%3Aissue+project%3Alucidworks%2Fstreams%2F2). Please ensure all new issues have a **Buttons** project tag added to them.
 
 ## Launching a Fusion 4.x Demo Instance in Minutes via Lucidworks Labs
-A demo instance of Fusion 4.x may be started by using your Github account by clicking the button below and following the instructions provided on the Streams Labs page to begin using Fusion.
+A demo instance of Fusion 4.x may be started and accessed by linking your Github account to Labs by clicking on the button below.
 
 [![Launch Starter](https://img.shields.io/badge/launch-starter-green.svg)](https://streams.lucidworks.com/instance/create/starter)
 
-## Documentation
+After the instance has started, you will be provided login information to access the Fusion instance with a username and password.
+
+## Overview
 The following provides information for utilizing the [Lucidworks Labs site](https://lucidworks.com/labs). Lucidworks Labs allows users to launch demonstrative instances of Fusion instances running a variety of Fusion applications. These instances are launched on Lucidworks' Google Cloud account.
 
 Documentation for Lucidwork's Fusion line of products is located on the [Lucidworks Documentation page](https://doc.lucidworks.com/).
