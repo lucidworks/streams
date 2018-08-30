@@ -52,7 +52,7 @@ To revoke the Lucidworks Labs application from your Github account, navigate to 
 
 For reference, Lucidworks does not share your information with any third parties.
 
-For more information on how we use this data, you may refer to our [Privacy Policy](https://lucidworks.com/legal/privacy-policy/).
+For more information on how we use your data while using the site, you may refer to our [Privacy Policy](https://lucidworks.com/legal/privacy-policy/).
 
 ### Creating Instances
 

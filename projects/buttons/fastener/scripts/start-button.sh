@@ -119,6 +119,6 @@ gsutil cp gs://buttons-streams/$DISTRO .
 tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
-export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export IP; ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_USERNAME; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
 echo "$SID-$IID has been Galvanized"
