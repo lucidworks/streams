@@ -23,11 +23,11 @@
         <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete this very fine stream?</p>
+        <p>Are you sure you want to delete this very fine template?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="delete-button" class="btn btn-danger">Delete Stream</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Template</button>
       </div>
     </div>
   </div>
@@ -37,18 +37,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Create New Stream</h4>
+        <h4 class="modal-title" id="myModalLabel">Create New Template</h4>
       </div>
       <form id="form_create_stream" action="{{ url|safe }}" method="post" class="">
         <div class="modal-body">
-          <p>Please fill out the following form to create a new stream. To edit an existing stream, create a new on and then delete the old one. The Stream SID must match [a-z0-9]!</p>
+          <p>Please fill out the following form to create a new template. To edit an existing template, create a new on and then delete the old one. The Template SID must match [a-z0-9]!</p>
           <div class="row">
             <div class="col-md-12 form-padding" id="stream-form">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                  {{ macros.input(form, "sid", _("Stream ID"), size=100, placeholder=_("streambeam"), class="input-xlarge focused required") }}
-                  {{ macros.input(form, "name", _("Name"), placeholder=_("Stream Beam"), class="input-xlarge steam focused required") }}
+                  {{ macros.input(form, "sid", _("Template ID"), size=100, placeholder=_("stringbean"), class="input-xlarge focused required") }}
+                  {{ macros.input(form, "name", _("Name"), placeholder=_("String Bean"), class="input-xlarge steam focused required") }}
                   {{ macros.input(form, "description", _("Description"), placeholder=_("Live streaming from our guest fish."), class="input-xlarge focused required") }}
-                  {{ macros.input(form, "tgzfile", _("Distro Filename"), placeholder=_("streambeam-buttons.tgz"), class="input-xlarge focused") }}
+                  {{ macros.input(form, "tgzfile", _("Distro Filename"), placeholder=_("beans-buttons.tgz"), class="input-xlarge focused") }}
                   {{ macros.input(form, "github_repo", _("Github Repo URL (optional)"), placeholder=_("https://github.com/lucidworks/streams/projects/sockitter/"), class="input-xlarge focused") }}
                   {{ macros.input(form, "app_stub", _("Application Stub"), placeholder=_(":8764/webapp/foo"), class="input-xlarge focused") }}
                   {{ macros.input(form, "labs_link", _("Labs Link (Wordpress)"), placeholder=_("https://lucidworks.com/labs/apps/view/"), class="input-xlarge focused") }}                
