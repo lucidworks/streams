@@ -73,11 +73,10 @@
                 <h4>About This Instance</h4>
                 <ul class="guide">
                   <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
-                  <li>As the instance boots, this page will update with instance status. {% if instance.status != "RUNNING" %}This instance is still being configured.{% endif %}</li>
-                  <li>Once started, the Fusion login page can be accessed using the <strong>Fusion Admin</strong> link and credentials below.</li>
-                  <li>Instances may occasionally be preempted before their <em>run timer</em> expires.</li>
-                  <li>Stopped instances may be restarted by you at any time before their <em>life timer</em> runs out.</li>
-                  <li>Instance <em>life timers</em> are set to expire after <strong>604,800 seconds (7 days)</strong>.</li>
+                  {% if instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
+                  <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
+                  <li>Stopped instances may be restarted at any time before their <em>life timer</em> runs out.</li>
+                  <li>The <em>life timer</em> for this instance is set to expire after <strong>604,800 seconds (7 days)</strong>.</li>
                   <li>When a <em>life timer</em> runs out, the instance will be terminated and deleted.</li>
                 </ul>
                 <p><button type="button" id="instance-guide" class="btn btn-warning">Close Guide</button></p>
