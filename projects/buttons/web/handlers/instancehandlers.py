@@ -371,6 +371,7 @@ class InstancesListHandler(BaseHandler):
 
             # pull the response back TODO add error handling
             response, content = http.request(url, 'POST', None, headers={})
+            print content
             gcinstance = json.loads(content)
             name = gcinstance['instance']
             password = gcinstance['password']
