@@ -148,6 +148,12 @@ class CallbackLoginHandler(BaseHandler):
 
 			# send to marketo if we have email
 			# if len(email) > 3:
+			try:
+				email = len(email)
+			except Exception as ex:
+				slack.slack_message("New user's email appears to be empty: %s." % ex)
+				email = ""
+
 			if len(email) > 3 and not config.isdev:
 				try:
 					mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
@@ -165,7 +171,8 @@ class CallbackLoginHandler(BaseHandler):
 						"email": email,
 						"firstName": first,
 						"lastName": last,
-						"company": company
+						"company": company,
+						"leadSource": "Product Download - GitHub" # per request from JK
 					}]
 					lead = mc.execute(
 						method='push_lead',
