@@ -118,7 +118,7 @@
               <div id="two-factor-auth-slider" class="toggle enabled"></div>
             </div>
           {% else %}
-            <p>If you value security, you may want to enable two factor authentication.</p>
+            <p>For added security, turn on two-factor authentication which uses the Google Authenticator app.</p>
             <div class="toggle-modern">
               <div id="two-factor-auth-slider" class="toggle"></div>
             </div>
@@ -132,22 +132,22 @@
           </div>
         </div>
       </div>
-      <p>The more we know about you, the more instances you can start on the system. That said, privacy rules.</p>
+      <p>Please enter or update your account information. <a href="https://lucidworks.com/legal/privacy-policy/">Privacy policy</a>.</p>
       <div class="row">
         <div class="col-md-6">
           <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-            {{ macros.input(form, "username", "Username", placeholder="your username", class="form-control focused required") }}
-            {{ macros.input(form, "name", "Name", placeholder="your name", class="form-control") }}
-            {{ macros.input(form, "email", "Email", placeholder="email address", class="form-control") }}
-            {{ macros.input(form, "company", "Company", placeholder="company name", class="form-control") }}
+            {{ macros.input(form, "username", "Username", placeholder="Username", class="form-control focused required") }}
+            {{ macros.input(form, "name", "Name", placeholder="Full name", class="form-control") }}
+            {{ macros.input(form, "email", "Email", placeholder="Email address", class="form-control") }}
+            {{ macros.input(form, "company", "Company", placeholder="Company name", class="form-control") }}
             {{ macros.input(form, "timezone", "Timezone", class="form-control pulldown") }}
             {{ macros.input(form, "country", "Country", class="form-control pulldown") }}
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save Settings</button>
+              <button type="button" id="user-delete" class="btn btn-danger">Remove Account</button>
             </div>
           </form>
-          <button type="button" id="user-delete" class="btn btn-success">Remove Account</button>
         </div>
       </div>
     </div>

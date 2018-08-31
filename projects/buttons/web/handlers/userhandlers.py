@@ -149,7 +149,7 @@ class CallbackLoginHandler(BaseHandler):
 			# send to marketo if we have email
 			# if len(email) > 3:
 			try:
-				email = len(email)
+				email = email
 			except Exception as ex:
 				slack.slack_message("New user's email appears to be empty: %s." % ex)
 				email = ""

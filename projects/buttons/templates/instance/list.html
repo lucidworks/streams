@@ -42,10 +42,10 @@
         <h4 class="modal-title" id="myModalLabel">Create a Fusion Instance</h4>
       </div>
       <div class="modal-body">
-        <p>Use the pulldown below to select a Fusion application stream template. Click <strong>Create Instance</strong> to create a new instance from the selected stream.</p>
+        <p>To create a new instance, select a Fusion application template and click <strong>Create Instance</strong>.</p>
         <div class="row">
           <div class="col-md-5 form-padding" id="stream-form">
-            <label class="control-label" for="stream">Select Stream</label>
+            <label class="control-label" for="stream">Select Template</label>
             <select class="form-control pulldown" id="stream" name="stream" type="text">
               {% for stream in streams %}
               <option value="{{ stream.sid }}">{{ stream.name }}</option>
@@ -112,7 +112,7 @@
             <div class="row">
               <div class="col-md-12">
                 {% if instances %}
-                <p>Your instances are shown in the list below. To create a new Fusion based instance, click the <strong>Create Instance</strong> button below. Click on the instance name to view detailed information about a given instance.</p>
+                <p>The status of your current instances are shown below. To create a new Fusion instance, click Create Instance. For details about a particular instance, click on its name.</p>
                 {% else %}
                 <p>There are no instances assigned to this account. Click the <strong>Create Instance</strong> button below to start a new instance from a stream source.</p>
                 <p>Application streams can  be explored in more detail from the <a href="https://lucidworks.com/labs">Labs index</a>.</p>
@@ -121,14 +121,14 @@
                 {% if need_more_info %}
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>We need more information about you!</h4>
-                  <p>We're grateful we've been able to authenticate you with your Github account. We have been unable to gather other information about you, such as your name, email address and company name. If you wouldn't mind too terribly much, please update your profile with this information so we can better serve you in the future!</p>
+                  <p>You’ve authenticated through your Github account but we need a full user profile before we continue. Please complete your user profile.</p>
                   <button type="button" id="account-settings" class="btn btn-warning">Update Your Profile</button>
                 </div>
                 {% endif %}
                 {% if user_info.max_instances == num_instances %}
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>At Max Instance Limit</h4>
-                  <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>
+                  <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. You’ll need to delete one or more if you’d like to add additional instances. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>
                 </div>
                 {% endif %}
                 {% if instances %}
