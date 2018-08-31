@@ -18,6 +18,7 @@ push:
 	git push
 
 upload:
+	git pull
 	gcloud app deploy app.yaml --project labs-209320
 	gcloud app deploy cron.yaml
 
