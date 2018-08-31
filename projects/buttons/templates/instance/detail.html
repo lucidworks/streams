@@ -36,7 +36,7 @@
 <div class="inverse">
   <div class="container">
     <div class="row">
-      <h1>The Instance</h1>
+      <h1>Instance Details</h1>
       <p class="blurb">&#8220;We are not makers of history. We are made by history.&#8221; ― Martin Luther King, Jr.</p>
     </div>
   </div>
@@ -70,10 +70,9 @@
             <div class="row">
               {% if guide %}
               <div id="instance-guide-div" class="bs-callout bs-callout-warning bs-callout-top">
-                <h4>About Labs Instances</h4>
-                <p>This page provides instance status and links for accessing a demonstrative version of Lucidwork's Fusion from your web browser.</p>
+                <h4>About This Instance</h4>
                 <ul class="guide">
-                  <li>This instance is running the <strong>{{ instance.stream.get().name }} Stream</strong> template.</li>
+                  <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
                   <li>As the instance boots, this page will update with instance status. {% if instance.status != "RUNNING" %}This instance is still being configured.{% endif %}</li>
                   <li>Once started, the Fusion login page can be accessed using the <strong>Fusion Admin</strong> link and credentials below.</li>
                   <li>Instances may occasionally be preempted before their <em>run timer</em> expires.</li>
