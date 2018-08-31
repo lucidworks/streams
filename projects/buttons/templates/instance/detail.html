@@ -23,7 +23,7 @@
         <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete this instance? Batman would do it.</p>
+        <p>Are you sure you want to delete this instance?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -94,10 +94,6 @@
                     <h3><small>Instance Access</small></h3>
                     <table class="table table-striped table-responsive">
                       <tr>
-                        <td><strong>Public IPv4</strong></td>
-                        <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
-                      </tr>
-                      <tr>
                         <td><strong>Application Link</strong></td>
                         <td>{% if instance.app_link %}<a class="fusion-link" target=_blank href="{{ instance.app_link }}"><span class="label label-default">Click to View App</span></a>{% else %}<span class="label label-danger">Not Available</span>{% endif %}</td>
                       </tr>
@@ -112,6 +108,10 @@
                         <td><strong>Admin Password</strong></td>
                         <td><em>{% if instance.password %}{{ instance.password }}{% else %}N/A{% endif %}</em></td>
                       </tr>
+                      <tr>
+                        <td><strong>Public IPv4</strong></td>
+                        <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
+                      </tr>
                     </table>
                   </div>
                 
@@ -120,7 +120,7 @@
                     <div>
                       <table class="table table-striped table-responsive">
                         <tr>
-                          <td><strong>Stream Template</strong></td>
+                          <td><strong>Template</strong></td>
                           <td colspan="2">{{ instance.stream.get().name }}</td>
                         </tr>
                         <tr>
