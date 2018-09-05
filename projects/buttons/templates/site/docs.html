@@ -7,8 +7,9 @@
     <!-- Docs Page -->
     <link href="/css/font-awesome.css" rel="stylesheet">
     <link href="/css/docs.css" rel="stylesheet">
-    <link href="/css/documentation.css" rel="stylesheet">
     <link href="/css/lab.css" rel="stylesheet">
+    <link href="/css/documentation.css" rel="stylesheet">
+
 {% endblock %}
 
 {% block description %}It looks like you've managed to find the Wisdom documentation; things are looking up for you!{% endblock %}
@@ -39,45 +40,113 @@
   <div class="row">
     <!--Main Content -->
     <div class="col-xs-9">
-      <section id="wisdoms-apis" class="group">
-        <h3>Introduction to Labs</h3>
-        <p>This page contains documention for <a href="https://lucidworks.com/labs">Lucidwork's Labs</a>, which has been designed to enable easy evalution of Lucidwork's products. Documentation for Lucidwork's Fusion line of products is located on the <a href="https://doc.lucidworks.com/">Lucidworks Documentation</a> page.</p>
+      <section id="getting-started" class="group">
+        <h3>Getting Started</h3>
+        <p>This page contains documention for <a href="https://lucidworks.com/labs">Lucidwork's Labs</a>, which has been designed to enable quick evalution of Lucidwork Fusion and its various applications. Documentation for Lucidworks Fusion is located <a href="https://doc.lucidworks.com/">here</a>.</p>
         <p>Be sure to visit Lucidwork's Labs <a href="https://github.com/lucidworks/streams/">Streams Repo on Github</a> for more code, scripts and video guides.</p>
-        <h4>Features</h4>
-        <p>Lucidworks Labs Supports the Following:</p>
-        <ul class="features">
-          <li>Quick starts of Fusion based instances</li>
-          <li>Instance timers</li>
-          <li>Other things</li>
-        </ul>
+        <p>If you are looking to download the Fusion binary, please visit the <a href="https://lucidworks.com/download/">Fusion Download page</a>.</p>
+
+        <div id="github-auth" class="subgroup">
+          <h4>Github Authentication</h4>
+          <p>Lucidworks Labs uses your Github account for authenticaton. The first time you navigate to any of the instance pages hosted on the <strong>streams.lucidworks.com</strong> subdomain, you will be redirected to Github and prompted for <strong>read permissions</strong> on your Github user profile.</p>
+          <p><img src="/img/github.png"></p>
+          <p>To authenticate now, click on the <strong>Launch Instance</strong> button in the next section.</p>
+        </div>
         
-        <div id="service-apis" class="subgroup">
-          <h4>Signup</h4>
-          <p>Lucidworks Labs uses Github for authentication. To login, please visit your <a href="/dashboard">Lab's Dashboard</a>.</p>
+        <div id="quickstart" class="subgroup">
+          <h4>Quickstart an Instance</h4>
+          <p>Lucidworks Labs allows you to launch demo Fusion instances with a single click. Try it now:</p>
+          <p><button id="instance-demo" class="btn btn-info"><span class="glyphicon glyphicon-play"></span> Launch Instance</button></p>
         </div>
 
-        <div id="service-status" class="subgroup">
+        <div id="profile" class="subgroup">
+          <h4>Update Your Profile</h4>
+          <p>Your Lucidworks Labs account settings may be updated by navigating to the <a href="https://streams.lucidworks.com/settings/">Account Settings</a> page.</p>
+          <p><img src="/img/accountsettingssmall.png"></p>
+        </div>
+
+        <div id="2fa" class="subgroup">
+          <h4>Two Factor Authentication</h4>
+          <p>To enable 2FA, click on the on/off slider at the top of your setting page and then use Google Authenticator to scan the QR code on the screen.</p>
+          <p><img src="/img/2fasetupsmall.png"></p>
+        </div>
+
+        <div id="2fa" class="subgroup">
+          <h4>Unlink Account</h4>
+          <p>To revoke the Lucidworks Labs application from your Github account, navigate to your Github Applications list and click on the revoke button next to the Lucidworks Labs application.</p>
+          <p><img src="/img/githubrevoke.png"></p>
+        </div>
+
+      </section>
+
+      <section id="instances" class="group">
+        <h3>Instances</h3>
+        <p>Something about instances.</p>
+
+        <div id="instance-starting" class="subgroup">
+          <h4>Starting</h4>
+          <p>Starting things.</p>
+        </div>
+        
+        <div id="instance-credentials" class="subgroup">
+          <h4>Credentials</h4>
+          <p>There is cred.</p>
+        </div>
+
+        <div id="instance-timers" class="subgroup">
+          <h4>Timers</h4>
+          <p>Time is up.</p>
+        </div>
+
+        <div id="instance-deleting" class="subgroup">
+          <h4>Deletion</h4>
+          <p>Deleting things.</p>
+        </div>
+      </section>
+
+      <section id="applications" class="group">
+        <h3>Applications</h3>
+        <p>Something about applications.</p>
+
+        <div id="application-templates" class="subgroup">
+          <h4>Templates</h4>
+          <p>Template things.</p>
+        </div>
+        
+        <div id="application-starting" class="subgroup">
+          <h4>Starting</h4>
+          <p>There are apps.</p>
+        </div>
+
+        <div id="application-access" class="subgroup">
+          <h4>Accessing Applications</h4>
+          <p>Access your appliations.</p>
+        </div>
+
+        <div id="application-export" class="subgroup">
+          <h4>Export</h4>
+          <p>Export applications.</p>
+        </div>
+      </section>
+
+      <section id="apis" class="group">
+        <h3>Application Programming Interfaces</h3>
+        <p>Something about APIs.</p>
+
+        <div id="api-templates" class="subgroup">
+          <h4>Template API</h4>
+          <p>This is the template API</p>
+        </div>
+        
+        <div id="api-instance" class="subgroup">
           <h4>Instance API</h4>
-          <p>A given instance's status may be retrieved by making a call to the Instance API. An instance status is retreived using the following method:</p>
-
-          <h5>GET /api/instance/<instance-id></h5>
-<pre>
-curl https://streams.lucidworks.com/api/button-fusion-ewyp
-
-{ 
-  "created": "2018-08-12 23:29:09",
-  "updated": "2018-08-12 23:29:09",
-  "name": "button-fusion-ewyp",
-  "status": "RUNNING",
-  "link": "http://104.196.240.91:8764/",
-  "version": "fusion_4.0.2"
-}
-
-</pre>
-
+          <p>This is the instance API.</p>
         </div>
 
-
+        <div id="api-fusion" class="subgroup">
+          <h4>Fusion API</h4>
+          <p>This is the Fusion API.</p>
+        </div>
       </section>
 
     </div>
@@ -87,11 +156,39 @@ curl https://streams.lucidworks.com/api/button-fusion-ewyp
     <nav class="col-xs-3 bs-docs-sidebar">
       <ul id="sidebar" class="nav nav-stacked" data-spy="affix" data-offset-top="120">
         <li>
-          <a href="#wisdoms-apis">Labs APIs</a>
+          <a href="#getting-started">Getting Started</a>
           <ul class="nav nav-stacked">
-            <li><a href="#service-apis">Instance APIs</a></li>
-            <li><a href="#service-status">Service Status</a></li>
-            <li><a href="#api-add">Adding APIs</a></li>
+            <li><a href="#github-auth">Github Authentication</a></li>
+            <li><a href="#quickstart">Quickstart Instance</a></li>
+            <li><a href="#profile">Update Profile</a></li>
+            <li><a href="#2fa">Setting up 2FA</a></li>
+            <li><a href="#unlink">Unlink Account</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#instances">Instances</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#instance-starting">Starting</a></li>
+            <li><a href="#instance-credentials">Credentials</a></li>
+            <li><a href="#instance-timers">Timers</a></li>
+            <li><a href="#instance-deleting">Deleting</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#applications">Applications</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#application-templates">Templates</a></li>
+            <li><a href="#application-starting">Starting</a></li>
+            <li><a href="#application-access">Access</a></li>
+            <li><a href="#application-export">Exporting</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#apis">APIs</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#api-templates">Template API</a></li>
+            <li><a href="#api-instance">Instance API</a></li>
+            <li><a href="#api-fusion">Fusion API</a></li>
           </ul>
         </li>
       </ul>
@@ -113,6 +210,11 @@ curl https://streams.lucidworks.com/api/button-fusion-ewyp
 {% block javascript %}
   <script type="text/javascript">
     $().ready(function() {
+      $('#instance-demo').click(function() {
+        var url = "https://streams.lucidworks.com/instance/create/starter";
+        $("<a>").attr("href", url).attr("target", "_blank")[0].click(); 
+      });
+      
       // scrollspy
       $('body').scrollspy({
         target: '.bs-docs-sidebar',

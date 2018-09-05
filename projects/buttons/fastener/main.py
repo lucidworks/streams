@@ -6,6 +6,7 @@ import random
 import string
 import sys
 import os
+import time
 
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 def password_generator(size=12, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
@@ -222,11 +223,23 @@ def create(stream_slug='lou'):
         }]
     }
 
-    operation = compute.instances().insert(
-        project='labs-209320',
-        zone='us-west1-c',
-        body=config
-    ).execute()
+    try:
+        operation = compute.instances().insert(
+            project='labs-209320',
+            zone='us-west1-c',
+            body=config
+        ).execute()
+    except:
+        try:
+            time.sleep(5)
+            operation = compute.instances().insert(
+                project='labs-209320',
+                zone='us-west1-b',
+                body=config
+            ).execute()
+        except:
+            name = "failed"
+            password = "failed"
 
     response.content_type = 'application/json'
     return dumps({'instance': name, 'password': password})
