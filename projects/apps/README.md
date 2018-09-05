@@ -1,7 +1,7 @@
-# Fusion Application Streams
+# Fusion Application Templates
 This is a directory of sample Fusion application templates which can be run on Lucidworks Labs as a Stream.
 
-You may start a stream by either clicking on the buttons below, or by navigating to [https://streams.lucdiworks.com/instances](https://streams.lucidworks.com/instances) and starting an instance stream there.
+You may start an application template by either clicking on the buttons below, or by navigating to [https://streams.lucdiworks.com/instances](https://streams.lucidworks.com/instances) and starting an instance stream there.
 
 ## Fusion Starter 
 This is a very simple starter application which has a datasource of **https://lucidworks.com**. To start the instance, click on the butotn below:
