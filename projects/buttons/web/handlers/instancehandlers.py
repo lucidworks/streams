@@ -254,34 +254,40 @@ class StreamsStarterHandler(BaseHandler):
             iuser
         )
 
-        # pull the response back TODO add error handling
-        response, content = http.request(url, 'POST', None, headers={})
-        gcinstance = json.loads(content)
-        name = gcinstance['instance']
-        password = gcinstance['password']
+        try:
+            # pull the response back TODO add error handling
+            response, content = http.request(url, 'POST', None, headers={})
+            gcinstance = json.loads(content)
+            name = gcinstance['instance']
+            password = gcinstance['password']
 
-        # set up an instance (note there are two ways to create an instance - see below)
-        instance = Instance(
-            name = name,
-            status = "PROVISIONING",
-            user = user_info.key,
-            stream = stream.key,
-            password = password,
-            expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-            started = datetime.dateime.now()
-        )
-        instance.put()
+            # set up an instance (note there are two ways to create an instance - see below)
+            instance = Instance(
+                name = name,
+                status = "PROVISIONING",
+                user = user_info.key,
+                stream = stream.key,
+                password = password,
+                expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                started = datetime.dateime.now()
+            )
+            instance.put()
 
-        slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+            slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
-        # give the db a second to update
-        if config.isdev:
-            time.sleep(1)
+            # give the db a second to update
+            if config.isdev:
+                time.sleep(1)
 
-        self.add_message('Instance created! Give the system a few minutes to start %s.' % stream.name, 'success')
+            self.add_message('Instance created! Give the system a few minutes to start %s.' % stream.name, 'success')
 
-        params = {'name': name}
-        return self.redirect_to('instance-detail', **params)
+            params = {'name': name}
+            return self.redirect_to('instance-detail', **params)
+
+
+        except:
+            self.add_message('The system is currently busy starting other instances. Please try again in a few minutes.', 'warning')
+            return self.redirect_to('instances-list')
 
 
 # list of a user's instances and create new instance
@@ -369,35 +375,40 @@ class InstancesListHandler(BaseHandler):
                 iuser
             )
 
-            # pull the response back TODO add error handling
-            response, content = http.request(url, 'POST', None, headers={})
-            print content
-            gcinstance = json.loads(content)
-            name = gcinstance['instance']
-            password = gcinstance['password']
+            try:
+                # pull the response back TODO add error handling
+                response, content = http.request(url, 'POST', None, headers={})
+                print content
+                gcinstance = json.loads(content)
+                name = gcinstance['instance']
+                password = gcinstance['password']
 
-            # set up an instance 
-            instance = Instance(
-                name = name,
-                status = "PROVISIONING",
-                user = user_info.key,
-                stream = stream.key,
-                password = password,
-                expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-                started = datetime.datetime.now()
-            )
-            instance.put()
+                # set up an instance 
+                instance = Instance(
+                    name = name,
+                    status = "PROVISIONING",
+                    user = user_info.key,
+                    stream = stream.key,
+                    password = password,
+                    expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                    started = datetime.datetime.now()
+                )
+                instance.put()
 
-            slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
-            # give the db a second to update
-            if config.isdev:
-                time.sleep(1)
+                # give the db a second to update
+                if config.isdev:
+                    time.sleep(1)
 
-            self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
+                self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
 
-            params = {'name': name}
-            return self.redirect_to('instance-detail', **params)
+                params = {'name': name}
+                return self.redirect_to('instance-detail', **params)
+
+            except:
+                self.add_message('The system is currently busy starting other instances. Please try again in a few minutes.', 'warning')
+                return self.redirect_to('instances-list')
 
         else:
             # email update sumbission
