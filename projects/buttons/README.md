@@ -1,7 +1,7 @@
 # Welcome to Lucidworks Labs
 This application is designed to run on Appengine. It starts Fusion instances, with a single button click, on Google Cloud. Written in Python. Authentication via Github accounts. Supports 2FA.
 
-The software in this repository is running at [https://streams.lucidworks.com/](https://streams.lucidworks.com)]
+The software in this repository is running at [https://streams.lucidworks.com/](https://streams.lucidworks.com)
 
 Bugs and feature requests may be opened and managed on the [issues page for Lucidworks Stream's Github](https://github.com/lucidworks/streams/issues?q=is%3Aopen+is%3Aissue+project%3Alucidworks%2Fstreams%2F2). Please ensure all new issues have a **Buttons** project tag added to them.
 
