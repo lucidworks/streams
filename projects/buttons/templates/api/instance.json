@@ -1,6 +1,12 @@
 { 
   "created": "{{ instance.created }}",
   "updated": "{{ instance.updated }}",
+  "started": "{{ instance.started }}",
+  "expires": "{{ instance.expires }}",
+  "sid": "{{ instance.stream.get().sid }}",
   "name": "{{ instance.name }}",
+  "ip": "{{ instance.ip }}",
+  "admin_link": "{{ instance.admin_link }}",
+  "app_link": "{{ instance.app_link }}",
   "status": "{{ instance.status }}"
 }

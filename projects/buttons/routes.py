@@ -44,6 +44,7 @@ _routes = [
 	
 	# api/slack
 	RedirectRoute('/api/stream/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=True),
+	RedirectRoute('/api/instance/<name>', adminhandlers.AdminInstancesAPIHandler, name='api-instances', strict_slash=True),
 	RedirectRoute('/slack', sitehandlers.SlackbotHandler, name='slack-card', strict_slash=True)
 ]
 

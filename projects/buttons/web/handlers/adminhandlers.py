@@ -11,6 +11,11 @@ from web.models.models import User, Stream, Instance
 
 class AdminStreamsAPIHandler(BaseHandler):
     def get(self, sid=None):
+        # check token
+        token = self.request.get('token')
+        if token != "":
+            user_info = User.get_by_token(token)
+
         # look up streams
         stream = Stream.get_by_sid(sid)
 
@@ -20,6 +25,27 @@ class AdminStreamsAPIHandler(BaseHandler):
         self.response.headers['Content-Type'] = "application/json"
         return self.render_template('api/stream.json', **params)
 
+
+class AdminInstancesAPIHandler(BaseHandler):
+    def get(self, name=None):
+        # check token
+        token = self.request.get('token')
+        if token != "":
+            user_info = User.get_by_token(token)
+
+            if user_info:
+                instance = Instance.get_by_name(name)
+
+                params = {
+                    'instance': instance
+                }
+                self.response.headers['Content-Type'] = "application/json"
+                return self.render_template('api/instance.json', **params)
+        
+        # no token, no user, no data
+        params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
+        return self.render_template('api/response.json', **params)
+        
 
 class AdminStreamsHandler(BaseHandler):
     @user_required

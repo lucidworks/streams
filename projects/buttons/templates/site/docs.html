@@ -155,6 +155,12 @@
           <p><img src="/img/fusionstarter.png"></p>
         </div>
 
+        <div id="application-restart" class="subgroup">
+          <h4>Starting Stopped Instances</h4>
+          <p>To start a stopped/preempted Fusion instance, navigate to the <a href="https://streams.lucidworks.com/instances">instances page</a> and click on the the <button type="button" id="start" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="glyphicon glyphicon-play"></span></button> button next to the instance you'd like to start. You can also start a stopped instance from its detail view.</p>
+          <p>At this time there is no feature to allow for the restart of an already running instance.</p>
+        </div>
+
       </section>
 
       <section id="apis" class="group">
@@ -162,6 +168,10 @@
         <p>Lucidworks Labs provides a few basic API methods to allow you to monitor and access your instances programmatically.</p>
         <p>API calls are made to the following subdomain:</p>
         <pre>streams.lucidworks.com</pre>
+        <div id="api-token" class="subgroup">
+          <h4>API Tokens</h4>
+          <p>API tokens may be obtained by navigating to your <a href="{{ uri_for('account-settings') }}">settings page</a> and then clicking on the <strong>Generate API Token</strong> button.</p>
+        </div>
         <div id="api-templates" class="subgroup">
           <h4>Template API</h4>
           <p>Template status may be retrieved by making a <strong>GET</strong> request to the following endpoint:</p>
@@ -188,13 +198,20 @@ curl https://streams.lucidworks.com/api/template/lou
           <h4>Instance API</h4>
           <p>Instance status may be retrieved by making a <strong>GET</strong> request to the following endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;</strong></p>
+          <p>Calls to the <strong>instance</strong> endpoint require an <strong>token</strong> parameter be included in the call.</p>
 
 <pre>
-curl https://streams.lucidworks.com/api/instance/button-lou-8uvx
-{ 
-  "created": "2018-09-05 22:43:12.622590",
-  "updated": "2018-09-05 23:33:01.604750",
+curl https://streams.lucidworks.com/api/instance/button-lou-8uvx?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a
+{
+  "created": "2018-09-06 17:52:41.735348",
+  "updated": "2018-09-06 18:33:47.233156",
+  "started": "2018-09-06 17:52:41.734906",
+  "expires": "2018-09-13 17:52:41.734881",
+  "sid": "lou",
   "name": "button-lou-8uvx",
+  "ip": "35.197.70.61",
+  "admin_link": "http://35.197.70.61:8764",
+  "app_link": "http://35.197.70.61:8764/webapps/lou-demo/",
   "status": "RUNNING"
 }
 </pre>
@@ -232,11 +249,13 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx
           <ul class="nav nav-stacked">
             <li><a href="#application-templates">Templates</a></li>
             <li><a href="#application-starting">Starting</a></li>
+            <li><a href="#application-restart">Restarting</a></li>
           </ul>
         </li>
         <li>
           <a href="#apis">APIs</a>
           <ul class="nav nav-stacked">
+            <li><a href="#api-token">API Tokens</a></li>
             <li><a href="#api-templates">Template API</a></li>
             <li><a href="#api-instance">Instance API</a></li>
           </ul>
