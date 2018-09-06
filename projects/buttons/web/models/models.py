@@ -35,6 +35,7 @@ class User(User):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
 	last_login = ndb.DateTimeProperty()
+	api_token = ndb.StringProperty()
 	superuser = ndb.BooleanProperty(default=False)
 	max_instances = ndb.IntegerProperty(default=3) # min limit set here
 	password = ndb.StringProperty()
@@ -54,6 +55,10 @@ class User(User):
 	@classmethod
 	def get_all(cls):
 		return cls.query().filter().order(-cls.created).fetch()
+
+	@classmethod
+	def get_by_token(cls, api_token):
+		return cls.query(cls.api_token == api_token).get()
 
 
 # streams

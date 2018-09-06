@@ -45,6 +45,7 @@ class LoginHandler(BaseHandler):
 
 		# deal with next page handling after logging in
 		next = self.request.get('next')
+		# is this safe?
 		utils.write_cookie(self, "next", str(next), '/', expires=7200)
 
 		try:
@@ -327,6 +328,13 @@ class SettingsHandler(BaseHandler):
 		# load user information
 		user_info = User.get_by_id(long(self.user_id))
 
+		generate_api_token = self.request.get('generate_api_token')
+
+		if generate_api_token == "1":
+			user_info.api_token = utils.generate_token()
+			user_info.put()
+			return self.redirect_to('account-settings')
+
 		# form fields
 		self.form.username.data = user_info.username
 		self.form.name.data = user_info.name
@@ -338,6 +346,7 @@ class SettingsHandler(BaseHandler):
 		# extras
 		params = {}
 		params['tfenabled'] = user_info.tfenabled
+		params['api_token'] = user_info.api_token
 
 		# create holder token to setup 2FA - this will continue until user enables 2fa
 		if user_info.tfenabled == False:
