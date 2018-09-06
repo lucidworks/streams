@@ -28,6 +28,24 @@
 {% endblock %}
 
 {% block content %}
+<!-- hidden delete modal -->
+<div id="delete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Internet Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the Internet?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Internet</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="inverse">
   <div class="container">
     <div class="row">
@@ -43,12 +61,12 @@
       <section id="getting-started" class="group">
         <h3>Getting Started</h3>
         <p>This page contains documention for <a href="https://lucidworks.com/labs">Lucidwork's Labs</a>, which has been designed to enable quick evalution of Lucidwork Fusion and its various applications. Documentation for Lucidworks Fusion is located <a href="https://doc.lucidworks.com/">here</a>.</p>
-        <p>Be sure to visit Lucidwork's Labs <a href="https://github.com/lucidworks/streams/">Streams Repo on Github</a> for more code, scripts and video guides.</p>
+        <p>The <a href="https://github.com/lucidworks/streams/">Lucidworks Streams Repo</a> on Github contains additional code, scripts, instructions and video guides to help you get started using Fusion quickly.</p>
         <p>If you are looking to download the Fusion binary, please visit the <a href="https://lucidworks.com/download/">Fusion Download page</a>.</p>
 
         <div id="github-auth" class="subgroup">
           <h4>Github Authentication</h4>
-          <p>Lucidworks Labs uses your Github account for authenticaton. The first time you navigate to any of the instance pages hosted on the <strong>streams.lucidworks.com</strong> subdomain, you will be redirected to Github and prompted for <strong>read permissions</strong> on your Github user profile.</p>
+          <p>Lucidworks Labs uses your Github account for authentication. The first time you navigate to any of the instance pages hosted on the <strong>streams.lucidworks.com</strong> subdomain, you will be redirected to Github and prompted for <strong>read permissions</strong> on your Github user profile.</p>
           <p><img src="/img/github.png"></p>
           <p>To authenticate now, click on the <strong>Launch Instance</strong> button in the next section.</p>
         </div>
@@ -81,72 +99,107 @@
 
       <section id="instances" class="group">
         <h3>Instances</h3>
-        <p>Something about instances.</p>
+        <p>Instances may be started directly from your <a href="/instances">instances page</a> or by visiting the various application templates on the <a href="https://lucidworks.com/labs">Labs main page</a>. Once a Fusion instance has been started and provisioned, the Fusion admin UI will be accessable by the instance's IP address and its set of credentials. Here is a sample URI format used to access the Fusion admin UI:</p>
+        <pre>http://35.185.228.240:8764/admin/login</pre>
 
         <div id="instance-starting" class="subgroup">
           <h4>Starting</h4>
-          <p>Starting things.</p>
+          <p>To start a Fusion instance from your <a href="/instances">instances page</a>, click on the <strong>Create Instance</strong> button and then select a Fusion template to use to start the instance. The startup and provisioning process takes about 5-8 minutes to complete.</p>
+          <p><img src="/img/createinstance.png"></p>
+          <p>If you are looking to start an empty, vanilla instance of Fusion use the <strong><a href="https://streams.lucidworks.com/instance/create/starter">Fusion Starter</a></strong> template.</p>
         </div>
         
         <div id="instance-credentials" class="subgroup">
-          <h4>Credentials</h4>
-          <p>There is cred.</p>
+          <h4>Credentials and Admin UI</h4>
+          <p>Once a Fusion instance is running, the credentials to login to the instance will be shown, along with the IP address of the instance.</p>
+          <p><img src="/img/instanceaccess.png"></p>
+          <p>You may access Fusion's <strong>admin interface</strong> for the instance by using the <strong>Click to Login</strong> button. You'll login with the credentials provided above, which is located on the <strong>instance detail page</strong>.</p>
+          <p><img src="/img/fusionlogin.png"></p>
         </div>
 
         <div id="instance-timers" class="subgroup">
           <h4>Timers</h4>
-          <p>Time is up.</p>
+          <p>Fusion instances started on Labs have both <strong>run and life timers</strong>. If an instance's <strong>run timer</strong> reaches zero, it will be stopped. If an instance's <strong>life timer</strong> reaches zero, it will be permanently deleted regardless of whether or not it is running.</p>
+          <p><img src="/img/timers.png"></p>
+          <div class="bs-callout bs-callout-warning bs-callout-top">
+            <h4>Note on Preemption</h4>
+            <p>Instances may be occasionally preempted and stopped before their <strong>run timer</strong> expires. If one of your instances is stopped early, simply start it again by clicking on the start button.</p>
+          </div>
+
         </div>
 
         <div id="instance-deleting" class="subgroup">
           <h4>Deletion</h4>
-          <p>Deleting things.</p>
+          <p>Once you are finished with an instance, you may delete it from your <a href="/instances">list of instances</a> by clicking on its <button id="delete-internet" type="button" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button> button.</p>
+          <p>You may also delete the instance from its detail view. To delete an instance, click on the <strong>Delete Instance</strong> button at the bottom of the page and then click <strong>Delete Instance</strong> again in the confirmation dialog that pops up.</p>
+          <p><img src="/img/delete.png"></p>
         </div>
       </section>
 
       <section id="applications" class="group">
         <h3>Applications</h3>
-        <p>Something about applications.</p>
+        <p>Fusion applications combine configuration specific parameters with an optional user interface. Applications can be a simple as <strong>data source</strong> using a <strong>web connector</strong> with a few <strong>start links</strong>.</p>
+        <p>Depending on complexity, Fusion applications may or may not include an <strong>application link</strong> one the instance is running. When a Fusion application supports it, a link to the application's UI will become available from the instance detail page:</p>
+        <p><img src="/img/applink.png"></p>
 
         <div id="application-templates" class="subgroup">
           <h4>Templates</h4>
-          <p>Template things.</p>
+          <p>Application templates are managed by Lucidworks. Templates include an application zip file and a simple installation script which configures the instance with the application and any required data and or setup.</p>
+          <p>You may <a href="https://github.com/lucidworks/streams/tree/master/projects/apps">view the example application templates on Github</a>.</p>
+          <p>A complete list of templates and their accompanying instructions and/or repositories are available over on the <a href="https://lucidworks.com/labs">Labs index page</a>.</p>
         </div>
         
         <div id="application-starting" class="subgroup">
           <h4>Starting</h4>
-          <p>There are apps.</p>
+          <p>To start a Fusion application instance, navigate to the <a href="https://lucidworks.com/labs">Labs index page</a> and click on the the application you'd like to start. Once the application detail page loads, click on the <strong>Start Instance</strong> button to start the application's instance.</p>
+          <p><img src="/img/fusionstarter.png"></p>
         </div>
 
-        <div id="application-access" class="subgroup">
-          <h4>Accessing Applications</h4>
-          <p>Access your appliations.</p>
-        </div>
-
-        <div id="application-export" class="subgroup">
-          <h4>Export</h4>
-          <p>Export applications.</p>
-        </div>
       </section>
 
       <section id="apis" class="group">
         <h3>Application Programming Interfaces</h3>
-        <p>Something about APIs.</p>
-
+        <p>Lucidworks Labs provides a few basic API methods to allow you to monitor and access your instances programmatically.</p>
+        <p>API calls are made to the following subdomain:</p>
+        <pre>streams.lucidworks.com</pre>
         <div id="api-templates" class="subgroup">
           <h4>Template API</h4>
-          <p>This is the template API</p>
+          <p>Template status may be retrieved by making a <strong>GET</strong> request to the following endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/template/&lt;template-id&gt;</strong></p>
+
+<pre>
+curl https://streams.lucidworks.com/api/template/lou
+{ 
+  "created": "2018-08-17 17:37:29.827290",
+  "updated": "2018-08-17 17:37:29.827310",
+  "sid": "lou",
+  "name": "Hello, I&#39;m Lou",
+  "description": "This is Lou.",
+  "distro": "lou-buttons.tgz",
+  "fusion_version": "4.0.2",
+  "github_repo": "",
+  "app_stub": ":8764/webapps/lou-demo",
+  "labs_link": "https://lucidworks.com/labs/apps/lou"
+}
+</pre>
         </div>
         
         <div id="api-instance" class="subgroup">
           <h4>Instance API</h4>
-          <p>This is the instance API.</p>
-        </div>
+          <p>Instance status may be retrieved by making a <strong>GET</strong> request to the following endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;</strong></p>
 
-        <div id="api-fusion" class="subgroup">
-          <h4>Fusion API</h4>
-          <p>This is the Fusion API.</p>
+<pre>
+curl https://streams.lucidworks.com/api/instance/button-lou-8uvx
+{ 
+  "created": "2018-09-05 22:43:12.622590",
+  "updated": "2018-09-05 23:33:01.604750",
+  "name": "button-lou-8uvx",
+  "status": "RUNNING"
+}
+</pre>
         </div>
+        <p>More API methods coming soon!</p>
       </section>
 
     </div>
@@ -171,7 +224,7 @@
             <li><a href="#instance-starting">Starting</a></li>
             <li><a href="#instance-credentials">Credentials</a></li>
             <li><a href="#instance-timers">Timers</a></li>
-            <li><a href="#instance-deleting">Deleting</a></li>
+            <li><a href="#instance-deleting">Deletion</a></li>
           </ul>
         </li>
         <li>
@@ -179,8 +232,6 @@
           <ul class="nav nav-stacked">
             <li><a href="#application-templates">Templates</a></li>
             <li><a href="#application-starting">Starting</a></li>
-            <li><a href="#application-access">Access</a></li>
-            <li><a href="#application-export">Exporting</a></li>
           </ul>
         </li>
         <li>
@@ -188,7 +239,6 @@
           <ul class="nav nav-stacked">
             <li><a href="#api-templates">Template API</a></li>
             <li><a href="#api-instance">Instance API</a></li>
-            <li><a href="#api-fusion">Fusion API</a></li>
           </ul>
         </li>
       </ul>
@@ -210,6 +260,16 @@
 {% block javascript %}
   <script type="text/javascript">
     $().ready(function() {
+
+      $('#delete-internet').click( function() {
+        $('#delete').modal();
+      });
+
+      $('#delete-button').click(function() {
+        $('#delete').modal('hide');
+        alertify.success("Internet deleted!");
+      });
+
       $('#instance-demo').click(function() {
         var url = "https://streams.lucidworks.com/instance/create/starter";
         $("<a>").attr("href", url).attr("target", "_blank")[0].click(); 
