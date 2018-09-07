@@ -1,10 +1,10 @@
 # Fusion Application Templates
-This is a directory of sample Fusion application templates.
+This is a directory of sample Fusion application templates. Fusion is an engine which can be configured to solve a variety of search related use cases.
 
 You may start an application template by either clicking on the buttons below, or by navigating to [https://streams.lucdiworks.com/instances](https://streams.lucidworks.com/instances) and browsing the existing templates there.
 
 ## Fusion Starter 
-This is a very simple starter application which has a datasource of **https://lucidworks.com**. To start the instance, click on the butotn below:
+This is a very simple starter application which uses a datasource of **https://lucidworks.com** as its corpus. Searching using this application uses the Fusion admin UI. To start the instance, click on the button below:
 
 [![Launch Starter](https://img.shields.io/badge/launch-starter-green.svg)](https://streams.lucidworks.com/instance/create/starter)
 
