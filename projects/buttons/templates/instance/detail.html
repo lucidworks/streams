@@ -188,6 +188,16 @@
     var channel_token = "{{ channel_token }}";
     var refresh_channel = "{{ refresh_channel }}";
 
+    // reload if resized
+    $(window).bind('resize', function(e)
+    {
+      if (window.RT) clearTimeout(window.RT);
+      window.RT = setTimeout(function()
+      {
+        this.location.reload(false); /* false to get page from cache */
+      }, 200);
+    });
+
     // timer knob
     $('#life-timer').knob();
     $('#run-timer').knob();
