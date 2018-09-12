@@ -208,6 +208,21 @@ class AdminUsersHandler(BaseHandler):
         # lookup user's auth info
         user_info = User.get_by_id(long(uid))
 
+        # lookup user's auth info
+        loggedin_user_info = User.get_by_id(long(self.user_id))
+
+        # only allow kordless to modify kordless
+        if user_info.username == "kordless" and user_info.username != loggedin_user_info.username:
+            params = {"response": "fail", "message": "you can not touch that user"}
+            self.response.set_status(402)
+            return self.render_template('api/response.json', **params)
+
+        # only allow erikhatcher to modify erikhatcher
+        if user_info.username == "erikhatcher" and user_info.username != loggedin_user_info.username:
+            params = {"response": "fail", "message": "you can not touch that user"}
+            self.response.set_status(402)
+            return self.render_template('api/response.json', **params)
+
         if user_info and superuser == "1":
             user_info.superuser = True
             user_info.max_instances = 10
@@ -216,7 +231,7 @@ class AdminUsersHandler(BaseHandler):
             user_info.superuser = False
             user_info.max_instances = 3 # max instances are set here and in model for user
             user_info.put()
-            
+
         params = {"response": "success", "message": "user %s modified" % uid}
         return self.render_template('api/response.json', **params)
 
