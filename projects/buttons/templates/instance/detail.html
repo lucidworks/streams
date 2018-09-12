@@ -275,6 +275,13 @@
       var life_timer = expires - epoch_time;
       var run_timer = sleeps - epoch_time;
       
+      if (life_timer < 0) {
+        life_timer = 0;
+      }
+      if (run_timer < 0) {
+        run_timer = 0;
+      }
+
       var now = new Date();
       field
           .each(function(d) { d.previous = d.value, d.value = d.update(run_timer); });
@@ -340,6 +347,13 @@
       var life_timer = expires - epoch_time;
       var run_timer = sleeps - epoch_time;
       
+      if (life_timer < 0) {
+        life_timer = 0;
+      }
+      if (run_timer < 0) {
+        run_timer = 0;
+      }
+
       var now = new Date();
       field2
           .each(function(d) { d.previous = d.value, d.value = d.update(life_timer); });
