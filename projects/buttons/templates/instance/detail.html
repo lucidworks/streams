@@ -112,7 +112,7 @@
                   {% if instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
                   <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
                   <li>Stopped instances may be restarted at any time before their <em>life timer</em> runs out.</li>
-                  <li>The <em>life timer</em> for this instance is set to expire after <strong>604,800 seconds (7 days)</strong>.</li>
+                  <li>The <em>life timer</em> for this instance is set to expire after <strong> 168 hours (7 days)</strong>.</li>
                   <li>When a <em>life timer</em> runs out, the instance will be terminated and deleted.</li>
                 </ul>
                 <p><button type="button" id="instance-guide" class="btn btn-warning">Close Guide</button></p>
@@ -294,7 +294,7 @@
         height = 180;
 
     var fields2 = [
-      {value: 24, size: 24, label: "h", update: function(seconds) { return Math.floor(seconds/3600); }},
+      {value: 168, size: 168, label: "h", update: function(seconds) { return Math.floor(seconds/3600); }},
       {value: 60, size: 60, label: "m", update: function(seconds) { 
         var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
         return Math.floor(leftovers/60);
