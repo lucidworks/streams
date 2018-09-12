@@ -7,6 +7,46 @@
   <link href="/css/docs.css" rel="stylesheet">
   <link href="/css/documentation.css" rel="stylesheet">
   <link href="/css/lab.css" rel="stylesheet">
+  <style>
+    div#run-timer-svg.text-center > svg > g.field > .path--background {
+      fill: none;
+      stroke: #8cc152;
+      stroke-width: 2px;
+    }
+    div#run-timer-svg.text-center > svg > g.field > .path--foreground {
+      fill: #8cc152;
+      stroke: #8cc152;
+      stroke-width: 2px;
+    }
+    div#run-timer-svg.text-center > svg > g.field > text.label {
+      font: 24px sans-serif;
+      text-anchor: middle;
+      stroke: #689636;
+    }
+    div#life-timer-svg.text-center > svg > g.field > .path--background {
+      fill: none;
+      stroke: #25a7da;
+      stroke-width: 2px;
+    }
+    div#life-timer-svg.text-center > svg > g.field > .path--foreground {
+      fill: #25a7da;
+      stroke: #25a7da;
+      stroke-width: 2px;
+    }
+    div#life-timer-svg.text-center > svg > g.field > text.label {
+      font: 24px sans-serif;
+      text-anchor: middle;
+      stroke: #25a7da;
+    }
+    #life-timer.svg {
+      margin-left: 15px;
+    }
+    .instance-detail {
+      padding-bottom: 0px;
+    }
+  </style>
+
+<body>
 {% endblock %}
 
 {% block navbar %}
@@ -53,17 +93,13 @@
           <div class="section-header">
             <h2>Instance <em>{{ instance.name }}</em></h2>
             <div class="row instance-detail-row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="text-center"><h3><small>Run Timer</small></h3></div>
-                <div class="text-center">
-                  <input id="run-timer" data-angleArc="180" data-angleOffset="270" data-started="{{ instance.started|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="86400" data-width="230" data-height="120" data-inputColor="#689636" data-fgcolor="#8cc152">
-                </div>
+                <div id="run-timer-svg" class="text-center"></div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="text-center"><h3><small>Life Timer</small></h3></div>
-                <div class="text-center">
-                  <input id="life-timer" data-angleArc="180" data-angleOffset="270" data-expires="{{ instance.expires|epoch }}" data-updated="{{ instance.created|epoch }}" data-step="1" data-readOnly=true data-min="0" value="0" data-max="604800" data-width="230" data-height="120" data-inputColor="#25a7da" data-fgcolor="#87ceeb">
-                </div>
+                <div id="life-timer-svg" class="text-center"></div>
               </div>
             </div>
             
@@ -181,12 +217,150 @@
 {% endblock %}
 
 {% block javascript %}
+
 <script type="text/javascript">
   $().ready(function() {
     // standard stuff
     var csrf_token = "{{ csrf_token() }}";
     var channel_token = "{{ channel_token }}";
     var refresh_channel = "{{ refresh_channel }}";
+
+    var width = 430,
+        height = 180;
+
+    var fields = [
+      {value: 24, size: 24, label: "h", update: function(seconds) { return Math.floor(seconds/3600); }},
+      {value: 60, size: 60, label: "m", update: function(seconds) { 
+        var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+        return Math.floor(leftovers/60);
+      }},
+      {value: 60, size: 60, label: "s", update: function(seconds) { 
+        var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+        leftovers = leftovers - (Math.floor(leftovers/60) * 60);
+        return Math.floor(leftovers);
+      }}
+    ];
+
+    var arc = d3.svg.arc()
+        .innerRadius(40)
+        .outerRadius(60)
+        .startAngle(0)
+        .endAngle(function(d) { return (d.value / d.size) * 2 * Math.PI; });
+
+    var svg = d3.select("#run-timer-svg").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    var field = svg.selectAll(".field")
+        .data(fields)
+      .enter().append("g")
+        .attr("transform", function(d, i) { return "translate(" + (i * 2 + 1.2) / 6.9 * width + "," + height / 2 + ")"; })
+        .attr("class", "field");
+
+    field.append("path")
+        .attr("class", "path path--background")
+        .attr("d", arc);
+
+    var path = field.append("path")
+        .attr("class", "path path--foreground");
+
+    var label = field.append("text")
+        .attr("class", "label")
+        .attr("dy", ".35em");
+
+    (function update() {
+      var epoch_time = parseInt((new Date).getTime()/1000);
+      var expires = parseInt({{ instance.expires|epoch }});
+      var sleeps = parseInt({{ instance.started|epoch }})+86400;
+      var life_timer = expires - epoch_time;
+      var run_timer = sleeps - epoch_time;
+      
+      var now = new Date();
+      field
+          .each(function(d) { d.previous = d.value, d.value = d.update(run_timer); });
+
+      path.transition()
+          .ease("elastic")
+          .duration(750)
+          .attrTween("d", arcTween);
+
+      label
+          .text(function(d) { return d.value + d.label; });
+
+      setTimeout(update, 1000 - (now % 1000));
+    })();
+
+    var width = 430,
+        height = 180;
+
+    var fields2 = [
+      {value: 24, size: 24, label: "h", update: function(seconds) { return Math.floor(seconds/3600); }},
+      {value: 60, size: 60, label: "m", update: function(seconds) { 
+        var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+        return Math.floor(leftovers/60);
+      }},
+      {value: 60, size: 60, label: "s", update: function(seconds) { 
+        var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+        leftovers = leftovers - (Math.floor(leftovers/60) * 60);
+        return Math.floor(leftovers);
+      }}
+    ];
+
+    var arc2 = d3.svg.arc()
+        .innerRadius(40)
+        .outerRadius(60)
+        .startAngle(0)
+        .endAngle(function(d) { return (d.value / d.size) * 2 * Math.PI; });
+
+    var svg2 = d3.select("#life-timer-svg").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    var field2 = svg2.selectAll(".field")
+        .data(fields2)
+      .enter().append("g")
+        .attr("transform", function(d, i) { return "translate(" + (i * 2 + 1.2) / 6.9 * width + "," + height / 2 + ")"; })
+        .attr("class", "field");
+
+    field2.append("path")
+        .attr("class", "path path--background")
+        .attr("d", arc2);
+
+    var path2 = field2.append("path")
+        .attr("class", "path path--foreground");
+
+    var label2 = field2.append("text")
+        .attr("class", "label")
+        .attr("dy", ".35em");
+
+    (function update2() {
+      var epoch_time = parseInt((new Date).getTime()/1000);
+      var expires = parseInt({{ instance.expires|epoch }});
+      var sleeps = parseInt({{ instance.started|epoch }})+86400;
+      var life_timer = expires - epoch_time;
+      var run_timer = sleeps - epoch_time;
+      
+      var now = new Date();
+      field2
+          .each(function(d) { d.previous = d.value, d.value = d.update(life_timer); });
+
+      path2.transition()
+          .ease("elastic")
+          .duration(750)
+          .attrTween("d", arcTween);
+
+      label2
+          .text(function(d) { return d.value + d.label; });
+
+      setTimeout(update2, 1000 - (now % 1000));
+    })();
+
+    function arcTween(b) {
+      var i = d3.interpolate({value: b.previous}, b);
+      return function(t) {
+        return arc(i(t));
+      };
+    }
 
     // timer knob
     $('#life-timer').knob();
@@ -282,6 +456,7 @@
 
 {% block extras %}
   <script type="text/javascript" src="/js/jquery.knob.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
   <script type="text/javascript" src="/js/jquery.cookie.js"></script>
   <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 {% endblock %}
