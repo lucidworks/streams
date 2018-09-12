@@ -109,7 +109,6 @@
         on: $('#'+this.id).hasClass('enabled')
       }).on('toggle', function (e, active) {
         if (!active) {
-          console.log("disabled");
           uid = this.id.split("_").pop();
           $.ajax({
             url: '/admin/users/?uid='+uid+'&super=0&_csrf_token='+csrf_token,
@@ -118,11 +117,14 @@
               200: function() {
                 alertify.success("User downgrade complete.");
                 setTimeout(function(){ location.reload(); }, 2000);
+              },
+              402: function() {
+                alertify.error("Don't mess with the divine, or the divine may mess with you.");
+                setTimeout(function(){ location.reload(); }, 2000);
               }
             }
           });
         } else {
-          console.log("disabled");
           uid = this.id.split("_").pop();
           $.ajax({
             url: '/admin/users/?uid='+uid+'&super=1&_csrf_token='+csrf_token,
@@ -131,6 +133,9 @@
               200: function() {
                 alertify.success("User upgrade complete.");
                 setTimeout(function(){ location.reload(); }, 2000);
+              },
+              402: function() {
+                alertify.error("Don't mess with the divine, or the divine may mess with you.");
               }
             }
           });
