@@ -30,10 +30,7 @@ from lib import utils, httpagentparser
 from lib.github import github
 from lib import pyotp
 from lib import slack
-logMessage:  "500 - object of type 'NoneType' has no len()"     
-    severity:  "ERROR"     
-    time:  "2018-09-12T23:39:41.393211Z"     
-   }
+
 from lib.marketorestpython.client import MarketoClient
 
 # user login at /login/
