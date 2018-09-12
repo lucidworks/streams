@@ -261,6 +261,9 @@ class StreamsStarterHandler(BaseHandler):
             name = gcinstance['instance']
             password = gcinstance['password']
 
+            if name == "failed":
+                raise Exception("Instance start failed.")
+
             # set up an instance (note there are two ways to create an instance - see below)
             instance = Instance(
                 name = name,
@@ -286,7 +289,7 @@ class StreamsStarterHandler(BaseHandler):
 
 
         except:
-            self.add_message('The system is currently busy starting other instances. Please try again in a few minutes.', 'warning')
+            self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
             return self.redirect_to('instances-list')
 
 
@@ -383,6 +386,10 @@ class InstancesListHandler(BaseHandler):
                 name = gcinstance['instance']
                 password = gcinstance['password']
 
+
+                if name == "failed":
+                    raise Exception("Instance start failed.")
+
                 # set up an instance 
                 instance = Instance(
                     name = name,
@@ -407,7 +414,7 @@ class InstancesListHandler(BaseHandler):
                 return self.redirect_to('instance-detail', **params)
 
             except:
-                self.add_message('The system is currently busy starting other instances. Please try again in a few minutes.', 'warning')
+                self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
         else:
