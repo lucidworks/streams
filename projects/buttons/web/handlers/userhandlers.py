@@ -30,7 +30,10 @@ from lib import utils, httpagentparser
 from lib.github import github
 from lib import pyotp
 from lib import slack
-
+logMessage:  "500 - object of type 'NoneType' has no len()"     
+    severity:  "ERROR"     
+    time:  "2018-09-12T23:39:41.393211Z"     
+   }
 from lib.marketorestpython.client import MarketoClient
 
 # user login at /login/
@@ -150,12 +153,13 @@ class CallbackLoginHandler(BaseHandler):
 			# send to marketo if we have email
 			# if len(email) > 3:
 			try:
-				email = email
+				email_test = len(email)
+
 			except Exception as ex:
 				slack.slack_message("New user's email appears to be empty: %s." % ex)
-				email = ""
+				email_test = 0
 
-			if len(email) > 3 and not config.isdev:
+			if email_test > 3 and not config.isdev:
 				try:
 					mc = MarketoClient(config.munchkin_id, config.mclient_id, config.mclient_secret)
 					try:
