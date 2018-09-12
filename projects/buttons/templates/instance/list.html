@@ -138,6 +138,7 @@
                       <th>Instance</th>
                       <th>Status</th>
                       <th>Template</th>
+                      <th>Fusion Version</th>
                       <th>Created</th>
                       <th>End of Life</th>
                       <th>Action</th>
@@ -149,6 +150,7 @@
                       <td><a href="/instance/{{ instance.name }}">{{ instance.name }}</a></td>
                       <td>{{ macros.instance_status(instance.status) }}</td>
                       <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().sid }}</a></td>
+                      <td>{{ instance.stream.get().fusion_version}}
                       <td>{{ instance.created|timendate }}</td>
                       <td>{{ instance.expires|timendate }}</td>
                       <td>
