@@ -199,6 +199,27 @@ class AdminUsersHandler(BaseHandler):
 
         return self.render_template('admin/users.html', **params)
 
+    @user_required
+    @admin_required
+    def post(self):
+        uid = self.request.get('uid')
+        superuser = self.request.get('super')
+
+        # lookup user's auth info
+        user_info = User.get_by_id(long(uid))
+
+        if user_info and superuser == "1":
+            user_info.superuser = True
+            user_info.max_instances = 10
+            user_info.put()
+        elif user_info:
+            user_info.superuser = False
+            user_info.max_instances = 3 # max instances are set here and in model for user
+            user_info.put()
+            
+        params = {"response": "success", "message": "user %s modified" % uid}
+        return self.render_template('api/response.json', **params)
+
 
 class AdminUsersExportHandler(BaseHandler):
     @user_required
