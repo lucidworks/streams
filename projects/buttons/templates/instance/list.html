@@ -125,7 +125,7 @@
                   <button type="button" id="account-settings" class="btn btn-warning">Update Your Profile</button>
                 </div>
                 {% endif %}
-                {% if user_info.max_instances == num_instances %}
+                {% if user_info.max_instances <= num_instances %}
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>At Max Instance Limit</h4>
                   <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. You’ll need to delete one or more if you’d like to add additional instances. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>

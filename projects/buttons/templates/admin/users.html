@@ -46,7 +46,7 @@
                       <th>Created</th>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>Employee?</th>
+                      <th>Super Size</th>
                       <th>Action?</th>
                     </tr>
                   </thead>
@@ -54,16 +54,16 @@
                     {% for user in users %}
                     <tr>
                       <td>{{ user.username }}</td>
-                      <td>{{ user.created }}
+                      <td>{{ user.created|timendate }}
                       <td>{{ user.name }}</td>
                       <td>{{ user.email }}</td>
                       <td>
                         <div class="toggle-modern">
-                          <div id="user-employee-slider" class="toggle enabled"></div>
+                          <div id="supersize-slider_{{user.key.id()}}" class="toggle {% if user.superuser %}enabled{% endif %}"></div>
                         </div>
                       </td>
                       <td>
-                        <button type="button" id="remove-{{user.key.id()}}" class="btn btn-danger btn-xs" title="Remove User" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button type="button" id="remove_{{user.key.id()}}" class="btn btn-danger btn-xs" title="Remove User" href="#"><span class="glyphicon glyphicon-remove"></span></button>
                       </td>
                     </tr>
                     {% endfor %}
@@ -101,12 +101,43 @@
     var username = "{{ username }}";
     var csrf_token = "{{ csrf_token() }}";
 
-    // two factor auth slider
-    $('#user-employee-slider').toggles({
-      ontext:'ON',
-      offtext:'OFF',
-      on: $('#user-employee-slider').hasClass('enabled')
+    // super slider
+    $('div[id^="supersize-slider_"]').each(function(index){
+      $('#'+this.id).toggles({
+        ontext:'ON',
+        offtext:'OFF',
+        on: $('#'+this.id).hasClass('enabled')
+      }).on('toggle', function (e, active) {
+        if (!active) {
+          console.log("disabled");
+          uid = this.id.split("_").pop();
+          $.ajax({
+            url: '/admin/users/?uid='+uid+'&super=0&_csrf_token='+csrf_token,
+            type: 'POST',
+            statusCode: {
+              200: function() {
+                alertify.success("User downgrade complete.");
+                setTimeout(function(){ location.reload(); }, 2000);
+              }
+            }
+          });
+        } else {
+          console.log("disabled");
+          uid = this.id.split("_").pop();
+          $.ajax({
+            url: '/admin/users/?uid='+uid+'&super=1&_csrf_token='+csrf_token,
+            type: 'POST',
+            statusCode: {
+              200: function() {
+                alertify.success("User downgrade complete.");
+                setTimeout(function(){ location.reload(); }, 2000);
+              }
+            }
+          });
+        }
+      });
     });
+
   });
 </script>
 
