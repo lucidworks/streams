@@ -168,7 +168,7 @@ def create(stream_slug='lou'):
     name = 'button-%s-%s' % (stream_slug, iid)
     password = ""
 
-    while not bool(re.search(r'\d', password))
+    while not bool(re.search(r'\d', password)):
         password = password_generator()
 
     config = {
