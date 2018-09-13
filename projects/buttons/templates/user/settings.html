@@ -144,7 +144,7 @@
           </div>
         </div>
       </div>
-      <p>Please enter or update your account information. <a href="https://lucidworks.com/legal/privacy-policy/">Privacy policy</a>.</p>
+      <p>Please enter or update your account information. You may also want to update your <a href='https://gravatar.com/' target='_blank'>Gravatar Image</a> or review our <a href="https://lucidworks.com/legal/privacy-policy/">privacy policy</a>.</p>
       <div class="row">
         <div class="col-md-6">
           <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
@@ -193,9 +193,6 @@
     $('#generate_api_token').click(function() {
       window.location = "/settings/?generate_api_token=1";
     });
-
-    // gravatar update link
-    $("label[for='email'").append("&nbsp;<small>+ <a href='https://gravatar.com/' target='_blank'>Gravatar Image</a></small>");
 
     $('#user-delete').click( function() {
       $('#delete').modal();
