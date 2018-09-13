@@ -35,14 +35,23 @@
             <div class="row">
               <div class="col-md-12">
                 <p>Lucidworks Labs provides a quick and easy way to start demo instances of Lucidworks Fusion on Google Cloud. A wide variety of different types of search  and data applications can be deployed and configured with this system.</p>
-                <p>If you are looking to download Fusion to run locally, please visit the <a href="https://lucidworks.com/fusion/">Fusion Download</a> page. Please refer to our <a href="https://lucidworks.com/legal/privacy-policy/">Privacy Policy</a> for more information about how we use your information on this site.</p>
-                <div class="bs-callout bs-callout-warning bs-callout-top">
-                  <h4>Looking for Applications?</h4>
-                  <p>You can find a variety of different Fusion-based applications over on the <a href="https://lucidworks.com/labs">main labs site</a>.</p>
-                  <button type="button" id="applications-index" class="btn btn-warning">Browse Applications</button>
+                <div class="bs-callout bs-callout-default bs-callout-top">
+                  <h4>1. Getting Started</h4>
+                  <p>There is a <a href="{{ uri_for('labdocs') }}">getting started guide</a> on the documentation page.</p>
+                  <button type="button" id="getting-started-docs" class="btn btn-default"><span class="glyphicon glyphicon-book"></span> View Labs Documentation</button>
                 </div>
-                <p>There is a <a href="{{ uri_for('labdocs') }}">getting started guide</a> on the documentation page.</p>
-                <h4>Video</h4>
+                <div class="bs-callout bs-callout-default bs-callout-top">
+                  <h4>2. Explore Applications</h4>
+                  <p>You can find a variety of different Fusion-based applications over on the <a href="https://lucidworks.com/labs">main labs site</a>.</p>
+                  <button type="button" id="applications-index" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Browse Applications</button>
+                </div>
+                <div class="bs-callout bs-callout-default bs-callout-top">
+                  <h4>3. Launch Instances</h4>
+                  <p>Instances are managed and accessed from your <a href="{{ uri_for('instances-list') }}">Instances</a> page. There's also a link in the left menu.</p>
+                  <button type="button" id="instances-list" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Quick Launch a Fusion Instance</button>
+                </div>
+                <p>If you are looking to download Fusion to run locally, please visit the <a href="https://lucidworks.com/fusion/">Fusion Download</a> page. Please refer to our <a href="https://lucidworks.com/legal/privacy-policy/">Privacy Policy</a> for more information about how we use your information on this site.</p>
+                <h4>Watch a Streams Video</h4>
                 <p>Take a few minutes and let us show you how to start Fusion instances using the Lucidworks Labs site!</p>
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/UUpBAxvf5aQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
               </div>
@@ -77,10 +86,15 @@
     $('#applications-index').click(function() {
       window.location = "https://lucidworks.com/labs";
     });
-    
+
+    // review settings
+    $('#getting-started-docs').click(function() {
+      window.location = "{{ uri_for('labdocs') }}";
+    });  
+
     // review settings
     $('#instances-list').click(function() {
-      window.location = "{{ uri_for('instances-list') }}";
+      window.location = "/instance/create/starter";
     });  
   });
 
