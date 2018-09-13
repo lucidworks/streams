@@ -7,6 +7,7 @@ import string
 import sys
 import os
 import time
+import re
 
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 def password_generator(size=12, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
@@ -165,7 +166,10 @@ def create(stream_slug='lou'):
     # name and machine type
     iid = id_generator()
     name = 'button-%s-%s' % (stream_slug, iid)
-    password = password_generator()
+    password = ""
+
+    while not bool(re.search(r'\d', password))
+        password = password_generator()
 
     config = {
         'name': name,
