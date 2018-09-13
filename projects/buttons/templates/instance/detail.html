@@ -91,7 +91,8 @@
 
         <div class="col-md-12">
           <div class="section-header">
-            <h2>Instance <em>{{ instance.name }}</em></h2>
+            <h2><em>{{ instance.name }}</em></h2>
+            {% if instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
             <div class="row instance-detail-row">
               <div class="col-md-6">
                 <div class="text-center"><h3><small>Run Timer</small></h3></div>
@@ -225,6 +226,31 @@
     var channel_token = "{{ channel_token }}";
     var refresh_channel = "{{ refresh_channel }}";
 
+    var eta_epoch_time = parseInt((new Date).getTime()/1000);
+    var eta_started = parseInt({{ instance.started|epoch }});
+    var eta_epoch = eta_epoch_time - eta_started;
+    if (eta_epoch < 600) {
+      var eta_minutes = 10 - (eta_epoch / 60);
+    } else {
+      var eta_minutes = 0;
+    }
+    $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
+
+    // eta
+    setInterval(function() {
+      var eta_epoch_time = parseInt((new Date).getTime()/1000);
+      var eta_started = parseInt({{ instance.started|epoch }});
+      var eta_epoch = eta_epoch_time - eta_started;
+      if (eta_epoch < 600) {
+        var eta_minutes = 10 - (eta_epoch / 60);
+      } else {
+        var eta_minutes = 0;
+      }
+      $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
+      console.log("Instance {{ instance.name }} starting in about "+parseInt(eta_minutes)+" minutes.");
+    }, 20000);
+
+    // all this duplication needs to be refactored
     var width = 430,
         height = 180;
 
@@ -375,27 +401,6 @@
         return arc(i(t));
       };
     }
-
-    // timer knob
-    $('#life-timer').knob();
-    $('#run-timer').knob();
-    setInterval(function() {
-      var epoch_time = parseInt((new Date).getTime()/1000);
-      var expires = parseInt($('#life-timer').attr('data-expires'));
-      var sleeps = parseInt($('#run-timer').attr('data-started'))+86400;
-      var life_timer = expires - epoch_time;
-      var run_timer = sleeps - epoch_time;
-      if (run_timer > -1) {
-        $('#run-timer').val(run_timer).trigger("change");
-      } else {
-        $('#run-timer').val(0).trigger("change");
-      }
-      if (life_timer > -1) {
-       $('#life-timer').val(life_timer).trigger("change");
-      } else {
-        $('#life-timer').val(0).trigger("change");
-      }
-    }, 1000);
 
     // apps index
     $('#instance-list').click(function() {

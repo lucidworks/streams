@@ -56,7 +56,7 @@ pip install google-auth-httplib2
 cd /;
 git clone https://github.com/lucidworks/streams
 cd /streams/projects/buttons/fastener/;
-screen -dmS buttons sudo python main.py
+screen -dmS buttons bash -c "sudo python main.py; exec bash"
 '
 
 #gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
