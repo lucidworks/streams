@@ -159,6 +159,7 @@
                         {% endif %}
                         {% if instance.admin_link %}
                         <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="glyphicon glyphicon-cog"></span></button>
+                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="glyphicon glyphicon-cog"></span></button>
                         {% endif %}
                         {% if instance.app_link %}
                         <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
@@ -221,6 +222,10 @@
     $('#update-email-modal').modal();
     $('#email').focus();
     
+    var dummyContent = "this guy is the bomb";
+    var dummy = $('<input>').val(dummyContent).appendTo('body').select()
+    document.execCommand('copy')
+
     $('#applications-index').click(function() {
       $('#update-email-modal').modal();
       $('#email').focus();
