@@ -189,7 +189,7 @@ class InstanceTenderHandler(BaseHandler):
                                 slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
                         
                         except:
-                            slack.slack_message("ERROR: failed deleting instance %s's from Google Cloud." % name)
+                            slack.slack_message("ERROR: failed deleting instance %s from Google Cloud." % name)
 
         else:
             # no instances from cloud - this should never run
@@ -382,7 +382,7 @@ class InstancesListHandler(BaseHandler):
             # make the instance call handle
             http = httplib2.Http(timeout=10)
             
-            # where and who created it
+            # where and who created it (labels for google cloud console)
             if config.isdev:
                 iuser = "%s-%s" % ("dev", user_info.username)
             else:
@@ -399,7 +399,6 @@ class InstancesListHandler(BaseHandler):
             try:
                 # pull the response back TODO add error handling
                 response, content = http.request(url, 'POST', None, headers={})
-                print content
                 gcinstance = json.loads(content)
                 name = gcinstance['instance']
                 password = gcinstance['password']
@@ -470,14 +469,15 @@ class InstancesListHandler(BaseHandler):
                         "email": user_info.email,
                         "firstName": first,
                         "lastName": last,
-                        "company": company
+                        "company": company,
+                        "leadSource": config.mclient_leadSource
                     }]
                     lead = mc.execute(
                         method='push_lead',
                         leads=leads,
                         lookupField='email',
-                        programName='Lucidworks Streams - GitHub',
-                        programStatus='Visited'
+                        programName=config.mclient_programName,
+                        programStatus=config.mclient_programStatus
                     )
 
                 except Exception as ex:
