@@ -110,11 +110,11 @@
                 <h4>About This Temporary Instance</h4>
                 <ul class="guide">
                   <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
-                  {% if instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
+                  {% if instance.status == "TERMINATED" %}<li>This instance has been terminated, but may be restarted.</li>{% elif instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
                   <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
-                  <li>Stopped instances may be restarted at any time before their <em>life timer</em> runs out.</li>
+                  <li>Terminated instances may be restarted at any time before their <em>life timer</em> runs out.</li>
                   <li>The <em>life timer</em> for this instance is set to expire after <strong> 168 hours (7 days)</strong>.</li>
-                  <li>When a <em>life timer</em> runs out, the instance will be terminated and deleted.</li>
+                  <li>When a <em>life timer</em> runs out, the instance will be <strong>terminated AND deleted</strong>.</li>
                 </ul>
                 <p><button type="button" id="instance-guide" class="btn btn-warning">Close Guide</button></p>
               </div>
@@ -143,7 +143,7 @@
                       </tr>
                      </tr>
                         <td><strong>Admin Password</strong></td>
-                        <td id="tdpassword-{{ instance.password }}"><em>{% if instance.password %}{{ instance.password }}{% else %}N/A{% endif %} </em><span id="password-{{ instance.password }}" class="glyphicon glyphicon-copy"></span></td>
+                        <td id="tdpassword-{{ instance.password }}"><em>{% if instance.password %}{{ instance.password }} </em><span id="password-{{ instance.password }}" class="glyphicon glyphicon-lock"></span>{% else %}N/A</em>{% endif %}</td>
                       </tr>
                       <tr>
                         <td><strong>Public IPv4</strong></td>
