@@ -73,6 +73,7 @@ class Stream(ndb.Model):
 	app_stub = ndb.StringProperty()
 	labs_link = ndb.StringProperty()
 	fusion_version = ndb.StringProperty()
+	hot_starts = ndb.IntegerProperty(default=3)
 
 	@classmethod
 	def get_all(cls):

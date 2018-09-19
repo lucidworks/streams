@@ -30,10 +30,17 @@ def user_required(handler):
 			auth = self.auth.get_user_by_session()
 
 			if auth:
-				return handler(self, *args, **kwargs)
-			else:
-				next = self.request.url
-				return self.redirect(self.uri_for('login', next=next))
+				# check the user
+				user_id = str(auth['user_id'])
+				user_info = models.User().get_by_uid(user_id)
+
+				# if both exist serve page
+				if user_id:
+					return handler(self, *args, **kwargs)
+
+			# otherwise, force to login
+			next = self.request.url
+			return self.redirect(self.uri_for('login', next=next))	
 
 		except AttributeError, e:
 			# avoid AttributeError when the session was deleted from the server

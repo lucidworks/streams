@@ -175,14 +175,14 @@ class CallbackLoginHandler(BaseHandler):
 						"firstName": first,
 						"lastName": last,
 						"company": company,
-						"leadSource": "Product Download - GitHub" # per request from JK
+						"leadSource": config.mclient_leadSource
 					}]
 					lead = mc.execute(
 						method='push_lead',
 						leads=leads,
 						lookupField='email',
-						programName='Lucidworks Streams - GitHub',
-						programStatus='Visited'
+						programName=config.mclient_programName,
+						programStatus=config.mclient_programStatus
 					)
 				except Exception as ex:
 					slack.slack_message("Marketo lead create failed because %s." % ex)
