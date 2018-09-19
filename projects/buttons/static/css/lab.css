@@ -26,6 +26,9 @@ pre {
   border: 0px;
   border-radius: 0px;
 }
+.btn-group-xs>.btn, .btn-xs {
+  margin-bottom: 3px;
+}
 .nav-tabs {
   background-color: #F9F9F9;
 }

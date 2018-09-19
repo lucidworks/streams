@@ -24,6 +24,7 @@ import config
 import web.forms as forms
 from web.models.models import User
 from web.models.models import LogVisit
+from web.models.models import NextPages
 from web.basehandler import BaseHandler
 from web.basehandler import user_required
 from lib import utils, httpagentparser
@@ -36,21 +37,24 @@ from lib.marketorestpython.client import MarketoClient
 # user login at /login/
 class LoginHandler(BaseHandler):
 	def get(self):
+		# next url handling (in the event of veering off path to a page)
+		url = self.request.get('next')
+
+		if url:
+			page = NextPages(
+				url = url,
+				npid = utils.generate_token(size=12).lower()
+			)
+			page.put()
+
 		# card for slack
 		if "slackbot" in self.request.headers.get('User-Agent').lower():
-			next = self.request.url
-			return self.redirect(self.uri_for('slack-card', next=next))
+			return self.redirect(self.uri_for('slack-card'))
 
-		callback_url = "%s/login/complete" % (self.request.host_url)
-
-		# deal with next page handling after logging in
-		next = self.request.get('next')
-		# is this safe?
-		utils.write_cookie(self, "next", str(next), '/', expires=7200)
-
+		# login with github only at this point
 		try:
 			scope = 'user:email'
-			github_helper = github.GithubAuth(scope)
+			github_helper = github.GithubAuth(scope, npid=page.npid)
 
 			# create a github login url and go
 			login_url = github_helper.get_authorize_url()
@@ -59,7 +63,7 @@ class LoginHandler(BaseHandler):
 		except Exception as ex:
 			# add error notice for user TODO
 			self.auth.unset_session()
-			self.redirect_to('index')
+			self.redirect('https://lucidworks.com/labs')
 
 
 # user logout
@@ -77,18 +81,15 @@ class LogoutHandler(BaseHandler):
 		self.redirect('https://lucidworks.com/labs')
 
 
-# google auth callback
+# regular auth callback
 class CallbackLoginHandler(BaseHandler):
-	def get(self):
+	def get(self, npid=None):
 		# get our request code back from the social login handler above
 		code = self.request.get('code')
 
 		# fire up the github auth object
 		scope = 'user:email'
 		github_helper = github.GithubAuth(scope)
-
-		# get the destination URL from the next parameter
-		next = self.request.get('next')
 
 		# retrieve the access token using the code and auth
 		try:
@@ -192,9 +193,17 @@ class CallbackLoginHandler(BaseHandler):
 		# check out 2FA status
 		now_minus_age = datetime.now() + timedelta(0, -config.session_age)
 
+		# load the next destination, if any
+		if npid:
+			np_info = NextPages.get_by_npid(npid)
+			next_page = np_info.url
+			print next_page
+		else:
+			next_page = ""
+		
 		# check if 2FA is on
 		if user_info.tfenabled and (user_info.last_login < now_minus_age): 
-			return self.redirect_to('login-tfa', next=next, uid=user_info.uid)
+			return self.redirect_to('login-tfa', next=next_page, uid=user_info.uid)
 		else:
 			# two factor is disabled, or already complete
 			user_info.last_login = datetime.now()
@@ -216,9 +225,13 @@ class CallbackLoginHandler(BaseHandler):
 
 		self.add_message(message, 'success')
 
-		# take user to next page
-		if next:
-			return self.redirect(str(next))
+		# remove the next page
+		if np_info:
+			np_info.key.delete()
+
+		# get the destination URL from the next cookie
+		if next_page > "":
+			return self.redirect(str(next_page))
 		else:
 			return self.redirect_to('account-dashboard')
 
@@ -241,6 +254,7 @@ class TwoFactorLoginHandler(BaseHandler):
 		# pull in tfa info and user
 		authcode = self.request.get('authcode')
 		uid = self.request.get('uid')
+		next_page = self.request.get('next')
 
 		user_info = User.get_by_uid(str(uid))
 		
@@ -249,7 +263,7 @@ class TwoFactorLoginHandler(BaseHandler):
 		totp = pyotp.TOTP(secret)
 
 		# get the destination URL from the next parameter
-		next = self.request.get('next')
+		# next = self.request.get('next')
 
 		# check if token verifies
 		if totp.verify(authcode):
@@ -264,8 +278,8 @@ class TwoFactorLoginHandler(BaseHandler):
 				user_info.put()
 
 			# take user to next page
-			if next:
-				return self.redirect(str(next))
+			if next_page:
+				return self.redirect(str(next_page))
 			else:
 				return self.redirect_to('account-dashboard')
 		else:
