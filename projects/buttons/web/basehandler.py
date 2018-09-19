@@ -34,7 +34,7 @@ def user_required(handler):
 			else:
 				next = self.request.url
 				return self.redirect(self.uri_for('login', next=next))
-				
+
 		except AttributeError, e:
 			# avoid AttributeError when the session was deleted from the server
 			logging.error(e)

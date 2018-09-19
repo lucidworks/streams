@@ -206,8 +206,26 @@ class InstanceTenderHandler(BaseHandler):
         ######
 
 
-# provide useful link to directly start an instance from another page
+# handle an instance start by showing a non-authenticated dashboard page w/ a dialog
+# if a user exists, forwards to next handler to start the instance
 # /instance/create/<sid>
+class StreamsStarterPage(BaseHandler):
+    def get(self, sid=None):
+        try:
+            user_info = User.get_by_id(long(self.user_id))
+            if user_info:
+                self.redirect_to('streams-start3', sid=sid)
+            else:
+                raise Exception('No user.')
+        except:
+            pass
+
+        params = {'dialog': True}
+        return self.render_template('user/dashboard.html', **params)
+
+
+# provide useful link to directly start an instance from another page
+# /instance/create/<sid>/launch
 # this method and the InstancesListHandler POST method use duplicated code (take care, needs to be refactored)
 class StreamsStarterHandler(BaseHandler):
     @user_required

@@ -102,7 +102,7 @@
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.side_menu("instances", user_id) }}
+    {{ macros.side_menu("instances") }}
     </div>
     <div class="col-md-9">
       <div class="row">
@@ -114,8 +114,9 @@
                 {% if instances %}
                 <p>The status of your current instances are shown below. To create a new Fusion instance, click Create Instance. For details about a particular instance, click on its name.</p>
                 {% else %}
-                <p>There are no instances assigned to this account. Click the <strong>Create Instance</strong> button below to start a new instance from a template.</p>
-                <p>Application templates can  be explored in more detail from the <a href="https://lucidworks.com/labs">Labs index</a>.</p>
+                <p>Click the <strong>Create Instance</strong> button below to start a new instance.</p>
+                <p>Here is a short video guide on how to use this site and Fusion to demo Lucidworks applications.</p>
+                <p><iframe width="560" height="315" src="https://www.youtube.com/embed/UUpBAxvf5aQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
                 {% endif %}
 
                 {% if need_more_info %}
@@ -131,6 +132,7 @@
                   <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. You’ll need to delete one or more if you’d like to add additional instances. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>
                 </div>
                 {% endif %}
+
                 {% if instances %}
                 <table class="table table-hover">
                   <thead>
@@ -159,10 +161,12 @@
                         {% endif %}
                         {% if instance.admin_link %}
                         <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="glyphicon glyphicon-cog"></span></button>
-                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="glyphicon glyphicon-lock"></span></button>
                         {% endif %}
                         {% if instance.app_link %}
                         <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
+                        {% endif %}
+                        {% if instance.password %}
+                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="glyphicon glyphicon-lock"></span></button>
                         {% endif %}
                         <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
                       </td>
@@ -173,6 +177,7 @@
                 {% endif %}
                 <div class="row">
                   <div class="col-md-5">
+                    <button type="button" id="labs-button" class="btn btn-warning">View Applications</button>
                     <button type="button" id="create-instance-button" class="btn btn-success">Create Instance</button>
                   </div>
                 </div>
@@ -221,10 +226,6 @@
     {% if sid %}
     $('#update-email-modal').modal();
     $('#email').focus();
-    
-    var dummyContent = "this guy is the bomb";
-    var dummy = $('<input>').val(dummyContent).appendTo('body').select()
-    document.execCommand('copy')
 
     $('#applications-index').click(function() {
       $('#update-email-modal').modal();
@@ -232,9 +233,31 @@
     });
     {% endif %}
 
-    // apps index
+    // instance list
+    $('#instance-list').click(function() {
+      window.location = "/instances/";
+    });
+
+    // settings
     $('#account-settings').click(function() {
       window.location = "{{ uri_for('account-settings') }}";
+    });
+
+    // labs main
+    $('#labs-button').click(function() {
+      window.location = "https://lucidworks.com/labs";
+    });
+
+    // password buttons
+    $('button[id^="password-"]').each(function(index){
+      $('#'+this.id).click(function() {
+        var password = this.id.split("-").pop();
+        console.log(password);
+        var dummy = $('<input>').val(password).appendTo('body').select();
+        document.execCommand('copy');
+        alertify.success("Password copied.");
+        dummy.remove();
+      });
     });
 
     // applink buttons

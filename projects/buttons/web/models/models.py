@@ -123,6 +123,17 @@ class Instance(ndb.Model):
 		return cls.query().filter(cls.name == name).get()
 
 
+# next pages model
+class NextPages(ndb.Model):
+	timestamp = ndb.DateTimeProperty(auto_now_add=True)
+	url = ndb.StringProperty()
+	npid = ndb.StringProperty()
+	
+	@classmethod
+	def get_by_npid(cls, npid):
+		return cls.query().filter(cls.npid == npid).get()
+
+
 # log tracking pings
 class LogTracking(ndb.Model):
 	timestamp = ndb.DateTimeProperty(auto_now_add=True)

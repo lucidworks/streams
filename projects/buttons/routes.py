@@ -14,6 +14,7 @@ _routes = [
 	RedirectRoute('/login/', userhandlers.LoginHandler, name='login', strict_slash=True),
 	RedirectRoute('/logout/', userhandlers.LogoutHandler, name='logout', strict_slash=True),
 	RedirectRoute('/login/complete', userhandlers.CallbackLoginHandler, name='login-complete', strict_slash=True),
+	RedirectRoute('/login/complete/<npid>', userhandlers.CallbackLoginHandler, name='login-complete2', strict_slash=True),
 	RedirectRoute('/login/tfa', userhandlers.TwoFactorLoginHandler, name='login-tfa', strict_slash=True),
 	RedirectRoute('/settings/', userhandlers.SettingsHandler, name='account-settings', strict_slash=True),
 	RedirectRoute('/settings/tfa', userhandlers.TwoFactorSettingsHandler, name='account-tfa', strict_slash=True),
@@ -21,8 +22,13 @@ _routes = [
 
 	# user's instances
 	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
-	RedirectRoute('/instance/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start', strict_slash=True),	
-	RedirectRoute('/instances/create/<sid>', instancehandlers.InstancesListHandler, name='streams-start2', strict_slash=True),
+
+	# launch instances links	
+	RedirectRoute('/instance/create/<sid>', instancehandlers.StreamsStarterPage, name='streams-start', strict_slash=True),	
+	RedirectRoute('/instances/create/<sid>', instancehandlers.StreamsStarterPage, name='streams-start2', strict_slash=True),
+	RedirectRoute('/instance/create/<sid>/launch', instancehandlers.InstancesListHandler, name='streams-start3', strict_slash=True),	
+
+	# other instance things
 	RedirectRoute('/instance/tender', instancehandlers.InstanceTenderHandler, name='instance-tender', strict_slash=True),
 	RedirectRoute('/instance/<name>', instancehandlers.InstanceDetailHandler, name='instance-detail', strict_slash=True),
 	RedirectRoute('/instance/<name>/console', instancehandlers.InstanceConsoleHandler, name='instance-console', strict_slash=True),

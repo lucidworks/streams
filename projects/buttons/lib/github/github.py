@@ -27,7 +27,13 @@ import logging
 ##############
 class GithubAuth(object):
     
-    def __init__(self, scope, next_page=''):
+    def __init__(self, scope, npid=None):
+
+        # check if next needs to be added
+        if npid:
+            next_page = "%s/%s" % (config.github_redirect_uri, npid)
+        else:
+            next_page = config.github_redirect_uri
 
         # load github shizzle from config.py
         self.oauth_settings = {
@@ -35,7 +41,7 @@ class GithubAuth(object):
             'client_secret': config.github_client_secret,
             'access_token_url': 'https://%s/login/oauth/access_token' % config.github_server,
             'authorization_url': 'https://%s/login/oauth/authorize' % config.github_server,
-            'redirect_url': '%s' % config.github_redirect_uri,
+            'redirect_url': '%s' % next_page,
             'scope': '%s' % scope,
         }
 
