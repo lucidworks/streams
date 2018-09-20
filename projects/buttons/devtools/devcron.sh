@@ -4,7 +4,7 @@ while [ 1 ]
 do
   echo "Running tasks"
   curl -s http://0.0.0.0:8079/instance/tender
-
+  curl -s http://0.0.0.0:8079/instance/hotstarts
   echo "Running in 60"
   sleep 30
   echo "Running in 30"
