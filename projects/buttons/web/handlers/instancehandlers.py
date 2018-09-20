@@ -39,6 +39,11 @@ class InstanceHotStartsHandler(BaseHandler):
                 dinstances.append(instance)
                 instance.key.delete()
                 slack.slack_message("Hotstart instance %s deleted for being at risk for preemption!" % instance.name)
+            if instance.status == "TERMINATED":
+                # if this instance was started and then preempted
+                dinstances.append(instance)
+                instance.key.delete()
+                slack.slack_message("Hotstart instance %s deleted due to being terminated!" % instance.name)
 
         # for return of started instances
         sinstances = []
