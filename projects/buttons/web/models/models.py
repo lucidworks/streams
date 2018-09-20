@@ -88,7 +88,7 @@ class Stream(ndb.Model):
 
 # instances
 class Instance(ndb.Model):
-	created = ndb.DateTimeProperty(auto_now_add=True)
+	created = ndb.DateTimeProperty(indexed=True, auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
 	started = ndb.DateTimeProperty()
 	expires = ndb.DateTimeProperty()
@@ -100,7 +100,7 @@ class Instance(ndb.Model):
 	password = ndb.StringProperty() # admin password
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
-	hotstart = ndb.BooleanProperty(default=False)
+	hotstart = ndb.BooleanProperty(indexed=True, default=False)
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
@@ -112,7 +112,7 @@ class Instance(ndb.Model):
 
 	@classmethod
 	def get_hotstarts(cls):
-		query = cls.query().filter(cls.hotstart == True).order(+cls.created)
+		query = cls.query().filter(cls.hotstart==True).order(+cls.created)
 		instances = query.fetch()
 		return instances
 
