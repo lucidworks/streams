@@ -139,11 +139,27 @@ class AdminInstancesHandler(BaseHandler):
         # lookup user's auth info
         user_info = User.get_by_id(long(self.user_id))
 
-        # look up instances
+        # look up instances, then patch them for hotstart support
+        pinstances = []
         instances = Instance.get_all()
+        for instance in instances:
+            try:
+                username_patch = instance.user.get().username 
+            except:
+                username_patch = "#HOTSTART#" # no self
+
+            pinstance = {
+                "name": instance.name,
+                "status": instance.status,
+                "username_patch": username_patch,
+                "created": instance.created,
+                "expires": instance.expires,
+                "key": instance.key
+            }
+            pinstances.append(pinstance)
 
         params = {
-            'instances': instances
+            'instances': pinstances
         }
 
         return self.render_template('admin/instances.html', **params)

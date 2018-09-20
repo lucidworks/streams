@@ -74,7 +74,7 @@
                     <tr>
                       <td>{{ instance.name }}</td>
                       <td>{{ macros.instance_status(instance.status) }}</td>
-                      <td>{{ instance.user.get().username }}</td>
+                      <td>{{ instance.username_patch }}</td>
                       <td>{{ instance.created|timendate }}</td>
                       <td>{{ instance.expires|timendate }}</td>
                       <td><button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button> </td>
