@@ -500,13 +500,14 @@ class InstancesListHandler(BaseHandler):
                 if instance.stream.get().sid == stream.sid:
                     # map to user
                     instance.user = user_info.key
+                    instance.hotstart = False
                     instance.put()
 
                     self.add_message('Instance assigned! Use login buttons to access %s.' % stream.name, 'success')
                     slack.slack_message("Instance type %s assigned for %s!" % (stream.name, user_info.username))
                     return self.redirect_to('instance-detail', name=instance.name)
             #
-            ## TOH TRATS
+            ## TRATS TOH
 
             # make the instance call handle
             http = httplib2.Http(timeout=10)
