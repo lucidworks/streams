@@ -30,6 +30,9 @@ _routes = [
 
 	# other instance things
 	RedirectRoute('/instance/tender', instancehandlers.InstanceTenderHandler, name='instance-tender', strict_slash=True),
+	RedirectRoute('/instance/hotstarts', instancehandlers.InstanceHotStartsHandler, name='instance-hotstarts', strict_slash=True),
+	
+	# user instance views
 	RedirectRoute('/instance/<name>', instancehandlers.InstanceDetailHandler, name='instance-detail', strict_slash=True),
 	RedirectRoute('/instance/<name>/console', instancehandlers.InstanceConsoleHandler, name='instance-console', strict_slash=True),
 	RedirectRoute('/instance/<name>/<command>', instancehandlers.InstanceControlHandler, name='instance-control', strict_slash=True),

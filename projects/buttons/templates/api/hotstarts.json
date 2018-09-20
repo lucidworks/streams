@@ -1,0 +1,11 @@
+{
+	"response": "ok",
+	"hotstarts": [
+		{% for instance in sinstances %}"name": "{{ instance.name }}",{% endfor %}
+		"name": "lastbag"
+	],
+	"hotdeletes": [
+		{% for instance in dinstances %}"name": "{{ instance.name }}",{% endfor %}
+		"name": "lastbag"
+	]
+}

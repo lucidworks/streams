@@ -18,7 +18,96 @@ from lib import utils
 
 from lib.marketorestpython.client import MarketoClient
 
-# API methods for keeping cloud status and appengine db in sync via fastner box API
+# method for keeping hot starts running
+class InstanceHotStartsHandler(BaseHandler):
+    def get(self):
+        # list of streams from db
+        streams = Stream.get_all()
+
+        # get list of host start instances from db
+        instances = Instance.get_hotstarts()
+
+        # for return of started/deleted instances
+        sinstances = []
+        dinstances = []
+
+        # blast old ones
+        for instance in instances:
+            fiveminutesago = datetime.datetime.now() - datetime.timedelta(0, 3600)
+            if instance.created < fiveminutesago:
+                # this instance is SO less (older) than some epoch seconds ago ^
+                dinstances.append(instance)
+                instance.key.delete()
+                slack.slack_message("Hotstart instance %s deleted for being at risk for preemption!" % instance.name)
+
+        # for return of started instances
+        sinstances = []
+
+        # loop over the 'templates' (streams)
+        for stream in streams:
+            running = 0            
+            
+            # check to see if some are running and delete older ones
+            for instance in instances:
+                if instance.stream.get().sid == stream.sid:
+                    running = running + 1
+
+
+            if running < stream.hot_starts:
+                # start up an extra instance for this stream (max starts 1 per minute per template)
+                # make the instance call handler
+                http = httplib2.Http(timeout=10)
+                
+                # where and who created it (labels for google cloud console)
+                if config.isdev:
+                    iuser = "%s-%s" % ("dev", "hotstart")
+                else:
+                    iuser = "%s-%s" % ("prod", "hotstart")
+
+                # build url to call create new instance from stream on fastener box (our instance)
+                url = '%s/api/stream/%s?token=%s&user=%s' % (
+                    config.fastener_host_url,
+                    stream.sid,
+                    config.fastener_api_token,
+                    iuser
+                )
+
+                try:
+                    # pull the response back TODO add more better error handling
+                    response, content = http.request(url, 'POST', None, headers={})
+                    gcinstance = json.loads(content)
+                    name = gcinstance['instance']
+                    password = gcinstance['password']
+
+                    if name == "failed":
+                        raise Exception("Instance start failed.")
+
+                    # set up an instance 
+                    instance = Instance(
+                        name = name,
+                        status = "PROVISIONING",
+                        stream = stream.key,
+                        hotstart = True,
+                        password = password,
+                        expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                        started = datetime.datetime.now()
+                    )
+                    instance.put()
+
+                    # for return
+                    sinstances.append(instance)
+
+                    slack.slack_message("Instance type %s created for HOTSTART!" % stream.name)
+                except Exception as ex:
+                    print ex
+
+        params = {"sinstances": sinstances, "dinstances": dinstances}
+
+        self.response.headers['Content-Type'] = "application/json"
+        return self.render_template('api/hotstarts.json', **params)
+
+
+# methods for keeping cloud status and appengine db in sync via fastner box API
 class InstanceTenderHandler(BaseHandler):
     def get(self):
         try:
@@ -160,7 +249,7 @@ class InstanceTenderHandler(BaseHandler):
                 # make sure we don't delete non-demo instances
                 name = gcinstance['name']
 
-                if 'button' in name:
+                if 'button' in name: # i.e. put 'button' in an instance name & this will delete the instance
                     # handle dev vs. prod instances (need to stage cloud, but all mixed for now)
                     delete = False
                     if config.isdev:
@@ -170,6 +259,7 @@ class InstanceTenderHandler(BaseHandler):
                         if 'prod' in gcinstance['labels']['user']:
                             delete = True
 
+                    ############DELETE#############
                     if delete:        
                         # make the instance call to the control box
                         try:
@@ -255,6 +345,24 @@ class StreamsStarterHandler(BaseHandler):
 
         # get stream
         stream = Stream.get_by_sid(sid)
+
+        ## HOT START
+        # check for a hot start
+        instances = Instance.get_hotstarts()
+
+        for instance in instances:
+            # if this hotstart instance has a matching sid, assign and redirect to it
+            if instance.stream.get().sid == stream.sid:
+                # map to user
+                instance.user = user_info.key
+                instance.hotstart = False
+                instance.put()
+
+                self.add_message('Instance assigned! Use login buttons to access %s.' % stream.name, 'success')
+                slack.slack_message("Instance type %s assigned for %s!" % (stream.name, user_info.username))
+                return self.redirect_to('instance-detail', name=instance.name)
+        #
+        ## TOH TRATS
 
         # make the instance call to the control box
         http = httplib2.Http(timeout=10)
@@ -355,7 +463,7 @@ class InstancesListHandler(BaseHandler):
         return self.render_template('instance/list.html', **params)
 
     @user_required
-    def post(self, sid=None):
+    def post(self, sid=None): # a POST here is a create instance event
         # know the user
         user_info = User.get_by_id(long(self.user_id))
 
@@ -378,6 +486,23 @@ class InstancesListHandler(BaseHandler):
             if (instance_count + 1) > user_info.max_instances:
                 self.add_message('Instance limit reached. This account may only start %s instances. Please delete an existing instance to start a new one!' % user_info.max_instances, 'warning')
                 return self.redirect_to('instances-list')
+
+            ## HOT START
+            # check for a hot start
+            instances = Instance.get_hotstarts()
+
+            for instance in instances:
+                # if this hotstart instance has a matching sid, assign and redirect to it
+                if instance.stream.get().sid == stream.sid:
+                    # map to user
+                    instance.user = user_info.key
+                    instance.put()
+
+                    self.add_message('Instance assigned! Use login buttons to access %s.' % stream.name, 'success')
+                    slack.slack_message("Instance type %s assigned for %s!" % (stream.name, user_info.username))
+                    return self.redirect_to('instance-detail', name=instance.name)
+            #
+            ## TOH TRATS
 
             # make the instance call handle
             http = httplib2.Http(timeout=10)
