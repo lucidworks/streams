@@ -2,6 +2,5 @@ indexes:
 
 - kind: Instance
   properties:
-  - name: user
+  - name: hotstart
   - name: created
-    direction: desc
