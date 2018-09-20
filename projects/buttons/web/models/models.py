@@ -112,7 +112,7 @@ class Instance(ndb.Model):
 
 	@classmethod
 	def get_hotstarts(cls):
-		query = cls.query().filter(cls.hotstart==True).order(+cls.created)
+		query = cls.query().filter(cls.hotstart==True)
 		instances = query.fetch()
 		return instances
 
