@@ -47,13 +47,17 @@ class InstanceHotStartsHandler(BaseHandler):
         for stream in streams:
             running = 0            
             
-            # check to see if some are running and delete older ones
+            # check to see if some are running
             for instance in instances:
                 if instance.stream.get().sid == stream.sid:
                     running = running + 1
 
+            try:
+                hot_starts = stream.hot_starts
+            except:
+                hot_starts = 0
 
-            if running < stream.hot_starts:
+            if running < hot_starts:
                 # start up an extra instance for this stream (max starts 1 per minute per template)
                 # make the instance call handler
                 http = httplib2.Http(timeout=10)
