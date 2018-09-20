@@ -68,11 +68,14 @@ def console(instance_id):
     except:
         return dumps({'error': "need token"})
 
-    result = compute.instances().getSerialPortOutput(
-        project='labs-209320',
-        zone='us-west1-c',
-        instance=instance_id
-    ).execute()
+    try:
+        result = compute.instances().getSerialPortOutput(
+            project='labs-209320',
+            zone='us-west1-c',
+            instance=instance_id
+        ).execute()
+    except Exception as ex:
+        print "error: %s" % ex
 
     return dumps(result)
 
@@ -105,11 +108,14 @@ def delete(instance_id):
     except:
         return dumps({'error': "need token"})
 
-    result = compute.instances().delete(
-        project='labs-209320',
-        zone='us-west1-c',
-        instance=instance_id
-    ).execute()
+    try:
+        result = compute.instances().delete(
+            project='labs-209320',
+            zone='us-west1-c',
+            instance=instance_id
+        ).execute()
+    except Exception as ex:
+        print "error: %s" % ex
 
     return dumps(result)
 
@@ -141,11 +147,15 @@ def start(instance_id):
     except:
         return dumps({'error': "need token"})
 
-    result = compute.instances().start(
-        project='labs-209320',
-        zone='us-west1-c',
-        instance=instance_id
-    ).execute()
+    try:
+        result = compute.instances().start(
+            project='labs-209320',
+            zone='us-west1-c',
+            instance=instance_id
+        ).execute()
+
+    except Exception as ex:
+        print "error: %s" % ex
 
     return dumps(result)
 
