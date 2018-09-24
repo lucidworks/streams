@@ -624,7 +624,7 @@ class InstancesListHandler(BaseHandler):
             
             # redirect back to GET on list, but with a sid AND email in place this time to create
             if sid:
-                return self.redirect_to('streams-start', sid=sid)
+                return self.redirect_to('streams-start3', sid=sid)
             else:
                 return self.redirect_to('instances-list')
 
