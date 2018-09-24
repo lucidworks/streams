@@ -22,17 +22,10 @@ echo "IID: $IID"
 
 STREAM_JSON=`curl https://streams.lucidworks.com/api/stream/$SID`
 
-# if [ "$SID" = "rules" ]; then
-#   STREAM_JSON='{"sid": "rules", "fusion_version":"4.0.2", "distro": "rules-buttons.tgz", "admin_password": "password123"}'
-# fi
-#
-# if [ "$SID" = "starter" ]; then
-#   STREAM_JSON='{"sid": "starter", "fusion_version":"4.0.2", "distro": "starter-buttons.tgz", "admin_password": "password123"}'
-# fi
-#
-# if [ "$SID" = "lou" ]; then
-#   STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
-# fi
+# If needed, the STREAM_JSON can be faked:
+#    if [ "$SID" = "lou" ]; then
+#      STREAM_JSON='{"sid": "lou", "fusion_version":"4.0.2", "distro": "lou-buttons.tgz", "admin_password": "password123"}'
+#    fi
 
 if [ -z "$STREAM_JSON" ]; then
   echo "ERROR: No $SID stream metadata available"
@@ -62,7 +55,6 @@ apt-get install ant -y
 
 DISTRO=`echo $STREAM_JSON | jq -r .distro`
 FUSION_VERSION=`echo $STREAM_JSON | jq -r .fusion_version`
-# ADMIN_PASSWORD=`echo $STREAM_JSON | jq -r .admin_password`
 ADMIN_PASSWORD=`curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/password -H "Metadata-Flavor: Google"`
 FUSION_API_CREDENTIALS="admin:$ADMIN_PASSWORD"
 FUSION_API_BASE=http://localhost:8764/api
@@ -119,6 +111,6 @@ gsutil cp gs://buttons-streams/$DISTRO .
 tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
-export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_USERNAME; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
 echo "$SID-$IID has been Galvanized"
