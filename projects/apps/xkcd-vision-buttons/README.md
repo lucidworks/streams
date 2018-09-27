@@ -6,7 +6,7 @@ To start the [XKCD Vision](https://lucidworks.com/labs/apps/xkcd-vision/) applic
 
 [![Launch XKCD Vision](https://img.shields.io/badge/launch-XKCDVision-green.svg)](https://streams.lucidworks.com/instance/create/xkcdvision)
 
-You will be prompted to login with Github and then given a demo instance.
+You will be prompted to login with Github and then given a demo instance to access.
 
 ## Starting on Fusion
 To load the XKCD Vision application on an existing deployment of Fusion 4.1.0, download the ZIP file in this directory and then click on the "Import App" button in the Fusion Admin Launcher screen. Select the ZIP file and click import to load the application into the instance of Fusion.
