@@ -12,4 +12,8 @@ You will be prompted to login with Github and then given a demo instance.
 To load the XKCD Vision application on an existing deployment of Fusion 4.1.0, download the ZIP file in this directory and then click on the "Import App" button in the Fusion Admin Launcher screen. Select the ZIP file and click import to load the application into the instance of Fusion.
 
 ## Google Vision API
-The 
+The use of Google's Vision API is optional, but does add some additional relevant data to the demo if used. To add the Google Vision APIs to your GCP account, navigate to [API Library](https://console.cloud.google.com/apis/library) for your particular project and search for 'Cloud Vision API'.
+
+Click on the Cloud Vision API card and then click on the enable button to enable the APIs for your GCP account.
+
+To create an auth token to place into Fusion's indexing pipeline REST stage, navigate to your [API credentials page](https://console.cloud.google.com/apis/credentials) and click create credentials..API key and then restrict the new key to the Cloud Vision API. Copy the key and then paste it in the key filed in the Google Vision REST pipeline. 
