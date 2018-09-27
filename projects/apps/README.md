@@ -1,5 +1,5 @@
 # Fusion Application Templates
-This is a directory of sample Fusion application templates. Fusion is an engine which can be configured to solve a variety of search related use cases.
+This is a directory of sample Fusion application templates. Fusion is an analytics and insight (search) engine which can be configured to solve a variety of search related use cases.
 
 You may start an application template by either clicking on the buttons below, or by navigating to [https://streams.lucdiworks.com/instances](https://streams.lucidworks.com/instances) and browsing the existing templates there.
 
