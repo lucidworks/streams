@@ -16,4 +16,9 @@ The use of Google's Vision API is optional, but does add some additional relevan
 
 Click on the Cloud Vision API card and then click on the enable button to enable the APIs for your GCP account.
 
-To create an auth token to place into Fusion's indexing pipeline REST stage, navigate to your [API credentials page](https://console.cloud.google.com/apis/credentials) and click create credentials..API key and then restrict the new key to the Cloud Vision API. Copy the key and then paste it in the key filed in the Google Vision REST pipeline. 
+To create an auth token to place into Fusion's indexing pipeline REST stage, navigate to your [API credentials page](https://console.cloud.google.com/apis/credentials) and click create credentials..API key and then restrict the new key to the Cloud Vision API. Copy the key and then paste it in the key field in the Google Vision REST pipeline. 
+
+## Video Guide
+Here is a video guide for this application:
+
+[![ROBOT OVERLORDS ARE COMING](https://img.youtube.com/vi/1hDeoISjoxw/0.jpg)](https://www.youtube.com/watch?v=1hDeoISjoxw)
