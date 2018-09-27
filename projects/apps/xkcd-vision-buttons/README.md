@@ -1,5 +1,5 @@
 # XKCD Vision
-This Fusion application runs on Fusion 4.1.0. The application is preconfigured to crawl and index the webcomic XKCD, which is written by Randall Munroe and located at https://xkcd.com/.
+This application runs on Fusion 4.1.0. The application is preconfigured to crawl and index the webcomic XKCD, which is written by Randall Munroe and located at https://xkcd.com/.
 
 ## Starting on Lucidworks Labs
 To start the [XKCD Vision](https://lucidworks.com/labs/apps/xkcd-vision/) application on [Lucidworks Labs](https://lucidworks.com/labs), click on the button below.
