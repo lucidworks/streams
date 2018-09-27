@@ -11,6 +11,9 @@ You will be prompted to login with Github and then given a demo instance to acce
 ## Starting on Fusion
 To load the XKCD Vision application on an existing deployment of Fusion 4.1.0, download the ZIP file in this directory and then click on the "Import App" button in the Fusion Admin Launcher screen. Select the ZIP file and click import to load the application into the instance of Fusion.
 
+## Kicking off the Crawl
+Before the application may be used properly, it needs to crawl the XKCD website. To start the crawl, you may reference the video or simply navigate to the `Connectors` panel in Fusion and then click on the XKCD connector and then Run..Start to start the crawl.
+
 ## Google Vision API
 The use of Google's Vision API is optional, but does add some additional relevant data to the demo if used. To add the Google Vision APIs to your GCP account, navigate to [API Library](https://console.cloud.google.com/apis/library) for your particular project and search for 'Cloud Vision API'.
 
