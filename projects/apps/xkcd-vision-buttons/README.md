@@ -4,4 +4,4 @@ This Fusion application runs on Fusion 4.1.0. The application is preconfigured t
 ### Starting
 To start the XKCD Vision application on Lucidworks Labs, click on the button below.
 
-[![Launch XKCD Vision](https://img.shields.io/badge/launch-XKCD-Vison-green.svg)](https://streams.lucidworks.com/instance/create/xkcdvision)
+[![Launch XKCD Vision](https://img.shields.io/badge/launch-XKCDVison-green.svg)](https://streams.lucidworks.com/instance/create/xkcdvision)
