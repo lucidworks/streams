@@ -53,6 +53,11 @@ pip install --upgrade google-api-python-client
 pip install --upgrade pyasn1-modules
 pip install google-auth-httplib2
 
+#upgrade SSL
+sudo mkdir /usr/local/share/ca-certificates/cacert.org
+sudo wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
+sudo update-ca-certificates
+
 cd /;
 git clone https://github.com/lucidworks/streams
 cd /streams/projects/buttons/fastener/;
