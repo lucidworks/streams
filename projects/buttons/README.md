@@ -25,7 +25,7 @@ Be sure to visit <a href="https://github.com/lucidworks/streams">Lucidworks Stre
 ### Video Guide
 The following video guide covers authenticating to the Labs site and starting a simple Fusion application template.
 
-<video>
+[Video Guide](https://www.youtube.com/watch?v=mWoyepguwzE)
 
 ### Signup
 Lucidworks Labs uses your [Github account](https://github.com) for authenticaton. The first time you navigate to any of the pages hosted on the **streams.lucidworks.com** subdomain, you will be redirect to Github and then prompted to allow Labs *read permissions* for accessing your user profile information. If you have provided this information to Github, this may include your name, email address, company name and location.
