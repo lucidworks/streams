@@ -244,14 +244,14 @@ def create(stream_slug='lou'):
             body=config
         ).execute()
     except:
-        try Exception as ex:
+        try:
             time.sleep(5)
             operation = compute.instances().insert(
                 project='labs-209320',
                 zone='us-west1-b',
                 body=config
             ).execute()
-        except:
+        except Exception as ex:
             name = "failed: %s" % ex
             password = "failed"
 
