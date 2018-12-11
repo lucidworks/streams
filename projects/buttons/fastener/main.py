@@ -244,7 +244,7 @@ def create(stream_slug='lou'):
             body=config
         ).execute()
     except:
-        try:
+        try Exception as ex:
             time.sleep(5)
             operation = compute.instances().insert(
                 project='labs-209320',
@@ -252,7 +252,7 @@ def create(stream_slug='lou'):
                 body=config
             ).execute()
         except:
-            name = "failed"
+            name = "failed: %s" % ex
             password = "failed"
 
     response.content_type = 'application/json'
