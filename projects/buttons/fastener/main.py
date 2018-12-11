@@ -183,7 +183,6 @@ def create(stream_slug='lou'):
 
     config = {
         'name': name,
-        'machineType': "zones/us-west1-c/machineTypes/n1-standard-4",
         'scheduling':
         {
             'preemptible': True
@@ -238,6 +237,7 @@ def create(stream_slug='lou'):
     }
 
     try:
+        config['machineType'] = "zones/us-west1-c/machineTypes/n1-standard-4"
         operation = compute.instances().insert(
             project='labs-209320',
             zone='us-west1-c',
@@ -246,6 +246,8 @@ def create(stream_slug='lou'):
     except:
         try:
             time.sleep(5)
+            
+            config['machineType'] = "zones/us-west1-b/machineTypes/n1-standard-4"
             operation = compute.instances().insert(
                 project='labs-209320',
                 zone='us-west1-b',
