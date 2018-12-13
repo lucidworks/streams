@@ -407,7 +407,7 @@ class StreamsStarterHandler(BaseHandler):
                 stream = stream.key,
                 password = password,
                 expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-                started = datetime.dateime.now()
+                started = datetime.datetime.now()
             )
             instance.put()
 
