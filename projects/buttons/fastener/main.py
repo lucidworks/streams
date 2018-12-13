@@ -91,7 +91,8 @@ def console(instance_id):
             instance=instance_id
         ).execute()
     except Exception as ex:
-        print "error: %s" % ex
+        result = {}
+        print "console probably not ready, but here's the actual error: %s" % ex
 
     return dumps(result)
 
