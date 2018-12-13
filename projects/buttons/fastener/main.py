@@ -46,14 +46,26 @@ def list():
     except:
         return dumps({'error': "need token"})
 
-    try:
-        result = compute.instances().list(
-            project='labs-209320',
-            zone='us-west1-c'
-        ).execute()
-        return dumps(result['items'])
+    regions = ['1', '2']
+    zones = ['a', 'b', 'c']
 
-    except Exception as ex:
+    if True:
+        items = []
+        for r in regions:
+            for z in zones:
+                result = compute.instances().list(
+                    project='labs-209320',
+                    zone='us-west%s-%s' % (r, z)
+                ).execute()
+                try:
+                    for item in result['items']:
+                        items.append(item)
+                except:
+                    print "us-west%s-%s has no instances" % (r, z)
+
+        return dumps(items)
+    else:
+        # except Exception as ex:
         print "error: %s" % ex
         return dumps([])
 
@@ -65,13 +77,17 @@ def console(instance_id):
         if request.query['token'] != token:
             return dumps({'error': "need token"})
 
+
     except:
         return dumps({'error': "need token"})
+
+    regionint = instance_id[-2]
+    zonealpha = instance_id[-1]
 
     try:
         result = compute.instances().getSerialPortOutput(
             project='labs-209320',
-            zone='us-west1-c',
+            zone='us-west%s-%s' % (regionint, zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -90,9 +106,12 @@ def stop(instance_id):
     except:
         return dumps({'error': "need token"})
 
+    regionint = instance_id[-2]
+    zonealpha = instance_id[-1]
+
     result = compute.instances().stop(
         project='labs-209320',
-        zone='us-west1-c',
+        zone='us-west%s-%s' % (regionint, zonealpha),
         instance=instance_id
     ).execute()
 
@@ -104,14 +123,15 @@ def delete(instance_id):
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
     except:
         return dumps({'error': "need token"})
 
+    regionint = instance_id[-2]
+    zonealpha = instance_id[-1]
     try:
         result = compute.instances().delete(
             project='labs-209320',
-            zone='us-west1-c',
+            zone='us-west%s-%s' % (regionint, zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -129,9 +149,12 @@ def restart(instance_id):
     except:
         return dumps({'error': "need token"})
 
+    regionint = instance_id[-2]
+    zonealpha = instance_id[-1]
+
     result = compute.instances().reset(
         project='labs-209320',
-        zone='us-west1-c',
+        zone='us-west%s-%s' % (regionint, zonealpha),
         instance=instance_id
     ).execute()
 
@@ -147,10 +170,13 @@ def start(instance_id):
     except:
         return dumps({'error': "need token"})
 
+    regionint = instance_id[-2]
+    zonealpha = instance_id[-1]
+
     try:
         result = compute.instances().start(
             project='labs-209320',
-            zone='us-west1-c',
+            zone='us-west%s-%s' % (regionint, zonealpha),
             instance=instance_id
         ).execute()
 
@@ -173,9 +199,13 @@ def create(stream_slug='lou'):
     except:
         user = "prod-unknown"
 
+    # random region/zone in west
+    zonealpha = random.choice('abc')
+    regionint = random.randint(1,2)
+
     # name and machine type
     iid = id_generator()
-    name = 'button-%s-%s' % (stream_slug, iid)
+    name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha)
     password = ""
 
     while not bool(re.search(r'\d', password)):
@@ -196,7 +226,7 @@ def create(stream_slug='lou'):
         'autoDelete': True,
         'initializeParams': {
             "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20180627",
-            "diskType": "projects/labs-209320/zones/us-west1-c/diskTypes/pd-ssd",
+            "diskType": "projects/labs-209320/zones/us-west%s-%s/diskTypes/pd-ssd" % (regionint, zonealpha),
             "diskSizeGb": "100"
         }
     }]
@@ -236,26 +266,17 @@ def create(stream_slug='lou'):
         }]
     }
 
+    # execute the query
     try:
-        config['machineType'] = "zones/us-west1-c/machineTypes/n1-standard-4"
+        config['machineType'] = "zones/us-west%s-%s/machineTypes/n1-standard-4" % (regionint, zonealpha)
         operation = compute.instances().insert(
             project='labs-209320',
-            zone='us-west1-c',
+            zone='us-west%s-%s' % (regionint, zonealpha),
             body=config
         ).execute()
-    except:
-        try:
-            time.sleep(5)
-            
-            config['machineType'] = "zones/us-west1-b/machineTypes/n1-standard-4"
-            operation = compute.instances().insert(
-                project='labs-209320',
-                zone='us-west1-b',
-                body=config
-            ).execute()
-        except Exception as ex:
-            name = "failed: %s" % ex
-            password = "failed"
+    except Exception as ex:
+        name = "failed"
+        password = "failed"
 
     response.content_type = 'application/json'
     return dumps({'instance': name, 'password': password})
