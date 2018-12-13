@@ -61,7 +61,7 @@ sudo update-ca-certificates
 cd /;
 git clone https://github.com/lucidworks/streams
 cd /streams/projects/buttons/fastener/;
-screen -dmS buttons bash -c "sudo python main.py; exec bash"
+screen -dmS buttons bash -c "start-web.sh"
 '
 
 #gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
