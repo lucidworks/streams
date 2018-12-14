@@ -101,6 +101,7 @@ class Instance(ndb.Model):
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
+	prod = ndb.BooleanProperty(indexed=True, default=False)
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
@@ -113,6 +114,12 @@ class Instance(ndb.Model):
 	@classmethod
 	def get_hotstarts(cls):
 		query = cls.query().filter(cls.hotstart==True)
+		instances = query.fetch()
+		return instances
+
+	@classmethod
+	def get_prod(cls):
+		query = cls.query().filter(cls.prod==True)
 		instances = query.fetch()
 		return instances
 

@@ -99,7 +99,7 @@
 
       <section id="instances" class="group">
         <h3>Instances</h3>
-        <p>Instances may be created directly from your <a href="/instances">instances page</a> or by visiting the various application templates on the <a href="https://lucidworks.com/labs">Labs main page</a>. Once a Fusion instance has been created for you, the Fusion admin UI will be accessable from the instance's IP address and a set of credentials created for the instance.</p>
+        <p>Instances may be created directly from your <a href="/instances">instances page</a>, by visiting the various application templates on the <a href="https://lucidworks.com/labs">Labs main page</a> or using the APIs below. Once a Fusion instance has been created for you, the Fusion admin UI will be accessable from the instance's IP address and a set of credentials created for the instance.</p>
         <p>A sample URI format used to access the Fusion admin UI:</p>
         <pre>http://35.185.228.240:8764/admin/login</pre>
 
@@ -166,16 +166,62 @@
 
       <section id="apis" class="group">
         <h3>Application Programming Interfaces</h3>
-        <p>Lucidworks Labs provides a few basic API methods to allow you to monitor and access your instances programmatically.</p>
+        <p>Lucidworks Labs provides a few basic API methods to start, monitor and access your instances programmatically.</p>
         <p>API calls are made to the following subdomain:</p>
         <pre>streams.lucidworks.com</pre>
+
+        <div id="api-templates-list" class="subgroup">
+          <h3>API Status</h3>
+          <p>Status of the system may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/</strong></p>
+
+<pre>
+curl https://streams.lucidworks.com/api/
+{ 
+  'response': "ok",
+  'result': {
+    'message': "system is operating normally",
+    '5_minute_starts': 20
+  }
+}
+</pre>
+        </div>
+
         <div id="api-token" class="subgroup">
           <h4>API Tokens</h4>
           <p>API tokens may be obtained by navigating to your <a href="{{ uri_for('account-settings') }}">settings page</a> and then clicking on the <strong>Generate API Token</strong> button.</p>
         </div>
-        <div id="api-templates" class="subgroup">
-          <h4>Template API</h4>
-          <p>Template status may be retrieved by making a <strong>GET</strong> request to the following endpoint:</p>
+
+        <div id="api-templates-list" class="subgroup">
+          <h3>Template Methods</h3>
+          <p>Template streams are used to launch a specific application of Fusion.</p>
+          <h4>List</h4>
+          <p>A list of templates running on the system may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/template/</strong></p>
+
+<pre>
+curl https://streams.lucidworks.com/api/template/
+{ 
+  [
+    {
+      'description': "This is Lou.",
+      'name': "Lou Lou"
+      'sid': "lou",
+      'status_stub': "/api/template/lou"
+    },
+    {
+      'description': "A starter for Fusion."
+      'name': "Starter Fusion",
+      'sid': "starter41",
+      'status_stub': "/template/starter41"
+    }
+  ]
+}
+</pre>
+        </div>
+        <div id="api-templates-status" class="subgroup">
+          <h4>Status</h4>
+          <p>Template status may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/template/&lt;template-id&gt;</strong></p>
 
 <pre>
@@ -194,10 +240,10 @@ curl https://streams.lucidworks.com/api/template/lou
 }
 </pre>
         </div>
-        
-        <div id="api-instance" class="subgroup">
-          <h4>Instance API</h4>
-          <p>Instance status may be retrieved by making a <strong>GET</strong> request to the following endpoint:</p>
+        <div id="api-instance-status" class="subgroup">
+          <h3>Instance Methods</h3>
+          <h4>Status</h4>
+          <p>Instance status may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;</strong></p>
           <p>Calls to the <strong>instance</strong> endpoint require a <strong>token</strong> parameter be included in the call.</p>
 
@@ -213,7 +259,93 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx?token=qnSNLUQF8
   "ip": "35.197.70.61",
   "admin_link": "http://35.197.70.61:8764",
   "app_link": "http://35.197.70.61:8764/webapps/lou-demo/",
+  "username": "admin",
+  "password": "ntamgl2afdsp",
   "status": "RUNNING"
+}
+</pre>
+        </div>
+        <div id="api-instance-create" class="subgroup">
+          <h4>List</h4>
+          <p>A list of instances which the token controls can be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/instance/</strong></p>
+          <p>This method takes one parameter:</p>
+          <ul>
+            <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
+          </ul>
+          <p>Calls to the <strong>instance methods</strong> require a <strong>token</strong> parameter be included in the call.</p>
+
+<pre>
+curl "http://streams.lucidworks.com/api/instance?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a"
+{ 
+  [
+    {
+      'name': "button-lou-8uvx1b",
+      'status_stub': "/api/instance/button-lou-8uvx1b"
+    },
+    {
+      'name': "button-starter41-y638b1",
+      'status_stub': "/api/instance/button-starter41-y638b1"
+    }
+  ]
+}
+</pre>
+        </div>
+        <div id="api-instance-create" class="subgroup">
+          <h4>Create</h4>
+          <p>Instances may be started by making a <strong>POST</strong> request to the endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/stream/&lt;template-name&gt;</strong></p>
+          <p>This method takes several parameters:</p>
+          <ul>
+            <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
+            <li><strong>prod=&lt;true|false&gt;</strong> - request non-preemptible instance</li>
+            <li><strong>topic=&lt;topic&gt;</strong> - topic of interest matching [a-z0-9]</li>
+          </ul>
+          <p>Calls to the <strong>instance methods</strong> require a <strong>token</strong> parameter be included in the call. Other parameters are optional.</p>
+
+<pre>
+curl -X POST "http://streams.lucidworks.com/api/stream/starter41?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a&prod=true&topic=foo"
+{
+  "created": "2018-12-14 01:51:29.417217",
+  "updated": "2018-12-14 01:51:29.417242",
+  "started": "2018-12-14 01:51:29.416804",
+  "expires": "2018-12-21 01:51:29.416775",
+  "sid": "starter41",
+  "name": "button-starter41-ehhd2a",
+  "ip": "None",
+  "admin_link": "None",
+  "app_link": "None",
+  "username": "admin",
+  "password": "ntamgl2afdsp",
+  "status": "PROVISIONING"
+}
+</pre>
+        </div>
+        <div id="api-instance-start" class="subgroup">
+          <h4>Start</h4>
+          <p>Preempted instances may be restarted by making a <strong>GET</strong> request to the endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/stream/&lt;template-name&gt;/start</strong></p>
+          <p>This method takes one parameter:</p>
+          <ul>
+            <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
+          </ul>
+          <p>Calls to the <strong>instance</strong> endpoint require a <strong>token</strong> parameter be included in the call.</p>
+
+<pre>
+curl https://streams.lucidworks.com/api/instance/button-lou-8uvx?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a
+{
+  "created": "2018-12-14 01:51:29.417217",
+  "updated": "2018-12-17 23:33:41.297202",
+  "started": "2018-12-17 23:33:41.293804",
+  "expires": "2018-12-21 01:51:29.416775",
+  "sid": "starter41",
+  "name": "button-starter41-ehhd2a",
+  "ip": "None",
+  "admin_link": "None",
+  "app_link": "None",
+  "username": "admin",
+  "password": "ntamgl2afdsp",
+  "status": "PROVISIONING"
 }
 </pre>
         </div>
@@ -254,11 +386,11 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx?token=qnSNLUQF8
           </ul>
         </li>
         <li>
-          <a href="#apis">APIs</a>
+          <a href="#apis">API Methods</a>
           <ul class="nav nav-stacked">
             <li><a href="#api-token">API Tokens</a></li>
-            <li><a href="#api-templates">Template API</a></li>
-            <li><a href="#api-instance">Instance API</a></li>
+            <li><a href="#api-templates-list">Templates</a></li>
+            <li><a href="#api-instance-status">Instances</a></li>
           </ul>
         </li>
       </ul>

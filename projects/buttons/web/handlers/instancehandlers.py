@@ -361,7 +361,7 @@ class StreamsStarterHandler(BaseHandler):
 
         for instance in instances:
             # if this hotstart instance has a matching sid, assign and redirect to it
-            if instance.stream.get().sid == stream.sid:
+            if instance.stream.get().sid == stream.sid and instance.status == "RUNNING":
                 # map to user
                 instance.user = user_info.key
                 instance.hotstart = False
@@ -407,7 +407,7 @@ class StreamsStarterHandler(BaseHandler):
                 stream = stream.key,
                 password = password,
                 expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-                started = datetime.dateime.now()
+                started = datetime.datetime.now()
             )
             instance.put()
 

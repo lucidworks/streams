@@ -8,5 +8,6 @@
   "ip": "{{ instance.ip }}",
   "admin_link": "{{ instance.admin_link }}",
   "app_link": "{{ instance.app_link }}",
+  "password": "{{ instance.password }}",
   "status": "{{ instance.status }}"
 }
