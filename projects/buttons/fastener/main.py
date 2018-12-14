@@ -8,8 +8,10 @@ import sys
 import os
 import time
 import re
+
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 def password_generator(size=12, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
+
 # get the token
 import httplib2
 http = httplib2.Http()
@@ -22,14 +24,20 @@ for item in evalcontent:
                 key,token = item.split('-')
 if not token:
         sys.exit()
+
 # google creds
 credentials = compute_engine.Credentials()
 compute = googleapiclient.discovery.build('compute', 'v1')
+
 # app
 app = Bottle(__name__)
+
+
 @app.route('/')
 def main():
     redirect("https://lucidworks.com/labs")
+
+
 @app.route('/api/instance/list', method='GET')
 def list():
     # token
@@ -67,6 +75,8 @@ def list():
         # except Exception as ex:
         print "error: %s" % ex
         return dumps([])
+
+
 @app.route('/api/instance/<instance_id>/console', method='GET')
 def console(instance_id):
     # token
@@ -87,6 +97,8 @@ def console(instance_id):
         result = {}
         print "console probably not ready, but here's the actual error: %s" % ex
     return dumps(result)
+
+
 @app.route('/api/instance/<instance_id>/stop', method='GET')
 def stop(instance_id):
     # token
@@ -103,6 +115,8 @@ def stop(instance_id):
         instance=instance_id
     ).execute()
     return dumps(result)
+
+
 @app.route('/api/instance/<instance_id>/delete', method='GET')
 def delete(instance_id):
     # token
@@ -122,6 +136,8 @@ def delete(instance_id):
     except Exception as ex:
         print "error: %s" % ex
     return dumps(result)
+
+
 @app.route('/api/instance/<instance_id>/restart', method='GET')
 def restart(instance_id):
     # token
@@ -138,6 +154,8 @@ def restart(instance_id):
         instance=instance_id
     ).execute()
     return dumps(result)
+
+
 @app.route('/api/instance/<instance_id>/start', method='GET')
 def start(instance_id):
     # token
@@ -157,6 +175,8 @@ def start(instance_id):
     except Exception as ex:
         print "error: %s" % ex
     return dumps(result)
+
+
 @app.route('/api/stream/<stream_slug>', method='POST')
 def create(stream_slug='lou'):
     # token
