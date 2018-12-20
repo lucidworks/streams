@@ -121,7 +121,7 @@ class InstanceTenderHandler(BaseHandler):
     def get(self):
         try:
             # grab a list of instances from the Fastener API
-            http = httplib2.Http(timeout=15)
+            http = httplib2.Http(timeout=30)
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
             response, content = http.request(url, 'GET')
         
@@ -215,7 +215,7 @@ class InstanceTenderHandler(BaseHandler):
 
             else:
                 # no instances were found on Google Cloud for this local instance record
-                if instance.created < datetime.datetime.now() - datetime.timedelta(0, 300):
+                if instance.created < datetime.datetime.now() - datetime.timedelta(0, 1800):
                     slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
                     instance.key.delete()
                 else:
@@ -361,7 +361,7 @@ class StreamsStarterHandler(BaseHandler):
 
         for instance in instances:
             # if this hotstart instance has a matching sid, assign and redirect to it
-            if instance.stream.get().sid == stream.sid:
+            if instance.stream.get().sid == stream.sid and instance.status == "RUNNING":
                 # map to user
                 instance.user = user_info.key
                 instance.hotstart = False
