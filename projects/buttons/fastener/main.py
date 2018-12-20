@@ -103,7 +103,7 @@ def console(instance_id):
     try:
         result = compute.instances().getSerialPortOutput(
             project=project,
-            zone='us-%s-%s' % (regions[regionint], zonealpha),
+            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -124,7 +124,7 @@ def stop(instance_id):
     zonealpha = instance_id[-1]
     result = compute.instances().stop(
         project=project,
-        zone='us-%s-%s' % (regions[regionint], zonealpha),
+        zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
         instance=instance_id
     ).execute()
     return dumps(result)
@@ -143,7 +143,7 @@ def delete(instance_id):
     try:
         result = compute.instances().delete(
             project=project,
-            zone='us-%s-%s' % (regions[regionint], zonealpha),
+            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -163,7 +163,7 @@ def restart(instance_id):
     zonealpha = instance_id[-1]
     result = compute.instances().reset(
         project=project,
-        zone='us-%s-%s' % (regions[regionint], zonealpha),
+        zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
         instance=instance_id
     ).execute()
     return dumps(result)
@@ -182,7 +182,7 @@ def start(instance_id):
     try:
         result = compute.instances().start(
             project='project',
-            zone='us-%s-%s' % (regions[regionint], zonealpha),
+            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -230,7 +230,7 @@ def create(stream_slug='lou'):
         'autoDelete': True,
         'initializeParams': {
             "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20181204",
-            "diskType": "projects/%s/zones/us-%s-%s/diskTypes/pd-ssd" % (project, regions[regionint], zonealpha),
+            "diskType": "projects/%s/zones/us-%s-%s/diskTypes/pd-ssd" % (project, regions[int(regionint)], zonealpha),
             "diskSizeGb": "100"
         }
     }]
@@ -267,7 +267,7 @@ def create(stream_slug='lou'):
     }
     # execute the query
     try:
-        config['machineType'] = "zones/us-%s-%s/machineTypes/n1-standard-4" % (regions[regionint], zonealpha)
+        config['machineType'] = "zones/us-%s-%s/machineTypes/n1-standard-4" % (regions[int(regionint)], zonealpha)
         operation = compute.instances().insert(
             project=project,
             zone='us-%s-%s' % (regionint, zonealpha),
