@@ -12,7 +12,8 @@ import re
 def id_generator(size=4, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 def password_generator(size=12, chars=string.ascii_lowercase + string.digits):return ''.join(random.choice(chars) for _ in range(size))
 
-# get the token
+
+# get the token from gcp tag on instance
 import httplib2
 http = httplib2.Http()
 url = 'http://metadata.google.internal/computeMetadata/v1/instance/tags'
@@ -21,10 +22,9 @@ response, content = http.request(url, 'GET', headers=headers)
 evalcontent = eval(content)
 for item in evalcontent:
         if 'token' in item:
-                key,token = item.split('-')
-if not token:
-        sys.exit()
-
+            key,token = item.split('-')
+return token
+            
 # google creds
 credentials = compute_engine.Credentials()
 compute = discovery.build('compute', 'v1', credentials=credentials)
@@ -39,10 +39,12 @@ zones = ['a', 'b', 'c']
 app = Bottle(__name__)
 
 # let's not screw around with other requests
-@error(404)
+@app.error(404)
 def error404(error):
-    client_ip = request.environ.get('REMOTE_ADDR')
-    redirect("http://%s/fyuta" % client_ip  )
+    # client_ip = request.environ.get('REMOTE_ADDR')
+    client_ip = "foo"
+    return dumps({'error': "illegal scan reported from %s" % client_ip, 'response': "fyuta"})
+
 
 # redirect elsewhere
 @app.route('/')
@@ -120,13 +122,16 @@ def stop(instance_id):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
+
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
+
     result = compute.instances().stop(
         project=project,
         zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
         instance=instance_id
     ).execute()
+
     return dumps(result)
 
 
@@ -198,6 +203,7 @@ def create(stream_slug='lou'):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
+ 
     try:
         user = request.query['user']
     except:
@@ -205,17 +211,20 @@ def create(stream_slug='lou'):
 
     # random region/zone from regions/zones arrays above
     zonealpha = random.choice('abc')
-    regionint = random.randint(0,1,2,3)
+    regionint = random.randint(0,3)
 
     # check to see which zone we can use
-    request = service.zones().list(project=project)
+    zone_check = compute_beta.zones().list(project=project)
 
     # name and machine type
     iid = id_generator()
     name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
     password = ""
+
+    # generate a good password
     while not bool(re.search(r'\d', password)):
         password = password_generator()
+
     config = {
         'name': name,
         'scheduling':
@@ -223,6 +232,8 @@ def create(stream_slug='lou'):
             'preemptible': True
         }
     }
+
+
     # boot disk and type
     config['disks'] = [{
         'boot': True,
@@ -234,6 +245,7 @@ def create(stream_slug='lou'):
             "diskSizeGb": "100"
         }
     }]
+
     # service account
     config["serviceAccounts"] = [{
         "email": "%s@appspot.gserviceaccount.com" % project,
@@ -270,11 +282,12 @@ def create(stream_slug='lou'):
         config['machineType'] = "zones/us-%s-%s/machineTypes/n1-standard-4" % (regions[int(regionint)], zonealpha)
         operation = compute.instances().insert(
             project=project,
-            zone='us-%s-%s' % (regionint, zonealpha),
+            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             body=config
         ).execute()
         print operation
     except Exception as ex:
+    print ex
         name = "failed"
         password = "failed"
     response.content_type = 'application/json'
