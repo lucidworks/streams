@@ -32,7 +32,7 @@ compute_beta = discovery.build('compute', 'beta', credentials=credentials)
 project = 'labs-209320'
 
 # regions & zones
-regions = ['central1', 'west1', 'west2', 'central1'] # numbered 0, 1, 2, etc. in name
+regions = ['central1', 'west1', 'west2', 'east4'] # numbered 0, 1, 2, etc. in name
 zones = ['a', 'b', 'c']
 
 # app
@@ -42,7 +42,7 @@ app = Bottle(__name__)
 @error(404)
 def error404(error):
     client_ip = request.environ.get('REMOTE_ADDR')
-    redirect("http://%s/fyuta" % client_ip)
+    redirect("http://%s/fyuta" % client_ip  )
 
 # redirect elsewhere
 @app.route('/')
@@ -273,7 +273,7 @@ def create(stream_slug='lou'):
             zone='us-%s-%s' % (regionint, zonealpha),
             body=config
         ).execute()
-    print operation
+        print operation
     except Exception as ex:
         name = "failed"
         password = "failed"
