@@ -8,7 +8,7 @@ NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 
 gcloud compute instances create $NAME-$NEW_UUID \
 --machine-type $TYPE \
---image "ubuntu-1604-xenial-v20180612" \
+--image "ubuntu-1604-xenial-v20181204" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
@@ -34,11 +34,11 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
-wget -nv https://storage.googleapis.com/streams-fusion/fusion-4.0.2.tar.gz
-tar xvfz fusion-4.0.2.tar.gz
+wget -nv https://storage.googleapis.com/streams-fusion/fusion-4.1.1.tar.gz
+tar xvfz fusion-4.1.1.tar.gz
 fi
 # just start it up
-/fusion/4.0.2/bin/fusion start
+/fusion/4.1.1/bin/fusion start
 '
 
 sleep 15
