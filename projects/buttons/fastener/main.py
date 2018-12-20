@@ -32,9 +32,11 @@ compute = googleapiclient.discovery.build('compute', 'v1')
 # app
 app = Bottle(__name__)
 
+
 @app.route('/')
 def main():
     redirect("https://lucidworks.com/labs")
+
 
 @app.route('/api/instance/list', method='GET')
 def list():
@@ -42,27 +44,32 @@ def list():
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
     except:
         return dumps({'error': "need token"})
-
     regions = ['1', '2']
     zones = ['a', 'b', 'c']
-
     if True:
         items = []
         for r in regions:
             for z in zones:
-                result = compute.instances().list(
-                    project='labs-209320',
-                    zone='us-west%s-%s' % (r, z)
-                ).execute()
+                for x in range(3):
+                    try:
+                        result = compute.instances().list(
+                            project='labs-209320',
+                            zone='us-west%s-%s' % (r, z)
+                        ).execute()
+                        break
+                    except Exception as ex:
+                        print ex
+                        print "sleeping..."
+                        time.sleep(3)
+                        print "waking..."
+                        
                 try:
                     for item in result['items']:
                         items.append(item)
                 except:
                     print "us-west%s-%s has no instances" % (r, z)
-
         return dumps(items)
     else:
         # except Exception as ex:
@@ -76,14 +83,10 @@ def console(instance_id):
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
-
     except:
         return dumps({'error': "need token"})
-
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
-
     try:
         result = compute.instances().getSerialPortOutput(
             project='labs-209320',
@@ -93,7 +96,6 @@ def console(instance_id):
     except Exception as ex:
         result = {}
         print "console probably not ready, but here's the actual error: %s" % ex
-
     return dumps(result)
 
 
@@ -103,20 +105,17 @@ def stop(instance_id):
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
     except:
         return dumps({'error': "need token"})
-
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
-
     result = compute.instances().stop(
         project='labs-209320',
         zone='us-west%s-%s' % (regionint, zonealpha),
         instance=instance_id
     ).execute()
-
     return dumps(result)
+
 
 @app.route('/api/instance/<instance_id>/delete', method='GET')
 def delete(instance_id):
@@ -126,7 +125,6 @@ def delete(instance_id):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
-
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
     try:
@@ -137,8 +135,8 @@ def delete(instance_id):
         ).execute()
     except Exception as ex:
         print "error: %s" % ex
-
     return dumps(result)
+
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
 def restart(instance_id):
@@ -146,20 +144,17 @@ def restart(instance_id):
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
     except:
         return dumps({'error': "need token"})
-
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
-
     result = compute.instances().reset(
         project='labs-209320',
         zone='us-west%s-%s' % (regionint, zonealpha),
         instance=instance_id
     ).execute()
-
     return dumps(result)
+
 
 @app.route('/api/instance/<instance_id>/start', method='GET')
 def start(instance_id):
@@ -167,24 +162,20 @@ def start(instance_id):
     try:
         if request.query['token'] != token:
             return dumps({'error': "need token"})
-
     except:
         return dumps({'error': "need token"})
-
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
-
     try:
         result = compute.instances().start(
             project='labs-209320',
             zone='us-west%s-%s' % (regionint, zonealpha),
             instance=instance_id
         ).execute()
-
     except Exception as ex:
         print "error: %s" % ex
-
     return dumps(result)
+
 
 @app.route('/api/stream/<stream_slug>', method='POST')
 def create(stream_slug='lou'):
@@ -194,24 +185,19 @@ def create(stream_slug='lou'):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
-
     try:
         user = request.query['user']
     except:
         user = "prod-unknown"
-
     # random region/zone in west
     zonealpha = random.choice('abc')
     regionint = random.randint(1,2)
-
     # name and machine type
     iid = id_generator()
     name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha)
     password = ""
-
     while not bool(re.search(r'\d', password)):
         password = password_generator()
-
     config = {
         'name': name,
         'scheduling':
@@ -219,7 +205,6 @@ def create(stream_slug='lou'):
             'preemptible': True
         }
     }
-
     # boot disk and type
     config['disks'] = [{
         'boot': True,
@@ -231,7 +216,6 @@ def create(stream_slug='lou'):
             "diskSizeGb": "100"
         }
     }]
-
     # service account
     config["serviceAccounts"] = [{
         "email": "labs-209320@appspot.gserviceaccount.com",
@@ -241,11 +225,9 @@ def create(stream_slug='lou'):
             "https://www.googleapis.com/auth/service.management.readonly",
         ]
     }]
-
     # tags ad labels
     config['tags'] = { 'items': ["fusion"] }
     config['labels'] = { 'type': "button", 'sid': stream_slug, 'iid': iid, 'password': password, 'user': user}
-
     # network interface
     config['networkInterfaces'] = [{
         'network': 'global/networks/default',
@@ -253,7 +235,6 @@ def create(stream_slug='lou'):
             {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
         ]
     }]
-
     # metadata
     config["metadata"] = {
         "items": [
@@ -266,7 +247,6 @@ def create(stream_slug='lou'):
             "value": password
         }]
     }
-
     # execute the query
     try:
         config['machineType'] = "zones/us-west%s-%s/machineTypes/n1-standard-4" % (regionint, zonealpha)
@@ -278,7 +258,6 @@ def create(stream_slug='lou'):
     except Exception as ex:
         name = "failed"
         password = "failed"
-
     response.content_type = 'application/json'
     return dumps({'instance': name, 'password': password})
 

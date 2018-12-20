@@ -28,7 +28,7 @@ class IndexHandler(BaseHandler):
 		return self.redirect_to('login')
 
 
-# slackbot card hancler
+# slackbot card handler
 class SlackbotHandler(BaseHandler):
 	def get(self):
 		params = {}
