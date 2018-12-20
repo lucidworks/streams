@@ -1,6 +1,6 @@
 from google.auth import compute_engine
-import googleapiclient.discovery
-from bottle import Bottle, route, run, template, response, request, redirect
+from googleapiclient import discovery
+from bottle import Bottle, route, run, template, response, request, redirect, error
 from json import dumps
 import random
 import string
@@ -27,12 +27,24 @@ if not token:
 
 # google creds
 credentials = compute_engine.Credentials()
-compute = googleapiclient.discovery.build('compute', 'v1')
+compute = discovery.build('compute', 'v1', credentials=credentials)
+compute_beta = discovery.build('compute', 'beta', credentials=credentials)
+project = 'labs-209320'
+
+# regions & zones
+regions = ['central1', 'west1', 'west2', 'central1'] # numbered 0, 1, 2, etc. in name
+zones = ['a', 'b', 'c']
 
 # app
 app = Bottle(__name__)
 
+# let's not screw around with other requests
+@error(404)
+def error404(error):
+    client_ip = request.environ.get('REMOTE_ADDR')
+    redirect("http://%s/fyuta" % client_ip)
 
+# redirect elsewhere
 @app.route('/')
 def main():
     redirect("https://lucidworks.com/labs")
@@ -46,17 +58,16 @@ def list():
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
-    regions = ['1', '2']
-    zones = ['a', 'b', 'c']
-    if True:
+    
+    try:
         items = []
         for r in regions:
             for z in zones:
                 for x in range(3):
                     try:
                         result = compute.instances().list(
-                            project='labs-209320',
-                            zone='us-west%s-%s' % (r, z)
+                            project=project,
+                            zone='us-%s-%s' % (r, z)
                         ).execute()
                         break
                     except Exception as ex:
@@ -69,9 +80,9 @@ def list():
                     for item in result['items']:
                         items.append(item)
                 except:
-                    print "us-west%s-%s has no instances" % (r, z)
+                    print "us-%s-%s has no instances" % (r, z)
         return dumps(items)
-    else:
+    except:
         # except Exception as ex:
         print "error: %s" % ex
         return dumps([])
@@ -85,12 +96,14 @@ def console(instance_id):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
+
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
+
     try:
         result = compute.instances().getSerialPortOutput(
-            project='labs-209320',
-            zone='us-west%s-%s' % (regionint, zonealpha),
+            project=project,
+            zone='us-%s-%s' % (regions[regionint], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -110,8 +123,8 @@ def stop(instance_id):
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
     result = compute.instances().stop(
-        project='labs-209320',
-        zone='us-west%s-%s' % (regionint, zonealpha),
+        project=project,
+        zone='us-%s-%s' % (regions[regionint], zonealpha),
         instance=instance_id
     ).execute()
     return dumps(result)
@@ -129,8 +142,8 @@ def delete(instance_id):
     zonealpha = instance_id[-1]
     try:
         result = compute.instances().delete(
-            project='labs-209320',
-            zone='us-west%s-%s' % (regionint, zonealpha),
+            project=project,
+            zone='us-%s-%s' % (regions[regionint], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -149,8 +162,8 @@ def restart(instance_id):
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
     result = compute.instances().reset(
-        project='labs-209320',
-        zone='us-west%s-%s' % (regionint, zonealpha),
+        project=project,
+        zone='us-%s-%s' % (regions[regionint], zonealpha),
         instance=instance_id
     ).execute()
     return dumps(result)
@@ -168,8 +181,8 @@ def start(instance_id):
     zonealpha = instance_id[-1]
     try:
         result = compute.instances().start(
-            project='labs-209320',
-            zone='us-west%s-%s' % (regionint, zonealpha),
+            project='project',
+            zone='us-%s-%s' % (regions[regionint], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -189,12 +202,17 @@ def create(stream_slug='lou'):
         user = request.query['user']
     except:
         user = "prod-unknown"
-    # random region/zone in west
+
+    # random region/zone from regions/zones arrays above
     zonealpha = random.choice('abc')
-    regionint = random.randint(1,2)
+    regionint = random.randint(0,1,2,3)
+
+    # check to see which zone we can use
+    request = service.zones().list(project=project)
+
     # name and machine type
     iid = id_generator()
-    name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha)
+    name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
     password = ""
     while not bool(re.search(r'\d', password)):
         password = password_generator()
@@ -211,14 +229,14 @@ def create(stream_slug='lou'):
         'type': "PERSISTENT",
         'autoDelete': True,
         'initializeParams': {
-            "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20180627",
-            "diskType": "projects/labs-209320/zones/us-west%s-%s/diskTypes/pd-ssd" % (regionint, zonealpha),
+            "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20181204",
+            "diskType": "projects/%s/zones/us-%s-%s/diskTypes/pd-ssd" % (project, regions[regionint], zonealpha),
             "diskSizeGb": "100"
         }
     }]
     # service account
     config["serviceAccounts"] = [{
-        "email": "labs-209320@appspot.gserviceaccount.com",
+        "email": "%s@appspot.gserviceaccount.com" % project,
         "scopes": [
             "https://www.googleapis.com/auth/devstorage.read_only",
             "https://www.googleapis.com/auth/servicecontrol",
@@ -249,12 +267,13 @@ def create(stream_slug='lou'):
     }
     # execute the query
     try:
-        config['machineType'] = "zones/us-west%s-%s/machineTypes/n1-standard-4" % (regionint, zonealpha)
+        config['machineType'] = "zones/us-%s-%s/machineTypes/n1-standard-4" % (regions[regionint], zonealpha)
         operation = compute.instances().insert(
-            project='labs-209320',
-            zone='us-west%s-%s' % (regionint, zonealpha),
+            project=project,
+            zone='us-%s-%s' % (regionint, zonealpha),
             body=config
         ).execute()
+    print operation
     except Exception as ex:
         name = "failed"
         password = "failed"
