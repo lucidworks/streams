@@ -215,7 +215,7 @@ def create(stream_slug='lou'):
         region = 'us-%s-%s' % (regions[int(regionint)], zonealpha)
 
         # check to see which zone we can use
-        region_check = compute_beta.regions().(project=project,region).execute()
+        region_check = compute_beta.regions().(project=project,region=region).execute()
         
         print region_check
         break
