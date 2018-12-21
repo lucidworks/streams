@@ -22,8 +22,7 @@ response, content = http.request(url, 'GET', headers=headers)
 evalcontent = eval(content)
 for item in evalcontent:
         if 'token' in item:
-            key,token = item.split('-')
-return token
+            key,token = item.split('-')ß
             
 # google creds
 credentials = compute_engine.Credentials()
@@ -209,12 +208,18 @@ def create(stream_slug='lou'):
     except:
         user = "prod-unknown"
 
-    # random region/zone from regions/zones arrays above
-    zonealpha = random.choice('abc')
-    regionint = random.randint(0,3)
+    while True:
+        # random region/zone from regions/zones arrays above
+        zonealpha = random.choice('abc')
+        regionint = random.randint(0,3)
+        region = 'us-%s-%s' % (regions[int(regionint)], zonealpha)
 
-    # check to see which zone we can use
-    zone_check = compute_beta.zones().list(project=project)
+        # check to see which zone we can use
+        region_check = compute_beta.regions().(project=project,region).execute()
+        
+        print region_check
+        break
+
 
     # name and machine type
     iid = id_generator()
@@ -232,7 +237,6 @@ def create(stream_slug='lou'):
             'preemptible': True
         }
     }
-
 
     # boot disk and type
     config['disks'] = [{
@@ -285,9 +289,8 @@ def create(stream_slug='lou'):
             zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             body=config
         ).execute()
-        print operation
     except Exception as ex:
-    print ex
+        print ex
         name = "failed"
         password = "failed"
     response.content_type = 'application/json'
