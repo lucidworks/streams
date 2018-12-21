@@ -216,12 +216,14 @@ def create(stream_slug='lou'):
 
         # check to see which zone we can use
         region_check = compute.regions().get(project=project,region=region).execute()
-        print region_check['quotas']['usage']
-        print region_check['quotas']['limit']
 
-        if region_check['quotas']['usage'] >= region_check['quotas']['limit']:
-            continue
-        else:
+        for quota in region_check['quotas']:
+            if quota['metric'] == "CPUS":
+                usage = quota['usage']
+                limit = quota['limit']
+
+        # we start 4 cpu instances
+        if (usage+4) <= limit:
             break
 
     # name and machine type
