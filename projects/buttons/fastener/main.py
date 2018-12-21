@@ -212,14 +212,17 @@ def create(stream_slug='lou'):
         # random region/zone from regions/zones arrays above
         zonealpha = random.choice('abc')
         regionint = random.randint(0,3)
-        region = 'us-%s-%s' % (regions[int(regionint)], zonealpha)
+        region = 'us-%s' % (regions[int(regionint)])
 
         # check to see which zone we can use
-        region_check = compute_beta.regions().get(project=project,region=region).execute()
-        
-        print region_check
-        break
+        region_check = compute.regions().get(project=project,region=region).execute()
+        print region_check['quotas']['usage']
+        print region_check['quotas']['limit']
 
+        if region_check['quotas']['usage'] >= region_check['quotas']['limit']:
+            continue
+        else:
+            break
 
     # name and machine type
     iid = id_generator()
