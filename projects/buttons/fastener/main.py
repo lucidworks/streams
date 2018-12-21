@@ -22,7 +22,7 @@ response, content = http.request(url, 'GET', headers=headers)
 evalcontent = eval(content)
 for item in evalcontent:
         if 'token' in item:
-            key,token = item.split('-')ß
+            key,token = item.split('-')
             
 # google creds
 credentials = compute_engine.Credentials()
