@@ -1,8 +1,8 @@
 cron:
 - description: "instance tender"
   url: /instance/tender
-  schedule: every 1 mins
+  schedule: every 2 mins
 
 - description: "instance hotstarts"
   url: /instance/hotstarts
-  schedule: every 1 mins
+  schedule: every 5 mins
