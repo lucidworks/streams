@@ -3,10 +3,10 @@ This application is designed to run on Appengine. It starts Fusion instances, wi
 
 The software in this repository is running at [https://streams.lucidworks.com/](https://streams.lucidworks.com)
 
-Bugs and feature requests may be opened and managed on the [issues page for Lucidworks Stream's Github](https://github.com/lucidworks/streams/issues?q=is%3Aopen+is%3Aissue+project%3Alucidworks%2Fstreams%2F2). Please ensure all new issues have a **Buttons** project tag added to them.
+Bugs and feature requests in regards to use of the streams hosted service may be opened and managed on the [issues page for Lucidworks Stream's Github](https://github.com/lucidworks/streams/issues?q=is%3Aopen+is%3Aissue+project%3Alucidworks%2Fstreams%2F2). Please ensure all new issues have a **Buttons** project tag added to them. Issues around installing and running this software locally or on your own GCP account will not be provided until help arrives.
 
 ## Installation
-Installation documentation is forthcoming. Promise.
+Installation documentation is forthcoming. Send help.
 
 ## Quick Start a Demo Instance in Minutes
 A demo instance of Fusion 4.x may be started by clicking on the button below.
