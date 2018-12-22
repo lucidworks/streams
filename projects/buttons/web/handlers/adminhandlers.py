@@ -117,9 +117,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                 except Exception as ex:
                     # the horror
                     params = {"response": "fail", "message": "exception thrown: %s" % ex}
-                    return self.render_template('api/response.json', **params)   
-
-        print token
+                    return self.render_template('api/response.json', **params)
 
         # no token, no user, no data
         self.response.status = '402 Payment Required'
@@ -223,10 +221,9 @@ class AdminTemplatesListAPIHandler(BaseHandler):
         token = self.request.get('token')
         if token != "":
             user_info = User.get_by_token(token)
-            print "foo"
+
             if user_info:
                 templates = Stream.get_all()
-                print templates
                 params = {
                     'templates': templates
                 }
