@@ -1,6 +1,0 @@
-{ 
- "response": "{{ response }}", 
- "message": "{{ message }}",
- "view": "https://streams.lucidworks.com/api/status",
- "timestamp": {{ timestamp }}
-}

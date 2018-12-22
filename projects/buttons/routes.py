@@ -51,9 +51,14 @@ _routes = [
 	RedirectRoute('/admin/streams/<stream_id>/', adminhandlers.AdminStreamsHandler, name='admin-streams-sid', strict_slash=True),
 	RedirectRoute('/admin/instances/<instance_id>/', adminhandlers.AdminInstancesHandler, name='admin-instances-name', strict_slash=True),
 	
-	# api/slack
+	# api/slack (method file and classes need sorting)
+	RedirectRoute('/api/status', sitehandlers.APIStatusHandler, name='api-status', strict_slash=False),
 	RedirectRoute('/api/stream/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=False),
+	RedirectRoute('/api/instance/list', adminhandlers.AdminInstancesListAPIHandler, name='api-instance-list', strict_slash=False),
 	RedirectRoute('/api/instance/<name>', adminhandlers.AdminInstancesAPIHandler, name='api-instances', strict_slash=False),
+	RedirectRoute('/api/template/list', adminhandlers.AdminTemplatesListAPIHandler, name='api-templates', strict_slash=False),
+	RedirectRoute('/api/template/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=False),
+	RedirectRoute('/api/<wildcard>', sitehandlers.APIWildcardHandler, name='api-wildcard', strict_slash=False),
 	RedirectRoute('/slack', sitehandlers.SlackbotHandler, name='slack-card', strict_slash=True)
 ]
 

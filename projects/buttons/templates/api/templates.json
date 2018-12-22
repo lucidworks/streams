@@ -1,0 +1,15 @@
+{
+    "templates": 
+    [
+        {% for template in templates %}
+        {
+            "description": "{{ template.description }}",
+            "name": "{{ template.name }}",
+            "sid": "{{ template.sid }}",
+            "api_stub": "/api/template/{{ template.sid }}"
+        },{% endfor %}
+        {
+            "name": "lastbag"
+        }
+    ]
+}

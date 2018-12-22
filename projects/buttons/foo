@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+set-cookie: dvc=desktop; expires=Sat, 05-Jan-2019 03:34:39 GMT; path=/; HttpOnly
+content-type: application/json; charset=utf-8
+Expires: Sat, 22 Dec 2018 03:34:39 GMT
+Cache-Control: no-cache
+Content-Length: 613
+Server: Development/2.0
+Date: Sat, 22 Dec 2018 03:34:39 GMT
+

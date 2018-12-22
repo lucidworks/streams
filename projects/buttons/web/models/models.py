@@ -118,6 +118,14 @@ class Instance(ndb.Model):
 		return instances
 
 	@classmethod
+	def get_starts(cls, seconds):
+		delta = datetime.now() - timedelta(0, seconds)
+		query = cls.query().filter(cls.started>delta)
+		instances = query.fetch()
+		num_starts = len(instances)
+		return num_starts
+
+	@classmethod
 	def get_prod(cls):
 		query = cls.query().filter(cls.prod==True)
 		instances = query.fetch()
