@@ -1,9 +1,8 @@
-HTTP/1.1 200 OK
-set-cookie: dvc=desktop; expires=Sat, 05-Jan-2019 03:34:39 GMT; path=/; HttpOnly
-content-type: application/json; charset=utf-8
-Expires: Sat, 22 Dec 2018 03:34:39 GMT
-Cache-Control: no-cache
-Content-Length: 613
-Server: Development/2.0
-Date: Sat, 22 Dec 2018 03:34:39 GMT
+HTTP/1.1 302 Found
+Location: https://streams.lucidworks.com/api/stream/starter41?token=6fb7DSGbD3yR6HetcNfV7blQUQi6LZ9zIDiJx40NdTWFQPRBnF7UnX5HuJ99c8LF
+X-Cloud-Trace-Context: 9d418ff66d63dbee7959790b1d22810e
+Date: Sat, 22 Dec 2018 04:43:07 GMT
+Content-Type: text/html
+Server: Google Frontend
+Content-Length: 0
 

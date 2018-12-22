@@ -156,7 +156,7 @@ def delete(instance_id):
 
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
-def restart(instance_id):
+def reset(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -185,7 +185,7 @@ def start(instance_id):
     zonealpha = instance_id[-1]
     try:
         result = compute.instances().start(
-            project='project',
+            project=project,
             zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
