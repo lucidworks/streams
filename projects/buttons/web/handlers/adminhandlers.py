@@ -13,6 +13,7 @@ from web.models.models import User, Stream, Instance
 from lib import slack
 from lib import utils
 
+# creates an instance from a template (create stream)
 class AdminStreamsAPIHandler(BaseHandler):
     # disable csrf check in basehandler
     csrf_exempt = True
@@ -35,111 +36,152 @@ class AdminStreamsAPIHandler(BaseHandler):
         if token != "":
             user_info = User.get_by_token(token)
 
-            # look up streams
-            stream = Stream.get_by_sid(sid)
-            if not stream:
-                params = {"response": "fail", "message": "stream %s does not exist on these endpoints" % sid}
-                return self.render_template('api/response.json', **params)
+            if user_info:
+                # look up streams
+                stream = Stream.get_by_sid(sid)
+                if not stream:
+                    params = {"response": "fail", "message": "stream %s does not exist on these endpoints" % sid}
+                    return self.render_template('api/response.json', **params)
 
-            # look up user's instances
-            db_instances = Instance.get_all()
+                # look up user's instances
+                db_instances = Instance.get_all()
 
-            # check the user's limits
-            instance_count = 0
-            for db_instance in db_instances:
-                # limit to instances the user has started (doing it this way because can't figure out ndb indexing)
-                if db_instance.user == user_info.key:
-                    instance_count = instance_count + 1
+                # check the user's limits
+                instance_count = 0
+                for db_instance in db_instances:
+                    # limit to instances the user has started (doing it this way because can't figure out ndb indexing)
+                    if db_instance.user == user_info.key:
+                        instance_count = instance_count + 1
 
-            # warn and redirect if limit is reached
-            if (instance_count + 1) > user_info.max_instances:
-                params = {"response": "fail", "message": "max instances reached for provided token"}
-                return self.render_template('api/response.json', **params)
+                # warn and redirect if limit is reached
+                if (instance_count + 1) > user_info.max_instances:
+                    params = {"response": "fail", "message": "max instances reached for provided token"}
+                    return self.render_template('api/response.json', **params)
 
-            # make the instance call to the control box
-            http = httplib2.Http(timeout=10)
+                # make the instance call to the control box
+                http = httplib2.Http(timeout=10)
 
-            # where and who created it
-            if config.isdev:
-                iuser = "%s-%s" % ("dev", user_info.username)
-            else:
-                iuser = "%s-%s" % ("prod", user_info.username)
+                # where and who created it
+                if config.isdev:
+                    iuser = "%s-%s" % ("dev", user_info.username)
+                else:
+                    iuser = "%s-%s" % ("prod", user_info.username)
 
-            url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&prod=%s' % (
-                config.fastener_host_url,
-                sid,
-                config.fastener_api_token,
-                iuser,
-                topic,
-                prod
-            )
-
-            try:
-                # pull the response back TODO add error handling
-                # CREATE HAPPENS HERE
-                response, content = http.request(url, 'POST', None, headers={})
-                gcinstance = json.loads(content)
-                name = gcinstance['instance']
-                password = gcinstance['password']
-
-                if name == "failed":
-                    raise Exception("Instance start was delayed due to limits. Try again in a few minutes.")
-
-                # set up an instance
-                instance = Instance(
-                    name = name,
-                    status = "PROVISIONING",
-                    user = user_info.key,
-                    stream = stream.key,
-                    password = password,
-                    expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-                    started = datetime.datetime.now()
+                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&prod=%s' % (
+                    config.fastener_host_url,
+                    sid,
+                    config.fastener_api_token,
+                    iuser,
+                    topic,
+                    prod
                 )
-                instance.put()
 
                 try:
-                    slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
-                except:
-                    print "slack failing"
+                    # pull the response back TODO add error handling
+                    # CREATE HAPPENS HERE
+                    response, content = http.request(url, 'POST', None, headers={})
+                    gcinstance = json.loads(content)
+                    name = gcinstance['instance']
+                    password = gcinstance['password']
 
-                # give the db a second to update
-                if config.isdev:
-                    time.sleep(3)
+                    if name == "failed":
+                        raise Exception("Instance start was delayed due to limits. Try again in a few minutes.")
 
-                params = {'instance': instance}
-                
-                self.response.headers['Content-Type'] = "application/json"
-                return self.render_template('api/instance.json', **params)
+                    # set up an instance
+                    instance = Instance(
+                        name = name,
+                        status = "PROVISIONING",
+                        user = user_info.key,
+                        stream = stream.key,
+                        password = password,
+                        expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                        started = datetime.datetime.now()
+                    )
+                    instance.put()
 
-            except Exception as ex:
-                # the horror
-                params = {"response": "fail", "message": "exception thrown: %s" % ex}
-                return self.render_template('api/response.json', **params)   
+                    try:
+                        slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                    except:
+                        print "slack failing"
+
+                    # give the db a second to update
+                    if config.isdev:
+                        time.sleep(3)
+
+                    params = {'instance': instance}
+                    
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/instance.json', **params)
 
 
-            self.response.headers['Content-Type'] = "application/json"
-            return self.render_template('api/stream.json', **params)
-        # check token
+                except Exception as ex:
+                    # the horror
+                    params = {"response": "fail", "message": "exception thrown: %s" % ex}
+                    return self.render_template('api/response.json', **params)   
+
+        print token
 
         # no token, no user, no data
+        self.response.status = '402 Payment Required'
+        self.response.status_int = 402
+        self.response.headers['Content-Type'] = "application/json"
         params = {"response": "fail", "message": "must include [token] with a valid token"}
         return self.render_template('api/response.json', **params)
 
-
+    # provide info on stream template
     def get(self, sid=None):
         # check token
         token = self.request.get('token')
         if token != "":
             user_info = User.get_by_token(token)
 
-        # look up streams
-        stream = Stream.get_by_sid(sid)
+            # look up streams
+            stream = Stream.get_by_sid(sid)
 
-        params = {
-            'stream': stream
-        }
+            params = {
+                'stream': stream
+            }
+            self.response.headers['Content-Type'] = "application/json"
+            return self.render_template('api/stream.json', **params)
+ 
+        # no token, no user, no data
+        params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
+        return self.render_template('api/response.json', **params)
+
+class AdminInstancesListAPIHandler(BaseHandler):
+    def get(self, name=None):
+        # check token
+        token = self.request.get('token')
+        if token != "":
+            user_info = User.get_by_token(token)
+
+            if user_info:
+                db_instances = Instance.get_all()
+
+                # work around index warning/errors using a .filter() in models.py
+                instances = []
+                for db_instance in db_instances:
+                    # limit to instances the user has started
+                    if db_instance.user == user_info.key:
+                        instances.append(db_instance)
+
+                params = {
+                    'user_id': user_info.uid,
+                    'instances': instances
+                }
+                self.response.headers['Content-Type'] = "application/json"
+                return self.render_template('api/instances.json', **params)
+
+                params = {"response": "fail", "message": "[token] read access denied"}
+                return self.render_template('api/response.json', **params)
+            
+        # no token, no user, no data
+        params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
+
+        self.response.status = '402 Payment Required'
+        self.response.status_int = 402
         self.response.headers['Content-Type'] = "application/json"
-        return self.render_template('api/stream.json', **params)
+        return self.render_template('api/response.json', **params)
 
 
 class AdminInstancesAPIHandler(BaseHandler):
@@ -165,9 +207,38 @@ class AdminInstancesAPIHandler(BaseHandler):
 
                 params = {"response": "fail", "message": "[token] read access denied"}
                 return self.render_template('api/response.json', **params)
-            
+
         # no token, no user, no data
         params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
+
+        self.response.status = '402 Payment Required'
+        self.response.status_int = 402
+        self.response.headers['Content-Type'] = "application/json"
+        return self.render_template('api/response.json', **params)
+
+
+class AdminTemplatesListAPIHandler(BaseHandler):
+    def get(self, name=None):
+        # check token
+        token = self.request.get('token')
+        if token != "":
+            user_info = User.get_by_token(token)
+            print "foo"
+            if user_info:
+                templates = Stream.get_all()
+                print templates
+                params = {
+                    'templates': templates
+                }
+                self.response.headers['Content-Type'] = "application/json"
+                return self.render_template('api/templates.json', **params)
+
+    
+        # no token, no user, no data
+        params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
+        self.response.status = '402 Payment Required'
+        self.response.status_int = 402
+        self.response.headers['Content-Type'] = "application/json"
         return self.render_template('api/response.json', **params)
         
 

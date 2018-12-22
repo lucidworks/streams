@@ -1,0 +1,15 @@
+{
+    "user_id": "{{ user_id }}",
+    "templates":
+    [
+        {% for instance in instances %}
+        {
+            "name": "{{ instance.name }}",
+            "status": "{{ instance.status }}",
+            "api_stub": "/api/instance/{{ instance.name }}"
+        },{% endfor %}
+        {
+            "name": "lastbag"
+        }
+    ]
+}

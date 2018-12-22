@@ -9,5 +9,7 @@
   "admin_link": "{{ instance.admin_link }}",
   "app_link": "{{ instance.app_link }}",
   "password": "{{ instance.password }}",
-  "status": "{{ instance.status }}"
+  "status": "{{ instance.status }}",
+  "uid": "{{ instance.user.get().uid }}",
+  "template": "{{ instance.stream.get().sid }}"
 }
