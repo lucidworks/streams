@@ -162,17 +162,67 @@ class AdminInstancesListAPIHandler(BaseHandler):
                     # limit to instances the user has started
                     if db_instance.user == user_info.key:
                         instances.append(db_instance)
-
                 params = {
-                    'user_id': user_info.uid,
+                    'user_name': user_info.username,
                     'instances': instances
                 }
+
                 self.response.headers['Content-Type'] = "application/json"
                 return self.render_template('api/instances.json', **params)
-
-                params = {"response": "fail", "message": "[token] read access denied"}
-                return self.render_template('api/response.json', **params)
             
+        # no token, no user, no data
+        params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
+
+        self.response.status = '402 Payment Required'
+        self.response.status_int = 402
+        self.response.headers['Content-Type'] = "application/json"
+        return self.render_template('api/response.json', **params)
+
+
+class AdminInstancesStartAPIHandler(BaseHandler):
+    def get(self, name=None):
+        # check token
+        token = self.request.get('token')
+        if token != "":
+            user_info = User.get_by_token(token)
+
+            if user_info:
+                instance = Instance.get_by_name(name)
+
+                try:
+                    if instance.user == user_info.key:
+
+                        # make the instance call to the control box
+                        http = httplib2.Http(timeout=10)
+                        url = '%s/api/instance/%s/start?token=%s' % (
+                            config.fastener_host_url, 
+                            name,
+                            config.fastener_api_token
+                        )
+
+                        # pull the response back TODO add error handling
+                        response, content = http.request(url, 'GET', None, headers={})
+
+                        # update if google returns pending
+                        if json.loads(content)['status'] == "PENDING":
+                            instance.status = "STAGING"
+                            instance.started = datetime.datetime.now()
+                            instance.put()
+
+                        params = {
+                            'instance': instance
+                        }
+
+                        self.response.headers['Content-Type'] = "application/json"
+                        return self.render_template('api/instance.json', **params)
+                
+                except Exception as ex:
+                    print "error %s" % ex 
+                    print "instance %s not found or not in TERMINATED state" % name
+
+                params = {"response": "fail", "message": "[token] read access denied or instance not TERMINATED"}
+                return self.render_template('api/response.json', **params)
+
         # no token, no user, no data
         params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
 
@@ -237,7 +287,7 @@ class AdminTemplatesListAPIHandler(BaseHandler):
         self.response.status_int = 402
         self.response.headers['Content-Type'] = "application/json"
         return self.render_template('api/response.json', **params)
-        
+
 
 class AdminStreamsHandler(BaseHandler):
     @user_required

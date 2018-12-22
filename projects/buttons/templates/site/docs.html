@@ -266,7 +266,7 @@ curl https://streams.lucidworks.com/api/template/lou?token=qnSNLUQF8YzRjiizDr8J0
             <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
           </ul>
 <pre>
-curl https://streams.lucidworks.com/api/instance?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a"
+curl https://streams.lucidworks.com/api/instance/list?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a"
 { 
   [
     {
@@ -307,7 +307,7 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx1b?token=qnSNLUQ
         </div>
         <div id="api-instance-create" class="subgroup">
           <h4>Create</h4>
-          <p>Instances may be started by making a <strong>POST</strong> request to the Stream endpoint:</p>
+          <p>Instances may be created and started by making a <strong>POST</strong> request to the Stream endpoint:</p>
           <p><strong>streams.lucidworks.com/api/stream/&lt;template-name&gt;</strong></p>
           <p>This method takes several parameters:</p>
           <ul>
@@ -316,8 +316,11 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx1b?token=qnSNLUQ
             <li><strong>topic=&lt;topic&gt;</strong> - topic of interest matching [a-z0-9]</li>
             <li><strong>region=&lt;region&gt;</strong> - region in which to start instance</li>
           </ul>
+          <p>This method requires the <code>Content-length</code> header be set to <code>0</code> in the request.</p>
 <pre>
-curl -X POST "https://streams.lucidworks.com/api/stream/starter41?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a&prod=true&topic=foo"
+curl -X POST \
+-d 'Content-length: 0' \
+"https://streams.lucidworks.com/api/stream/starter41?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a&prod=true&topic=foo"
 {
   "created": "2018-12-14 01:51:29.417217",
   "updated": "2018-12-14 01:51:29.417242",
@@ -336,14 +339,14 @@ curl -X POST "https://streams.lucidworks.com/api/stream/starter41?token=qnSNLUQF
         </div>
         <div id="api-instance-start" class="subgroup">
           <h4>Start</h4>
-          <p>Preempted instances may be restarted by making a <strong>GET</strong> request to the endpoint:</p>
-          <p><strong>streams.lucidworks.com/api/stream/&lt;template-name&gt;/start</strong></p>
+          <p>Instances with status <code>TERMINATED</code> were preempted and may be restarted by making a <strong>GET</strong> request to the endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;/start</strong></p>
           <p>This method takes one parameter:</p>
           <ul>
             <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
           </ul>
 <pre>
-curl https://streams.lucidworks.com/api/instance/button-lou-8uvx?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a
+curl https://streams.lucidworks.com/api/instance/button-lou-8uvx/start?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a
 {
   "created": "2018-12-14 01:51:29.417217",
   "updated": "2018-12-17 23:33:41.297202",

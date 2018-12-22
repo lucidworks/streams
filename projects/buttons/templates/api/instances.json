@@ -1,6 +1,6 @@
 {
-    "user_id": "{{ user_id }}",
-    "templates":
+    "username": "{{ user_name }}",
+    "instances":
     [
         {% for instance in instances %}
         {
