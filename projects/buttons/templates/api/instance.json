@@ -5,6 +5,8 @@
   "expires": "{{ instance.expires }}",
   "sid": "{{ instance.stream.get().sid }}",
   "name": "{{ instance.name }}",
+  "topic": "{{ instance.topic }}",
+  "region": "{{ instance.region }}",
   "ip": "{{ instance.ip }}",
   "admin_link": "{{ instance.admin_link }}",
   "app_link": "{{ instance.app_link }}",

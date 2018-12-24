@@ -101,9 +101,9 @@ class Instance(ndb.Model):
 	expires = ndb.DateTimeProperty()
 	user = ndb.KeyProperty(kind=User)
 	stream = ndb.KeyProperty(kind=Stream)
-	region = ndb.KeyProperty(kind=Region)
+	region = ndb.StringProperty(default="any")
 	name = ndb.StringProperty()
-	topic = ndb.StringProperty(default='ai')
+	topic = ndb.StringProperty(default="ai")
 	ip = ndb.StringProperty()
 	admin_link = ndb.StringProperty() # just uses IP + :8764
 	password = ndb.StringProperty() # admin password
