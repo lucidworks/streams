@@ -30,7 +30,7 @@ class AdminStreamsAPIHandler(BaseHandler):
         except:
             region = "any"
 
-        # permanance
+        # permanence
         try:
             prod = self.request.get('prod')
             prod = 1
