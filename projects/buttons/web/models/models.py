@@ -21,11 +21,12 @@ from lib.github import github
 
 
 # region model (not used yet - see fastener main.py for regions)
-class Region(User):
+"""
+class Region(ndb.Model):
 	rid = ndb.IntegerProperty()
 	name = ndb.StringProperty(default="None")
 	in_use = ndb.BooleanProperty(default=True)
-
+"""
 
 # user model - extends webapp2 User model
 class User(User):
