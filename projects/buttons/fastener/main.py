@@ -216,8 +216,9 @@ def create(stream_slug='lou'):
 
     try:
         prod = request.query['prod']
+        preemptible = False
     except:
-        prod = "--preemptible"
+        preemptible = True
 
     while region == "any":
         # trips
@@ -240,6 +241,8 @@ def create(stream_slug='lou'):
         if (usage+4) <= limit:
             break
 
+        time.sleep(4)
+        
         # if we've made more than so many requests, we give up
         if trip > 20:
             name = "failed"
@@ -260,7 +263,7 @@ def create(stream_slug='lou'):
         'name': name,
         'scheduling':
         {
-            'preemptible': True
+            'preemptible': preemptible
         }
     }
 
