@@ -216,7 +216,10 @@ def create(stream_slug='lou'):
 
     try:
         prod = request.query['prod']
-        preemptible = False
+        if prod == '0':
+            preemptible = True
+        else:
+            preemptible = False
     except:
         preemptible = True
 
