@@ -100,7 +100,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                         status = "PROVISIONING",
                         user = user_info.key,
                         stream = stream.key,
-                        region = region.key,
+                        region = region,
                         topic = topic,
                         password = password,
                         expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
