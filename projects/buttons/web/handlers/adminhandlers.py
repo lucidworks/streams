@@ -19,25 +19,21 @@ class AdminStreamsAPIHandler(BaseHandler):
     csrf_exempt = True
     def post(self, sid=None):
         # topic (stackexchange subdomain, for now)
-        try:
-            topic = self.request.get('topic')
-        except:
+        topic = self.request.get('topic')
+        if not topic:
             topic = "ai"
-
+        
         # region
-        try:
-            region = self.request.get('region')
-            if region == "":
-                region = "any"
-        except:
+        region = self.request.get('region')
+        if not region:
             region = "any"
 
-        # permanence
-        try:
-            prod = self.request.get('prod')
+        # production request (add check user perms)
+        prod = self.request.get('prod')
+        if not prod:
+            prod = 0 # preemptible
+        else:
             prod = 1
-        except:
-            prod = 0 # will be preemptible
 
         # check token
         token = self.request.get('token')
@@ -84,7 +80,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                     region,
                     prod
                 )
-                print region
+
                 try:
                     # pull the response back TODO add error handling
                     # CREATE HAPPENS HERE
@@ -104,7 +100,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                         stream = stream.key,
                         region = region,
                         topic = topic,
-                        prod = prod,
+                        prod = bool(prod),
                         password = password,
                         expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                         started = datetime.datetime.now()
