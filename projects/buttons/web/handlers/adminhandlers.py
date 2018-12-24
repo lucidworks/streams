@@ -18,18 +18,24 @@ class AdminStreamsAPIHandler(BaseHandler):
     # disable csrf check in basehandler
     csrf_exempt = True
     def post(self, sid=None):
-        # permanance
-        try:
-            prod = self.request.get('prod')
-            prod = "true"
-        except:
-            prod = "false" # will be preemptible
-
         # topic (stackexchange subdomain, for now)
         try:
             topic = self.request.get('topic')
         except:
-            topic = "none"
+            topic = "ai"
+
+        # region
+        try:
+            region = self.request.get('region')
+        except:
+            region = "any"
+
+        # permanance
+        try:
+            prod = self.request.get('prod')
+            prod = 1
+        except:
+            prod = 0 # will be preemptible
 
         # check token
         token = self.request.get('token')
@@ -67,12 +73,13 @@ class AdminStreamsAPIHandler(BaseHandler):
                 else:
                     iuser = "%s-%s" % ("prod", user_info.username)
 
-                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&prod=%s' % (
+                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&region=%s&prod=%s' % (
                     config.fastener_host_url,
                     sid,
                     config.fastener_api_token,
                     iuser,
                     topic,
+                    region,
                     prod
                 )
 
@@ -85,7 +92,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                     password = gcinstance['password']
 
                     if name == "failed":
-                        raise Exception("Instance start was delayed due to limits. Try again in a few minutes.")
+                        raise Exception("Instance start was delayed due to quota. Try again in a few minutes.")
 
                     # set up an instance
                     instance = Instance(
@@ -93,6 +100,8 @@ class AdminStreamsAPIHandler(BaseHandler):
                         status = "PROVISIONING",
                         user = user_info.key,
                         stream = stream.key,
+                        region = region.key,
+                        topic = topic,
                         password = password,
                         expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                         started = datetime.datetime.now()

@@ -208,7 +208,21 @@ def create(stream_slug='lou'):
     except:
         user = "prod-unknown"
 
-    while True:
+    try:
+        region = 'us-%s' & request.query['region']
+        zonealpha = random.choice('abc')
+    except:
+        region = "any"
+
+    try:
+        prod = request.query['prod']
+    except:
+        prod = "--preemptible"
+
+    while region == "any":
+        # trips
+        trip = 0
+
         # random region/zone from regions/zones arrays above
         zonealpha = random.choice('abc')
         regionint = random.randint(0,3)
@@ -225,6 +239,13 @@ def create(stream_slug='lou'):
         # we start 4 cpu instances
         if (usage+4) <= limit:
             break
+
+        # if we've made more than so many requests, we give up
+        if trip > 20:
+            name = "failed"
+            password = "failed"
+            response.content_type = 'application/json'
+            return dumps({'instance': name, 'password': password})
 
     # name and machine type
     iid = id_generator()
