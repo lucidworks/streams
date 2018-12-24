@@ -27,6 +27,8 @@ class AdminStreamsAPIHandler(BaseHandler):
         # region
         try:
             region = self.request.get('region')
+            if region == "":
+                region = "any"
         except:
             region = "any"
 
@@ -82,7 +84,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                     region,
                     prod
                 )
-
+                print region
                 try:
                     # pull the response back TODO add error handling
                     # CREATE HAPPENS HERE
@@ -100,8 +102,9 @@ class AdminStreamsAPIHandler(BaseHandler):
                         status = "PROVISIONING",
                         user = user_info.key,
                         stream = stream.key,
-                        region = region.key,
+                        region = region,
                         topic = topic,
+                        prod = prod,
                         password = password,
                         expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                         started = datetime.datetime.now()
