@@ -209,19 +209,26 @@ def create(stream_slug='lou'):
         user = "prod-unknown"
 
     try:
-        region = 'us-%s' & request.query['region']
-        zonealpha = random.choice('abc')
-    except:
+    regionint = request.query['region']
+        try:
+        region = regions[int(regionint)]
+            zonealpha = random.choice('abc')
+        except:
+            region = "any"
+    except Exception as ex:
         region = "any"
 
     try:
         prod = request.query['prod']
-        if prod == '0':
+        if int(prod) == 0:
             preemptible = True
         else:
             preemptible = False
     except:
         preemptible = True
+
+    print preemptible
+    print region
 
     while region == "any":
         # trips
