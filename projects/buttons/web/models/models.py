@@ -20,6 +20,13 @@ from lib.utils import generate_token
 from lib.github import github
 
 
+# region model (not used yet - see fastener main.py for regions)
+class Region(User):
+	rid = ndb.IntegerProperty()
+	name = ndb.StringProperty(default="None")
+	in_use = ndb.BooleanProperty(default=True)
+
+
 # user model - extends webapp2 User model
 class User(User):
 	uid = ndb.StringProperty()
@@ -94,7 +101,9 @@ class Instance(ndb.Model):
 	expires = ndb.DateTimeProperty()
 	user = ndb.KeyProperty(kind=User)
 	stream = ndb.KeyProperty(kind=Stream)
+	region = ndb.KeyProperty(kind=Region)
 	name = ndb.StringProperty()
+	topic = ndb.StringProperty(default='ai')
 	ip = ndb.StringProperty()
 	admin_link = ndb.StringProperty() # just uses IP + :8764
 	password = ndb.StringProperty() # admin password
@@ -145,6 +154,7 @@ class Instance(ndb.Model):
 	def get_by_name(cls, name):
 		return cls.query().filter(cls.name == name).get()
 
+#################
 
 # next pages model
 class NextPages(ndb.Model):
