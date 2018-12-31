@@ -1,8 +1,8 @@
 { 
-  'response': "ok",
-  'result': {
-    'message': "system is operating normally",
-    'starts_last_five_minutes': {{ starts_last_five_minutes }},
-    'confidence': {{ confidence }}
+  "response": "ok",
+  "result": {
+    "message": "system is operating normally",
+    "starts_last_five_minutes": {{ starts_last_five_minutes }},
+    "confidence": {{ confidence }}
   }
 }
