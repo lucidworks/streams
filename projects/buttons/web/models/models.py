@@ -111,7 +111,7 @@ class Instance(ndb.Model):
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
-	preemptible = ndb.BooleanProperty(indexed=True, default=False)
+	preemptible = ndb.BooleanProperty(indexed=True, default=True)
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
