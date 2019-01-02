@@ -215,11 +215,11 @@ class InstanceTenderHandler(BaseHandler):
 
             else:
                 # no instances were found on Google Cloud for this local instance record
-                if instance.created < datetime.datetime.now() - datetime.timedelta(0, 1800):
+                if instance.created < datetime.datetime.now() - datetime.timedelta(0, 900):
                     slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
                     instance.key.delete()
                 else:
-                    # only delete if instance create time is greater than 30 minutes...
+                    # only delete if instance create time is greater than 15 minutes...
                     slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
 
         else:
