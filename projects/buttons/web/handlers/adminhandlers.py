@@ -28,12 +28,12 @@ class AdminStreamsAPIHandler(BaseHandler):
         if not region:
             region = "any"
 
-        # production request (add check user perms)
-        prod = self.request.get('prod')
-        if not prod:
-            prod = 0 # preemptible
+        # preemptible request (add check user perms)
+        preemptible = self.request.get('preemptible')
+        if not preemptible:
+            preemptible = 0 # not preemptible
         else:
-            prod = 1
+            preemptible = 1 # preemptible
 
         # check token
         token = self.request.get('token')
@@ -71,14 +71,14 @@ class AdminStreamsAPIHandler(BaseHandler):
                 else:
                     iuser = "%s-%s" % ("prod", user_info.username)
 
-                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&region=%s&prod=%s' % (
+                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&region=%s&preemptible=%s' % (
                     config.fastener_host_url,
                     sid,
                     config.fastener_api_token,
                     iuser,
                     topic,
                     region,
-                    prod
+                    preemptible
                 )
 
                 try:
@@ -100,7 +100,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                         stream = stream.key,
                         region = region,
                         topic = topic,
-                        prod = bool(prod),
+                        preemptible = bool(preemptible),
                         password = password,
                         expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                         started = datetime.datetime.now()
