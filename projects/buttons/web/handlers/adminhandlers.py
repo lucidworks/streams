@@ -30,10 +30,14 @@ class AdminStreamsAPIHandler(BaseHandler):
 
         # preemptible request (add check user perms)
         preemptible = self.request.get('preemptible')
+
         if not preemptible:
-            preemptible = 0 # not preemptible
-        else:
             preemptible = 1 # preemptible
+        else:
+            if preemptible == "False" or preemptible == "false" or int(preemptible) == 0:
+                preemptible = 0 # not preemptible
+            else:
+                preemptible = 1
 
         # check token
         token = self.request.get('token')
@@ -56,6 +60,13 @@ class AdminStreamsAPIHandler(BaseHandler):
                     # limit to instances the user has started (doing it this way because can't figure out ndb indexing)
                     if db_instance.user == user_info.key:
                         instance_count = instance_count + 1
+
+                # check preemtibility ability
+                if preemptible == 0:
+                    if user_info.superuser == False:
+                        # if the user can't start preemptible tell them
+                        params = {"response": "fail", "message": "token may not create non-preemptible instance"}
+                        return self.render_template('api/response.json', **params)
 
                 # warn and redirect if limit is reached
                 if (instance_count + 1) > user_info.max_instances:
