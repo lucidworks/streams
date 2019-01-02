@@ -142,17 +142,21 @@ def delete(instance_id):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
+    
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
+    
     try:
         result = compute.instances().delete(
             project=project,
             zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
+        return dumps(result)
+    
     except Exception as ex:
         print "error: %s" % ex
-    return dumps(result)
+        return dumps({"response": "%s" % ex})
 
 
 @app.route('/api/instance/<instance_id>/restart', method='GET')
@@ -220,10 +224,10 @@ def create(stream_slug='lou'):
 
     try:
         preemptible = request.query['preemptible']
-        if int(preemptible) == 1:
-            preemptible = True
-        else:
+        if int(preemptible) == 0:
             preemptible = False
+        else:
+            preemptible = True
     except:
         preemptible = True
 

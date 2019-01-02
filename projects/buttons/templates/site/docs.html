@@ -312,15 +312,22 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx1b?token=qnSNLUQ
           <p>This method takes several parameters:</p>
           <ul>
             <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
-            <li><strong>prod=&lt;true|false&gt;</strong> - request non-preemptible instance</li>
+            <li><strong>preemptible=&lt;false|0&gt;</strong> - request non-preemptible instance</li>
             <li><strong>topic=&lt;topic&gt;</strong> - topic of interest matching [a-z0-9]</li>
-            <li><strong>region=&lt;region&gt;</strong> - region in which to start instance</li>
+            <li><strong>region=&lt;region&gt;</strong> - region by integer in which to start instance</li>
+          </ul>
+          <p>Integer values for <a href="https://cloud.google.com/compute/docs/regions-zones/">Google regions:</a></p>
+          <ul>
+            <li>0 - central1</li>
+            <li>1 - west1</li>
+            <li>2 - west2</li>
+            <li>3 - east4</li>
           </ul>
           <p>This method requires the <code>Content-length</code> header be set to <code>0</code> in the request.</p>
 <pre>
 curl -X POST \
 -d 'Content-length: 0' \
-"https://streams.lucidworks.com/api/stream/starter41?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a&prod=true&topic=foo"
+"https://streams.lucidworks.com/api/stream/starter41?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a&preemtible=0&topic=foo"
 {
   "created": "2018-12-14 01:51:29.417217",
   "updated": "2018-12-14 01:51:29.417242",

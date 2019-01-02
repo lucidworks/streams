@@ -111,7 +111,7 @@ class Instance(ndb.Model):
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
-	prod = ndb.BooleanProperty(indexed=True, default=False)
+	preemptible = ndb.BooleanProperty(indexed=True, default=False)
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
@@ -136,8 +136,8 @@ class Instance(ndb.Model):
 		return num_starts
 
 	@classmethod
-	def get_prod(cls):
-		query = cls.query().filter(cls.prod==True)
+	def get_preemptible(cls):
+		query = cls.query().filter(cls.preemptible==False)
 		instances = query.fetch()
 		return instances
 
