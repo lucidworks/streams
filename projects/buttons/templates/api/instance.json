@@ -7,7 +7,7 @@
   "name": "{{ instance.name }}",
   "topic": "{{ instance.topic }}",
   "region": "{{ instance.region }}",
-  "preemptible": {{ instance.preemptible }},
+  "preemptible": "{{ instance.preemptible }}",
   "ip": "{{ instance.ip }}",
   "admin_link": "{{ instance.admin_link }}",
   "app_link": "{{ instance.app_link }}",
