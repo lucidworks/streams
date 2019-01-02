@@ -1,8 +1,0 @@
-HTTP/1.1 302 Found
-Location: https://streams.lucidworks.com/api/stream/starter41?token=6fb7DSGbD3yR6HetcNfV7blQUQi6LZ9zIDiJx40NdTWFQPRBnF7UnX5HuJ99c8LF
-X-Cloud-Trace-Context: 9d418ff66d63dbee7959790b1d22810e
-Date: Sat, 22 Dec 2018 04:43:07 GMT
-Content-Type: text/html
-Server: Google Frontend
-Content-Length: 0
-

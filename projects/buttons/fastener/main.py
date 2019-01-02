@@ -209,9 +209,9 @@ def create(stream_slug='lou'):
         user = "prod-unknown"
 
     try:
-    regionint = request.query['region']
+        regionint = request.query['region']
         try:
-        region = regions[int(regionint)]
+            region = regions[int(regionint)]
             zonealpha = random.choice('abc')
         except:
             region = "any"
@@ -219,16 +219,14 @@ def create(stream_slug='lou'):
         region = "any"
 
     try:
-        prod = request.query['prod']
-        if int(prod) == 0:
+        preemptible = request.query['preemptible']
+        if int(preemptible) == 1:
             preemptible = True
         else:
             preemptible = False
     except:
         preemptible = True
 
-    print preemptible
-    print region
 
     while region == "any":
         # trips
@@ -251,7 +249,8 @@ def create(stream_slug='lou'):
         if (usage+4) <= limit:
             break
 
-        time.sleep(4)
+        # wait a bit
+        time.sleep(3)
         
         # if we've made more than so many requests, we give up
         if trip > 20:
