@@ -33,7 +33,7 @@ class InstanceHotStartsHandler(BaseHandler):
 
         # blast old ones
         for instance in instances:
-            fiveminutesago = datetime.datetime.now() - datetime.timedelta(0, 3600)
+            fiveminutesago = datetime.datetime.now() - datetime.timedelta(0, 14400)
             if instance.created < fiveminutesago:
                 # this instance is SO less (older) than some epoch seconds ago ^
                 dinstances.append(instance)
