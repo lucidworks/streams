@@ -45,6 +45,7 @@ class User(User):
 	last_login = ndb.DateTimeProperty()
 	api_token = ndb.StringProperty()
 	superuser = ndb.BooleanProperty(default=False)
+	user_type = ndb.StringProperty(default="default") # default
 	max_instances = ndb.IntegerProperty(default=3) # min limit set here
 	password = ndb.StringProperty()
 	tfsecret = ndb.StringProperty()
@@ -120,6 +121,9 @@ class Instance(ndb.Model):
 		instances = instance_query.fetch()
 		return instances
 	"""
+	@classmethod
+	def get_by_password(cls, password):
+		return cls.query().filter(cls.password == password).get()
 
 	@classmethod
 	def get_hotstarts(cls):

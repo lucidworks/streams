@@ -5,6 +5,8 @@ import time, datetime
 
 from lib.dateutil import parser as DUp
 
+import cloudstorage
+
 import config
 import web.forms as forms
 from web.basehandler import BaseHandler
@@ -165,6 +167,7 @@ class AdminStreamsAPIHandler(BaseHandler):
         params = {"response": "fail", "message": "must include [token] parameter with a valid token"}
         return self.render_template('api/response.json', **params)
 
+
 class AdminInstancesListAPIHandler(BaseHandler):
     def get(self, name=None):
         # check token
@@ -249,6 +252,38 @@ class AdminInstancesStartAPIHandler(BaseHandler):
         self.response.status_int = 402
         self.response.headers['Content-Type'] = "application/json"
         return self.render_template('api/response.json', **params)
+
+
+class AdminInstanceStatusAPIHandler(BaseHandler):
+    def get(self, name=None):
+        # define possible status
+        statuses = [
+            "PROVISIONING",
+            "STAGING",
+            "RUNNING",
+            "STOPPING",
+            "TERMINATED"
+        ]
+
+        status = self.request.get('status')
+        if status not in statuses:
+            params = {"response": "fail", "message": "unknown status %s" % status}
+            return self.render_template('api/response.json', **params)            
+
+        password = self.request.get('password')
+        if password != "":
+            instance = Instance.get_by_password(password)
+
+            try:
+                if instance.status:
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/instance.json', **params)
+            except:
+                    params = {"response": "fail", "message": "unknown status %s" % status}
+                    return self.render_template('api/response.json', **params)             
+        else:
+            params = {"response": "fail", "message": "[password] write status access denied"}
+            return self.render_template('api/response.json', **params)
 
 
 class AdminInstancesAPIHandler(BaseHandler):

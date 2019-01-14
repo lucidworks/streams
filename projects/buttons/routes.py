@@ -56,6 +56,7 @@ _routes = [
 	RedirectRoute('/api/stream/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=False),
 	RedirectRoute('/api/instance/list', adminhandlers.AdminInstancesListAPIHandler, name='api-instance-list', strict_slash=False),
 	RedirectRoute('/api/instance/<name>/start', adminhandlers.AdminInstancesStartAPIHandler, name='api-instance-start', strict_slash=False),	
+	RedirectRoute('/api/instance/<name>/status', adminhandlers.AdminInstanceStatusAPIHandler, name='api-instance-status', strict_slash=False),	
 	RedirectRoute('/api/instance/<name>', adminhandlers.AdminInstancesAPIHandler, name='api-instances', strict_slash=False),
 	RedirectRoute('/api/template/list', adminhandlers.AdminTemplatesListAPIHandler, name='api-templates', strict_slash=False),
 	RedirectRoute('/api/template/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=False),
