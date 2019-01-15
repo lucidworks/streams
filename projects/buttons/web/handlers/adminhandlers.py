@@ -260,13 +260,14 @@ class AdminInstanceStatusAPIHandler(BaseHandler):
         statuses = [
             "PROVISIONING",
             "STAGING",
+            "CONFIGURING", # lucidworks status for building out box
             "RUNNING",
             "STOPPING",
             "TERMINATED"
         ]
 
         status = self.request.get('status')
-        if status not in statuses:
+        if status.upper() not in statuses:
             params = {"response": "fail", "message": "unknown status %s" % status}
             return self.render_template('api/response.json', **params)            
 
@@ -275,11 +276,22 @@ class AdminInstanceStatusAPIHandler(BaseHandler):
             instance = Instance.get_by_password(password)
 
             try:
-                if instance.status:
+                if instance.name == name:
+                    instance.status = status
+                    instance.put()
+
                     self.response.headers['Content-Type'] = "application/json"
+                    params = {
+                        'instance': instance
+                    }
                     return self.render_template('api/instance.json', **params)
-            except:
-                    params = {"response": "fail", "message": "unknown status %s" % status}
+
+                else:
+                    params = {"response": "fail", "message": "unknown instance name %s" % name}
+                    return self.render_template('api/response.json', **params)
+
+            except Exception as ex:
+                    params = {"response": "fail", "message": "exception reached %s" % ex}
                     return self.render_template('api/response.json', **params)             
         else:
             params = {"response": "fail", "message": "[password] write status access denied"}

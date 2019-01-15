@@ -282,8 +282,8 @@ curl https://streams.lucidworks.com/api/instance/list?token=qnSNLUQF8YzRjiizDr8J
   ]
 }
 </pre>
-          <h4>Status</h4>
-          <p>Instance status may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
+          <h4>Info</h4>
+          <p>Instance info may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;</strong></p>
           <p>This method takes one parameter:</p>
           <ul>
@@ -363,8 +363,40 @@ curl -X POST \
             <li><strong>token=&lt;dev_token&gt;</strong> - a developer token</li>
           </ul>
 <pre>
-curl https://streams.lucidworks.com/api/instance/button-lou-8uvx/start?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a
+curl https://streams.lucidworks.com/api/instance/button-starter41-8uvx/start?token=qnSNLUQF8YzRjiizDr8J0Ba8z2FBXtfTbYByGoDHsWsXhMwpFLvlUyg7ASFvo13a
 {
+  "created": "2018-12-14 01:51:29.417217",
+  "updated": "2018-12-17 23:33:41.297202",
+  "started": "2018-12-17 23:33:41.293804",
+  "expires": "2018-12-21 01:51:29.416775",
+  "sid": "starter41",
+  "name": "button-lou-ehhd2a",
+  "topic": "ai",
+  "region": "any",
+  "preemptible": True,
+  "ip": "None",
+  "admin_link": "None",
+  "app_link": "None",
+  "username": "admin",
+  "password": "ntamgl2afdsp",
+  "status": "PROVISIONING",
+  "username": "kordless",
+  "template": "starter41"
+}
+</pre>
+        </div>
+
+        <div id="api-instance-status" class="subgroup">
+          <h4>Status</h4>
+          <p>The status of an instance may be updated from itself by using the instance's password. Instances status update os performed uising a <strong>GET</strong> on the <strong>status</strong> endpoint:</p>
+          <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;/status</strong></p>
+          <p>This method takes two parameters:</p>
+          <ul>
+            <li><strong>password=&lt;instance_passwords&gt;</strong> - the instance password</li>
+            <li><strong>status=&lt;instance_status_string&gt;</strong> - one status of PROVISIONING, STAGING, CONFIGURING, RUNNING, STOPPING, TERMINATED</li>
+          </ul>
+<pre>
+curl https://streams.lucidworks.com/api/instance/button-starter41-8uvx/status?password=ntamgl2afdsp&status=RUNNING
   "created": "2018-12-14 01:51:29.417217",
   "updated": "2018-12-17 23:33:41.297202",
   "started": "2018-12-17 23:33:41.293804",
@@ -379,7 +411,7 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx/start?token=qnS
   "app_link": "None",
   "username": "admin",
   "password": "ntamgl2afdsp",
-  "status": "PROVISIONING",
+  "status": "RUNNING",
   "username": "kordless",
   "template": "starter41"
 }
@@ -425,7 +457,7 @@ curl https://streams.lucidworks.com/api/instance/button-lou-8uvx/start?token=qnS
           <a href="#apis">API Methods</a>
           <ul class="nav nav-stacked">
             <li><a href="#api-token">Tokens</a></li>
-            <li><a href="#api-status">Status</a></li>
+            <li><a href="#api-status">System Status</a></li>
             <li><a href="#api-templates-list">Templates</a></li>
             <li><a href="#api-instance-list">Instances</a></li>
           </ul>
