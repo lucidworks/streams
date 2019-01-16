@@ -43,9 +43,11 @@ echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-se
 apt-get update -y
 
 # copy in updated package config and postinst files (should be temporaraly here until webupd8team does something)
-touch /var/lib/dpkg/info/foobar.kord
-gsutil cp gs://buttons-streams/oracle-java8-installer.postinst /
-gsutil cp gs://buttons-streams/oracle-java8-installer.config   /
+cd /;
+gsutil cp gs://buttons-streams/oracle-java8-installer.postinst .
+gsutil cp gs://buttons-streams/oracle-java8-installer.config   .
+cp /oracle-java8-installer.postinst /var/lib/dpkg/info
+cp /oracle-java8-installer.config /var/lib/dpkg/info 
 
 # ahem, none of this apparently works anymore unless you do the above
 apt-get install oracle-java8-installer -y
