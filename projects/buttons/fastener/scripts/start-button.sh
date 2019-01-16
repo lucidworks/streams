@@ -41,9 +41,17 @@ add-apt-repository ppa:webupd8team/java -y
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 
+# ahem, none of this apparently works anymore
 apt-get update -y
 apt-get install oracle-java8-installer -y
 apt install oracle-java8-set-default -y
+
+# so we just copy in what we had on a box from the bucket
+cd /usr/lib/jvm/
+gsutil cp gs://buttons-streams/java-8-oracle.tar.gz ./
+tar xvfz java-8-oracle.tar.gz
+
+# and resume what we are doing
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 # `jq` is in a different vivid universe
