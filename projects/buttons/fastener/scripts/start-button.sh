@@ -41,6 +41,8 @@ add-apt-repository ppa:webupd8team/java -y
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 apt-get update -y
+apt-get install oracle-java8-installer -y
+apt install oracle-java8-set-default -y
 
 # copy in updated package config and postinst files (should be temporaraly here until webupd8team does something)
 cd /;
@@ -50,6 +52,7 @@ cp /oracle-java8-installer.postinst /var/lib/dpkg/info
 cp /oracle-java8-installer.config /var/lib/dpkg/info 
 
 # ahem, none of this apparently works anymore unless you do the above
+apt-get update -y
 apt-get install oracle-java8-installer -y
 apt install oracle-java8-set-default -y
 
