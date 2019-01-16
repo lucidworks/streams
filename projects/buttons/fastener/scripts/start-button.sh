@@ -44,8 +44,8 @@ apt-get update -y
 
 # copy in updated package config and postinst files (should be temporaraly here until webupd8team does something)
 touch /var/lib/dpkg/info/foobar.kord
-gsutil cp gs://buttons-streams/oracle-java8-installer.postinst /var/lib/dpkg/info/
-gsutil cp gs://buttons-streams/oracle-java8-installer.config   /var/lib/dpkg/info/
+gsutil cp gs://buttons-streams/oracle-java8-installer.postinst /
+gsutil cp gs://buttons-streams/oracle-java8-installer.config   /
 
 # ahem, none of this apparently works anymore unless you do the above
 apt-get install oracle-java8-installer -y
