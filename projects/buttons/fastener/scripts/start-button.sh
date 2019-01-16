@@ -41,15 +41,14 @@ add-apt-repository ppa:webupd8team/java -y
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 
-# ahem, none of this apparently works anymore
+# copy in updated package config and postinst files (should be temporaraly here until webupd8team does something)
+gsutil cp gs://buttons-streams/oracle-java8-installer.postinst /var/lib/dpkg/info/
+gsutil cp gs://buttons-streams/oracle-java8-installer.config   /var/lib/dpkg/info/
+
+# ahem, none of this apparently works anymore unless you do the above
 apt-get update -y
 apt-get install oracle-java8-installer -y
 apt install oracle-java8-set-default -y
-
-# so we just copy in what we had on a box from the bucket
-#cd /usr/lib/jvm/
-#gsutil cp gs://buttons-streams/java-8-oracle.tar.gz ./
-#tar xvfz java-8-oracle.tar.gz
 
 # and resume what we are doing
 echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
