@@ -360,8 +360,12 @@ class StreamsStarterHandler(BaseHandler):
         instances = Instance.get_hotstarts()
 
         for instance in instances:
+
+            # fiveminutesago depends on number of seconds at end of this     ***
+            fiveminutesago = datetime.datetime.now() - datetime.timedelta(0, 900)
+
             # if this hotstart instance has a matching sid, assign and redirect to it
-            if instance.stream.get().sid == stream.sid and instance.status == "RUNNING":
+            if instance.created < fiveminutesago and instance.stream.get().sid == stream.sid and instance.status == "RUNNING":
                 # map to user
                 instance.user = user_info.key
                 instance.hotstart = False
