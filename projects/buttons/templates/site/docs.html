@@ -104,14 +104,15 @@
         <pre>http://35.185.228.240:8764/admin/login</pre>
 
         <div id="instance-starting" class="subgroup">
-          <h4>Creating</h4>
-          <p>To create a Fusion instance from your <a href="/instances">instances page</a>, click on the <strong>Create Instance</strong> button and then select a Fusion template to use to start the instance. The time for startup and provisioning takes about 5-8 minutes, but sometimes less.</p>
+          <h4>Creating & Naming</h4>
+          <p>To create a Fusion instance from your <a href="/instances">instances page</a>, click on the <strong>Create Instance</strong> button and then select a Fusion template to use to start the instance. The time for startup and provisioning takes about 5-8 minutes, but sometimes can be instant if there are hotstarts available to assign.</p>
           <p><img src="/img/createinstance.png"></p>
           <p>If you are looking to start an empty, vanilla instance of Fusion use the <strong><a href="https://streams.lucidworks.com/instance/create/starter">Fusion Starter</a></strong> template.</p>
+          <p>To name an instance something more useful, navigate to the instance detail page and then click on the instance name at the top. Type in a new name and then hit enter to save.</p><p>To revert the instance name to the one used at provisioning time, delete the entire name and hit enter.</p>
         </div>
         
         <div id="instance-credentials" class="subgroup">
-          <h4>Credentials and Admin UI</h4>
+          <h4>Credentials & Admin UI</h4>
           <p>Once a Fusion instance is running, the credentials to login to the instance will be shown, along with the IP address of the instance.</p>
           <p><img src="/img/instanceaccess.png"></p>
           <p>You may access Fusion's <strong>admin interface</strong> for the instance by using the <strong>Click to Login</strong> button. You'll login with the credentials provided above, which is located on the <strong>instance detail page</strong>.</p>
@@ -439,7 +440,7 @@ curl https://streams.lucidworks.com/api/instance/button-starter41-8uvx/status?pa
         <li>
           <a href="#instances">Instances</a>
           <ul class="nav nav-stacked">
-            <li><a href="#instance-starting">Creating</a></li>
+            <li><a href="#instance-starting">Creating & Naming</a></li>
             <li><a href="#instance-credentials">Credentials</a></li>
             <li><a href="#instance-timers">Timers</a></li>
             <li><a href="#instance-deleting">Deletion</a></li>
