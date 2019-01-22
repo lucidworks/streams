@@ -459,6 +459,8 @@ class InstancesListHandler(BaseHandler):
         for db_instance in db_instances:
             # limit to instances the user has started
             if db_instance.user == user_info.key:
+                if db_instance.renamed == None:
+                    db_instance.renamed = ""
                 instances.append(db_instance)
 
         streams = Stream.get_all()
