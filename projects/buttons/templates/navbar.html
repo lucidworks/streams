@@ -35,6 +35,11 @@
                     <li><a href="{{ uri_for('admin-instances') }}">All Instances</a></li>
                     <li><a href="{{ uri_for('admin-users') }}">Users</a></li>
                     <li><a target="_blank" href="{{ admin_interface_url }}">AppEngine</a></li>
+                    {% else %}
+                      {% if isdev %}
+                        <li class="divider"></li>
+                        <li><a href="http://0.0.0.0:8088/datastore?kind=User">Setup Admin</a></li>
+                      {% endif %}
                     {% endif %}
                     <li class="divider"></li>
                     <li><a href="{{ uri_for('logout') }}">Logout</a></li>

@@ -149,7 +149,7 @@
                   <tbody>
                     {% for instance in instances %}
                     <tr>
-                      <td><a href="/instance/{{ instance.name }}">{{ instance.name }}</a></td>
+                      <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
                       <td>{{ macros.instance_status(instance.status) }}</td>
                       <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().sid }}</a></td>
                       <td>{{ instance.stream.get().fusion_version}}
