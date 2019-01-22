@@ -44,6 +44,10 @@
     .instance-detail {
       padding-bottom: 0px;
     }
+    #edit-name:after {
+      margin-left: 4px;
+      content:url("/img/pen.png");
+    }
   </style>
 
 <body>
@@ -91,7 +95,7 @@
 
         <div class="col-md-12">
           <div class="section-header">
-            <h2><em>{{ instance.name }}</em></h2>
+            <h3><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></h3>
             {% if instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
             <div class="row instance-detail-row">
               <div class="col-md-6">
@@ -234,6 +238,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="/js/jquery.editable.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
   $().ready(function() {
@@ -241,6 +246,21 @@
     var csrf_token = "{{ csrf_token() }}";
     var channel_token = "{{ channel_token }}";
     var refresh_channel = "{{ refresh_channel }}";
+
+    // edit name
+    $("span#edit-name").editable("click", function(e){
+      console.log(e.value);
+      $.ajax({
+        url: '/instance/{{ instance.name }}/rename?_csrf_token='+csrf_token+'&renamed='+e.value,
+        type: 'GET',
+        statusCode: {
+          200: function() {
+            alertify.success("Instance renamed.");
+            setTimeout(function(){ location.reload(); }, 2000);
+          }
+        }
+      });
+    });
 
     //
     // begin timer madness

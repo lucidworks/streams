@@ -105,6 +105,7 @@ class Instance(ndb.Model):
 	stream = ndb.KeyProperty(kind=Stream)
 	region = ndb.StringProperty(default="any")
 	name = ndb.StringProperty()
+	renamed = ndb.StringProperty()
 	topic = ndb.StringProperty(default="ai")
 	ip = ndb.StringProperty()
 	admin_link = ndb.StringProperty() # just uses IP + :8764

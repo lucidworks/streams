@@ -710,6 +710,16 @@ class InstanceControlHandler(BaseHandler):
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/instance.json', **params)
 
+                # rename it
+                elif command == "rename":
+                    renamed = self.request.get('renamed')
+                    instance.renamed = renamed
+                    instance.put()
+                    
+                    params = {"instance": instance}
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/instance.json', **params)
+
                 else:
                     params = {"response": "failure", "message": "bad command, skippy" }                    
                     response.set_status(500)
@@ -731,6 +741,9 @@ class InstanceDetailHandler(BaseHandler):
         if not instance:
             params = {}
             return self.redirect_to('instances-list', **params)
+
+        if instance.renamed == None:
+            instance.renamed = "" # remap so template can address
 
         stream = Stream.get_by_id(instance.stream.id())
 
