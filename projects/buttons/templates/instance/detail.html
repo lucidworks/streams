@@ -1,7 +1,22 @@
 {% import "macros.html" as macros %}
 {% extends base_layout %}
 
-{% block title %}{{ instance.name }} :: {% endblock %}
+{% block title %}{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %} :: {% endblock %}
+
+{% block cards %}
+    <!-- Twitter Cards -->
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content='{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}' />
+    <meta property="og:description" content="{% stream.description %}" />
+    <meta property="og:url" content="https://streams.lucidworks.com/instance/{% instance.name %}" />
+    <meta property="og:site_name" content="Lucidworks" />
+    <meta property="og:image" content="/img/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:description" content='{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}'/>
+    <meta name="twitter:title" content="{% stream.description %}"/>
+    <meta name="twitter:image" content="/img/twitter-image.jpg"/>
+{% endblock %}
 
 {% block page_styles %}
   <link href="/css/docs.css" rel="stylesheet">
