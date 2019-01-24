@@ -3,6 +3,7 @@
   "updated": "{{ instance.updated }}",
   "started": "{{ instance.started }}",
   "expires": "{{ instance.expires }}",
+  "secondsleft": "{{ instance.secondsleft }}",
   "sid": "{{ instance.stream.get().sid }}",
   "name": "{{ instance.name }}",
   "topic": "{{ instance.topic }}",
