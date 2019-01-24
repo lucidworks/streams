@@ -293,7 +293,7 @@
     $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
     $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
 
-    // eta
+    // eta coded to 10 minutes (600 seconds)
     setInterval(function() {
       var eta_epoch_time = parseInt((new Date).getTime()/1000);
       var eta_started = parseInt({{ instance.started|epoch }});
@@ -302,7 +302,12 @@
         var eta_minutes = 10 - (eta_epoch / 60);
         $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
         $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
+      } else if ("{{ instance.expired }}" != "True") {
+        // expired means longer than 10 minutes, but not running (probably terminated)
+        var eta_minutes = 0;
+        $('#state-eta-td').html("Instance was terminated. Click start to resume use.");
       } else {
+        // otherwise we hae a running instance that has failed to deploy or other horrors
         var eta_minutes = 0;
         $('#state-eta-td').html("Instance failed deployment. Please delete and restart!");
       }

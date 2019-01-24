@@ -749,6 +749,8 @@ class InstanceDetailHandler(BaseHandler):
 
         if instance.created < (datetime.datetime.now() - datetime.timedelta(0,600)):
             instance.expired = True
+        else:
+            instance.expired = False
 
         stream = Stream.get_by_id(instance.stream.id())
 
