@@ -111,7 +111,9 @@
         <div class="col-md-12">
           <div class="section-header">
             <h3><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></h3>
-            {% if instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
+            {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Terminated Instance</button>
+            {% elif instance.status == "PROVISIONING" and instance.expired %}<button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>    
+            {% elif instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
             <div class="row instance-detail-row">
               <div class="col-md-6">
                 <div class="text-center"><h3><small>Run Timer</small></h3></div>
@@ -298,11 +300,12 @@
       var eta_epoch = eta_epoch_time - eta_started;
       if (eta_epoch < 600) {
         var eta_minutes = 10 - (eta_epoch / 60);
+        $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
+        $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
       } else {
         var eta_minutes = 0;
+        $('#state-eta-td').html("Instance failed deployment. Please delete and restart!");
       }
-      $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
-      $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
     }, 20000);
 
     // all this duplication needs to be refactored

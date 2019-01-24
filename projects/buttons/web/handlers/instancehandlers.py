@@ -747,6 +747,9 @@ class InstanceDetailHandler(BaseHandler):
         if instance.renamed == None:
             instance.renamed = "" # remap so template can address
 
+        if instance.created < (datetime.datetime.now() - datetime.timedelta(0,600)):
+            instance.expired = True
+
         stream = Stream.get_by_id(instance.stream.id())
 
         if utils.read_cookie(self, "guide") == "closed":
