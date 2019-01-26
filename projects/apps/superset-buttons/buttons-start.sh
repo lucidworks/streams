@@ -56,7 +56,9 @@ superset init
 
 #   Spin up Apache Superset and Lucidworks Fusion.
 #     - TODO: start Superset
-superset runserver -d
+#superset runserver -d
+FLASK_ENV=development flask run -p 8088 --with-threads --reload --debugger
+
 #     - TODO: restart Fusion?
 
 #   Create an app in Lucidworks Fusion and index data so that you have at least one collection.
