@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="120">
+  <Appenders>
+    <RollingFile name="file" fileName="${sys:apollo.home}/var/log/sql/sql.log"
+                 filePattern="${sys:apollo.home}/var/log/sql/sql.%d{yyyy-MM-dd}-%i.log.gz">
+      <PatternLayout>
+        <pattern>%d{ISO8601} - %-5p [%t:%C{3}@%L] - %X - %m%n</pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/> <!-- Rotated everyday -->
+        <SizeBasedTriggeringPolicy size="100MB"/> <!-- Rotated every 100 MB -->
+      </Policies>
+      <DefaultRolloverStrategy fileIndex="nomax">
+        <Delete basePath="${sys:apollo.home}/var/log/sql" maxDepth="1">
+          <IfFileName glob="sql.*.log.gz">
+            <IfAny>
+              <!-- Uncomment next line if you want to limit disk space used by logs
+              <IfAccumulatedFileSize exceeds="2GB" />
+              -->
+              <IfLastModified age="30d"/>
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <logger name="org.apache.zookeeper" level="WARN"/>
+    <logger name="org.apache.hive.service.cli.thrift" level="WARN"/>
+    <logger name="org.apache.spark.deploy.ExternalShuffleService" level="INFO"/>
+    <logger name="com.lucidworks.spark" level="INFO"/>
+    <logger name="com.lucidworks.spark.sql" level="INFO"/>
+    <logger name="com.lucidworks.spark.FusionHiveAuthenticationProvider" level="INFO"/>
+    <logger name="com.lucidworks.spark.fusion.FusionPipelineClient" level="INFO"/>
+    <logger name="com.lucidworks.spark.cluster" level="INFO"/>
+    <logger name="org.apache.spark.ContextCleaner" level="ERROR"/>
+    <logger name="org.apache.hadoop.hive.metastore.ObjectStore" level="ERROR"/>
+    <logger name="com.lucidworks.apollo.exec" level="ERROR"/>
+    <logger name="org.apache.maven.plugins.shade" level="ERROR"/>
+    <logger name="org.apache.zookeeper.ClientCnxn" level="ERROR"/>
+    <logger name="org.apache.spark.util.Utils" level="ERROR"/>
+    <logger name="org.apache.thrift.server.TThreadPoolServer" level="FATAL"/>
+    <Root level="INFO">
+      <AppenderRef ref="file"/>
+    </Root>
+  </Loggers>
+</Configuration>
