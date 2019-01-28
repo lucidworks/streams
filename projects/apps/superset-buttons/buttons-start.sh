@@ -87,7 +87,7 @@ superset init
 #   Spin up Apache Superset and Lucidworks Fusion.
 #     - TODO: start Superset
 #superset runserver -d
-FLASK_ENV=development flask run -p 8088 --with-threads --reload --debugger
+FLASK_ENV=development flask run -p 8780 --with-threads --reload --debugger
 
 #     - TODO: restart Fusion?
 
