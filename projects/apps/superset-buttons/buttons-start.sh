@@ -7,16 +7,39 @@ set -x
 #install core utilities
 sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev
 
-#install virtualenv
-sudo apt install python3-venv
 
-#name that virtual environment
+# install custom package repo to enable python3.6 to run on Ubuntu 16.0.4
+add-apt-repository ppa:jonathonf/python-3.6  # (remove after 16.04)
+
+# install python for Superset
+apt install python3.6
+apt install python3.6-dev
+apt install python3.6-venv
+
+#although pip should be installed  with python 3 download it in case it is not
+wget https://bootstrap.pypa.io/get-pip.py
+python3.6 get-pip.py
+
+# change symbolic links
+rm -rf /usr/local/bin/python3
+rm -rf /usr/local/bin/pip
+ln -s /usr/bin/python3.6 /usr/local/bin/python3
+ln -s /usr/local/bin/pip /usr/local/bin/pip3
+
+# download virtual environment
+pip install virtualenv
+
+# create a folder to hold the environment
+mkdir python_environment
+cd python_environment
+
+# name that virtual environment
 pyvenv my_venv
 
-#activate the virtual environment
+# activate the virtual environment
 source my_env/bin/activate
 
-#install setuptools in the virtual env
+# install setuptools in the virtual env
 pip install --upgrade setuptools pip
 
 # pull the superset master from github.
