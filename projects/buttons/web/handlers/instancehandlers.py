@@ -260,36 +260,25 @@ class InstanceTenderHandler(BaseHandler):
                 name = gcinstance['name']
 
                 if 'button' in name: # i.e. put 'button' in an instance name & this will delete the instance
-                    # handle dev vs. prod instances (need to stage cloud, but all mixed for now)
-                    delete = False
-                    if config.isdev:
-                        if 'dev' in gcinstance['labels']['user']:
-                            delete = True
-                    else:
-                        if 'prod' in gcinstance['labels']['user']:
-                            delete = True
+                    # make the instance call to the control box
+                    try:
+                        http = httplib2.Http(timeout=10)
+                        url = '%s/api/instance/%s/delete?token=%s' % (
+                            config.fastener_host_url, 
+                            name,
+                            config.fastener_api_token
+                        )
 
-                    ############DELETE#############
-                    if delete:        
-                        # make the instance call to the control box
-                        try:
-                            http = httplib2.Http(timeout=10)
-                            url = '%s/api/instance/%s/delete?token=%s' % (
-                                config.fastener_host_url, 
-                                name,
-                                config.fastener_api_token
-                            )
+                        # pull the response back
+                        response, content = http.request(url, 'GET', None, headers={})
 
-                            # pull the response back
-                            response, content = http.request(url, 'GET', None, headers={})
-
-                            if content['status'] == "PENDING":      
-                                slack.slack_message("DELETING instance %s's from Google Cloud." % name)
-                            else:
-                                slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
-                        
-                        except:
-                            slack.slack_message("ERROR: failed deleting instance %s from Google Cloud." % name)
+                        if content['status'] == "PENDING":      
+                            slack.slack_message("DELETING instance %s's from Google Cloud." % name)
+                        else:
+                            slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
+                    
+                    except:
+                        slack.slack_message("ERROR: failed deleting instance %s from Google Cloud." % name)
 
         else:
             # no instances from cloud - this should never run
