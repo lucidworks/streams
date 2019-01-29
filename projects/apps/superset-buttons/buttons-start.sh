@@ -1,8 +1,13 @@
 set -x
 
+curl -u $FUSION_API_CREDENTIALS -H "Content-Type:multipart/form-data" -X POST -F 'importData=@Fusion_Starter.zip' $FUSION_API_BASE/objects/import?importPolicy=overwrite
+
+
+
 # Steps:
 #   Download and install Apache Superset
 #     - TODO: need to included Superset distro here
+
 
 #install core utilities
 sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev
@@ -81,8 +86,21 @@ superset init
 #     - done (Fusion already assumed running at this point in the script)
 # replace line in /fusion/conf/fusion.properties
 
+sed -i "
+s/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, proxy, webapps, admin-ui, sql, log-shipper/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, proxy, webapps, admin-ui, sql, log-shipper, spark-master, spark-worker/g;
+" /fusion/conf/fusion.properties
+
 #   Configure Lucidworks Fusion to work in `binary` mode.
 #     - TODO: config file tinkering
+# sed -i "
+# s/http/binary/g;
+# " /fusion/conf/hive-site.xml
+# Not using sed because of multi-line changes
+
+patch /fusion/conf/hive-site.xml ./fusion_conf/conf/hive-site.xml
+
+
+
 
 #   Spin up Apache Superset and Lucidworks Fusion.
 #     - TODO: start Superset
