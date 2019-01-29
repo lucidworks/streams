@@ -254,41 +254,31 @@ class InstanceTenderHandler(BaseHandler):
                         slack.slack_message("ERROR: failed deleting instance %s's from Google Cloud." % name)
 
             else:
+                slack.slack_message("Will try to delete instance %s's from Google Cloud." % name)
                 # instance wasn't found in db
                 # make sure we don't delete non-demo instances
                 name = gcinstance['name']
 
                 if 'button' in name: # i.e. put 'button' in an instance name & this will delete the instance
-                    # handle dev vs. prod instances (need to stage cloud, but all mixed for now)
-                    delete = False
-                    if config.isdev:
-                        if 'dev' in gcinstance['labels']['user']:
-                            delete = True
-                    else:
-                        if 'prod' in gcinstance['labels']['user']:
-                            delete = True
+                    # make the instance call to the control box
+                    try:
+                        http = httplib2.Http(timeout=10)
+                        url = '%s/api/instance/%s/delete?token=%s' % (
+                            config.fastener_host_url, 
+                            name,
+                            config.fastener_api_token
+                        )
 
-                    ############DELETE#############
-                    if delete:        
-                        # make the instance call to the control box
-                        try:
-                            http = httplib2.Http(timeout=10)
-                            url = '%s/api/instance/%s/delete?token=%s' % (
-                                config.fastener_host_url, 
-                                name,
-                                config.fastener_api_token
-                            )
+                        # pull the response back
+                        response, content = http.request(url, 'GET', None, headers={})
 
-                            # pull the response back
-                            response, content = http.request(url, 'GET', None, headers={})
-
-                            if content['status'] == "PENDING":      
-                                slack.slack_message("DELETING instance %s's from Google Cloud." % name)
-                            else:
-                                slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
-                        
-                        except:
-                            slack.slack_message("ERROR: failed deleting instance %s from Google Cloud." % name)
+                        if content['status'] == "PENDING":      
+                            slack.slack_message("DELETING instance %s's from Google Cloud." % name)
+                        else:
+                            slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
+                    
+                    except:
+                        slack.slack_message("ERROR: failed deleting instance %s from Google Cloud." % name)
 
         else:
             # no instances from cloud - this should never run
@@ -528,9 +518,9 @@ class InstancesListHandler(BaseHandler):
             
             # where and who created it (labels for google cloud console)
             if config.isdev:
-                iuser = "%s-%s" % ("dev", user_info.username)
+                iuser = "%s-%s" % ("dev", user_info.username.lower())
             else:
-                iuser = "%s-%s" % ("prod", user_info.username)
+                iuser = "%s-%s" % ("prod", user_info.username.lower())
 
             # build url to create new instance from stream
             url = '%s/api/stream/%s?token=%s&user=%s' % (
