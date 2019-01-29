@@ -109,6 +109,7 @@ FLASK_ENV=development flask run -p 8088 --with-threads --reload --debugger
 
 #     - TODO: restart Fusion?
 
+/fusion/4.*/bin/fusion restart
 #   Create an app in Lucidworks Fusion and index data so that you have at least one collection.
 #     - TODO: include app here, that has a blob datasource
 #     - TODO: start the datasource here?
