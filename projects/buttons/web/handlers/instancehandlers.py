@@ -254,6 +254,7 @@ class InstanceTenderHandler(BaseHandler):
                         slack.slack_message("ERROR: failed deleting instance %s's from Google Cloud." % name)
 
             else:
+                slack.slack_message("Will try to delete instance %s's from Google Cloud." % name)
                 # instance wasn't found in db
                 # make sure we don't delete non-demo instances
                 name = gcinstance['name']
@@ -528,9 +529,9 @@ class InstancesListHandler(BaseHandler):
             
             # where and who created it (labels for google cloud console)
             if config.isdev:
-                iuser = "%s-%s" % ("dev", user_info.username)
+                iuser = "%s-%s" % ("dev", user_info.username.lower())
             else:
-                iuser = "%s-%s" % ("prod", user_info.username)
+                iuser = "%s-%s" % ("prod", user_info.username.lower())
 
             # build url to create new instance from stream
             url = '%s/api/stream/%s?token=%s&user=%s' % (
