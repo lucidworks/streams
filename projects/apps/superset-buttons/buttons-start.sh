@@ -1,6 +1,6 @@
 set -x
 
-# eventually add an app into fusion for PART 2 DEMO - data will need to be off by itself (Connor will provide details) 
+# eventually add an app into fusion for PART 2 DEMO - data will need to be off by itself (Connor will provide details)
 #curl -u $FUSION_API_CREDENTIALS -H "Content-Type:multipart/form-data" -X POST -F 'importData=@Fusion_Superset.zip' $FUSION_API_BASE/objects/import?importPolicy=overwrite
 
 
@@ -11,74 +11,22 @@ set -x
 
 
 #install core utilities
-sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev
+apt-get install -y build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev
+#
+#  Testing Docker start ############
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
+add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-cache policy docker-ce
+apt-get install -y docker-ce
+curl -L https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-
+
+docker run -d --name superset -p 8088:8088 tylerfowler/superset
 
 
-# install custom package repo to enable python3.6 to run on Ubuntu 16.0.4
-add-apt-repository -y ppa:jonathonf/python-3.6  # (remove after 16.04)
 
-# install python for Superset
-apt install -y python3.6
-apt install -y python3.6-dev
-apt install -y python3.6-venv
-
-#although pip should be installed  with python 3 download it in case it is not
-wget https://bootstrap.pypa.io/get-pip.py
-python3.6 get-pip.py
-
-# change symbolic links
-rm -rf /usr/local/bin/python3
-#rm -rf /usr/local/bin/pip
-ln -s /usr/bin/python3.6 /usr/local/bin/python3
-#ln -s /usr/local/bin/pip /usr/local/bin/pip3
-
-# download virtual environment
-pip install virtualenv
-
-# create a folder to hold the environment
-mkdir python_environment
-cd python_environment
-
-# name that virtual environment
-pyvenv my_venv
-
-# activate the virtual environment
-source my_env/bin/activate
-
-# install setuptools in the virtual env
-pip install --upgrade setuptools pip
-
-#install superset so the commands are available
-pip install superset
-
-# pull the superset master from github.
-git clone https://github.com/apache/incubator-superset.git
-
-# cd into appropriate directory
-cd incubator-superset
-
-#pull in dependencies
-pip install -r requirements.txt
-
-#pull in dependencies
-pip install -r requirements-dev.txt
-
-#editable mode
-
-pip install -e .
-pip install python-dotenv
-
-# create a user
-fabmanager create-admin --app superset --username admin --firstname admin --lastname admin --email admin@fab.org --password fus1onpow3r
-
-# Initialize the database
-superset db upgrade
-
-# Load some data to play with
-superset load_examples
-
-# Create default roles and permissions
-superset init
+# End Docker ##############
 
 # To start a development web server on port 8088, use -p to bind to another port
 
@@ -98,7 +46,7 @@ s/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, prox
 # " /fusion/conf/hive-site.xml
 # Not using sed because of multi-line changes
 
-patch /fusion/conf/hive-site.xml ./fusion_conf/conf/hive-site.xml
+patch /fusion/conf/hive-site.xml /superset/fusion_conf/conf/hive-site.xml
 
 
 
@@ -106,7 +54,7 @@ patch /fusion/conf/hive-site.xml ./fusion_conf/conf/hive-site.xml
 #   Spin up Apache Superset and Lucidworks Fusion.
 #     - TODO: start Superset
 #superset runserver -d
-FLASK_ENV=development flask run -p 8088 --with-threads --reload --debugger
+#FLASK_ENV=development flask run -p 8088 --with-threads --reload --debugger
 
 #     - TODO: restart Fusion?
 
