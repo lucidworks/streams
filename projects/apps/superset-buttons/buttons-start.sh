@@ -51,6 +51,7 @@ patch < hive-site.patch
 
 mv hive-site.xml /fusion/conf/
 
+sleep 3
 
 /fusion/4.*/bin/fusion restart
 #   Create an app in Lucidworks Fusion and index data so that you have at least one collection.
