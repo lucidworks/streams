@@ -40,10 +40,11 @@ s/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, prox
 " /fusion/conf/fusion.properties
 
 #   Configure Lucidworks Fusion to work in `binary` mode.
-
-mv /fusion/conf/hive-site.xml ~
-cp /superset/fusion_conf/hive-site_2.xml ~
-cd
+mkdir /patch_lab
+mv /fusion/conf/hive-site.xml /patch_lab
+pwd
+cp /superset/fusion_conf/conf/hive-site_2.xml /patch_lab
+cd /patch_lab
 diff -u hive-site.xml hive-site_2.xml > hive-site.patch
 
 patch < hive-site.patch
