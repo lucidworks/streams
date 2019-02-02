@@ -6,14 +6,14 @@ set -x
 
 
 # Steps:
-#   Download and install Apache Superset
+#   Download and install Apache Superset on docker
 #     - TODO: need to included Superset distro here
 
 
 #install core utilities
 apt-get install -y build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev
 #
-#  Testing Docker start ############
+# Docker section start ############
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add
 add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -40,31 +40,22 @@ s/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, prox
 " /fusion/conf/fusion.properties
 
 #   Configure Lucidworks Fusion to work in `binary` mode.
-#     - TODO: config file tinkering
-# sed -i "
-# s/http/binary/g;
-# " /fusion/conf/hive-site.xml
-# Not using sed because of multi-line changes
 
-patch /fusion/conf/hive-site.xml /superset/fusion_conf/conf/hive-site.xml
+mv /fusion/conf/hive-site.xml ~
+cp /fusion/conf/hive-site_2.xml ~
+cd
+diff -u hive-site.xml hive-site_2.xml > hive-site.patch
 
+patch < hive-site.patch
 
+mv hive-site.xml /fusion/conf/
 
-
-#   Spin up Apache Superset and Lucidworks Fusion.
-#     - TODO: start Superset
-#superset runserver -d
-#FLASK_ENV=development flask run -p 8088 --with-threads --reload --debugger
-
-#     - TODO: restart Fusion?
 
 /fusion/4.*/bin/fusion restart
 #   Create an app in Lucidworks Fusion and index data so that you have at least one collection.
 #     - TODO: include app here, that has a blob datasource
 #     - TODO: start the datasource here?
 
-#   Connect to Lucidworks Fusion to Superset in the Superset UI and add tables from your Fusion collection into Superset.
-#     - TODO: can we bake this into some pre-installed Superset config?
 
 #   Create Your First Chart
 #     - TODO: can we bake this in?
