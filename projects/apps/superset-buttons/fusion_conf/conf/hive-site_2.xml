@@ -43,7 +43,7 @@
 
  <property>
     <name>hive.exec.scratchdir</name>
-    <value>/Users/marcussorealheis/Documents/fusion/var/sql/tmp</value>
+    <value>/fusion/var/sql/tmp</value>
   </property>
 
   <property>
