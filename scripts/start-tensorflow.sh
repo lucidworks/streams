@@ -2,8 +2,8 @@
 TYPE=tensorflow-server
 
 # prompt for zone
-PS3='Which zone should this instance be launched?'
-options=("us-east4-a" "us-central1-a" "us-west1-a" "europe-west4-a" "asia-east1-a")
+PS3='Which zone should this instance be launched? '
+options=("us-east4-a" "us-central1-a" "us-west1-a" "europe-west4-a" "asia-east1-a" "quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -37,6 +37,7 @@ done
 
 # box ID
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+echo "Preparing to launch " $TYPE"-"$NEW_UUID " on " $ZONE;
 
 # launch
 gcloud compute instances create tensorflow-server-$NEW_UUID \
@@ -71,7 +72,7 @@ sudo ipython notebook --ip 0.0.0.0 --port 8888 &
 sleep 5
 
 # grap IP
-IP=$(gcloud compute --zone $ZONE instances describe $TYPE-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+IP=$(gcloud compute instances describe $TYPE-$NEW_UUID --zone $ZONE | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 # set up proxy 
 #curl -X DELETE \
@@ -89,5 +90,5 @@ echo;
 #echo "API access available in a few minutes at: https://api.wisdom.sh/lucidlabs/api/..." 
 #echo;
 
-gcloud -q compute --zone $ZONE --project=$DEVSHELL_PROJECT_ID firewall-rules create jupyter --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8888,udp:8888 --source-ranges=0.0.0.0/0
+gcloud -q compute --project=$DEVSHELL_PROJECT_ID firewall-rules create jupyter --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:8888,udp:8888 --source-ranges=0.0.0.0/0
 echo "Firewall rules updated for project. UDP/8888 and TCP/8888 now open."
