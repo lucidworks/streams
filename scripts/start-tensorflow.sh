@@ -1,15 +1,53 @@
 #!/bin/bash
+TYPE=tensorflow-server
 
+# prompt for zone
+PS3='Which zone should this instance be launched? '
+options=("us-east4-a" "us-central1-a" "us-west1-a" "europe-west4-a" "asia-east1-a" "quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "us-east4-a")
+			ZONE=$opt
+			break
+            ;;
+        "us-central1-a")
+			ZONE=$opt
+			break
+            ;;
+        "us-west1-a")
+			ZONE=$opt
+			break
+            ;;
+        "europe-west4-a")
+			ZONE=$opt
+			break
+        	;;
+        "asia-east1-a")
+			ZONE=$opt
+			break
+        	;;
+        "quit")
+            break
+            ;;
+        *) echo "$REPLY is not an option.";;
+    esac
+done
+
+
+# box ID
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+echo "Preparing to launch " $TYPE"-"$NEW_UUID " on " $ZONE;
 
+# launch
 gcloud compute instances create tensorflow-server-$NEW_UUID \
 --machine-type "n1-standard-4" \
---image "ubuntu-1604-xenial-v20170811" \
+--image "ubuntu-1604-xenial-v20190122a" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NEW_UUID" \
---zone us-central1-a \
+--zone $ZONE \
 --labels ready=true \
 --tags lucid \
 --preemptible \
@@ -30,7 +68,11 @@ sudo git clone https://github.com/tensorflow/tensorflow
 cd tensorflow/tensorflow/examples/tutorials/deepdream/
 sudo ipython notebook --ip 0.0.0.0 --port 8888 &
 '
-IP=$(gcloud compute instances describe tensorflow-server-$NEW_UUID | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+sleep 5
+
+# grap IP
+IP=$(gcloud compute instances describe $TYPE-$NEW_UUID --zone $ZONE | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 # set up proxy 
 #curl -X DELETE \
