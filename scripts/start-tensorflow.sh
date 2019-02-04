@@ -42,7 +42,7 @@ echo "Preparing to launch " $TYPE"-"$NEW_UUID " on " $ZONE;
 # launch
 gcloud compute instances create tensorflow-server-$NEW_UUID \
 --machine-type "n1-standard-4" \
---image "ubuntu-1604-xenial-v20170811" \
+--image "ubuntu-1604-xenial-v20190122a" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
