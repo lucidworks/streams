@@ -13,9 +13,9 @@ do
             ;;
         "us-west1-a")
             ;;
-        "europe-west4-a"
+        "europe-west4-a")
         	;;
-        "asia-east1-a"
+        "asia-east1-a")
         	;;
         "quit")
             break
