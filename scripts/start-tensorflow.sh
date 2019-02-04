@@ -5,24 +5,24 @@ TYPE=tensorflow-server
 PS3='Which zone should this instance be launched?'
 options=("us-east4-a" "us-central1-a" "us-west1-a" "europe-west4-a" "asia-east1-a")
 select opt in "${options[@]}"
-do
-    case $opt in
-        "us-east4-a")
-            ;;
-        "us-central1-a")
-            ;;
-        "us-west1-a")
-            ;;
-        "europe-west4-a")
-        	;;
-        "asia-east1-a")
-        	;;
-        "quit")
-            break
-            ;;
-        *) echo "$REPLY is not an option.";;
-    esac
-done
+
+case $opt in
+    "us-east4-a")
+        ;;
+    "us-central1-a")
+        ;;
+    "us-west1-a")
+        ;;
+    "europe-west4-a")
+    	;;
+    "asia-east1-a")
+    	;;
+    "quit")
+        break
+        ;;
+    *) echo "$REPLY is not an option.";;
+esac
+
 ZONE=$opt
 
 # box ID
