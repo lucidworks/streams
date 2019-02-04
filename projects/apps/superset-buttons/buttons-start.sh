@@ -7,7 +7,6 @@ set -x
 
 # Steps:
 #   Download and install Apache Superset on docker
-#     - TODO: need to included Superset distro here
 
 
 #install core utilities
@@ -22,39 +21,34 @@ apt-cache policy docker-ce
 apt-get install -y docker-ce
 curl -L https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-
 
-docker run -d --name superset -p 8088:8088 tylerfowler/superset
-
-
-
+docker pull tylerfowler/superset
+docker run -d --name superset -p 8088:8088 -p 8768:8768 tylerfowler/superset
 # End Docker ##############
 
-# To start a development web server on port 8088, use -p to bind to another port
+# Start Fusion Configuration changes.
 
-
-#   Download and install Lucidworks Fusion
-#     - done (Fusion already assumed running at this point in the script)
 # replace line in /fusion/conf/fusion.properties
 
 sed -i "
 s/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, proxy, webapps, admin-ui, sql, log-shipper/group.default = zookeeper, solr, api, connectors-classic, connectors-rpc, proxy, webapps, admin-ui, sql, log-shipper, spark-master, spark-worker/g;
 " /fusion/conf/fusion.properties
 
-#   Configure Lucidworks Fusion to work in `binary` mode.
+#   Configure Lucidworks Fusion to work in `binary` mode in hive-site.xml.
 mkdir /patch_lab
 mv /fusion/conf/hive-site.xml /patch_lab
 pwd
 cp /superset/fusion_conf/conf/hive-site_2.xml /patch_lab
 cd /patch_lab
 diff -u hive-site.xml hive-site_2.xml > hive-site.patch
-
 patch < hive-site.patch
-
 mv hive-site.xml /fusion/conf/
+# End Lucidworks configuration changes in hive-site.xml
 
 sleep 3
 
 /fusion/4.*/bin/fusion restart
 #   Create an app in Lucidworks Fusion and index data so that you have at least one collection.
+
 #     - TODO: include app here, that has a blob datasource
 #     - TODO: start the datasource here?
 
@@ -65,4 +59,6 @@ sleep 3
 # Diagnostics
 python --version
 
-diff -r fusion_conf/conf /fusion/conf
+diff -r /superset/fusion_conf/conf/hive-site.xml /fusion/conf/hive-site.xml
+
+diff -r /superset/fusion_conf/conf/fusion.properties /fusion/conf/fusion.properties
