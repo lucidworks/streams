@@ -5,25 +5,35 @@ TYPE=tensorflow-server
 PS3='Which zone should this instance be launched?'
 options=("us-east4-a" "us-central1-a" "us-west1-a" "europe-west4-a" "asia-east1-a")
 select opt in "${options[@]}"
+do
+    case $opt in
+        "us-east4-a")
+			ZONE=$opt
+			break
+            ;;
+        "us-central1-a")
+			ZONE=$opt
+			break
+            ;;
+        "us-west1-a")
+			ZONE=$opt
+			break
+            ;;
+        "europe-west4-a")
+			ZONE=$opt
+			break
+        	;;
+        "asia-east1-a")
+			ZONE=$opt
+			break
+        	;;
+        "quit")
+            break
+            ;;
+        *) echo "$REPLY is not an option.";;
+    esac
+done
 
-case $opt in
-    "us-east4-a")
-        ;;
-    "us-central1-a")
-        ;;
-    "us-west1-a")
-        ;;
-    "europe-west4-a")
-    	;;
-    "asia-east1-a")
-    	;;
-    "quit")
-        break
-        ;;
-    *) echo "$REPLY is not an option.";;
-esac
-
-ZONE=$opt
 
 # box ID
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
