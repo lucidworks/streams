@@ -113,8 +113,8 @@ def console(instance_id):
     return dumps(result)
 
 
-@app.route('/api/instance/<instance_id>/stop', method='GET')
-def stop(instance_id):
+@app.route('/api/instance/<instance_id>/addkey', method='GET')
+def addkey(instance_id):
     # token
     try:
         if request.query['token'] != token:
@@ -125,13 +125,24 @@ def stop(instance_id):
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
 
-    result = compute.instances().stop(
-        project=project,
-        zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
-        instance=instance_id
-    ).execute()
+    result = {
+        'project': project,
+        'zone': 'us-%s-%s' % (regions[int(regionint)], zonealpha),
+        'instance' = instance_id,
+        'status' = 'addkey not implemented'
+    }
 
     return dumps(result)
+
+
+@app.route('/api/instance/<instance_id>/stop', method='GET')
+def stop(instance_id):
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+    except:
+        return dumps({'error': "need token"})
 
 
 @app.route('/api/instance/<instance_id>/delete', method='GET')
@@ -297,7 +308,8 @@ def create(stream_slug='lou'):
         "email": "%s@appspot.gserviceaccount.com" % project,
         "scopes": [
             "https://www.googleapis.com/auth/devstorage.read_only",
-            "https://www.googleapis.com/auth/servicecontrol",
+            # remove to increase lockdown for individual boxes (for SSH access for some users)
+            # "https://www.googleapis.com/auth/servicecontrol",
             "https://www.googleapis.com/auth/service.management.readonly",
         ]
     }]
