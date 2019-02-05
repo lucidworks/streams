@@ -1,7 +1,7 @@
 set -x
 
 # eventually add an app into fusion for PART 2 DEMO - data will need to be off by itself (Connor will provide details)
-#curl -u $FUSION_API_CREDENTIALS -H "Content-Type:multipart/form-data" -X POST -F 'importData=@Fusion_Superset.zip' $FUSION_API_BASE/objects/import?importPolicy=overwrite
+curl -u $FUSION_API_CREDENTIALS -H "Content-Type:multipart/form-data" -X POST -F 'importData=@Fusion_Superset.zip' $FUSION_API_BASE/objects/import?importPolicy=overwrite
 
 
 
@@ -22,7 +22,7 @@ apt-get install -y docker-ce
 curl -L https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-
 
 docker pull tylerfowler/superset
-docker run -d --name superset -p 8088:8088 -p 8768:8768 tylerfowler/superset
+docker run -d --name superset -p 8088:8088 tylerfowler/superset
 # End Docker ##############
 
 # Start Fusion Configuration changes.
