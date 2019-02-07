@@ -56,6 +56,6 @@ sleep 3
 # Diagnostics
 python --version
 
-diff -r /superset/fusion_conf/conf/hive-site.xml /fusion/conf/hive-site.xml
+diff -r /fusion_conf/conf/hive-site.xml /fusion/conf/hive-site.xml
 
-diff -r /superset/fusion_conf/conf/fusion.properties /fusion/conf/fusion.properties
+diff -r /fusion_conf/conf/fusion.properties /fusion/conf/fusion.properties
