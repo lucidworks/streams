@@ -115,12 +115,12 @@ def console(instance_id):
 
 @app.route('/api/instance/<instance_id>/addkey', method='GET')
 def addkey(instance_id):
-    # token
+    # ssh key
     try:
-        if request.query['token'] != token:
-            return dumps({'error': "need token"})
+        if request.query['ssh_key'] != token:
+            return dumps({'error': "need ssh_key"})
     except:
-        return dumps({'error': "need token"})
+        return dumps({'error': "need ssh_key"})
 
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
@@ -129,6 +129,7 @@ def addkey(instance_id):
         'project': project,
         'zone': 'us-%s-%s' % (regions[int(regionint)], zonealpha),
         'instance' = instance_id,
+        'ssh_key' = ssh_key,
         'status' = 'addkey not implemented'
     }
 
