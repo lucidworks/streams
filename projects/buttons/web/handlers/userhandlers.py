@@ -59,7 +59,7 @@ class LoginHandler(BaseHandler):
 			# create a github login url and go
 			login_url = github_helper.get_authorize_url()
 			self.redirect(login_url)
-		
+
 		except Exception as ex:
 			# add error notice for user TODO
 			self.auth.unset_session()
@@ -137,10 +137,10 @@ class CallbackLoginHandler(BaseHandler):
 
 				# if we already have that username, create a new one and try again
 				if existing:
-					user_info.username = "%s%s" % (username, random.randrange(100)) 
+					user_info.username = "%s%s" % (username, random.randrange(100))
 				else:
 					break
-			
+
 			# write out the user
 			user_info.put()
 
@@ -200,9 +200,9 @@ class CallbackLoginHandler(BaseHandler):
 			print next_page
 		else:
 			next_page = ""
-		
+
 		# check if 2FA is on
-		if user_info.tfenabled and (user_info.last_login < now_minus_age): 
+		if user_info.tfenabled and (user_info.last_login < now_minus_age):
 			return self.redirect_to('login-tfa', next=next_page, uid=user_info.uid)
 		else:
 			# two factor is disabled, or already complete
@@ -221,7 +221,7 @@ class CallbackLoginHandler(BaseHandler):
 			ip = self.request.remote_addr
 		)
 		log.put()
-		message = "You have successfully logged in!"         
+		message = "You have successfully logged in!"
 
 		self.add_message(message, 'success')
 
@@ -238,7 +238,7 @@ class CallbackLoginHandler(BaseHandler):
 		try:
 			pass
 		except Exception as ex:
-			message = "User login went wrong: %s" % ex            
+			message = "User login went wrong: %s" % ex
 			self.add_message(message, 'error')
 			return self.redirect_to('index')
 
@@ -257,7 +257,7 @@ class TwoFactorLoginHandler(BaseHandler):
 		next_page = self.request.get('next')
 
 		user_info = User.get_by_uid(str(uid))
-		
+
 		# secrets
 		secret = user_info.tfsecret
 		totp = pyotp.TOTP(secret)
@@ -309,10 +309,10 @@ class TwoFactorSettingsHandler(BaseHandler):
 		user_info = User.get_by_id(long(self.user_id))
 		secret = user_info.tfsecret
 		totp = pyotp.TOTP(secret)
-		
+
 		# build paramater list
 		params = {}
-		
+
 		# verify
 		if action == "enable" and totp.verify(authcode):
 			# authorized to enable
@@ -357,7 +357,9 @@ class SettingsHandler(BaseHandler):
 		self.form.company.data = user_info.company
 		self.form.country.data = user_info.country
 		self.form.timezone.data = user_info.timezone
-	
+		ssh_key = self.form.ssh_key
+
+
 		# extras
 		params = {}
 		params['tfenabled'] = user_info.tfenabled
@@ -370,7 +372,7 @@ class SettingsHandler(BaseHandler):
 			qrcode = totp.provisioning_uri("%s-%s" % (config.app_name, user_info.email))
 			params['qrcode'] = qrcode
 			params['secret'] = secret
-			
+
 			# update the user's key
 			user_info.tfsecret = secret
 			user_info.put()
@@ -389,6 +391,7 @@ class SettingsHandler(BaseHandler):
 		company = self.form.company.data.strip()
 		country = self.form.country.data.strip()
 		timezone = self.form.timezone.data.strip()
+		ssh_key = self.form.ssh_key.data.strip()
 
 		user_info = User.get_by_id(long(self.user_id))
 
@@ -397,7 +400,7 @@ class SettingsHandler(BaseHandler):
 			if username != user_info.username:
 				user_info.unique_properties = ['username']
 				uniques = ['User.username:%s' % username]
-				
+
 				# create the unique username and auth_id
 				success, existing = Unique.create_multi(uniques)
 
@@ -416,7 +419,7 @@ class SettingsHandler(BaseHandler):
 			if email != user_info.email:
 				user_info.unique_properties = ['email']
 				uniques = ['User.email:%s' % email]
-				
+
 				# create the unique username and auth_id
 				success, existing = Unique.create_multi(uniques)
 
@@ -431,11 +434,12 @@ class SettingsHandler(BaseHandler):
 					self.add_message('That email address is already in use.', 'error')
 					return self.get()
 
-			# update database                
+			# update database
 			user_info.name = name
 			user_info.company = company
 			user_info.country = country
 			user_info.timezone = timezone
+			user_info.ssh_key = ssh_key
 			user_info.put()
 
 			self.add_message("Your settings have been saved.", 'success')

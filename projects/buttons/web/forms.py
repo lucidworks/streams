@@ -38,3 +38,4 @@ class EditProfileForm(BaseForm):
     company = fields.TextField('Company')
     country = fields.SelectField('Country', choices=utils.COUNTRIES)
     timezone = fields.SelectField('Timezone', choices=utils.timezones())
+    ssh_key = fields.TextAreaField('Public SSH Key')
