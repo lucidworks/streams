@@ -48,6 +48,7 @@ class User(User):
 	user_type = ndb.StringProperty(default="default") # default
 	max_instances = ndb.IntegerProperty(default=3) # min limit set here
 	password = ndb.StringProperty()
+	ssh_key = ndb.StringProperty()
 	tfsecret = ndb.StringProperty()
 	tfenabled = ndb.BooleanProperty(default=False)
 	tfa_attempt_timestamp = ndb.DateTimeProperty()
