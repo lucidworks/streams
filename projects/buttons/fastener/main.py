@@ -128,9 +128,9 @@ def addkey(instance_id):
     result = {
         'project': project,
         'zone': 'us-%s-%s' % (regions[int(regionint)], zonealpha),
-        'instance' = instance_id,
-        'ssh_key' = ssh_key,
-        'status' = 'addkey not implemented'
+        'instance': instance_id,
+        'ssh_key': ssh_key,
+        'status': 'addkey not implemented'
     }
 
     return dumps(result)
