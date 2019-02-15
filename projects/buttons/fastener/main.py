@@ -132,18 +132,21 @@ def status(instance_id):
             instance=instance_id
         ).execute()
     except Exception as ex:
-        print "here's an actual error: %s" % ex
-        time.sleep(3)
-        print "trying again"
-        try:
-            result = compute.instances().get(
-                project=project,
-                zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
-                instance=instance_id
-            ).execute()
-        except:
-            result = {}
+        if "HttpError" in ex:
+            result = {'error': "NOTFOUND"}
+
+        else:
             print "here's an actual error: %s" % ex
+            print "trying again"
+            try:
+                result = compute.instances().get(
+                    project=project,
+                    zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+                    instance=instance_id
+                ).execute()
+            except:
+                result = {}
+                print "here's an actual error: %s" % ex
 
     return dumps(result)
 
