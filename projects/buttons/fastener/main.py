@@ -131,8 +131,9 @@ def status(instance_id):
             zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
+
     except Exception as ex:
-        if "HttpError" in ex:
+        if "HttpError" in str(ex):
             result = {'error': "NOTFOUND"}
 
         else:
