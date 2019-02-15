@@ -126,14 +126,25 @@ def status(instance_id):
     zonealpha = instance_id[-1]
 
     try:
-        result = compute.instances().describe(
+        result = compute.instances().get(
             project=project,
             zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
-        result = {}
         print "here's an actual error: %s" % ex
+        time.sleep(3)
+        print "trying again"
+        try:
+            result = compute.instances().get(
+                project=project,
+                zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+                instance=instance_id
+            ).execute()
+        except:
+            result = {}
+            print "here's an actual error: %s" % ex
+
     return dumps(result)
 
 
