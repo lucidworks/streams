@@ -33,7 +33,7 @@ class InstanceHotStartsHandler(BaseHandler):
 
         # blast old ones
         for instance in instances:
-            fiveminutesago = datetime.datetime.now() - datetime.timedelta(0, 14400)
+            fiveminutesago = datetime.datetime.now() - datetime.timedelta(0, 14400) # not five minutes, people
             if instance.created < fiveminutesago:
                 # this instance is SO less (older) than some epoch seconds ago ^
                 dinstances.append(instance)
@@ -214,14 +214,35 @@ class InstanceTenderHandler(BaseHandler):
                     pass
 
             else:
-                # no instances were found on Google Cloud for this local instance record
-                if instance.created < datetime.datetime.now() - datetime.timedelta(0, 900):
-                    slack.slack_message("DELETING instance %s's record from database. No instance found on Google Cloud." % name)
-                    instance.key.delete()
-                else:
-                    # only delete if instance create time is greater than 15 minutes...
-                    slack.slack_message("WAITING to delete instance %s's record from database. No instance found on Google Cloud." % name)
+                # box wasn't found on GCP (via fastener LIST call)
+                slack.slack_message("Instance %s noted not being on GCP - looking" % name)
 
+                http = httplib2.Http(timeout=10)
+                url = '%s/api/instance/%s/status?token=%s' % (
+                    config.fastener_host_url, 
+                    name,
+                    config.fastener_api_token
+                )
+
+                # pull the response back
+                response, content = http.request(url, 'GET', None, headers={})
+                
+                result = json.loads(content)
+                if not result:
+                    # we could not verify box was or wasn't running (fastener might not be running)
+                    pass
+                else:
+                    try:
+                        if result['error'] == "NOTFOUND":
+                            instance.delete()
+                            instance.put()
+                    except:
+                        # no error
+                        # why are we here, we got a response this box is running
+                        pass
+
+                    
+                
         else:
             # no instances in db
             pass
@@ -248,10 +269,10 @@ class InstanceTenderHandler(BaseHandler):
                         response, content = http.request(url, 'GET', None, headers={})
                         if content['status'] == "PENDING":
                             instance.key.delete()          
-                            slack.slack_message("DELETING instance %s's from Google Cloud." % name)
+                            slack.slack_message("DELETING instance %s's from GCP because expired." % name)
                     
                     except:
-                        slack.slack_message("ERROR: failed deleting instance %s's from Google Cloud." % name)
+                        slack.slack_message("ERROR: failed deleting instance %s's from GCP because expired." % name)
 
             else:
                 slack.slack_message("Will try to delete instance %s's from Google Cloud." % name)
@@ -693,6 +714,7 @@ class InstanceControlHandler(BaseHandler):
                             instance.key.delete()
                         else:
                             params = {"response": "failure", "message": "instance %s operation failure" % name }
+                            instance.key.delete()
                             response.set_status(500)
                     except:
                         params = {"response": "failure", "message": "instance %s failure" % name }
