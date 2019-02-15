@@ -113,6 +113,30 @@ def console(instance_id):
     return dumps(result)
 
 
+@app.route('/api/instance/<instance_id>/status', method='GET')
+def status(instance_id):
+    # token
+    try:
+        if request.query['token'] != token:
+            return dumps({'error': "need token"})
+    except:
+        return dumps({'error': "need token"})
+
+    regionint = instance_id[-2]
+    zonealpha = instance_id[-1]
+
+    try:
+        result = compute.instances().describe(
+            project=project,
+            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+            instance=instance_id
+        ).execute()
+    except Exception as ex:
+        result = {}
+        print "here's an actual error: %s" % ex
+    return dumps(result)
+
+
 @app.route('/api/instance/<instance_id>/addkey', method='GET')
 def addkey(instance_id):
     # token
