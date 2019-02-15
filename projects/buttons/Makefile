@@ -20,7 +20,10 @@ push:
 upload:
 	git pull
 	gcloud app deploy app.yaml --project labs-209320
+
+upload_cron:
+	git pull # pull for legacy functionality in upload
 	gcloud app deploy cron.yaml
 
 cron:
-	./devtools/devcron.sh	
+	./devtools/devcron.sh
