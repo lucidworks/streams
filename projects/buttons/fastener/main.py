@@ -163,10 +163,10 @@ def addkey(instance_id):
             return dumps({'error': "need username"})
 
         # handle encoded/unencoded
-        if '+' not in ssh_key:
-            ssh_key = urllib.unquote_plus(request.query['ssh_key'])
+        if '+' in ssh_key:
+            ssh_key = request.query['ssh_key']            
         else:
-            ssh_key = request.query['ssh_key']
+            ssh_key = urllib.unquote_plus(request.query['ssh_key'])
 
         username = request.query['username']
     except:
