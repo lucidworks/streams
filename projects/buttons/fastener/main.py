@@ -162,11 +162,8 @@ def addkey(instance_id):
         if not request.query['username']:
             return dumps({'error': "need username"})
 
-        # handle encoded/unencoded
-        if '+' in request.query['ssh_key']:
-            ssh_key = request.query['ssh_key']            
-        else:
-            ssh_key = urllib.unquote_plus(request.query['ssh_key'])
+
+        ssh_key = urllib.unquote(request.query['ssh_key'])
 
         username = request.query['username']
     except:
@@ -175,6 +172,8 @@ def addkey(instance_id):
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
 
+    status = "FAIL"
+    
     # write ssh_key to file
     try:
         # this be juju 
@@ -195,6 +194,7 @@ def addkey(instance_id):
 
         # sigh
         os.system(command)
+        status = "SUCCESS"
 
     except:
         pass
@@ -204,7 +204,7 @@ def addkey(instance_id):
         'zone': 'us-%s-%s' % (regions[int(regionint)], zonealpha),
         'instance': instance_id,
         'ssh_key': ssh_key,
-        'status': 'addkey not implemented'
+        'status': status
     }
 
     return dumps(result)
