@@ -171,22 +171,26 @@ def addkey(instance_id):
     zonealpha = instance_id[-1]
 
     # write ssh_key to file
-
     try:
-        # this really is bad juju. convert to use the compute . client methods for adding metadata to an instance
+        # this be juju 
+        # convert to use 'compute.instances.setmetadata'
+        # for adding metadata to an instance
         f = open("keys/%s_rsa.pub" % username, "w")
         f.write(ssh_key)
         f.close()
 
+        # likely attack vector through not scrubing github username?
         command = "gcloud compute instances add-metadata %s --metadata-from-file ssh-keys=keys/%s_rsa.pub --zone=us-%s-%s" % (
             instance_id,
             username,
             regions[int(regionint)], 
             zonealpha
         )
-        print command
+        print "executing `%s`" % command
 
-        # os.system(command)
+        # sigh
+        os.system(command)
+
     except:
         pass
 
