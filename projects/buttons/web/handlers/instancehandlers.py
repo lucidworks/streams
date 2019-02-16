@@ -241,8 +241,6 @@ class InstanceTenderHandler(BaseHandler):
                         # why are we here, we got a response this box is running
                         pass
 
-                    
-                
         else:
             # no instances in db
             pass
@@ -275,12 +273,13 @@ class InstanceTenderHandler(BaseHandler):
                         slack.slack_message("ERROR: failed deleting instance %s's from GCP because expired." % name)
 
             else:
-                slack.slack_message("Will try to delete instance %s's from Google Cloud." % name)
                 # instance wasn't found in db
                 # make sure we don't delete non-demo instances
                 name = gcinstance['name']
 
                 if 'button' in name: # i.e. put 'button' in an instance name & this will delete the instance
+                    slack.slack_message("Not found in DB. Will try to delete instance %s's from Google Cloud." % name)
+
                     # make the instance call to the control box
                     try:
                         http = httplib2.Http(timeout=10)

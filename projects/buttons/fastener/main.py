@@ -1,4 +1,4 @@
-from google.auth import compute_engine
+afrom google.auth import compute_engine
 from googleapiclient import discovery
 from bottle import Bottle, route, run, template, response, request, redirect, error
 from json import dumps
@@ -34,7 +34,7 @@ project = 'labs-209320'
 regions = ['central1', 'west1', 'west2', 'east4'] # numbered 0, 1, 2, etc. in name
 zones = ['a', 'b', 'c']
 
-# app
+
 app = Bottle(__name__)
 
 # let's not screw around with other requests
@@ -163,6 +163,11 @@ def addkey(instance_id):
 
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
+
+    command = "gcloud compute instances add-metadata button-%s-%s --metadata-from-file ssh-keys=id_rsa.pub --zone=us-%s-%s" % (regions[int(regionint)], zonealpha)
+    print command
+    
+    os.system(command)
 
     result = {
         'project': project,
