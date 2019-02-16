@@ -357,7 +357,7 @@ class SettingsHandler(BaseHandler):
 		self.form.company.data = user_info.company
 		self.form.country.data = user_info.country
 		self.form.timezone.data = user_info.timezone
-		ssh_key = self.form.ssh_key
+		self.form.ssh_key.data = user_info.ssh_key
 
 
 		# extras
