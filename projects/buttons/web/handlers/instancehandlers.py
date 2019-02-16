@@ -235,7 +235,7 @@ class InstanceTenderHandler(BaseHandler):
                 else:
                     try:
                         if result['error'] == "NOTFOUND":
-                            slack.slack_message("Deleting instance %s from DB ßfor not being on GCP." % name)
+                            slack.slack_message("Deleting instance %s from DB for not being on GCP." % name)
                             instance.delete()
                             instance.put()
                     except:
@@ -276,13 +276,14 @@ class InstanceTenderHandler(BaseHandler):
 
             else:
                 # instance wasn't found in db
-                # make sure we don't delete non-demo instances
                 name = gcinstance['name']
 
-                if 'button' in name: # i.e. put 'button' in an instance name & this will delete the instance
+                # make sure we don't delete non-demo or prod instances
+                if 'button' in name and isdev == False: # i.e. put 'button' in an instance name & this will delete the instance
                     slack.slack_message("Not found in DB. Will try to delete instance %s's from Google Cloud." % name)
 
                     # make the instance call to the control box
+                    # THIS IS THE DANGEROUS BITS
                     try:
                         http = httplib2.Http(timeout=10)
                         url = '%s/api/instance/%s/delete?token=%s' % (
