@@ -164,7 +164,6 @@ def addkey(instance_id):
 
 
         ssh_key = urllib.unquote(request.query['ssh_key'])
-
         username = request.query['username']
     except:
         return dumps({'error': "ssh_key, username required to add keys"})
@@ -180,7 +179,7 @@ def addkey(instance_id):
         # convert to use 'compute.instances.setmetadata'
         # for adding metadata to an instance
         f = open("keys/%s_rsa.pub" % username, "w")
-        f.write(ssh_key)
+        f.write("%s@%s" % ssh_key)
         f.close()
 
         # likely attack vector through not scrubing github username?
