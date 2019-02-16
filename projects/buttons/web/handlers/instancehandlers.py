@@ -154,6 +154,7 @@ class InstanceTenderHandler(BaseHandler):
         # loop through list of instances in local or production DB
         for instance in instances:
             name = instance.name
+            found = False
 
             # loop through the instances we got from google
             for gcinstance in gcinstances:
@@ -161,6 +162,7 @@ class InstanceTenderHandler(BaseHandler):
                 # check if the names match
                 if name == gcinstance['name']:
                     # got a match
+                    found = True
                     try:
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
@@ -213,7 +215,7 @@ class InstanceTenderHandler(BaseHandler):
                     # instance doesn't match
                     pass
 
-            else:
+            if not found:
                 # box wasn't found on GCP (via fastener LIST call)
                 slack.slack_message("Instance %s noted not being on GCP - looking" % name)
 
