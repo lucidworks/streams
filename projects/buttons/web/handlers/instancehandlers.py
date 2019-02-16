@@ -238,8 +238,7 @@ class InstanceTenderHandler(BaseHandler):
                     try:
                         if result['error'] == "NOTFOUND":
                             slack.slack_message("Deleting instance %s from DB for not being on GCP." % name)
-                            instance.delete()
-                            instance.put()
+                            instance.key.delete()
                     except:
                         # no error
                         # why are we here, we got a response this box is running
