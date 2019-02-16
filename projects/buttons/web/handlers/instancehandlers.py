@@ -658,7 +658,7 @@ class InstanceControlHandler(BaseHandler):
         # lookup user's auth info
         user_info = User.get_by_id(long(self.user_id))
 
-        # delete instance
+        # get instance
         instance = Instance.get_by_name(name)
 
         if not instance:
@@ -692,6 +692,32 @@ class InstanceControlHandler(BaseHandler):
                     else:
                         params = {"response": "failure", "message": "instance %s operation failure" % name }
                         response.set_status(500)
+
+                # add ssh_key to instance
+                elif command == "addkey":
+                    # make the instance call to the control box
+                    http = httplib2.Http(timeout=10)
+                    url = '%s/api/instance/%s/addkey?token=%s&ssh_key=%s&username=%s' % (
+                        config.fastener_host_url, 
+                        name,
+                        config.fastener_api_token,
+                        urllib.quote(user_info.ssh_key),
+                        user_info.username
+                    )
+
+                    try:
+                        # pull the response back TODO add error handling
+                        response, content = http.request(url, 'GET', None, headers={})
+
+                        # delete if google returns pending
+                        if json.loads(content)['status'] == "SUCCESS":
+                            params = {"response": "success", "message": "instance %s updated with key" % name }
+                        else:
+                            params = {"response": "failure", "message": "instance %s operation failure" % name }
+                            response.set_status(500)
+                    except:
+                        params = {"response": "failure", "message": "instance %s failure" % name }
+
 
                 # delete the instance - C'est la vie
                 elif command == "delete":
@@ -776,7 +802,8 @@ class InstanceDetailHandler(BaseHandler):
         params = {
             'guide': guide,
             'instance': instance,
-            'stream': stream
+            'stream': stream,
+            'user_info': user_info
         }
 
         return self.render_template('instance/detail.html', **params)
