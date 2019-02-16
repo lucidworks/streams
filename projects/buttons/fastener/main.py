@@ -159,7 +159,7 @@ def addkey(instance_id):
     try:
         if not request.query['ssh_key']:
             return dumps({'error': "need ssh_key"})
-        if not request.query['username']
+        if not request.query['username']:
             return dumps({'error': "need username"})
 
         ssh_key = urllib.unquote_plus(request.query['ssh_key'])
