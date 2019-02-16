@@ -1,7 +1,8 @@
-afrom google.auth import compute_engine
+from google.auth import compute_engine
 from googleapiclient import discovery
 from bottle import Bottle, route, run, template, response, request, redirect, error
 from json import dumps
+import urllib
 import random
 import string
 import sys
@@ -151,23 +152,43 @@ def status(instance_id):
 
     return dumps(result)
 
-
+# requires ssh_key (encoded) and username parameters
 @app.route('/api/instance/<instance_id>/addkey', method='GET')
 def addkey(instance_id):
     # ssh key
     try:
-        if request.query['ssh_key'] != token:
+        if not request.query['ssh_key']:
             return dumps({'error': "need ssh_key"})
+        if not request.query['username']
+            return dumps({'error': "need username"})
+
+        ssh_key = urllib.unquote_plus(request.query['ssh_key'])
+        username = request.query['username']
     except:
-        return dumps({'error': "need ssh_key"})
+        return dumps({'error': "ssh_key, username required to add keys"})
 
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
 
-    command = "gcloud compute instances add-metadata button-%s-%s --metadata-from-file ssh-keys=id_rsa.pub --zone=us-%s-%s" % (regions[int(regionint)], zonealpha)
-    print command
-    
-    os.system(command)
+    # write ssh_key to file
+
+    try:
+        # this really is bad juju. convert to use the compute . client methods for adding metadata to an instance
+        f = open("keys/%s_rsa.pub" % username, "w")
+        f.write(ssh_key)
+        f.close()
+
+        command = "gcloud compute instances add-metadata %s --metadata-from-file ssh-keys=keys/%s_rsa.pub --zone=us-%s-%s" % (
+            instance_id,
+            username,
+            regions[int(regionint)], 
+            zonealpha
+        )
+        print command
+
+        # os.system(command)
+    except:
+        pass
 
     result = {
         'project': project,
