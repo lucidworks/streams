@@ -230,10 +230,12 @@ class InstanceTenderHandler(BaseHandler):
                 result = json.loads(content)
                 if not result:
                     # we could not verify box was or wasn't running (fastener might not be running)
+                    slack.slack_message("Can't tell what is going on.")
                     pass
                 else:
                     try:
                         if result['error'] == "NOTFOUND":
+                            slack.slack_message("Deleting instance %s from DB ßfor not being on GCP." % name)
                             instance.delete()
                             instance.put()
                     except:
