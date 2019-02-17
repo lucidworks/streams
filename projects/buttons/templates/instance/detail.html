@@ -213,13 +213,13 @@ The key's randomart image is:
                       {% if instance.app_link %}
                       <tr>
                         <td><strong>Demo</strong></td>
-                        <td><a target="_blank" href="{{ instance.app_link }}">{{ instance.app_link }}</a></td>
+                        <td><a target="_blank" href="{{ instance.app_link }}">{{ instance.app_link }}</a> | <a href="{{ instance.app_link }}">alt_link</a></td>
                       </tr>
                       {% endif %}
                       {% if instance.admin_link != None %}
                       <tr>
                         <td><strong>Admin</strong></td>
-                        <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a></td>
+                        <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a> | <a href="{{ instance.admin_link }}">alt_link</a></td>
                       </tr>
                       {% else %}
                       <tr>
