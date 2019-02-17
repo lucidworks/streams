@@ -41,8 +41,9 @@
 {% macro admin_side_menu(page) -%}
   <ul class="nav nav-pills nav-stacked">
     <li{% if page=="templates" %} class="active"{% endif %}><a href="{{ uri_for('admin-streams') }}">Templates</a></li>
-    <li{% if page=="instances" %} class="active"{% endif %}><a href="{{ uri_for('admin-instances') }}">Instances</a></li>
-    <li{% if page=="users" %} class="active"{% endif %}><a href="{{ uri_for('admin-users') }}">Users</a></li>    
+    <li{% if page=="instances" %} class="active"{% endif %}><a href="{{ uri_for('admin-instances') }}">All Instances</a></li>
+    <li{% if page=="users" %} class="active"{% endif %}><a href="{{ uri_for('admin-users') }}">Users</a></li>
+    <li><a href="{{ uri_for('account-dashboard')}}">&lt;&lt; Back</a></li>
   </ul>
 {%- endmacro %}
 
