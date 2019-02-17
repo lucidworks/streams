@@ -108,12 +108,11 @@ class Instance(ndb.Model):
 	name = ndb.StringProperty()
 	renamed = ndb.StringProperty()
 	topic = ndb.StringProperty(default="ai")
-	ip = ndb.StringProperty()
+	ip = ndb.StringProperty(default="NONE")
 	admin_link = ndb.StringProperty() # just uses IP + :8764
 	password = ndb.StringProperty() # admin password
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
 	status = ndb.StringProperty()
-	gcp_status = ndb.StringProperty(default="NOTFOUND")
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
 	preemptible = ndb.BooleanProperty(indexed=True, default=True)
 

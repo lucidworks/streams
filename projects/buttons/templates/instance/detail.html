@@ -298,7 +298,7 @@ The key's randomart image is:
           {% endif %}
           {% if user_info.ssh_key %}
           {% if instance.status != "PENDING" %}
-          {% if instance.ip %}
+          {% if instance.ip != "NONE" %}
           <button id="instance-addkey" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
           {% endif %}
           {% endif %}
