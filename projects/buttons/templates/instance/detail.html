@@ -100,7 +100,7 @@
       </div>
       <div class="modal-body">
         <p>In a few seconds, this instance will install the SSH key used in your settings. To connect to your instance, do the following:</p>
-        <code>ssh -i id_lucid.pub {{ user_info.username }}@{{ instance.ip }}</code>
+        <code>ssh -i id_lucidkey {{ user_info.username }}@{{ instance.ip }}</code>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

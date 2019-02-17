@@ -179,7 +179,7 @@ def addkey(instance_id):
         # convert to use 'compute.instances.setmetadata'
         # for adding metadata to an instance
         f = open("keys/%s_rsa.pub" % username, "w")
-        f.write("%s@%s" % (username, ssh_key))
+        f.write("%s:%s" % (username, ssh_key))
         f.close()
 
         # likely attack vector through not scrubing github username?
