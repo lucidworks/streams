@@ -238,8 +238,8 @@ The key's randomart image is:
                         <td><em>admin</em></td>
                       </tr>
                      </tr>
-                        <td><strong>Password (click only to copy)</strong></td>
-                        <td><em><p id="password-{{ instance.password }}">{% if instance.password %}{{ instance.password }}</p></em>{% else %}N/A</em>{% endif %}</td></em>
+                        <td><strong>Password</strong></td>
+                        <td><em><p id="password-{{ instance.password }}"><span id="password-field">{% if instance.password %}{{ instance.password }}</span></p></em>{% else %}N/A</em>{% endif %}</td></em>
                       </tr>
                       <tr>
                         <td><strong>Public IPv4</strong></td>
@@ -542,7 +542,7 @@ The key's randomart image is:
       var dummy = $('<input>').val(password).appendTo('body').select();
       document.execCommand('copy');
       alertify.success("Password copied.");
-      $(this).css("background-color", "lightgrey");
+      $('#password-field').css("background-color", "lightblue");
       dummy.remove();
     });
 
