@@ -7,6 +7,7 @@ import random
 import string
 import sys
 import os
+import subprocess
 import time
 import re
 
@@ -191,8 +192,12 @@ def addkey(instance_id):
         )
         print "executing `%s`" % command
 
-        # sigh
-        os.system(command)
+        # sigh (at least it doesn't block)
+        commands = command.split()
+        p = subprocess.Popen(commands)
+        
+        # os.system(command)
+
         status = "SUCCESS"
 
     except Exception as ex:
