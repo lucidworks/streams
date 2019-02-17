@@ -195,7 +195,8 @@ def addkey(instance_id):
         os.system(command)
         status = "SUCCESS"
 
-    except:
+    except Exception as ex:
+        print ex
         pass
 
     result = {
