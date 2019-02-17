@@ -100,7 +100,49 @@
       </div>
       <div class="modal-body">
         <p>In a few seconds, this instance will install the SSH key used in your settings. To connect to your instance, do the following:</p>
-        <code>ssh -i id_lucidkey {{ user_info.username }}@{{ instance.ip }}</code>
+        <pre>ssh -i id_lucidlabs {{ user_info.username }}@{{ instance.ip }}</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="nossh" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create & Add an SSH Key</h4>
+      </div>
+      <div class="modal-body">
+        <p>1. Run this command in a terminal locally:</p>
+<pre>
+ssh-keygen -f id_lucidlabs
+</pre>
+        <p>2. Compare sample output of run:</p>
+<pre>
+$ ssh-keygen -f id_lucidlabs
+Generating public/private rsa key pair.
+Your identification has been saved in id_lucidlabs.
+Your public key has been saved in id_lucidlabs.pub.
+The key fingerprint is:
+SHA256:/tsz3aV/RXKsNGVPPCEmtRd62UWz2uRlgROtdyHU55Q kordless@button-lifescience-cxjr3c
+The key's randomart image is:
++---[RSA 2048]----+
+|           .o*=B=|
+|            o++E/|
+|             o+&O|
+|             .@oO|
+|        S    o.O.|
+|       .      . o|
+|        .    . oo|
+|         . .o o o|
+|          o..o .o|
++----[SHA256]-----+
+</pre>
+      <p>3. Copy the contents of the <strong>id_lucidlabs.pub</strong> file to your buffer.</p> 
+      <p>4. Navigate to your <a href="/settings">settings</a> page to paste in and save your SSH key.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -258,6 +300,8 @@
           {% if instance.status != "PENDING" %}
           <button id="instance-addkey" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
           {% endif %}
+          {% else %}
+          <button id="instance-nossh" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
           {% endif %}
         </div>
       </div>
@@ -551,6 +595,10 @@
           }
         }
       });
+    });
+
+    $('#instance-nossh').click(function() {
+      $('#nossh').modal();
     });
 
     $('#instance-addkey').click(function() {
