@@ -162,10 +162,7 @@ class InstanceTenderHandler(BaseHandler):
                 # check if the names match
                 if name == gcinstance['name']:
                     # got a match
-                    if found == True:
-                        break
-                    else:
-                        found = True
+                    found = True
                     
                     try:
                         # grab the IP address and status
@@ -284,7 +281,7 @@ class InstanceTenderHandler(BaseHandler):
                 name = gcinstance['name']
 
                 # make sure we don't delete non-demo or prod instances
-                if 'button' in name and isdev == False: # i.e. put 'button' in an instance name & this will delete the instance
+                if 'button' in name and config.isdev == False: # i.e. put 'button' in an instance name & this will delete the instance
                     slack.slack_message("Not found in DB. Will try to delete instance %s's from Google Cloud." % name)
 
                     # make the instance call to the control box
