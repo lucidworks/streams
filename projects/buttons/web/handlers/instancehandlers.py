@@ -162,7 +162,11 @@ class InstanceTenderHandler(BaseHandler):
                 # check if the names match
                 if name == gcinstance['name']:
                     # got a match
-                    found = True
+                    if found == True:
+                        break
+                    else:
+                        found = True
+                    
                     try:
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
