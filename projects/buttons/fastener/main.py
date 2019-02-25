@@ -377,7 +377,7 @@ def create(stream_slug='lou'):
         'type': "PERSISTENT",
         'autoDelete': True,
         'initializeParams': {
-            "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20181204",
+            "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20190212",
             "diskType": "projects/%s/zones/us-%s-%s/diskTypes/pd-ssd" % (project, regions[int(regionint)], zonealpha),
             "diskSizeGb": "100"
         }
