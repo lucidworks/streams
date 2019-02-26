@@ -286,7 +286,7 @@ The key's randomart image is:
           <button id="instance-list" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
           <button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>
           {% if instance.status == "TERMINATED" %}
-            <button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Instance</button>                    
+            <button id="instance-start-bottom" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Instance</button>                    
           {% endif %}
           {% if guide == False %}
             <button id="instance-guide-open" class="btn btn-warning"><span class="glyphicon glyphicon-book"></span> View Guide</button>
@@ -582,6 +582,19 @@ The key's randomart image is:
     });
 
     $('#instance-start').click(function() {
+      $.ajax({
+        url: '/instance/{{ instance.name }}/start?_csrf_token='+csrf_token,
+        type: 'GET',
+        statusCode: {
+          200: function() {
+            alertify.success("Instance {{ instance.name }} started!");
+            setTimeout(function(){ location.reload(); }, 2000);
+          }
+        }
+      });
+    });
+
+    $('#instance-start-bottom').click(function() {
       $.ajax({
         url: '/instance/{{ instance.name }}/start?_csrf_token='+csrf_token,
         type: 'GET',
