@@ -167,35 +167,42 @@ class InstanceTenderHandler(BaseHandler):
                     try:
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
-                        instance.status = gcinstance['status']
+                        
+                        # RUNNING (SYSTEM) >> CONFIGURING (script) >> BUILDING (script) >> RUNNING (script)
+                        if instance.status not in ("BUILDING"):
+                            instance.status = gcinstance['status']
 
-                        # check if the box is running fusion admin yet
-                        try:
-                            # fast fail connection for checking if fusion is up
-                            http_test = httplib2.Http(timeout=2)
-                            test_url = 'http://%s:8764' % instance.ip
-                            response, content = http_test.request(test_url, 'GET')
-                            test_status = response['status']
-                        except:
-                            test_status = "404"
+                        if gcinstance['status'] == "RUNNING":
+                            # check if the box is running fusion admin yet
+                            try:
+                                # fast fail connection for checking if fusion is up
+                                http_test = httplib2.Http(timeout=2)
+                                test_url = 'http://%s:8764' % instance.ip
+                                response, content = http_test.request(test_url, 'GET')
+                                test_status = response['status']
+                            except:
+                                test_status = "404"
 
-                        # set admin_link if box is running and test comes back 200
-                        if gcinstance['status'] == "RUNNING" and test_status == "200":
-                            instance.admin_link = test_url
+                            # set admin_link if box is running and test comes back 200
+                            if gcinstance['status'] == "RUNNING" and test_status == "200":
+                                instance.admin_link = test_url
 
-                            # build app link and update, if it exists
-                            if instance.stream.get().app_stub:
-                                app_stub = instance.stream.get().app_stub
-                                instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                                # build app link and update, if it exists
+                                if instance.stream.get().app_stub:
+                                    app_stub = instance.stream.get().app_stub
+                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                                else:
+                                    instance.app_link = None
+
                             else:
+                                # show the box is in configuration mode
+                                instance.status = "CONFIGURING"
+                                instance.admin_link = None
                                 instance.app_link = None
 
-                        elif gcinstance['status'] != "BUILDING":
-                            # show the box is in configuration mode
-                            slack.slack_message("Not building %s " % instance.name)
-                            instance.status = "CONFIGURING"
-                            instance.admin_link = None
-                            instance.app_link = None
+                        else: # NOT RUNNING STATUS
+                            pass
+
 
                     except:
                         # got limited or no data about instance
