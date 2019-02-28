@@ -35,6 +35,9 @@
   {% if status=="TERMINATED" %}
     <span id="state" class="label label-danger">Terminated</span>
   {% endif %}
+  {% if status=="BUILDING" %}
+    <span id="state" class="label label-info">Building</span>
+  {% endif %}
 {% endmacro %}
 
 <!-- admin side menu widget -->

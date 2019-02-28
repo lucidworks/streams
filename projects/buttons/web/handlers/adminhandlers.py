@@ -263,7 +263,8 @@ class AdminInstanceStatusAPIHandler(BaseHandler):
             "CONFIGURING", # lucidworks status for building out box
             "RUNNING",
             "STOPPING",
-            "TERMINATED"
+            "TERMINATED",
+            "BUILDING"
         ]
 
         status = self.request.get('status')
