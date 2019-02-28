@@ -189,7 +189,7 @@ class InstanceTenderHandler(BaseHandler):
                                 instance.app_link = "http://%s%s" % (instance.ip, app_stub)
                             else:
                                 instance.app_link = None  
-                        else:
+                        elif gcinstance['status'] != "BUILDING":
                             # show the box is in configuration mode
                             instance.status = "CONFIGURING"
                             instance.admin_link = None
