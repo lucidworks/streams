@@ -192,6 +192,7 @@ class InstanceTenderHandler(BaseHandler):
 
                         elif gcinstance['status'] != "BUILDING":
                             # show the box is in configuration mode
+                            slack.slack_message("Not building %s " % instance.name)
                             instance.status = "CONFIGURING"
                             instance.admin_link = None
                             instance.app_link = None
