@@ -1,1 +1,0 @@
-To run this application on an existing Fusion instance, click on `import app` under `add new app` from the main page of Fusion and then select the zip file in this repository, which you have downloaded locally.
