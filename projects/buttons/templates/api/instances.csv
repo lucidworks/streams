@@ -1,0 +1,1 @@
+{% for instance in instances %}{{ instance.status }}",{% endfor %}-99

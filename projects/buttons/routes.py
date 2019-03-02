@@ -20,10 +20,13 @@ _routes = [
 	RedirectRoute('/settings/tfa', userhandlers.TwoFactorSettingsHandler, name='account-tfa', strict_slash=True),
 	RedirectRoute('/dashboard/', userhandlers.DashboardHandler, name='account-dashboard', strict_slash=True),
 
+	# templates
+	RedirectRoute('/templates/', sitehandlers.IndexHandler, name='applications-list', strict_slash=True),
+
 	# user's instances
 	RedirectRoute('/instances/', instancehandlers.InstancesListHandler, name='instances-list', strict_slash=True),
 
-	# launch instances links	
+	# launch instances links
 	RedirectRoute('/instance/create/<sid>', instancehandlers.StreamsStarterPage, name='streams-start', strict_slash=True),	
 	RedirectRoute('/instances/create/<sid>', instancehandlers.StreamsStarterPage, name='streams-start2', strict_slash=True),
 	RedirectRoute('/instance/create/<sid>/launch', instancehandlers.InstancesListHandler, name='streams-start3', strict_slash=True),	
@@ -58,6 +61,7 @@ _routes = [
 	RedirectRoute('/api/instance/<name>/start', adminhandlers.AdminInstancesStartAPIHandler, name='api-instance-start', strict_slash=False),	
 	RedirectRoute('/api/instance/<name>/status', adminhandlers.AdminInstanceStatusAPIHandler, name='api-instance-status', strict_slash=False),	
 	RedirectRoute('/api/instance/<name>', adminhandlers.AdminInstancesAPIHandler, name='api-instances', strict_slash=False),
+	RedirectRoute('/api/instance/list/csv', adminhandlers.AdminInstancesCSVStatusAPIHandler, name='api-instances-csv', strict_slash=False),
 	RedirectRoute('/api/template/list', adminhandlers.AdminTemplatesListAPIHandler, name='api-templates', strict_slash=False),
 	RedirectRoute('/api/template/<sid>', adminhandlers.AdminStreamsAPIHandler, name='api-streams', strict_slash=False),
 	RedirectRoute('/api/<wildcard>', sitehandlers.APIWildcardHandler, name='api-wildcard', strict_slash=False),

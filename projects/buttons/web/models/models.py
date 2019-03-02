@@ -71,6 +71,15 @@ class User(User):
 		return cls.query(cls.api_token == api_token).get()
 
 
+# zones
+class RegionZone(ndb.Model):
+	created = ndb.DateTimeProperty(auto_now_add=True)
+	updated = ndb.DateTimeProperty(auto_now=True)
+	regionid = ndb.StringProperty() # west1, east4, etc.
+	zoneid = ndb.StringProperty() # a, b, etc.
+	description = ndb.StringProperty() # west1a, east4b, etc.
+
+
 # streams
 class Stream(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
