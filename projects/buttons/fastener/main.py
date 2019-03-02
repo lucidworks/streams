@@ -307,7 +307,13 @@ def create(stream_slug='lou'):
         regionint = request.query['region']
         try:
             region = regions[int(regionint)]
-            zonealpha = random.choice('abc')
+
+            try:
+                # query for region prefered zone
+                zonealpha = random.choice('abc')
+            except:
+                zonealpha = random.choice('abc')
+
         except:
             region = "any"
     except Exception as ex:

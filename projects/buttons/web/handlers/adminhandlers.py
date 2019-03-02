@@ -254,6 +254,24 @@ class AdminInstancesStartAPIHandler(BaseHandler):
         return self.render_template('api/response.json', **params)
 
 
+class AdminInstancesCSVStatusAPIHandler(BaseHandler):
+    def get(self):
+        db_instances = Instance.get_all()
+
+        # work around index warning/errors using a .filter() in models.py
+        instances = []
+        for db_instance in db_instances:
+            # limit to instances the user has started
+            instances.append(db_instance)
+        
+        params = {
+            'instances': instances
+        }
+
+        self.response.headers['Content-Type'] = "application/json"
+        return self.render_template('api/instances.csv', **params)
+
+
 class AdminInstanceStatusAPIHandler(BaseHandler):
     def get(self, name=None):
         # define possible status
