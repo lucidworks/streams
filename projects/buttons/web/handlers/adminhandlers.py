@@ -253,7 +253,7 @@ class AdminInstancesStartAPIHandler(BaseHandler):
         self.response.headers['Content-Type'] = "application/json"
         return self.render_template('api/response.json', **params)
 
-
+# insecure info about all instance status
 class AdminInstancesCSVStatusAPIHandler(BaseHandler):
     def get(self):
         db_instances = Instance.get_all()
