@@ -1,0 +1,990 @@
+
+
+<!doctype html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+  <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Labs</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v3.0.7 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Code, tools, and snippets to amplify and extend your Lucidworks Fusion applications."/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="https://lucidworks.com/labs/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Labs" />
+<meta property="og:description" content="Code, tools, and snippets to amplify and extend your Lucidworks Fusion applications." />
+<meta property="og:url" content="https://lucidworks.com/labs/" />
+<meta property="og:site_name" content="Lucidworks" />
+<meta property="og:image" content="https://lucidworks.com/wp-content/uploads/2018/06/Fusion4-Blog-Header-NoText-1200x420.jpg" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:description" content="Code, tools, and snippets to amplify and extend your Lucidworks Fusion applications."/>
+<meta name="twitter:title" content="Labs"/>
+<meta name="twitter:image" content="https://lucidworks.com/wp-content/uploads/2018/06/Fusion4-Blog-Header-NoText-1200x420.jpg"/>
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Lucidworks &raquo; Feed" href="https://lucidworks.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Lucidworks &raquo; Comments Feed" href="https://lucidworks.com/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/lucidworks.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.9"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='cookie-notice-front-css'  href='https://lucidworks.com/wp-content/plugins/cookie-notice/css/front.min.css?ver=4.9.9' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='https://lucidworks.com/wp-includes/css/dashicons.min.css?ver=4.9.9' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-widget-social-icons-styles-css'  href='https://lucidworks.com/wp-content/plugins/jetpack/modules/widgets/social-icons/social-icons.css?ver=20170506' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='https://lucidworks.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.3.3' type='text/css' media='all' />
+<script type='text/javascript' src='https://lucidworks.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://lucidworks.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var cnArgs = {"ajaxurl":"https:\/\/lucidworks.com\/wp-admin\/admin-ajax.php","hideEffect":"none","onScroll":"no","onScrollOffset":"100","cookieName":"cookie_notice_accepted","cookieValue":"true","cookieTime":"2147483647","cookiePath":"\/","cookieDomain":"","redirection":"","cache":"1","refuse":"no","revoke_cookies":"0","revoke_cookies_opt":"automatic","secure":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://lucidworks.com/wp-content/plugins/cookie-notice/js/front.min.js?ver=1.2.44'></script>
+<script type='text/javascript' src='https://lucidworks.com/wp-content/plugins/usp-pro/js/usp-pro.js?ver=2.5'></script>
+<link rel='https://api.w.org/' href='https://lucidworks.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lucidworks.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lucidworks.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='shortlink' href='https://wp.me/Pa9yMd-73i' />
+<link rel="alternate" type="application/json+oembed" href="https://lucidworks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flucidworks.com%2Flabs%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://lucidworks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Flucidworks.com%2Flabs%2F&#038;format=xml" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MTNQG4J');</script>
+<!-- End Google Tag Manager -->
+		
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<style type='text/css'>img#wpstats{display:none}</style>		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+			<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="/wp-content/themes/lucidworks/dist/css/master.css?t=1493353534354354351" />
+	<link rel="shortcut icon" href="/wp-content/themes/lucidworks/favicon.ico" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="Yc7uUuAbToi5KnVn8RlhFtTwuC8LWz4wGi178y96oEU" />
+</head>
+  <body class="page-template-default page page-id-27112 page-parent cookies-not-set labs sidebar-primary">
+    <!--[if IE]>
+      <div class="alert alert-warning">
+        You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.      </div>
+    <![endif]-->
+    <div class="max-container">
+<header class="SiteHeader">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+
+      
+			<div class="container">
+
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#lw-navbar-collapse" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="navbar-brand" href="/">
+            <img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.svg" class="logo light" alt="Lucidworks" />
+            <img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.dark.svg" class="logo dark" alt="Lucidworks" />
+          </a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="lw-navbar-collapse">
+
+					<ul class="nav navbar-nav navbar-nav-main">
+						<!-- <li><a href="/">Overview</a></li>
+            <li><a href="/fusion">The Power of Fusion</a></li>
+            <li><a href="/under-the-hood">Under the Hood</a></li> -->
+
+            <li class="dropdown ">
+              <a href="/products" class="dropdown-toggle" >Platform <!-- <b class="caret"></b> --></a>
+              <div class="dropdown-menu dropdown-menu-products">
+                <div class="item">
+
+                  <a href="/products/fusion-server/" class="block-link">
+                    <figure>
+                      <img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-server@1x.png" srcset="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-server@1x.png 1x, https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-server@2x.png 2x">
+                    </figure>
+
+                    <p>Highly scalable search engine and NoSQL datastore.</p>
+
+                    <p class="dropdown-menu-link">Learn more ›</p>
+                  </a>
+
+                </div>
+                <div class="item">
+
+                  <a href="/products/fusion-ai/" class="block-link">
+                    <figure>
+                      <img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-ai@1x.png" srcset="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-ai@1x.png 1x, https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-ai@2x.png 2x">
+                    </figure>
+                    <p>Superior relevancy with machine learning, and artificial intelligence.</p>
+
+                    <p class="dropdown-menu-link">Learn more ›</p>
+                  </a>
+
+                </div>
+                <div class="item">
+
+                  <a href="/products/fusion-app-studio/" class="block-link">
+                    <figure>
+                      <img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-app-studio@1x.png" srcset="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-app-studio@1x.png 1x, https://lucidworks.com/wp-content/themes/lucidworks/dist/images/reorg-logo-fusion-app-studio@2x.png 2x">
+                    </figure>
+                    <p>Quickly create bespoke data applications for web and mobile.</p>
+
+                    <p class="dropdown-menu-link">Learn more ›</p>
+                  </a>
+
+                </div>
+              </div>
+            </li>
+
+            <!-- <li><a href="/site-search">Cloud</a></li> -->
+
+            <li class="dropdown ">
+              <a href="/solutions" class="dropdown-toggle">Solutions <!-- <b class="caret"></b> --></a>
+              <div class="dropdown-menu dropdown-menu-solutions">
+                <div class="column pull-left">
+                  <!-- <p class="sub-heading">Use Cases</p> -->
+                  <ul>
+                    <li><a href="/search-and-discovery">Search and Discovery</a></li>
+                    <li><a href="/customer-analytics">Customer Analytics</a></li>
+                    <li><a href="/digital-commerce">Digital Commerce</a></li>
+                    <li><a href="/site-search">Site Search</a></li> 
+                    <li><a href="/government">Government</a></li>
+
+
+
+                    <!-- <li><a href="/online-retail">Online Retail</a></li> -->
+                    <!-- <li><a href="/customer-insights">Customer Insights</a></li> -->
+                    <!-- <li><a href="/customer-service">Customer Service</a></li> -->
+                    <!-- <li><a href="/data-lake">Data Lake</a></li> -->
+                    <!-- <li><a href="/google-search-appliance">GSA</a></li> -->
+                    <!-- <li><a href="/site-search">Site Search</a></li> -->
+                    <!-- <li><a href="/government">Government</a></li> -->
+                  </ul>
+                </div>
+                <!-- <div class="column pull-right">
+                  <p class="sub-heading">INDUSTRIES</p>
+                  <ul>
+                    <li><a href="/finance">Financial Services</a></li>
+                    <li><a href="/media-industry">Media</a></li>
+                    <li><a href="/manufacturing">Manufacturing</a></li>
+                    <li><a href="/government">Government</a></li>
+                    <li><a href="/pharma">Pharma</a></li>
+                    <li><a href="/law-enforcement">Law Enforcement</a></li>
+                  </ul>
+                </div> -->
+              </div>
+            </li>
+
+            <li><a href="/customers">Customers</a></li>
+            <li class="dropdown ">
+              <a href="/company" class="dropdown-toggle">Company</a>
+
+              <div class="dropdown-menu dropdown-menu-solutions">
+                <div class="column pull-left">
+                  <ul>
+                    <li><a href="/company/press">Press</a></li>
+                    <li><a href="/partners">Partners</a></li>
+                    <li><a href="/company/international">International</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <!-- <li><a href="/vision">Why Lucidworks</a></li> -->
+					</ul>
+
+					<ul class="nav navbar-nav navbar-right ">
+            <li><a href="/events">Events</a></li>
+            <li><a href="/resources">Resources</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+            <li class="header-search-container hidden-xs"><a href="" class="search">Search</a></li>
+
+            <li class="visible-xs"><a href="/company">About Us</a></li>
+            <li class="visible-xs"><a href="/solr-support">Services</a></li>
+            <li class="visible-xs"><a href="/partners">Partners</a></li>
+
+
+            <li class="visible-xs"><a href="/legal/privacy-policy/">Privacy Policy</a></li>
+            <li class="visible-xs"><a href="/legal">Legal</a></li>
+					</ul>
+
+					<a href="/download" class="btn_primary small download-cta pull-right ">Try Now</a>
+
+
+				</div><!-- /.navbar-collapse -->
+
+			</div><!-- /.container -->
+
+			<div class="search-bar header-search-bar">
+			  <div class="typeahead">
+          <ul class="typeahead-list"></ul>
+        </div>
+        <div class="container">
+					<div class="center-block query-container">
+						<form class="header-search-form">
+							<div class="form-group">
+                <div class="btn-clear"></div>
+								<input type="search" name="q" class="form-control input-search" placeholder="Search all Lucidworks resources" autocomplete="off" maxlength="1000">
+							</div>
+						</form>
+
+					</div>
+				</div><!-- /.container -->
+
+			</div><!-- /.search-bar -->
+
+		</nav><!-- /.navbar -->
+
+	</header>
+    
+<main class="LabsPage labshome all" id="page-main" data-pagekey="labs" data-category="all">
+
+    <section class="hero" id="hero-target">
+    	<div class="visor" id="visor-target"></div>
+    	<div class="container hero-container">
+    		<div class="labs-bg-outer" id="labs-bg-target-outer">
+	    		<div class="labs-bg hide" id="labs-bg-target">
+					<!-- <img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/labs/data-1.png"> -->
+				</div>
+			</div>
+    		<div class="header row">
+    			<div class="col-xs-12 col-sm-6 col-md-6">
+    				<a href="/labs" class="logo">
+    					<img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.labs.svg">
+					</a>
+    			</div>
+    		</div>
+    		<div class="row">
+    			<div class="col-xs-12 col-sm-6 col-md-6 content" id="text-target-outer">
+    				<div class="hide" id="text-target">
+	    				<div class="header-content all">
+		    				<h1>Build Amazing Apps</h1>
+		    				<p>Code, tools, and snippets to amplify and extend your Fusion applications.</p>
+		    				<a href="https://streams.lucidworks.com/dashboard/" target="_blank" class="btn_primary small">View Labs Dashboard</a>
+	    				</div>
+	    				<div class="header-content apps">
+		    				<h1>Apps</h1>
+		    				<p>Examples of Fusion apps to try, test drive, and tinker.</p>
+		    				<a href="https://streams.lucidworks.com/dashboard/" target="_blank" class="btn_primary small">View Labs Dashboard</a>
+	    				</div>
+	    				<div class="header-content datasources">
+		    				<h1>Datasources</h1>
+		    				<p>Plugins and modules to connect to various data sources and document types.</p>
+		    				<a href="https://streams.lucidworks.com/dashboard/" target="_blank" class="btn_primary small">View Labs Dashboard</a>
+	    				</div>
+	    				<div class="header-content connectors">
+		    				<h1>Connectors</h1>
+		    				<p>Plugins and modules to connect to various data sources and document types.</p>
+		    				<a href="https://streams.lucidworks.com/dashboard/" target="_blank" class="btn_primary small">View Labs Dashboard</a>
+	    				</div>
+	    				<div class="header-content index-pipelines">
+		    				<h1>Index Pipelines</h1>
+		    				<p>Pipeline stages for transforming and enriching your data as it is being indexed.</p>
+		    				<a href="https://streams.lucidworks.com/dashboard/" target="_blank" class="btn_primary small">View Labs Dashboard</a>
+	    				</div>
+	    			</div>
+    			</div>
+    			<div class="col-xs-12 col-sm-6 col-md-6 content">
+    			</div>
+    		</div>
+    	</div>
+    </section>
+    <section class="main-content">
+    	<nav class="lab-nav">
+    		<div class="container" id="nav-labs">
+    			<!-- Lab nav template located in templates/footer.php -->
+			</div>
+    	</nav>
+    	<div class="labs">
+    		<div class="container">
+    			<div class="query" id="search-query"></div>
+    			<div class="lab-row row" id="labs-results">
+		    		<!-- Lab results template located in this file -->
+	    		</div>
+
+	    		<div class="lucid-circle loader">
+	    			<h4 class="done">No <span>more</span> results.</h4>
+					<div class="lucid-circle1 lucid-child"></div>
+					<div class="lucid-circle2 lucid-child"></div>
+					<div class="lucid-circle3 lucid-child"></div>
+					<div class="lucid-circle4 lucid-child"></div>
+					<div class="lucid-circle5 lucid-child"></div>
+					<div class="lucid-circle6 lucid-child"></div>
+					<div class="lucid-circle7 lucid-child"></div>
+					<div class="lucid-circle8 lucid-child"></div>
+					<div class="lucid-circle9 lucid-child"></div>
+					<div class="lucid-circle10 lucid-child"></div>
+					<div class="lucid-circle11 lucid-child"></div>
+					<div class="lucid-circle12 lucid-child"></div>
+				</div>
+    		</div>
+    	</div>
+    </section>
+
+</main>
+
+<script type="text/html" id="tmpl-search-header">
+	<% if (query) { %>
+		<div class="col-xs-12">
+			<h3 class="text-center"><%= count %> results for &ldquo;<%= query %>&rdquo;</h3>
+		</div>
+	<% } %>
+</script>
+
+
+<script type="text/html" id="tmpl-labs">
+
+	<% _.each(results, function(item, index){ %>
+
+		<div class="col-xs-12 col-sm-6 col-md-4 lab hide <%= _.template.formatcategory(item.category) %> <%= _.template.formatcategory(item.category) %>-<%= item.background_variation + 1 %>">
+			<a href="<%= item.url %>" class="inner block-link">
+				<div class="header">
+					<h3><%= _.template.truncate(item.post_title, 40) %></h3>
+					<p class="sub-heading"><%= item.category %></p>
+				</div>
+				<div class="content">
+					<% if (item.post_excerpt) { %>
+						<p class="line-clamp line-clamp-4"><%= item.post_excerpt %></p>
+					<% } else { %>
+						<p class="line-clamp line-clamp-4">No description.</p>
+					<% } %>
+
+				</div>
+				<footer>
+					<div class="view ghost-link">View <b class="caret-right"></b></div>
+					<div class="rating">
+						<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+					</div>
+					<div class="release">
+						<% if (item.fusion_version_from != item.fusion_version_to) { %>
+							Fusion <%= item.fusion_version_from %> - <%= item.fusion_version_to %>
+						<% } else { %>
+							Fusion <%= item.fusion_version_to %>
+						<% } %>
+
+					</div>
+				</footer>
+			</a>
+		</div>
+
+	<% }); %>
+
+
+</script>
+
+<script type="text/javascript" src="https://lucidworks.com/wp-content/themes/lucidworks/dist/external/ScrollMagic.min.js"></script>
+<script type="text/javascript" src="https://lucidworks.com/wp-content/themes/lucidworks/dist/external/animation.gsap.min.js"></script>
+    <footer class="SiteFooter">
+	  <div class="container">
+		<div class="row">
+
+		  <div class="col-md-12 col-lg-3">
+			<nav>
+			  <a href="/" title="homepage" class="logo-container">
+				<img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.svg" class="logo light" alt="Lucidworks" />
+				<img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.dark.svg" class="logo dark" alt="Lucidworks" />
+			  </a>
+			</nav>
+		  </div>
+
+		  <div class="hidden-xs col-sm-4 col-md-3 col-lg-2">
+			<nav>
+			  <h4 class="title">About</h4>
+			  <ul>
+				<li><a href="/company">Company</a></li>
+				<li><a href="/labs">Labs</a></li>
+				<li><a href="/company/careers">Careers</a></li>
+				<li><a href="/company/events">Events</a></li>
+        <li><a href="/resources/videos/?cat_name=webinar&upcoming=1">Webinars</a></li>
+				<li><a href="/company/press">Press</a></li>
+				<li><a href="/company/contact">Contact</a></li>
+				<li><a href="/company/international">International</a></li>
+        <li><a href="/partners">Partners</a></li>
+				<li><a href="/legal/privacy-policy/">Privacy Policy</a></li>
+				<!-- <li><a href="/legal">Legal</a></li> -->
+			  </ul>
+			</nav>
+		  </div>
+
+		  <div class="hidden-xs col-sm-4 col-md-3 col-lg-2">
+			<nav>
+			  <h4 class="title">Solutions</h4>
+        <ul>
+          <li><a href="/search-and-discovery">Search and Discovery</a></li>
+          <li><a href="/customer-analytics">Customer Analytics</a></li>
+          <li><a href="/digital-commerce">Digital Commerce</a></li>
+          <li><a href="/site-search">Site Search</a></li>
+          <li><a href="/government">Government</a></li>
+          <!-- <li><a href="/finance">Financial Services</a></li> -->
+        <!-- <li><a href="/site-search">Site Search</a></li>
+				<li><a href="/knowledge-management">Knowledge Management</a></li>
+				<li><a href="/online-retail">Online Retail</a></li>
+				<li><a href="/customer-insights">Customer Insights</a></li>
+				<li><a href="/customer-service">Customer Service</a></li>
+				<li><a href="/data-lake">Data Lake</a></li>
+				<li><a href="/google-search-appliance">GSA</a></li>
+        <li><a href="/gss-replacement">GSS</a></li> -->
+        <!-- <li><a href="/knowledge-management">Knowledge Management</a></li>
+        <li><a href="/online-retail">Online Retail</a></li>
+        <li><a href="/customer-insights">Customer Insights</a></li>
+        <li><a href="/customer-service">Customer Service</a></li>
+        <li><a href="/site-search">Site Search</a></li>
+        <li><a href="/government">Government</a></li> -->
+			  </ul>
+			</nav>
+		  </div>
+
+		  <div class="hidden-xs col-sm-4 col-md-3 col-lg-2">
+			<!-- <nav>
+			  <h4 class="title">Industries</h4>
+			  <ul>
+				<li><a href="/finance">Financial Services</a></li>
+				<li><a href="/media-industry">Media</a></li>
+				<li><a href="/manufacturing">Manufacturing</a></li>
+				<li><a href="/government">Government</a></li>
+				<li><a href="/pharma">Pharma</a></li>
+				<li><a href="/law-enforcement">Law Enforcement</a></li>
+			  </ul>
+			</nav> -->
+			<nav>
+			  <h4 class="title">Services</h4>
+			  <ul>
+				<li><a href="/solr-support">Support for Solr</a></li>
+				<li><a href="/resources/training-and-consulting">Training &amp; Consulting</a></li>
+			  </ul>
+			</nav>
+		  </div>
+
+		  <address class="vcard visible-xs-block col-xs-12">
+			 	<p class="adr">
+					<span class="street-address">717 Market St</span><br>
+					Suite 800<br>
+				    <span class="locality">San Francisco</span>,
+				    <abbr class="region" title="California">CA</abbr>
+				    <span class="postal-code">94103</span><br>
+				    <a href="tel:4153296515">(415) 329-6515</a>
+			    </p>
+
+		  </address>
+
+		  <div class="col-sm-4 col-sm-12 col-md-3 col-lg-3">
+			<div class="row">
+			  <nav class="col-xs-12 col-sm-6 col-md-12 social-links">
+				<h4 class="title">Follow Us</h4>
+				<a href="https://github.com/lucidworks" target="_blank" class="icon-github"></a>
+				<a href="https://twitter.com/Lucidworks" target="_blank" class="icon-twitter"></a>
+				<a href="https://www.facebook.com/lucidworks/" target="_blank" class="icon-facebook"></a>
+				<a href="https://www.linkedin.com/company/lucidworks" target="_blank" class="icon-linkedin"></a>
+			  </nav>
+
+			  <!-- <nav class="col-xs-12 col-sm-6 col-md-12 newsletter">
+  				<h4 class="title">Stay up to date on Fusion</h4>
+  				<script src="//app-sjg.marketo.com/js/forms2/js/forms2.min.js"></script>
+  				<form id="mktoForm_2722"></form>
+  				<script>MktoForms2.loadForm("//app-sjg.marketo.com", "579-JML-927", 2722);</script>
+			  </nav> -->
+
+			</div>
+		  </div>
+
+		</div>
+	  </div>
+	</footer>
+</div><!-- /.max-container -->
+<div class="sign-up-container minimized hide">
+	<span><a href="/subscription-center">Stay up to date on Fusion</a></span>
+	<img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/close-x.png" class="close">
+	</div>
+<div class="modal fade" id="sign-up-thanks-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h2>Thanks!</h2>
+        <p>
+        	Thank you for your interest in Lucidworks.
+			We’ll keep you up to date with the latest in news and product releases.
+        </p>
+        <a href="/resources" class="btn_primary small close-modal">Continue</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/html" id="tmpl-no-results-related-searches">
+  <h3>Did you mean?</h3>
+  <ul>
+  <% _.each(related, function(result, index){ %>
+
+    <li><a href="/resources/searchhub/#hub/<%= result %>" data-id="<%= result %>"><%= result %></a></li>
+
+  <% }); %>
+  </ul>
+</script>
+
+<script type="text/html" id="tmpl-related-searches-top">
+
+  <div class="related-list">
+
+    <span class="related-title">Related searches: </span>
+
+    <% _.each(related, function(result, index){ %>
+      <a href="/resources/searchhub/#hub/<%= result %>" data-id="<%= result %>"><%= result %></a>
+      <% if (related.length != index + 1) { %>
+        ,
+      <% } %>
+
+    <% }); %>
+  </div>
+</script>
+
+<script type="text/html" id="tmpl-no-results">
+	<div class="container no-results">
+		<div class="row">
+			<div class="col-xs-12 col-md-4">
+				<div class="sad-search"></div>
+			</div>
+			<div class="col-xs-12 col-md-8">
+				<h3>No results match for &ldquo;<%= search%>&rdquo;</h3>
+				<p>You may have typed your query incorrectly, or are searching for a very specific query.<br>
+				Use a broader search query, or see a list of our most popular searches.</p>
+
+
+
+				<div class="row">
+					<div class="col-xs-12 col-md-6">
+            <h3>Popular Searches</h3>
+						<ul>
+							<li><a href="/resources/#all/<%= encodeURIComponent('enterprise search') %>">enterprise search</a></li>
+							<li><a href="/resources/#all/<%= encodeURIComponent('query pipeline') %>">query pipeline</a></li>
+							<li><a href="/resources/#all/<%= encodeURIComponent('query stages API') %>">query stages API</a></li>
+							<li><a href="/resources/#all/<%= encodeURIComponent('query profiles') %>">query profiles</a></li>
+						</ul>
+					</div>
+					<div class="col-xs-12 col-md-6 no-results-suggest">
+						<!-- Suggestions -->
+					</div>
+			</div>
+		</div>
+	</div>
+
+</script>
+
+
+<script type="text/html" id="tmpl-filter">
+
+	<ul>
+		<li class="all"><a href="/resources#all/<%= encodeURIComponent(search) %>">All</a></li>
+		<li class="docs"><a href="https://doc.lucidworks.com/#documentation/<%= encodeURIComponent(search) %>">Documentation</a></li>
+		<li class="videos"><a href="/resources/videos#video/<%= encodeURIComponent(search) %>">Videos &amp; Webinars</a></li>
+		<li class="blog"><a href="/blog#blog/<%= encodeURIComponent(search) %>">Blog</a></li>
+		<!-- <li class="answers"><a href="/answers#search/<%= encodeURIComponent(search) %>">Answers</a></li> -->
+		<li class="searchhub"><a href="/resources/searchhub#hub/<%= encodeURIComponent(search) %>">Search Hub</a></li>
+	</ul>
+
+</script>
+
+<script type="text/html" id="tmpl-sorter">
+	<div class="dropdown">
+		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuSort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			Sort By:
+			<span class="sort-name">
+				<%= sort %>
+				<!-- Relevance -->
+			</span>
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownMenuSort">
+			<li><a href="#hub/<%= encodeURIComponent(search) %>/<%= currentPage %>/sortbyrelevancy<%= facetsString %>">Relevance</a></li>
+			<li><a href="#hub/<%= encodeURIComponent(search) %>/<%= currentPage %>/sortbyauthor<%= facetsString %>">Author</a></li>
+			<li><a href="#hub/<%= encodeURIComponent(search) %>/<%= currentPage %>/sortbypublished<%= facetsString %>">Published</a></li>
+		</ul>
+	</div>
+</script>
+
+<script type="text/html" id="tmpl-typeahead">
+
+	<% if (typeof video !== 'undefined' && video.count > 0) { %>
+		<% if (isGlobal) { %>
+			<li class="type-title"><a href="/resources/videos/#video/<%= formattedInputQuery %>" class="typeahead-title videos" data-cat="video" data-query="<%= formattedInputQuery %>">Videos (<%= video.count %>) <span class="view-all">View All <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span></span></a></li>
+		<% } %>
+
+		<% _.each(video.results, function(result, index){ %>
+			<li><a href="<%= result.url %>" data-cat="video" data-query="<%= result.formattedQuery %>" class="typeahead-item" target="_blank"><%= result.text %></a></li>
+		<% }); %>
+	<% } %>
+
+	<% if (typeof answers !== 'undefined' && answers.count > 0) { %>
+		<% if (isGlobal) { %>
+			<li class="type-title"><a href="/resources/answers/#answers/<%= formattedInputQuery %>" class="typeahead-title answers" data-cat="answers" data-query="<%= formattedInputQuery %>">Answers (<%= answers.count %>) <span class="view-all">View All <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span></span></a></li>
+		<% } %>
+
+		<% _.each(answers.results, function(result, index){ %>
+			<li><a href="<%= result.url %>" data-cat="answers" data-query="<%= result.formattedQuery %>" class="typeahead-item"><%= result.text %></a></li>
+		<% }); %>
+	<% } %>
+
+	<% if (typeof blog !== 'undefined' && blog.count > 0) { %>
+		<% if (isGlobal) { %>
+			<li class="type-title"><a href="/blog/#blog/<%= formattedInputQuery %>" class="typeahead-title blog" data-cat="blog" data-query="<%= formattedInputQuery %>">Site &amp; Blog (<%= blog.count %>) <span class="view-all">View All <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span></span></a></li>
+		<% } %>
+
+		<% _.each(blog.results, function(result, index){ %>
+			<li><a href="<%= result.url %>" data-cat="blog" data-query="<%= result.formattedQuery %>" class="typeahead-item"><%= result.text %></a></li>
+		<% }); %>
+	<% } %>
+
+	<% if (typeof hub !== 'undefined' && hub.count > 0) { %>
+		<% if (isGlobal) { %>
+			<li class="type-title"><a href="/resources/searchhub/#hub/<%= formattedInputQuery %>" class="typeahead-title hub" data-cat="hub" data-query="<%= formattedInputQuery %>">Search Hub (<%= hub.count %>) <span class="view-all">View All <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span></span></a></li>
+		<% } %>
+
+		<% _.each(hub.results, function(result, index){ %>
+			<li><a href="<%= result.url %>" data-cat="hub" data-query="<%= result.formattedQuery %>" class="typeahead-item" target="_blank"><%= result.text %></a></li>
+		<% }); %>
+	<% } %>
+
+	<% if (typeof documentation !== 'undefined' && documentation.count > 0) { %>
+		<% if (isGlobal) { %>
+			<li class="type-title"><a href="https://doc.lucidworks.com/#documentation/<%= formattedInputQuery %>" class="typeahead-title docs" data-cat="documentation" data-query="<%= formattedInputQuery %>">Documentation (<%= documentation.count %>) <span class="view-all">View All <span class="glyphicon glyphicon glyphicon-menu-right" aria-hidden="true"></span></span></a></li>
+		<% } %>
+
+		<% _.each(documentation.results, function(result, index){ %>
+			<li><a href="<%= result.url %>" data-cat="documentation" data-query="<%= result.formattedQuery %>" class="typeahead-item"><span class="text-muted">Fusion <%= result.version %></span>&nbsp;&nbsp;&nbsp; <%= result.text %></a></li>
+		<% }); %>
+	<% } %>
+
+</script>
+
+<script type="text/html" id="tmpl-tag-cloud">
+	<% _.each(facets, function(facet, index){ %>
+
+		<a href="#" data-id="<%= facet %>" class="tag-item"><%= facet %></a>
+
+    <% }); %>
+</script>
+
+<script type="text/html" id="tmpl-pagination">
+	<nav aria-label="Page navigation" id="pagination">
+
+	<% if (numPages > 1) { %>
+		<ul class="pagination">
+
+			<% if (currentPage > 1) { %>
+				<li>
+					<a href="#<%= pageKey %>/<%= encodeURIComponent(search) %>/<%= currentPage-1 %><%= sortby %><%= facetsString %>" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+			<% } %>
+
+			<% if (numPages < 6 ) { %>
+
+				<% for (var i = 1; i <= numPages; i++) { %>
+
+                	<li <% if (currentPage ===  i) { %> class="active" <% } %> ><a href="#<%= pageKey %>/<%= encodeURIComponent(search) %>/<%= i %><%= sortby %><%= facetsString %>"><%= i %></a></li>
+
+                <% } %>
+
+			<% } else if (currentPage < 6) { %>
+
+				<% for (var i = 1; i <= 6; i++) { %>
+
+                	<li <% if (currentPage ===  i) { %> class="active" <% } %> ><a href="#<%= pageKey %>/<%= encodeURIComponent(search) %>/<%= i %><%= sortby %><%= facetsString %>"><%= i %></a></li>
+
+                <% } %>
+
+			<% } else if (currentPage >= 6 && numPages - currentPage >= 6) { %>
+
+				<% for (var i = currentPage - 3; i <= currentPage + 3; i++) { %>
+
+                	<li <% if (currentPage ===  i) { %> class="active" <% } %> ><a href="#<%= pageKey %>/<%= encodeURIComponent(search) %>/<%= i %><%= sortby %><%= facetsString %>"><%= i %></a></li>
+
+                <% } %>
+
+			<% } else { %>
+
+				<% for (var i = numPages - 6; i <= numPages; i++) { %>
+
+                	<li <% if (currentPage ===  i) { %> class="active" <% } %> ><a href="#<%= pageKey %>/<%= encodeURIComponent(search) %>/<%= i %><%= sortby %><%= facetsString %>"><%= i %></a></li>
+
+                <% } %>
+
+			<% } %>
+
+            <% if (currentPage >= 1 && currentPage !== numPages) { %>
+				<li>
+					<a href="#<%= pageKey %>/<%= encodeURIComponent(search) %>/<%= currentPage+1 %><%= sortby %><%= facetsString %>" class="" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			<% } %>
+		</ul>
+		<% } %>
+	</nav>
+</script>
+
+<script type="text/html" id="tmpl-hub-facets">
+
+	<!-- <div class="inner" data-spy="affix" data-offset-top="255" data-offset-bottom="450"> -->
+	<div class="inner">
+
+		<!-- <a href="#" class="btn-clear-all out">Clear All</a> -->
+
+		<% if (facets.project_label.length > 0) { %>
+			<a data-toggle="collapse" href="#project-collapse-all" class="collapsable-main block-link" aria-expanded="true">
+				<span class="glyphicon glyphicon-triangle-right"></span>
+				<h3>Project</h3>
+			</a>
+
+			<div id="project-collapse-all" class="collapse in collapse-all project_label">
+
+				<!-- <form class="hub-filter project">
+					<div class="form-group">
+						<input type="search" name="f" class="filter-control" placeholder="Project filter">
+					</div>
+				</form> -->
+
+				<ul class="facets-list">
+					<% _.each(facets.project_label, function(result, index){ %>
+
+						<% if (index <= 9) { %>
+
+							<li class="<% if (result.selected) { %>active<% } %>" ><a href="#" class="facet-item" data-type="project_label"><span class="value"><%= result.value %></span> (<%= result.count.toLocaleString() %>)</a></li>
+
+						<% } %>
+
+			        <% }); %>
+		        </ul>
+
+		        <div class="facet-pagination">
+
+			        <a href="#" class="add-button less <% if (offsets.project_label <= 0) { %>hide<% } %>" data-type="project_label" data-direction="less"> <span class="glyphicon glyphicon-menu-left"></span> </a>
+
+			        <div class="page"><%= (offsets.project_label / 10) + 1 %></div>
+
+			        <a href="#" class="add-button more <% if (facets.project_label.length < 9) { %>hide<% } %>" data-type="project_label" data-direction="more"> <span class="glyphicon glyphicon-menu-right"></span> </a>
+		        </div>
+
+
+	        </div>
+		<% } %>
+
+		<% if (facets.datasource_label.length > 0) { %>
+			<a data-toggle="collapse" href="#source-collapse-all" class="collapsable-main block-link" aria-expanded="true">
+				<span class="glyphicon glyphicon-triangle-right"></span>
+				<h3>Source</h3>
+			</a>
+
+			<div id="source-collapse-all" class="collapse in collapse-all datasource_label">
+
+				<!-- <form class="hub-filter source">
+					<div class="form-group">
+						<input type="search" name="f" class="filter-control" placeholder="Source filter">
+					</div>
+				</form> -->
+
+				<ul class="facets-list">
+					<% _.each(facets.datasource_label, function(result, index){ %>
+
+						<% if (index <= 9) { %>
+
+							<li class="<% if (result.selected) { %>active<% } %>">
+								<a href="#" class="facet-item" data-type="datasource_label"><span class="value"><%= result.value %></span> (<%= result.count.toLocaleString() %>)</a>
+							</li>
+
+						<% } %>
+
+			        <% }); %>
+		        </ul>
+
+
+		        <div class="facet-pagination">
+
+			        <a href="#" class="add-button less <% if (offsets.datasource_label <= 0) { %>hide<% } %>" data-type="datasource_label" data-direction="less"> <span class="glyphicon glyphicon-menu-left"></span> </a>
+
+			        <div class="page"><%= (offsets.datasource_label / 10) + 1 %></div>
+
+			        <a href="#" class="add-button more <% if (facets.datasource_label.length < 9) { %>hide<% } %>" data-type="datasource_label" data-direction="more"> <span class="glyphicon glyphicon-menu-right"></span> </a>
+		        </div>
+
+	        </div>
+		<% } %>
+
+		<% if (facets.author_facet.length > 0) { %>
+			<a data-toggle="collapse" href="#author-collapse-all" class="collapsable-main block-link" aria-expanded="true">
+				<span class="glyphicon glyphicon-triangle-right"></span>
+				<h3>Author</h3>
+			</a>
+
+			<div id="author-collapse-all" class="collapse in collapse-all author_facet">
+
+				<!-- <form class="hub-filter author">
+					<div class="form-group">
+						<input type="search" name="f" class="filter-control" placeholder="Author filter">
+					</div>
+				</form> -->
+
+				<ul class="facets-list">
+					<% _.each(facets.author_facet, function(result, index){ %>
+
+						<% if (index <= 9) { %>
+
+							<li class="<% if (result.selected) { %>active<% } %>"><a href="#" class="facet-item" data-type="author_facet"><span class="value"><%= result.value %></span> (<%= result.count.toLocaleString() %>)</a></li>
+
+						<% } %>
+
+			        <% }); %>
+		        </ul>
+
+		        <div class="facet-pagination">
+
+			        <a href="#" class="add-button less <% if (offsets.author_facet <= 0) { %>hide<% } %>" data-type="author_facet" data-direction="less"> <span class="glyphicon glyphicon-menu-left"></span> </a>
+
+			        <div class="page"><%= (offsets.author_facet / 10) + 1 %></div>
+
+			        <a href="#" class="add-button more <% if (facets.author_facet.length < 9) { %>hide<% } %>" data-type="author_facet" data-direction="more"> <span class="glyphicon glyphicon-menu-right"></span> </a>
+		        </div>
+
+
+	        </div>
+		<% } %>
+
+	</div>
+
+</script>
+
+<script type="text/html" id="tmpl-nav-labs">
+
+
+	<div class="left-side-nav">
+		<div class="logo-small">
+			<img src="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.labs@1x.png"
+srcset="https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.labs@1x.png 1x, https://lucidworks.com/wp-content/themes/lucidworks/dist/images/header.logo.labs@2x.png 2x">
+		</div>
+
+		<ul class="nav-list">
+			<li class="all <% if ( _.template.formatcategory(category) == 'all') { %>active<% } %>">
+				<a href="#" title="All" data-cat="all">All</a>
+			</li>
+
+			<li class="apps <% if ( _.template.formatcategory(category) == 'apps') { %>active<% } %>">
+				<a href="#" title="Apps" data-cat="apps">Apps</a>
+			</li>
+
+			<li class="datasources <% if (_.template.formatcategory(category) == 'datasources') { %>active<% } %>">
+				<a href="#" title="Datasources" data-cat="datasources">Datasources</a>
+			</li>
+		</ul>
+
+		<div class="navlist-dropdown dropdown">
+	        <button class="btn btn-default navlist-dropdown-toggle dropdown-toggle" type="button" id="dropdownMenuNav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	            <span class="site-title" data-category="All">Categories</span>
+	          <span class="caret"></span>
+			</button>
+
+	        <ul class="navlist-dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuNav">
+	            <li class="all"><a href="#" title="All" data-cat="all">All</a></li>
+				<li class="apps"><a href="#" title="Apps" data-cat="apps">Apps</a></li>
+				<li class="datasources"><a href="#" title="Datasources" data-cat="datasources">Datasources</a></li>
+	        </ul>
+	    </div>
+
+	</div>
+
+
+	<!-- <div class="right-side-nav"> -->
+	<form class="labs-search-form">
+		<div class="form-group">
+			<div class="btn-clear"></div>
+			<input type="search" name="q" class="form-control input-search" placeholder="Search" autocomplete="off" maxlength="1000">
+		</div>
+	</form>
+
+	<div class="dropdown version-dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+            <span class="version-site-title">All Releases</span>
+
+          <span class="caret"></span>
+		</button>
+        <ul class="release-dropdown-menu dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="" data-version="all">All Releases</a></li>
+            <li><a href="" data-version="4.1">Fusion 4.1</a></li>
+            <li><a href="" data-version="4.0">Fusion 4.0</a></li>
+            <!--
+            <li><a href="" data-version="3.0">Fusion 3.0</a></li>
+            <li><a href="" data-version="2.4">Fusion 2.4</a></li>
+            <li><a href="" data-version="2.2">Fusion 2.2</a></li>
+            <li><a href="" data-version="2.1">Fusion 2.1</a></li>
+            <li><a href="" data-version="2.0">Fusion 2.0</a></li>
+            <li><a href="" data-version="1.2">Fusion 1.2</a></li>
+            -->
+        </ul>
+    </div>
+
+    <a href="#" class="btn-search-icon visible-xs-block"></div>
+	<!-- </div> -->
+</script>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MTNQG4J"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+			<div style="display:none">
+	</div>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201909'></script>
+<script type='text/javascript' src='https://secure.gravatar.com/js/gprofiles.js?ver=2019Maraa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://lucidworks.com/wp-content/plugins/jetpack/modules/wpgroho.js?ver=4.9.9'></script>
+<script type='text/javascript' src='https://lucidworks.com/wp-includes/js/underscore.min.js?ver=1.8.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpUtilSettings = {"ajax":{"url":"\/wp-admin\/admin-ajax.php"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://lucidworks.com/wp-includes/js/wp-util.min.js?ver=4.9.9'></script>
+<script type='text/javascript' src='https://lucidworks.com/wp-includes/js/backbone.min.js?ver=1.2.3'></script>
+<script type='text/javascript' src='https://lucidworks.com/wp-includes/js/wp-embed.min.js?ver=4.9.9'></script>
+<script type='text/javascript' src='https://stats.wp.com/e-201909.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.3.3',blog:'150041997',post:'27112',tz:'0',srv:'lucidworks.com'} ]);
+	_stq.push([ 'clickTrackerInit', '150041997', '27112' ]);
+</script>
+
+			<div id="cookie-notice" role="banner" class="cn-bottom wp-default" style="color: #000000; background-color: #dddddd;"><div class="cookie-notice-container"><span id="cn-notice-text">We use cookies to give you the best possible experience. By continuing to use this site, you are agreeing to our privacy policy. If you don’t consent, please exit this site.</span><a href="#" id="cn-accept-cookie" data-cookie-set="accept" class="cn-set-cookie cn-button wp-default button">Ok</a><a href="https://lucidworks.com/legal/privacy-policy/" target="_blank" id="cn-more-info" class="cn-more-info cn-button wp-default button">Privacy Policy</a>
+				</div>
+				
+			</div>    <script type="text/javascript" src="https://lucidworks.com/wp-content/themes/lucidworks/dist/external/snowplow.js"></script>
+    <script type="text/javascript" src="https://lucidworks.com/wp-content/themes/lucidworks/dist/external/snowplowFunctions.js"></script>
+
+    <script src="/wp-content/themes/lucidworks/dist/js/bundle.js?t=1491588345345"></script>
+  </body>
+</html>
