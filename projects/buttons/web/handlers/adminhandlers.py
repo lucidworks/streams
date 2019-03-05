@@ -259,13 +259,13 @@ class AdminInstancesCSVStatusAPIHandler(BaseHandler):
         db_instances = Instance.get_all()
 
         # work around index warning/errors using a .filter() in models.py
-        instances = []
+        statuses = []
         for db_instance in db_instances:
             # limit to instances the user has started
-            instances.append(db_instance)
+            statuses.append(db_instance.status[0])
         
         params = {
-            'instances': instances
+            'statuses': statuses
         }
 
         self.response.headers['Content-Type'] = "application/json"
