@@ -177,12 +177,21 @@ class InstanceTenderHandler(BaseHandler):
 
                     slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
 
-                    # RUNNING (SYSTEM) >> CONFIGURING (script) >> BUILDING (script) >> RUNNING (script)
+                    # if not BUILDING then update status right from google
                     if instance.status not in ("BUILDING"):
                         instance.status = gcinstance['status']
 
-                    if gcinstance['status'] == "RUNNING":
-                        # check if the box is running fusion admin yet
+                    # at this point if the instance.status is NOT BUILDING, then we grab
+                    # whatever google says the instance is doing. if it's RUNNING, then
+                    # we do an instance link test to ensure the fusion service is running
+                    # if Fusion does not respond, we set it to CONFIGURING
+
+                    # BUILDING state is kept until an update of BUILDING state is done
+                    # see APIs
+
+                    # are we running?
+                    if instance.status == "RUNNING":
+                        # check if the box is running fusion admin yet (CONFIGURING if NOT)
                         try:
                             # fast fail connection for checking if fusion is up
                             http_test = httplib2.Http(timeout=2)
@@ -194,7 +203,7 @@ class InstanceTenderHandler(BaseHandler):
                             test_status = "404"
 
                         # set admin_link if box is running and test comes back 200
-                        if gcinstance['status'] == "RUNNING" and test_status == "200":
+                        if test_status == "200":
                             instance.admin_link = test_url
 
                             # build app link and update, if it exists
@@ -205,17 +214,16 @@ class InstanceTenderHandler(BaseHandler):
                                 instance.app_link = None
 
                         else:
-                            # show the box is in configuration mode
+                            # show the box is in CONFIGURING
                             instance.status = "CONFIGURING"
                             instance.admin_link = None
                             instance.app_link = None
                             instance.put()
 
-                    else: # NOT RUNNING STATUS
-                        if instance.tender_action == "START":
+                    else: # NOT RUNNING STATUS (FROM GOOGLE) OR BUILDING (FROM DEPLOY SCRIPT)
+                        # should we start it?
+                        if instance.tender_action == "START" and instance.status == "TERMINATED": 
                             # try to start it
-                            slack.slack_message("Tender::%s wants a START" % (instance.name))
-
                             http = httplib2.Http(timeout=10)
                             url = '%s/api/instance/%s/start?token=%s' % (
                                 config.fastener_host_url, 
@@ -234,20 +242,24 @@ class InstanceTenderHandler(BaseHandler):
                                     instance.started = datetime.datetime.now()
                                     instance.put()
 
+                                    slack.slack_message("Tender::%s wanted and got a START" % (instance.name))
+                                else:
+                                    slack.slack_message("Tender::%s wanted START but google reported %s" % (instance.name, json.loads(content)['status']))
+
                             except Exception as ex:
                                 slack.slack_message("Tender::Exception %s with %s" % (ex, instance.name))
                         
                         else:
-                            slack.slack_message("Tender::%s not requesting any actions." % instance.name)
+                            # slack.slack_message("Tender::%s not requesting any actions." % instance.name)
                             pass
 
                     # instance has been terminated
-                    if gcinstance['status'] == "TERMINATED":
+                    if instance.status == "TERMINATED":
                         # set start time to far in the past
                         instance.started = instance.created - datetime.timedelta(0, 604800)
 
+                    # make sure we write all changes out
                     instance.put()
-
                     break # no need to keep looking
 
                 else:
