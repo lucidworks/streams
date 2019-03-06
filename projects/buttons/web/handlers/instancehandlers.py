@@ -171,81 +171,75 @@ class InstanceTenderHandler(BaseHandler):
                     try:
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
-
-                        slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
-
-      
-                        # RUNNING (SYSTEM) >> CONFIGURING (script) >> BUILDING (script) >> RUNNING (script)
-                        if instance.status not in ("BUILDING"):
-                            instance.status = gcinstance['status']
-
-                        if gcinstance['status'] == "RUNNING":
-                            # check if the box is running fusion admin yet
-                            try:
-                                # fast fail connection for checking if fusion is up
-                                http_test = httplib2.Http(timeout=2)
-                                test_url = 'http://%s:8764' % instance.ip
-                                response, content = http_test.request(test_url, 'GET')
-                                test_status = response['status']
-                            except:
-                                slack.slack_message("Tender::%s FAILED Fusion port test." % (instance.name))
-                                test_status = "404"
-
-                            # set admin_link if box is running and test comes back 200
-                            if gcinstance['status'] == "RUNNING" and test_status == "200":
-                                instance.admin_link = test_url
-
-                                # build app link and update, if it exists
-                                if instance.stream.get().app_stub:
-                                    app_stub = instance.stream.get().app_stub
-                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)
-                                else:
-                                    instance.app_link = None
-
-                            else:
-                                # show the box is in configuration mode
-                                instance.status = "CONFIGURING"
-                                instance.admin_link = None
-                                instance.app_link = None
-                                instance.put()
-
-                        else: # NOT RUNNING STATUS
-                            if instance.tender_action == "START":
-                                # try to start it
-                                slack.slack_message("Tender::%s wants a START" % (instance.name))
-
-                                http = httplib2.Http(timeout=10)
-                                url = '%s/api/instance/%s/start?token=%s' % (
-                                    config.fastener_host_url, 
-                                    name,
-                                    config.fastener_api_token
-                                )
-                                try:
-                                    # pull the response back TODO add error handling
-                                    response, content = http.request(url, 'GET', None, headers={})
-                                    
-                                    # update if google returns pending
-                                    if json.loads(content)['status'] == "PENDING":
-                                        params = {"response": "success", "message": "instance %s started" % name }
-                                        instance.status = "PROVISIONING"
-                                        instance.tender_action = "NONE"
-                                        instance.started = datetime.datetime.now()
-                                        instance.put()
-
-                                except Exception as ex:
-                                    slack.slack_message("Tender::Exception %s with %s" % (ex, instance.name))
-                            
-                            else:
-                                slack.slack_message("Tender::%s not requesting any actions." % instance.name)
-                                pass
-
-
                     except:
                         # got limited or no data about instance
                         instance.ip = "None"
+
+                    slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
+
+                    # RUNNING (SYSTEM) >> CONFIGURING (script) >> BUILDING (script) >> RUNNING (script)
+                    if instance.status not in ("BUILDING"):
                         instance.status = gcinstance['status']
-                        instance.admin_link = None
-                        instance.app_link = None
+
+                    if gcinstance['status'] == "RUNNING":
+                        # check if the box is running fusion admin yet
+                        try:
+                            # fast fail connection for checking if fusion is up
+                            http_test = httplib2.Http(timeout=2)
+                            test_url = 'http://%s:8764' % instance.ip
+                            response, content = http_test.request(test_url, 'GET')
+                            test_status = response['status']
+                        except:
+                            slack.slack_message("Tender::%s FAILED Fusion port test." % (instance.name))
+                            test_status = "404"
+
+                        # set admin_link if box is running and test comes back 200
+                        if gcinstance['status'] == "RUNNING" and test_status == "200":
+                            instance.admin_link = test_url
+
+                            # build app link and update, if it exists
+                            if instance.stream.get().app_stub:
+                                app_stub = instance.stream.get().app_stub
+                                instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                            else:
+                                instance.app_link = None
+
+                        else:
+                            # show the box is in configuration mode
+                            instance.status = "CONFIGURING"
+                            instance.admin_link = None
+                            instance.app_link = None
+                            instance.put()
+
+                    else: # NOT RUNNING STATUS
+                        if instance.tender_action == "START":
+                            # try to start it
+                            slack.slack_message("Tender::%s wants a START" % (instance.name))
+
+                            http = httplib2.Http(timeout=10)
+                            url = '%s/api/instance/%s/start?token=%s' % (
+                                config.fastener_host_url, 
+                                name,
+                                config.fastener_api_token
+                            )
+                            try:
+                                # pull the response back TODO add error handling
+                                response, content = http.request(url, 'GET', None, headers={})
+                                
+                                # update if google returns pending
+                                if json.loads(content)['status'] == "PENDING":
+                                    params = {"response": "success", "message": "instance %s started" % name }
+                                    instance.status = "PROVISIONING"
+                                    instance.tender_action = "NONE"
+                                    instance.started = datetime.datetime.now()
+                                    instance.put()
+
+                            except Exception as ex:
+                                slack.slack_message("Tender::Exception %s with %s" % (ex, instance.name))
+                        
+                        else:
+                            slack.slack_message("Tender::%s not requesting any actions." % instance.name)
+                            pass
 
                     # instance has been terminated
                     if gcinstance['status'] == "TERMINATED":
