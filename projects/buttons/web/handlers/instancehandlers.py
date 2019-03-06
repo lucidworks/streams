@@ -739,7 +739,7 @@ class InstanceControlHandler(BaseHandler):
                         instance.put()
                         
                         params = {"response": "success", "message": "Instance %s marked to be started." % instance.name }
-                        slack.slack_message("updated db for %s with %s" % (instance.name, instance.tender_action)
+                        slack.slack_message("updated db for %s with %s" % (instance.name, instance.tender_action))
                     except Exception as ex:
                         params = {"response": "failure", "message": "%s" % ex }
 
