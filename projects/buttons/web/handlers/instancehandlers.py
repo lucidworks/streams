@@ -175,6 +175,7 @@ class InstanceTenderHandler(BaseHandler):
                         # got limited or no data about instance
                         instance.ip = "None"
 
+                    # leave commented out
                     slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
 
                     # if not BUILDING then update status right from google
@@ -718,14 +719,18 @@ class InstanceControlHandler(BaseHandler):
         if not instance:
             params = {}
             return self.redirect_to('instances-list', **params)
+            slack.slack_message("request for an instance we can't find - SPAMSPAMSPAM")
+
         else:
             # check user owns it
             if user_info.admin != True and long(instance.user.id()) != long(self.user_id):
                 params = {"response": "failure", "message": "instance %s not modifiable by calling user" % name}
                 self.response.set_status(500)
+                slack.slack_message("%s doesn't own %s" % (user_info.username, name)
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
+                    slack.slack_message("firing up %s" % instance.name)
                     try:
                         instance.started = datetime.datetime.now()
                         instance.tender_action == "START"
@@ -733,6 +738,7 @@ class InstanceControlHandler(BaseHandler):
                         instance.put()
                         
                         params = {"response": "success", "message": "Instance %s marked to be started." % instance.tender_action }
+                        slack.slack_message("updated db for %s" % instance.name)
                     except Exception as ex:
                         params = {"response": "failure", "message": "%s" % ex }
 
@@ -767,19 +773,20 @@ class InstanceControlHandler(BaseHandler):
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/response.json', **params)
 
-
-                # delete the instance - C'est la vie
-                elif command == "delete":
-                    instance.key.delete() # let the tender script delete it
-                    params = {"response": "success", "message": "Instance marked to be deleted." }                    
-                    self.response.headers['Content-Type'] = "application/json"
-                    return self.render_template('api/response.json', **params)
-
                 # just the status
                 elif command == "status":
                     params = {"instance": instance}
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/instance.json', **params)
+
+
+                # delete the instance - C'est la vie
+                elif command == "delete":
+                    instance.key.delete() # let the tender script delete it
+                    params = {"response": "success", "message": "Instance marked to be deleted." }   
+
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/response.json', **params)
 
                 # rename it
                 elif command == "rename":
