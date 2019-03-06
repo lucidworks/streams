@@ -171,12 +171,13 @@ class InstanceTenderHandler(BaseHandler):
                     try:
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
-                        
+
+                        slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
+
+      
                         # RUNNING (SYSTEM) >> CONFIGURING (script) >> BUILDING (script) >> RUNNING (script)
                         if instance.status not in ("BUILDING"):
                             instance.status = gcinstance['status']
-
-                        slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
 
                         if gcinstance['status'] == "RUNNING":
                             # check if the box is running fusion admin yet
@@ -256,7 +257,7 @@ class InstanceTenderHandler(BaseHandler):
                     break # no need to keep looking
 
                 else:
-                    # instance doesn't match
+                    # instance doesn't match the one we're working on
                     pass
 
             if not found:
