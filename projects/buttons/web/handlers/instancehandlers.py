@@ -201,6 +201,7 @@ class InstanceTenderHandler(BaseHandler):
                                 instance.app_link = None
 
                         else: # NOT RUNNING STATUS
+                            print instance.status, instance.name
                             if instance.tender_action == "START":
                                 # try to start it
                                 print "instance wants a start %s " % name
