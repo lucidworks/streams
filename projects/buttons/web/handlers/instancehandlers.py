@@ -705,12 +705,16 @@ class InstanceControlHandler(BaseHandler):
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
-                    instance.started = datetime.datetime.now()
-                    instance.tender_action == "START"
-                    instance.status == "PROVISIONING" # mark it
-                    instance.put()
-                    
-                    params = {"response": "success", "message": "Instance %s marked to be started." % name }
+                    try:
+                        instance.started = datetime.datetime.now()
+                        instance.tender_action == "START"
+                        instance.status == "PROVISIONING" # mark it
+                        instance.put()
+                        
+                        params = {"response": "success", "message": "Instance %s marked to be started." % name }
+                    except Exception as ex:
+                        params = {"response": "failure", "message": "%s" % ex }
+                        
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/response.json', **params)
 
