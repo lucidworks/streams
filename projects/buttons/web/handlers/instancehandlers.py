@@ -707,7 +707,7 @@ class InstanceControlHandler(BaseHandler):
                 if command == "start" and instance.status != "RUNNING":
                     instance.started = datetime.datetime.now()
                     instance.tender_action == "START"
-                    instance.status == "PENDING" # mark it
+                    instance.status == "PROVISIONING" # mark it
                     instance.put()
                     
                     params = {"response": "success", "message": "Instance %s marked to be started." % name }
