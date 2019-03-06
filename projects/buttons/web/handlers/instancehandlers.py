@@ -217,7 +217,7 @@ class InstanceTenderHandler(BaseHandler):
                                     if json.loads(content)['status'] == "PENDING":
                                         params = {"response": "success", "message": "instance %s started" % name }
                                         instance.status = "PENDING"
-                                        insta.tender_action = "NONE"
+                                        instance.tender_action = "NONE"
                                         instance.started = datetime.datetime.now()
 
                                 except Exception as ex:
