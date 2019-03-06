@@ -722,12 +722,12 @@ class InstanceControlHandler(BaseHandler):
             slack.slack_message("request for an instance we can't find - SPAMSPAMSPAM")
 
         else:
-            # check user owns it
+            # check user owns it or user is admin 
             if user_info.admin != True and long(instance.user.id()) != long(self.user_id):
                 params = {"response": "failure", "message": "instance %s not modifiable by calling user" % name}
                 self.response.set_status(500)
                 slack.slack_message("%s doesn't own %s" % (user_info.username, name))
-                
+
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
@@ -738,8 +738,8 @@ class InstanceControlHandler(BaseHandler):
                         instance.status == "PROVISIONING" # mark it
                         instance.put()
                         
-                        params = {"response": "success", "message": "Instance %s marked to be started." % instance.tender_action }
-                        slack.slack_message("updated db for %s" % instance.name)
+                        params = {"response": "success", "message": "Instance %s marked to be started." % instance.name }
+                        slack.slack_message("updated db for %s with %s" % (instance.name, instance.tender_action)
                     except Exception as ex:
                         params = {"response": "failure", "message": "%s" % ex }
 
