@@ -165,6 +165,7 @@ class InstanceTenderHandler(BaseHandler):
                     found = True
                     
                     try:
+                        print instance.statuss, instance.name
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
                         
