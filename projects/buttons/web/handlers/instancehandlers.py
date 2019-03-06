@@ -734,8 +734,8 @@ class InstanceControlHandler(BaseHandler):
                     slack.slack_message("firing up %s" % instance.name)
                     try:
                         instance.started = datetime.datetime.now()
-                        instance.tender_action == "START"
-                        instance.status == "PROVISIONING" # mark it
+                        instance.tender_action = "START"
+                        instance.status = "PROVISIONING" # mark it
                         instance.put()
                         
                         params = {"response": "success", "message": "Instance %s marked to be started." % instance.name }
