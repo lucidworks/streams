@@ -707,6 +707,7 @@ class InstanceControlHandler(BaseHandler):
                 if command == "start" and instance.status != "RUNNING":
                     instance.tender_action == "START"
                     instance.put()
+                    params = {"response": "success", "message": "instance %s marked to start" % name }
 
                 # add ssh_key to instance
                 elif command == "addkey":
@@ -758,7 +759,7 @@ class InstanceControlHandler(BaseHandler):
                 else:
                     params = {"response": "failure", "message": "bad command, skippy" }                    
                     self.response.set_status(500)
-                
+
             self.response.headers['Content-Type'] = "application/json"
             return self.render_template('api/response.json', **params)
 
