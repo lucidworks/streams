@@ -726,7 +726,8 @@ class InstanceControlHandler(BaseHandler):
             if user_info.admin != True and long(instance.user.id()) != long(self.user_id):
                 params = {"response": "failure", "message": "instance %s not modifiable by calling user" % name}
                 self.response.set_status(500)
-                slack.slack_message("%s doesn't own %s" % (user_info.username, name)
+                slack.slack_message("%s doesn't own %s" % (user_info.username, name))
+                
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
