@@ -738,7 +738,7 @@ class InstanceControlHandler(BaseHandler):
                 elif command == "delete":
                     instance.key.delete() # let the tender script delete it
                     params = {"response": "success", "message": "instance marked for deletion" }                    
-                    response.set_status(500)
+                    response.set_status(200)
 
                 # just the status
                 elif command == "status":
