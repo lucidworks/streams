@@ -699,8 +699,8 @@ class InstanceControlHandler(BaseHandler):
             return self.redirect_to('instances-list', **params)
         else:
             # check user owns it
-            if long(instance.user.id()) != long(self.user_id):
-                params = {"response": "failure", "message": "instance %s not owned by calling user" % name}
+            if user_info.admin != True and long(instance.user.id()) != long(self.user_id):
+                params = {"response": "failure", "message": "instance %s not modifiable by calling user" % name}
                 response.set_status(500)
             else:
                 # start the instance
@@ -760,8 +760,8 @@ class InstanceControlHandler(BaseHandler):
                     params = {"response": "failure", "message": "bad command, skippy" }                    
                     response.set_status(500)
                 
-                self.response.headers['Content-Type'] = "application/json"
-                return self.render_template('api/response.json', **params)
+            self.response.headers['Content-Type'] = "application/json"
+            return self.render_template('api/response.json', **params)
 
 
 # instance detail page
