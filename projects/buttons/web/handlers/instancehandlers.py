@@ -708,7 +708,10 @@ class InstanceControlHandler(BaseHandler):
                     instance.tender_action == "START"
                     instance.status == "PENDING" # mark it
                     instance.put()
+                    
                     params = {"response": "success", "message": "Instance %s marked to be started." % name }
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/response.json', **params)
 
                 # add ssh_key to instance
                 elif command == "addkey":
@@ -735,11 +738,16 @@ class InstanceControlHandler(BaseHandler):
                     except:
                         params = {"response": "failure", "message": "instance %s failure" % name }
 
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/response.json', **params)
+
 
                 # delete the instance - C'est la vie
                 elif command == "delete":
                     instance.key.delete() # let the tender script delete it
                     params = {"response": "success", "message": "Instance marked to be deleted." }                    
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/response.json', **params)
 
                 # just the status
                 elif command == "status":
@@ -760,9 +768,8 @@ class InstanceControlHandler(BaseHandler):
                 else:
                     params = {"response": "failure", "message": "bad command, skippy" }                    
                     self.response.set_status(500)
-
-            self.response.headers['Content-Type'] = "application/json"
-            return self.render_template('api/response.json', **params)
+                    self.response.headers['Content-Type'] = "application/json"
+                    return self.render_template('api/response.json', **params)
 
 
 # instance detail page
