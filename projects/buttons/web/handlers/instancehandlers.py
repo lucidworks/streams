@@ -701,7 +701,7 @@ class InstanceControlHandler(BaseHandler):
             # check user owns it
             if user_info.admin != True and long(instance.user.id()) != long(self.user_id):
                 params = {"response": "failure", "message": "instance %s not modifiable by calling user" % name}
-                response.set_status(500)
+                self.response.set_status(500)
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
@@ -738,7 +738,6 @@ class InstanceControlHandler(BaseHandler):
                 elif command == "delete":
                     instance.key.delete() # let the tender script delete it
                     params = {"response": "success", "message": "instance marked for deletion" }                    
-                    response.set_status(200)
 
                 # just the status
                 elif command == "status":
@@ -758,7 +757,7 @@ class InstanceControlHandler(BaseHandler):
 
                 else:
                     params = {"response": "failure", "message": "bad command, skippy" }                    
-                    response.set_status(500)
+                    self.response.set_status(500)
                 
             self.response.headers['Content-Type'] = "application/json"
             return self.render_template('api/response.json', **params)
