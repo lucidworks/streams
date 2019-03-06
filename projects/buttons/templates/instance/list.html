@@ -288,7 +288,7 @@
             type: 'GET',
             statusCode: {
               200: function() {
-                alertify.success("Instance deleted!");
+                alertify.success("Instance "+name+" marked to be deleted!");
                 setTimeout(function(){ location.reload(); }, 2000);
               }
             }
@@ -307,7 +307,7 @@
           type: 'GET',
           statusCode: {
             200: function() {
-              alertify.success("Instance started!");
+              alertify.success("Instance "+name+" marked to be started!");
               setTimeout(function(){ location.reload(); }, 2000);
             }
           }
