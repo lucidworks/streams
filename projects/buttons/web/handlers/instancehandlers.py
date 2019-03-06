@@ -227,7 +227,7 @@ class InstanceTenderHandler(BaseHandler):
                                     print "%s failed for %s" (name, ex)
                             
                             else:
-                                # do nothing to instance
+                                pass
 
 
                     except:
