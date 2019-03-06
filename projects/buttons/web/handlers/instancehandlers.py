@@ -590,7 +590,6 @@ class InstancesListHandler(BaseHandler):
                 name = gcinstance['instance']
                 password = gcinstance['password']
 
-
                 if name == "failed":
                     raise Exception("Instance start failed.")
 
@@ -705,9 +704,11 @@ class InstanceControlHandler(BaseHandler):
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
+                    instance.started = datetime.datetime.now()
                     instance.tender_action == "START"
+                    instance.status == "PENDING" # mark it
                     instance.put()
-                    params = {"response": "success", "message": "instance %s marked to start" % name }
+                    params = {"response": "success", "message": "Instance %s marked to be started." % name }
 
                 # add ssh_key to instance
                 elif command == "addkey":
@@ -738,7 +739,7 @@ class InstanceControlHandler(BaseHandler):
                 # delete the instance - C'est la vie
                 elif command == "delete":
                     instance.key.delete() # let the tender script delete it
-                    params = {"response": "success", "message": "instance marked for deletion" }                    
+                    params = {"response": "success", "message": "Instance marked to be deleted." }                    
 
                 # just the status
                 elif command == "status":
