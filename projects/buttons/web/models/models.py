@@ -124,6 +124,7 @@ class Instance(ndb.Model):
 	status = ndb.StringProperty()
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
 	preemptible = ndb.BooleanProperty(indexed=True, default=True)
+	tender_action = ndb.StringProperty(default="NONE")
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod

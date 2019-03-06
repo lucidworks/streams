@@ -201,7 +201,27 @@ class InstanceTenderHandler(BaseHandler):
                                 instance.app_link = None
 
                         else: # NOT RUNNING STATUS
-                            pass
+                            if instance.tender_action == "START":
+                                # try to start it
+                                http = httplib2.Http(timeout=10)
+                                url = '%s/api/instance/%s/start?token=%s' % (
+                                    config.fastener_host_url, 
+                                    name,
+                                    config.fastener_api_token
+                                )
+                                try:
+                                    # pull the response back TODO add error handling
+                                    response, content = http.request(url, 'GET', None, headers={})
+                                    
+                                    # update if google returns pending
+                                    if json.loads(content)['status'] == "PENDING":
+                                        params = {"response": "success", "message": "instance %s started" % name }
+                                        instance.status = "PENDING"
+                                        insta.tender_action = "NONE"
+                                        instance.started = datetime.datetime.now()
+
+                                except Exception as ex:
+                                    print "%s failed for %s" (name, ex)
 
 
                     except:
@@ -215,7 +235,6 @@ class InstanceTenderHandler(BaseHandler):
                     if gcinstance['status'] == "TERMINATED":
                         # set start time to far in the past
                         instance.started = instance.created - datetime.timedelta(0, 604800)
-                        pass
 
                     instance.put()
 
@@ -686,26 +705,8 @@ class InstanceControlHandler(BaseHandler):
             else:
                 # start the instance
                 if command == "start" and instance.status != "RUNNING":
-                    # make the instance call to the control box
-                    http = httplib2.Http(timeout=10)
-                    url = '%s/api/instance/%s/start?token=%s' % (
-                        config.fastener_host_url, 
-                        name,
-                        config.fastener_api_token
-                    )
-
-                    # pull the response back TODO add error handling
-                    response, content = http.request(url, 'GET', None, headers={})
-
-                    # update if google returns pending
-                    if json.loads(content)['status'] == "PENDING":
-                        params = {"response": "success", "message": "instance %s started" % name }
-                        instance.status = "STAGING"
-                        instance.started = datetime.datetime.now()
-                        instance.put()
-                    else:
-                        params = {"response": "failure", "message": "instance %s operation failure" % name }
-                        response.set_status(500)
+                    instance.tender_action == "START"
+                    instance.put()
 
                 # add ssh_key to instance
                 elif command == "addkey":
@@ -735,30 +736,9 @@ class InstanceControlHandler(BaseHandler):
 
                 # delete the instance - C'est la vie
                 elif command == "delete":
-                    # make the instance call to the control box
-                    http = httplib2.Http(timeout=10)
-                    url = '%s/api/instance/%s/delete?token=%s' % (
-                        config.fastener_host_url, 
-                        name,
-                        config.fastener_api_token
-                    )
-
-                    try:
-                        # pull the response back TODO add error handling
-                        response, content = http.request(url, 'GET', None, headers={})
-
-                        # delete if google returns pending
-                        if json.loads(content)['status'] == "PENDING":
-                            params = {"response": "success", "message": "instance %s deleted" % name }
-                            instance.key.delete()
-                        else:
-                            params = {"response": "failure", "message": "instance %s operation failure" % name }
-                            instance.key.delete()
-                            response.set_status(500)
-                    except:
-                        params = {"response": "failure", "message": "instance %s failure" % name }
-                        # probably shouldn't do this, but whatever
-                        instance.key.delete()
+                    instance.key.delete() # let the tender script delete it
+                    params = {"response": "success", "message": "instance marked for deletion" }                    
+                    response.set_status(500)
 
                 # just the status
                 elif command == "status":
