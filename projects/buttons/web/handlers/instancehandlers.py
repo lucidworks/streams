@@ -135,6 +135,7 @@ class InstanceTenderHandler(BaseHandler):
 
         except Exception as ex:
             gcinstances = []
+            slack.slack_message("Tender::Exception with list query to fastener box.")
             message = "failed to contact fastener API"
 
         # list of instances from db
@@ -147,6 +148,9 @@ class InstanceTenderHandler(BaseHandler):
                 "gc_count": len(gcinstances), 
                 "db_count": len(instances)
             }
+
+            slack.slack_message("Tender::No instances from Google?")
+
             self.response.headers['Content-Type'] = "application/json"
             return self.render_template('api/tender.json', **params)
             ######
@@ -165,13 +169,14 @@ class InstanceTenderHandler(BaseHandler):
                     found = True
                     
                     try:
-                        print instance.statuss, instance.name
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
                         
                         # RUNNING (SYSTEM) >> CONFIGURING (script) >> BUILDING (script) >> RUNNING (script)
                         if instance.status not in ("BUILDING"):
                             instance.status = gcinstance['status']
+
+                        slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
 
                         if gcinstance['status'] == "RUNNING":
                             # check if the box is running fusion admin yet
@@ -182,6 +187,7 @@ class InstanceTenderHandler(BaseHandler):
                                 response, content = http_test.request(test_url, 'GET')
                                 test_status = response['status']
                             except:
+                                slack.slack_message("Tender::%s FAILED Fusion port test." % (instance.name))
                                 test_status = "404"
 
                             # set admin_link if box is running and test comes back 200
@@ -200,12 +206,12 @@ class InstanceTenderHandler(BaseHandler):
                                 instance.status = "CONFIGURING"
                                 instance.admin_link = None
                                 instance.app_link = None
+                                instance.put()
 
                         else: # NOT RUNNING STATUS
-                            print instance.status, instance.name
                             if instance.tender_action == "START":
                                 # try to start it
-                                print "instance wants a start %s " % name
+                                slack.slack_message("Tender::%s wants a START" % (instance.name))
 
                                 http = httplib2.Http(timeout=10)
                                 url = '%s/api/instance/%s/start?token=%s' % (
@@ -226,9 +232,10 @@ class InstanceTenderHandler(BaseHandler):
                                         instance.put()
 
                                 except Exception as ex:
-                                    print "%s failed for %s" (name, ex)
+                                    slack.slack_message("Tender::Exception %s with %s" % (ex, instance.name))
                             
                             else:
+                                slack.slack_message("Tender::%s not requesting any actions." % instance.name)
                                 pass
 
 
