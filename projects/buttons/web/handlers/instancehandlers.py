@@ -219,6 +219,7 @@ class InstanceTenderHandler(BaseHandler):
                                         instance.status = "PROVISIONING"
                                         instance.tender_action = "NONE"
                                         instance.started = datetime.datetime.now()
+                                        instance.put()
 
                                 except Exception as ex:
                                     print "%s failed for %s" (name, ex)
