@@ -203,6 +203,8 @@ class InstanceTenderHandler(BaseHandler):
                         else: # NOT RUNNING STATUS
                             if instance.tender_action == "START":
                                 # try to start it
+                                print "instance wants a start %s " % name
+
                                 http = httplib2.Http(timeout=10)
                                 url = '%s/api/instance/%s/start?token=%s' % (
                                     config.fastener_host_url, 
@@ -223,6 +225,9 @@ class InstanceTenderHandler(BaseHandler):
 
                                 except Exception as ex:
                                     print "%s failed for %s" (name, ex)
+                            
+                            else:
+                                # do nothing to instance
 
 
                     except:
@@ -711,10 +716,10 @@ class InstanceControlHandler(BaseHandler):
                         instance.status == "PROVISIONING" # mark it
                         instance.put()
                         
-                        params = {"response": "success", "message": "Instance %s marked to be started." % name }
+                        params = {"response": "success", "message": "Instance %s marked to be started." % instance.tender_action }
                     except Exception as ex:
                         params = {"response": "failure", "message": "%s" % ex }
-                        
+
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/response.json', **params)
 
