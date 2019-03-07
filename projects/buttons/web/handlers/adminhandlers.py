@@ -506,7 +506,7 @@ class AdminInstancesHandler(BaseHandler):
         if config.isdev:
             time.sleep(1)
 
-        params = {"response": "success", "message": "instance %s deleted" % name}
+        params = {"response": "success", "message": "instance %s deleted" % instance.name}
         return self.render_template('api/response.json', **params)
  
 
