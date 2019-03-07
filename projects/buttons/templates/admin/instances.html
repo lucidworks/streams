@@ -122,7 +122,7 @@
         $('#delete-button').click(function() {
           $('#delete').modal('hide');
           $.ajax({
-            url: '/admin/instances/'+iid+'/?_csrf_token='+csrf_token,
+            url: '/admin/instances/'+iid+'?_csrf_token='+csrf_token,
             type: 'DELETE',
             statusCode: {
               200: function() {
