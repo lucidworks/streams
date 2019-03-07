@@ -494,29 +494,14 @@ class AdminInstancesHandler(BaseHandler):
     @user_required
     @admin_required
     def delete(self, instance_id=None):
+        # lookup user's auth info
+        user_info = User.get_by_id(long(self.user_id))
+
         # delete instance
         instance = Instance.get_by_id(long(instance_id))
-        name = instance.name
+        instance.key.delete()
         
-        # kill it via API call and delete via API
-        if instance:
-            # make the instance call to the control box
-            http = httplib2.Http(timeout=10)
-            url = '%s/api/instance/%s/delete?token=%s' % (
-                config.fastener_host_url, 
-                name,
-                config.fastener_api_token
-            )
-
-            # pull the response back TODO add error handling
-            response, content = http.request(url, 'GET', None, headers={})
-
-            # delete if google returns pending
-            if json.loads(content)['status'] == "PENDING":
-                instance.key.delete()
-        else:
-            pass
-            # TODO implement this, even thought it's likely not to happen
+        slack.slack_message("Instance %s deleted for %s!" % (instance.name, user_info.username))
 
         # hangout for a second
         if config.isdev:
