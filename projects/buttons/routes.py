@@ -52,7 +52,7 @@ _routes = [
 
 	# admin deletes
 	RedirectRoute('/admin/streams/<stream_id>/', adminhandlers.AdminStreamsHandler, name='admin-streams-sid', strict_slash=True),
-	RedirectRoute('/admin/instances/<instance_id>/', adminhandlers.AdminInstancesHandler, name='admin-instances-name', strict_slash=True),
+	RedirectRoute('/admin/instances/<instance_id>', adminhandlers.AdminInstancesHandler, name='admin-instances-name', strict_slash=False),
 	
 	# api/slack (method file and classes need sorting)
 	RedirectRoute('/api/status', sitehandlers.APIStatusHandler, name='api-status', strict_slash=False),
