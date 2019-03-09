@@ -33,7 +33,7 @@ compute_beta = discovery.build('compute', 'beta', credentials=credentials)
 project = 'labs-209320'
 
 # regions & zones
-regions = ['central1', 'west1', 'west2', 'east4'] # numbered 0, 1, 2, etc. in name
+regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west1', 'asia-east1'] # numbered 0, 1, 2, etc. in name
 zones = ['a', 'b', 'c']
 
 
@@ -70,7 +70,7 @@ def list():
                     try:
                         result = compute.instances().list(
                             project=project,
-                            zone='us-%s-%s' % (r, z)
+                            zone='%s-%s' % (r, z)
                         ).execute()
                         break
                     except Exception as ex:
@@ -83,7 +83,7 @@ def list():
                     for item in result['items']:
                         items.append(item)
                 except:
-                    print "us-%s-%s has no instances" % (r, z)
+                    print "%s-%s has no instances" % (r, z)
         return dumps(items)
     except:
         # except Exception as ex:
@@ -106,7 +106,7 @@ def console(instance_id):
     try:
         result = compute.instances().getSerialPortOutput(
             project=project,
-            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+            zone='%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -130,7 +130,7 @@ def status(instance_id):
     try:
         result = compute.instances().get(
             project=project,
-            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+            zone='%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
 
@@ -144,7 +144,7 @@ def status(instance_id):
             try:
                 result = compute.instances().get(
                     project=project,
-                    zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+                    zone='%s-%s' % (regions[int(regionint)], zonealpha),
                     instance=instance_id
                 ).execute()
             except:
@@ -184,7 +184,7 @@ def addkey(instance_id):
         f.close()
 
         # likely attack vector through not scrubing github username?
-        command = "gcloud compute instances add-metadata %s --metadata-from-file ssh-keys=keys/%s_rsa.pub --zone=us-%s-%s" % (
+        command = "gcloud compute instances add-metadata %s --metadata-from-file ssh-keys=keys/%s_rsa.pub --zone=%s-%s" % (
             instance_id,
             username,
             regions[int(regionint)], 
@@ -206,7 +206,7 @@ def addkey(instance_id):
 
     result = {
         'project': project,
-        'zone': 'us-%s-%s' % (regions[int(regionint)], zonealpha),
+        'zone': '%s-%s' % (regions[int(regionint)], zonealpha),
         'instance': instance_id,
         'ssh_key': ssh_key,
         'status': status
@@ -240,7 +240,7 @@ def delete(instance_id):
     try:
         result = compute.instances().delete(
             project=project,
-            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+            zone='%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
         return dumps(result)
@@ -262,7 +262,7 @@ def reset(instance_id):
     zonealpha = instance_id[-1]
     result = compute.instances().reset(
         project=project,
-        zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+        zone='%s-%s' % (regions[int(regionint)], zonealpha),
         instance=instance_id
     ).execute()
     return dumps(result)
@@ -281,7 +281,7 @@ def start(instance_id):
     try:
         result = compute.instances().start(
             project=project,
-            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+            zone='%s-%s' % (regions[int(regionint)], zonealpha),
             instance=instance_id
         ).execute()
     except Exception as ex:
@@ -335,8 +335,8 @@ def create(stream_slug='lou'):
 
         # random region/zone from regions/zones arrays above
         zonealpha = random.choice('abc')
-        regionint = random.randint(0,3)
-        region = 'us-%s' % (regions[int(regionint)])
+        regionint = random.randint(0,len(region)-1)
+        region = '%s' % (regions[int(regionint)])
 
         # check to see which zone we can use
         region_check = compute.regions().get(project=project,region=region).execute()
@@ -384,7 +384,7 @@ def create(stream_slug='lou'):
         'autoDelete': True,
         'initializeParams': {
             "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20190212",
-            "diskType": "projects/%s/zones/us-%s-%s/diskTypes/pd-ssd" % (project, regions[int(regionint)], zonealpha),
+            "diskType": "projects/%s/zones/%s-%s/diskTypes/pd-ssd" % (project, regions[int(regionint)], zonealpha),
             "diskSizeGb": "100"
         }
     }]
@@ -423,10 +423,10 @@ def create(stream_slug='lou'):
     }
     # execute the query
     try:
-        config['machineType'] = "zones/us-%s-%s/machineTypes/n1-standard-4" % (regions[int(regionint)], zonealpha)
+        config['machineType'] = "zones/%s-%s/machineTypes/n1-standard-4" % (regions[int(regionint)], zonealpha)
         operation = compute.instances().insert(
             project=project,
-            zone='us-%s-%s' % (regions[int(regionint)], zonealpha),
+            zone='%s-%s' % (regions[int(regionint)], zonealpha),
             body=config
         ).execute()
     except Exception as ex:
