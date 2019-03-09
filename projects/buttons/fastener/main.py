@@ -32,8 +32,8 @@ compute = discovery.build('compute', 'v1', credentials=credentials)
 compute_beta = discovery.build('compute', 'beta', credentials=credentials)
 project = 'labs-209320'
 
-# regions & zones
-regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west1', 'asia-east1'] # numbered 0, 1, 2, etc. in name
+# regions & zones (NOTE: us-east1 does not have an 'a' zone and has a 'd' zone)
+regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west2', 'asia-east2'] # numbered 0, 1, 2, etc. in name
 zones = ['a', 'b', 'c']
 
 
@@ -68,6 +68,13 @@ def list():
             for z in zones:
                 for x in range(3):
                     try:
+                        # patch us-east1 until we can write better code for it (mirrored below in create)
+                        if r == "us-east1" and z == "a":
+                            zonealpha = "a"
+                        else:
+                            zonealpha = "d"
+
+                        # query    
                         result = compute.instances().list(
                             project=project,
                             zone='%s-%s' % (r, z)
@@ -83,7 +90,7 @@ def list():
                     for item in result['items']:
                         items.append(item)
                 except:
-                    print "%s-%s has no instances" % (r, z)
+                    print "%s-%s has no instances or does not exist" % (r, z)
         return dumps(items)
     except:
         # except Exception as ex:
@@ -334,23 +341,32 @@ def create(stream_slug='lou'):
         trip = 0
 
         # random region/zone from regions/zones arrays above
-        zonealpha = random.choice('abc')
+        zonealpha = random.choice(zones)
         regionint = random.randint(0,len(region)-1)
         region = '%s' % (regions[int(regionint)])
+
+        # patch us-east1 until we can write better code for it
+        if region == "us-east1" and zonealpha == "a":
+            zonealpha = "d"
 
         # check to see which zone we can use
         region_check = compute.regions().get(project=project,region=region).execute()
 
         for quota in region_check['quotas']:
-            if quota['metric'] == "CPUS":
-                usage = quota['usage']
-                limit = quota['limit']
+            try:
+                if quota['metric'] == "CPUS":
+                    usage = quota['usage']
+                    limit = quota['limit']
+            except:
+                # guess we don't have that zone
+                print "%s-%s doesn't work" % (region, zonealpha)
 
         # we start 4 cpu instances
         if (usage+4) <= limit:
+            trip = trip + 1
             break
 
-        # wait a bit
+        # otherwise wait a bit
         time.sleep(3)
         
         # if we've made more than so many requests, we give up
