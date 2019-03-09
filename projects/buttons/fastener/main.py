@@ -69,15 +69,14 @@ def list():
                 for x in range(3):
                     try:
                         # patch us-east1 until we can write better code for it (mirrored below in create)
+                        zonealpha = z
                         if r == "us-east1" and z == "a":
-                            zonealpha = "a"
-                        else:
                             zonealpha = "d"
 
                         # query    
                         result = compute.instances().list(
                             project=project,
-                            zone='%s-%s' % (r, z)
+                            zone='%s%s' % (r, zonealpha)
                         ).execute()
                         break
                     except Exception as ex:
