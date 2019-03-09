@@ -223,7 +223,7 @@ class InstanceTenderHandler(BaseHandler):
 
                     else: # NOT RUNNING STATUS (FROM GOOGLE) OR BUILDING (FROM DEPLOY SCRIPT)
                         # should we start it?
-                        if instance.tender_action == "START" and instance.status == "TERMINATED": 
+                        if instance.tender_action == "START":
                             # try to start it
                             http = httplib2.Http(timeout=10)
                             url = '%s/api/instance/%s/start?token=%s' % (
@@ -735,7 +735,6 @@ class InstanceControlHandler(BaseHandler):
                     try:
                         instance.started = datetime.datetime.now()
                         instance.tender_action = "START"
-                        instance.status = "PROVISIONING" # mark it
                         instance.put()
                         
                         params = {"response": "success", "message": "Instance %s marked to be started." % instance.name }
