@@ -208,10 +208,13 @@ class InstanceTenderHandler(BaseHandler):
                             instance.admin_link = test_url
 
                             # build app link and update, if it exists
-                            if instance.stream.get().app_stub:
-                                app_stub = instance.stream.get().app_stub
-                                instance.app_link = "http://%s%s" % (instance.ip, app_stub)
-                            else:
+                            try:
+                                if instance.stream.get().app_stub:
+                                    app_stub = instance.stream.get().app_stub
+                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                                else:
+                                    instance.app_link = None
+                            except:
                                 instance.app_link = None
 
                         else:
