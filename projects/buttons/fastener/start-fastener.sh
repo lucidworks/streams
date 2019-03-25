@@ -6,10 +6,13 @@ NAME=fastener-api
 
 option=$1
 PREEMPTIBLE="--preemptible"
+IP="35.233.213.74" # dev IP
+
 echo "This instance is preemtible, unless it's started with --prod";
 case $option in
     -p|--prod|--production)
     unset PREEMPTIBLE
+    IP="35.230.26.45" # production IP mapped to fastener.lucidworks.com
     echo "Production mode enabled..."
     echo;
 esac
@@ -35,7 +38,7 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --zone $ZONE \
 --tags http-server,lucid,token-$TOKEN \
 --scopes compute-rw \
---subnet=default --address=35.230.26.45 --network-tier=PREMIUM \
+--subnet=default --address=$IP --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
 $PREEMPTIBLE \
 --metadata startup-script='#! /bin/bash
