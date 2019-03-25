@@ -76,7 +76,7 @@ def list():
                         # query    
                         result = compute.instances().list(
                             project=project,
-                            zone='%s%s' % (r, zonealpha)
+                            zone='%s-%s' % (r, zonealpha)
                         ).execute()
                         break
                     except Exception as ex:
