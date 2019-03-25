@@ -341,7 +341,7 @@ def create(stream_slug='lou'):
 
         # random region/zone from regions/zones arrays above
         zonealpha = random.choice(zones)
-        regionint = random.randint(0,len(region)-1)
+        regionint = random.randint(0,len(regions)-1)
         region = '%s' % (regions[int(regionint)])
 
         # patch us-east1 until we can write better code for it
