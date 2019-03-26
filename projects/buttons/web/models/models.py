@@ -96,7 +96,7 @@ class Stream(ndb.Model):
 
 	@classmethod
 	def get_all(cls):
-		query = cls.query().filter().order(-cls.created)
+		query = cls.query().filter().order(-cls.name)
 		streams = query.fetch()
 		return streams
 
