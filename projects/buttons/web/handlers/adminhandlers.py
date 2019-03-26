@@ -271,18 +271,18 @@ class AdminInstancesCSVStatusAPIHandler(BaseHandler):
         self.response.headers['Content-Type'] = "application/json"
         return self.render_template('api/instances.csv', **params)
 
-
+# /api/instance/<name>/status
 class AdminInstanceStatusAPIHandler(BaseHandler):
     def get(self, name=None):
         # define possible status
         statuses = [
             "PROVISIONING",
             "STAGING",
-            "CONFIGURING", # lucidworks status for building out box
+            "CONFIGURING", 
             "RUNNING",
             "STOPPING",
             "TERMINATED",
-            "BUILDING"
+            "BUILDING" # lucidworks status for building out box
         ]
 
         status = self.request.get('status')
