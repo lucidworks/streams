@@ -15,3 +15,8 @@ ui/dist
 *.iml
 .editorconfig
 *.tgz
+config.py
+config.py.bak
+config.py.*
+*.pyc
+*.db
