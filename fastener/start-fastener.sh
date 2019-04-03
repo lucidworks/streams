@@ -64,7 +64,7 @@ sudo update-ca-certificates
 
 cd /;
 git clone https://github.com/lucidworks/streams
-cd /streams/projects/buttons/fastener/;
+cd /streams/fastener/;
 screen -dmS buttons bash -c "bash start-web.sh"
 '
 
