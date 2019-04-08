@@ -239,7 +239,7 @@ class InstanceTenderHandler(BaseHandler):
                                 response, content = http.request(url, 'GET', None, headers={})
                                 
                                 # update if google returns pending
-                                if json.loads(content)['status'] == "PENDING":
+                                if json.loads(content)['status'] == "PENDING" or json.loads(content)['status'] == "DONE":
                                     params = {"response": "success", "message": "instance %s started" % name }
                                     instance.status = "PROVISIONING"
                                     instance.tender_action = "NONE"
