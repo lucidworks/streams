@@ -256,16 +256,16 @@ The key's randomart image is:
                             <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
                           </tr>
                         <tr>
-                          <td><strong>VPUs</strong></td>
-                          <td colspan="2">4 Core</td>
+                          <td><strong>Size</strong></td>
+                          <td colspan="2">{{ instance_cores }} Cores</td>
                         </tr>
                         <tr>
                           <td><strong>Memory</strong></td>
-                          <td colspan="2">15 GB</td>
+                          <td colspan="2">{{ instance_memory }} GB</td>
                         </tr>
                         <tr>
                           <td><strong>Disk</strong></td>
-                          <td colspan=2>50 GB</td>
+                          <td colspan=2>100 GB</td>
                         </tr>
                       </table>
                     </div>

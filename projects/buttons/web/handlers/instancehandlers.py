@@ -858,11 +858,23 @@ class InstanceDetailHandler(BaseHandler):
         else:
             guide = True
 
+        if instance.size == 1:
+            instance_cores = 8
+            instance_memory = 30
+        elif instance.size == 2:
+            instance_cores = 16
+            instance_memory = 60
+        else:
+            instance_cores = 4
+            instance_memory = 15
+        
         params = {
             'guide': guide,
             'instance': instance,
             'stream': stream,
-            'user_info': user_info
+            'user_info': user_info,
+            'instance_cores': instance_cores,
+            'instance_memory': instance_memory
         }
 
         return self.render_template('instance/detail.html', **params)

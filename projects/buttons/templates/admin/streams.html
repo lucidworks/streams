@@ -107,6 +107,7 @@
                       <th>Template ID</th>
                       <th>Name</th>
                       <th>Fusion Version</th>
+                      <th>Size</th>
                       <th>Distro</th>
                       <th>Labs Link</th>
                       <th>Github Repo</th>
@@ -120,6 +121,7 @@
                       <td><a href="/instance/create/{{ stream.sid }}">{{ stream.sid }}</a></td>
                       <td>{{ stream.name }}</td>
                       <td>{{ stream.fusion_version }}</td>
+                      <td>{{ stream.instance_size }}</td>
                       <td>{{ stream.tgzfile }}</td>
                       <td>{% if stream.labs_link %}<a href="{{ stream.labs_link }}">link</a>{% else %}None{% endif %}</td>
                       <td>{% if stream.github_repo %}<a href="{{ stream.github_repo }}">link</a>{% else %}None{% endif %}</td>
