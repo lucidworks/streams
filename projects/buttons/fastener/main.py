@@ -32,9 +32,10 @@ compute = discovery.build('compute', 'v1', credentials=credentials)
 compute_beta = discovery.build('compute', 'beta', credentials=credentials)
 project = 'labs-209320'
 
-# regions & zones (NOTE: us-east1 does not have an 'a' zone and has a 'd' zone)
+# regions, zones & sizes (NOTE: us-east1 does not have an 'a' zone and has a 'd' zone)
 regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west2', 'asia-east2'] # numbered 0, 1, 2, etc. in name
 zones = ['a', 'b', 'c']
+sizes = ['n1-standard-4', 'n1-standard-8', 'n1-standard-16']
 
 
 app = Bottle(__name__)
@@ -310,6 +311,15 @@ def create(stream_slug='lou'):
         user = "prod-unknown"
 
     try:
+        sizeint = request.query['size']
+        try:
+            size = sizes[int(sizeint)]
+        except:
+            size = sizes[0]
+    except:
+        size = sizes[0]
+
+    try:
         regionint = request.query['region']
         try:
             region = regions[int(regionint)]
@@ -438,7 +448,7 @@ def create(stream_slug='lou'):
     }
     # execute the query
     try:
-        config['machineType'] = "zones/%s-%s/machineTypes/n1-standard-4" % (regions[int(regionint)], zonealpha)
+        config['machineType'] = "zones/%s-%s/machineTypes/%s" % (regions[int(regionint)], zonealpha, size)
         operation = compute.instances().insert(
             project=project,
             zone='%s-%s' % (regions[int(regionint)], zonealpha),
