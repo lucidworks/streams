@@ -62,6 +62,11 @@ class InstanceHotStartsHandler(BaseHandler):
             except:
                 hot_starts = 0
 
+            try:
+                size = stream.instance_size
+            except:
+                size = 0
+
             if running < hot_starts:
                 # start up an extra instance for this stream (max starts 1 per minute per template)
                 # make the instance call handler
@@ -74,11 +79,12 @@ class InstanceHotStartsHandler(BaseHandler):
                     iuser = "%s-%s" % ("prod", "hotstart")
 
                 # build url to call create new instance from stream on fastener box (our instance)
-                url = '%s/api/stream/%s?token=%s&user=%s' % (
+                url = '%s/api/stream/%s?token=%s&user=%s&size=%s' % (
                     config.fastener_host_url,
                     stream.sid,
                     config.fastener_api_token,
-                    iuser
+                    iuser,
+                    size
                 )
 
                 try:
@@ -96,6 +102,7 @@ class InstanceHotStartsHandler(BaseHandler):
                         name = name,
                         status = "PROVISIONING",
                         stream = stream.key,
+                        size = size,
                         hotstart = True,
                         password = password,
                         expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
@@ -424,6 +431,11 @@ class StreamsStarterHandler(BaseHandler):
         # get stream
         stream = Stream.get_by_sid(sid)
 
+        try:
+            size = stream.instance_size
+        except:
+            size = 0    
+        
         ## HOT START
         # check for a hot start
         instances = Instance.get_hotstarts()
@@ -455,11 +467,12 @@ class StreamsStarterHandler(BaseHandler):
         else:
             iuser = "%s-%s" % ("prod", user_info.username)
 
-        url = '%s/api/stream/%s?token=%s&user=%s' % (
+        url = '%s/api/stream/%s?token=%s&user=%s&size=%s' % (
             config.fastener_host_url,
             sid,
             config.fastener_api_token,
-            iuser
+            iuser,
+            size
         )
 
         try:
@@ -478,6 +491,7 @@ class StreamsStarterHandler(BaseHandler):
                 status = "PROVISIONING",
                 user = user_info.key,
                 stream = stream.key,
+                size = size,
                 password = password,
                 expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                 started = datetime.datetime.now()
@@ -556,6 +570,11 @@ class InstancesListHandler(BaseHandler):
             # get form values
             stream = Stream.get_by_sid(sid)
 
+            try:
+                size = stream.instance_size
+            except:
+                size = 0
+
             # look up user's instances
             db_instances = Instance.get_all()
 
@@ -602,11 +621,12 @@ class InstancesListHandler(BaseHandler):
                 iuser = "%s-%s" % ("prod", user_info.username.lower())
 
             # build url to create new instance from stream
-            url = '%s/api/stream/%s?token=%s&user=%s' % (
+            url = '%s/api/stream/%s?token=%s&user=%s&size=%s' % (
                 config.fastener_host_url, 
                 sid, 
                 config.fastener_api_token,
-                iuser
+                iuser,
+                size
             )
 
             try:
@@ -625,6 +645,7 @@ class InstancesListHandler(BaseHandler):
                     status = "PROVISIONING",
                     user = user_info.key,
                     stream = stream.key,
+                    size = size,
                     password = password,
                     expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                     started = datetime.datetime.now()
