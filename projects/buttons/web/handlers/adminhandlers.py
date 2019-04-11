@@ -52,6 +52,11 @@ class AdminStreamsAPIHandler(BaseHandler):
                 if not stream:
                     params = {"response": "fail", "message": "stream %s does not exist on these endpoints" % sid}
                     return self.render_template('api/response.json', **params)
+                
+                try:
+                    size = stream.instance_size
+                except:
+                    size = 0
 
                 # look up user's instances
                 db_instances = Instance.get_all()
@@ -84,14 +89,15 @@ class AdminStreamsAPIHandler(BaseHandler):
                 else:
                     iuser = "%s-%s" % ("prod", user_info.username)
 
-                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&region=%s&preemptible=%s' % (
+                url = '%s/api/stream/%s?token=%s&user=%s&topic=%s&region=%s&preemptible=%s&size=%s' % (
                     config.fastener_host_url,
                     sid,
                     config.fastener_api_token,
                     iuser,
                     topic,
                     region,
-                    preemptible
+                    preemptible,
+                    size
                 )
 
                 try:
@@ -111,6 +117,7 @@ class AdminStreamsAPIHandler(BaseHandler):
                         status = "PROVISIONING",
                         user = user_info.key,
                         stream = stream.key,
+                        size = size,
                         region = region,
                         topic = topic,
                         preemptible = bool(preemptible),

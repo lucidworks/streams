@@ -93,6 +93,8 @@ class Stream(ndb.Model):
 	labs_link = ndb.StringProperty()
 	fusion_version = ndb.StringProperty()
 	hot_starts = ndb.IntegerProperty(default=0)
+	instance_size = ndb.IntegerProperty(default=0) # 0:n1-standard-4, 1:n1-standard-8, 2:n1-standard-16
+
 
 	@classmethod
 	def get_all(cls):
@@ -125,6 +127,7 @@ class Instance(ndb.Model):
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
 	preemptible = ndb.BooleanProperty(indexed=True, default=True)
 	tender_action = ndb.StringProperty(default="NONE")
+	size = ndb.IntegerProperty(default=0) # 0:n1-standard-4, 1:n1-standard-8, 2:n1-standard-16
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod
