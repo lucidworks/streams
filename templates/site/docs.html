@@ -4,15 +4,9 @@
 {% block title %}Docs :: {% endblock %}
 
 {% block page_styles %}
-    <!-- Docs Page -->
-    <link href="/css/font-awesome.css" rel="stylesheet">
-    <link href="/css/docs.css" rel="stylesheet">
-    <link href="/css/lab.css" rel="stylesheet">
-    <link href="/css/documentation.css" rel="stylesheet">
-
 {% endblock %}
 
-{% block description %}It looks like you've managed to find the Wisdom documentation; things are looking up for you!{% endblock %}
+{% block description %}You found the docs!{% endblock %}
 
 {% block cards %}
     <!-- Twitter Cards -->
@@ -33,15 +27,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+        <h4 data-toc-skip="true" class="modal-title" id="myModalLabel">Confirm Internet Deletion</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Confirm Internet Deletion</h4>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to delete the Internet?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="delete-button" class="btn btn-danger">Delete Internet</button>
+        <button type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
+        <button type="button" id="delete-button" class="btn btn-outline-danger">Delete Internet</button>
       </div>
     </div>
   </div>
@@ -50,14 +44,16 @@
   <div class="container">
     <div class="row">
       <h1>Labs Documentation</h1>
+    </div>
+    <div class="row"
       <p class="blurb">&#8220;That brain of mine is something more than merely mortal; as time will show.&#8221; ― Ada Lovelace</p>
     </div>
   </div>
 </div>
-<div id="docs" class="container">
+<div id="docs">
   <div class="row">
     <!--Main Content -->
-    <div class="col-xs-9">
+    <div class="col-8">
       <section id="getting-started" class="group">
         <h3>Getting Started</h3>
         <p>This page contains documention for <a href="https://lucidworks.com/labs">Lucidwork's Labs</a>, which has been designed to enable quick evalution of Lucidwork Fusion and its various applications. Documentation for Lucidworks Fusion is located <a href="https://doc.lucidworks.com/">here</a>.</p>
@@ -74,7 +70,7 @@
         <div id="quickstart" class="subgroup">
           <h4>Quickstart an Instance</h4>
           <p>Lucidworks Labs allows you to launch demo Fusion instances with a single click. Try it now:</p>
-          <p><button id="instance-demo" class="btn btn-info"><span class="glyphicon glyphicon-play"></span> Launch Instance</button></p>
+          <p><button id="instance-demo" class="btn btn-outline-info"><span class="fa fa-play"></span> Launch Instance</button></p>
         </div>
 
         <div id="profile" class="subgroup">
@@ -134,7 +130,7 @@
 
         <div id="instance-deleting" class="subgroup">
           <h4>Deletion</h4>
-          <p>Once you are finished with an instance, you may delete it from your <a href="/instances">list of instances</a> by clicking on its <button id="delete-internet" type="button" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button> button.</p>
+          <p>Once you are finished with an instance, you may delete it from your <a href="/instances">list of instances</a> by clicking on its <button id="delete-internet" type="button" class="btn btn-outline-danger btn-sm" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button> button.</p>
           <p>You may also delete the instance from its detail view. To delete an instance, click on the <strong>Delete Instance</strong> button at the bottom of the page and then click <strong>Delete Instance</strong> again in the confirmation dialog that pops up.</p>
           <p><img src="/img/delete2.png"></p>
         </div>
@@ -161,14 +157,14 @@
 
         <div id="application-restart" class="subgroup">
           <h4>Starting Stopped Instances</h4>
-          <p>To start a stopped/preempted Fusion instance, navigate to the <a href="https://streams.lucidworks.com/instances">instances page</a> and click on the the <button type="button" id="start" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="glyphicon glyphicon-play"></span></button> button next to the instance you'd like to start. You can also start a stopped instance from its detail view.</p>
+          <p>To start a stopped/preempted Fusion instance, navigate to the <a href="https://streams.lucidworks.com/instances">instances page</a> and click on the the <button type="button" id="start" class="btn btn-outline-info btn-sm" title="Start Instance" href="#"><span class="fa fa-play"></span></button> button next to the instance you'd like to start. You can also start a stopped instance from its detail view.</p>
           <p>At this time there is no feature to allow for the restart of an already running instance.</p>
         </div>
 
       </section>
 
       <section id="apis" class="group">
-        <h3>Application Programming Interfaces</h3>
+        <h3>REST APIs</h3>
         <p>Lucidworks Labs provides a few basic API methods to start, monitor and access your instances programmatically.</p>
         <p>API calls are made to the following subdomain:</p>
         <pre>streams.lucidworks.com</pre>
@@ -179,8 +175,8 @@
         </div>
 
         <div id="api-status" class="subgroup">
-          <h3>Status Methods</h3>
-          <h4>API Status</h4>
+          <h4>Status Methods</h4>
+          <h5>API Status</h5>
           <p>Status of the system running the API may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/status</strong></p>
           <p>This method takes one parameter:</p>
@@ -204,10 +200,10 @@ curl https://streams.lucidworks.com/api/status?token=qnSNLUQF8YzRjiizDr8J0Ba8z2F
 
 
         <div id="api-templates-list" class="subgroup">
-          <h3>Template Methods</h3>
+          <h4>Template Methods</h4>
           <p>Template streams are used to launch a specific application running on Fusion.</p>
           <p>Calls to the <strong>template</strong> endpoints require a <strong>token</strong> parameter be included.</p>
-          <h4>List</h4>
+          <h5>List</h5>
           <p>A list of templates is returned by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/template/list</strong></p>
           <p>This method takes one parameter:</p>
@@ -235,7 +231,7 @@ curl https://streams.lucidworks.com/api/template/list?token=qnSNLUQF8YzRjiizDr8J
 </pre>
         </div>
         <div id="api-templates-status" class="subgroup">
-          <h4>Template</h4>
+          <h5>Template</h5>
           <p>Template information may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/template/&lt;template-id&gt;</strong></p>
           <p>This method takes one parameter:</p>
@@ -259,9 +255,9 @@ curl https://streams.lucidworks.com/api/template/lou?token=qnSNLUQF8YzRjiizDr8J0
 </pre>
         </div>
         <div id="api-instance-list" class="subgroup">
-          <h3>Instance Methods</h3>
+          <h4>Instance Methods</h4>
           <p>Calls to the <strong>instance</strong> endpoints require a <strong>token</strong> parameter be included.</p>
-          <h4>List</h4>
+          <h5>List</h5>
           <p>A list of instances which the token controls can be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/list</strong></p>
           <p>This method takes one parameter:</p>
@@ -285,7 +281,7 @@ curl https://streams.lucidworks.com/api/instance/list?token=qnSNLUQF8YzRjiizDr8J
   ]
 }
 </pre>
-          <h4>Info</h4>
+          <h5>Info</h5>
           <p>Instance info may be retrieved by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;</strong></p>
           <p>This method takes one parameter:</p>
@@ -315,7 +311,7 @@ curl https://streams.lucidworks.com/api/instance/button-activate-8uvx1b?token=qn
 </pre>
         </div>
         <div id="api-instance-create" class="subgroup">
-          <h4>Create</h4>
+          <h5>Create</h5>
           <p>Instances may be created and started by making a <strong>POST</strong> request to the Stream endpoint:</p>
           <p><strong>streams.lucidworks.com/api/stream/&lt;template-name&gt;</strong></p>
           <p>This method takes several parameters:</p>
@@ -361,7 +357,7 @@ curl -X POST \
 </pre>
         </div>
         <div id="api-instance-start" class="subgroup">
-          <h4>Start</h4>
+          <h5>Start</h5>
           <p>Instances with status <code>TERMINATED</code> were preempted and may be restarted by making a <strong>GET</strong> request to the endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;/start</strong></p>
           <p>This method takes one parameter:</p>
@@ -393,7 +389,7 @@ curl https://streams.lucidworks.com/api/instance/button-starter41-8uvx/start?tok
         </div>
 
         <div id="api-instance-status" class="subgroup">
-          <h4>Status</h4>
+          <h5>Status</h5>
           <p>The status of an instance may be updated from itself by using the instance's password. Instances status update is performed uising a <strong>GET</strong> on the <strong>status</strong> endpoint:</p>
           <p><strong>streams.lucidworks.com/api/instance/&lt;instance-name&gt;/status</strong></p>
           <p>This method takes two parameters:</p>
@@ -425,52 +421,15 @@ curl https://streams.lucidworks.com/api/instance/button-starter41-8uvx/status?pa
         </div>
         <p>More API methods coming soon!</p>
       </section>
-
     </div>
     
-
-    <!--Nav Bar -->
-    <nav class="col-xs-3 bs-docs-sidebar">
-      <ul id="sidebar" class="nav nav-stacked" data-spy="affix" data-offset-top="120">
-        <li>
-          <a href="#getting-started">Getting Started</a>
-          <ul class="nav nav-stacked">
-            <li><a href="#github-auth">Github Authentication</a></li>
-            <li><a href="#quickstart">Quickstart Instance</a></li>
-            <li><a href="#profile">Update Profile</a></li>
-            <li><a href="#2fa">Setting up 2FA</a></li>
-            <li><a href="#unlink">Unlink Account</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#instances">Instances</a>
-          <ul class="nav nav-stacked">
-            <li><a href="#instance-starting">Creating & Naming</a></li>
-            <li><a href="#instance-credentials">Credentials</a></li>
-            <li><a href="#instance-timers">Timers</a></li>
-            <li><a href="#instance-deleting">Deletion</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#applications">Applications</a>
-          <ul class="nav nav-stacked">
-            <li><a href="#application-templates">Templates</a></li>
-            <li><a href="#application-starting">Starting</a></li>
-            <li><a href="#application-restart">Restarting</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#apis">API Methods</a>
-          <ul class="nav nav-stacked">
-            <li><a href="#api-token">Tokens</a></li>
-            <li><a href="#api-status">System Status</a></li>
-            <li><a href="#api-templates-list">Templates</a></li>
-            <li><a href="#api-instance-list">Instances</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </div>  
+    <!--TOC-->
+    <div class="col-2">
+      <nav id="toc"class="sticky-top">
+        
+      </nav>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -501,12 +460,16 @@ curl https://streams.lucidworks.com/api/instance/button-starter41-8uvx/status?pa
         var url = "https://streams.lucidworks.com/instance/create/ecommerce";
         $("<a>").attr("href", url).attr("target", "_blank")[0].click(); 
       });
-      
-      // scrollspy
-      $('body').scrollspy({
-        target: '.bs-docs-sidebar',
-        offset: 40
+
+      $(function() {
+        var navSelector = "#toc";
+        var $myNav = $(navSelector);
+        Toc.init($myNav, $("h3","h4","h5"));
+        $("body").scrollspy({
+          target: navSelector
+        });
       });
+
     });
   </script>
 {% endblock %}

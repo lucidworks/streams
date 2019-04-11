@@ -1,59 +1,63 @@
 {# html level #}
-  {# body level #}    
-    <!--navbar start-->
+  {# body level #}
     <div class="navbar-wrapper">
       <div class="container">
         <div class="navbar navbar-fixed-top" role="navigation">
           <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle Menu</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
+
+            <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
+              
               <a class="navbar-brand navbar-logo" href="/"><img src="/img/header_logo_labs_1x.png"></a>
-            </div>
-            <div class="navbar-collapse collapse navbar-right">
-              <ul class="nav navbar-nav">
-                <li><a href="https://lucidworks.com/labs">Applications</a></li>
-                <li><a class='{% if "labdocs" in path %}active{% endif %}' href="{{ uri_for('labdocs') }}">Docs</a></li>
-                {% if user_id %}
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="//{{ gravatar_url }}" class="img-circle img-responsive" alt="Author Image" class="img-circle"/>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-header">Account</li>
-                    <li><a href="{{ uri_for('account-dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ uri_for('instances-list') }}">Your Instances</a></li>
-                    <li><a href="{{ uri_for('account-settings') }}">Settings</a></li>
-                    {% if admin %}
-                    <li class="divider"></li>
-                    <li class="dropdown-header">The Admin</li>
-                    <li><a href="{{ uri_for('admin-streams') }}">Templates</a></li>
-                    <li><a href="{{ uri_for('admin-instances') }}">All Instances</a></li>
-                    <li><a href="{{ uri_for('admin-users') }}">Users</a></li>
-                    <li><a target="_blank" href="{{ admin_interface_url }}">AppEngine</a></li>
-                    {% else %}
-                      {% if isdev %}
-                        <li class="divider"></li>
-                        <li><a href="http://0.0.0.0:8088/datastore?kind=User">Setup Admin</a></li>
+
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://lucidworks.com/products/fusion-server/">Product</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class='{% if "labdocs" in path %}nav-link active{%else%}nav-link{% endif %}'  href="{{ uri_for('labdocs') }}">Docs</a>
+                  </li>
+                  {% if user_id %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="//{{ gravatar_url }}" class="rounded-circle" alt="You" class="img-circle"/>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <div class="dropdown-header">Account</div>
+                      <a class="dropdown-item" href="{{ uri_for('account-dashboard') }}">Dashboard</a>
+                      <a class="dropdown-item" href="{{ uri_for('instances-list') }}">Your Instances</a>
+                      <a class="dropdown-item" href="{{ uri_for('account-settings') }}">Settings</a>
+                      {% if admin %}
+                      <div class="dropdown-divider"></div>
+                      <div class="dropdown-header">Admin</div>
+                      <a class="dropdown-item" href="{{ uri_for('admin-streams') }}">Templates</a>
+                      <a class="dropdown-item" href="{{ uri_for('admin-instances') }}">All Instances</a>
+                      <a class="dropdown-item" href="{{ uri_for('admin-users') }}">Users</a>
+                      <a class="dropdown-item" target="_blank" href="{{ admin_interface_url }}">AppEngine</a>
+                      {% else %}
+                        {% if isdev %}
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" target="_blank" href="http://0.0.0.0:8088/datastore?kind=User">Setup Admin</a>
+                        {% endif %}
                       {% endif %}
-                    {% endif %}
-                    <li class="divider"></li>
-                    <li><a href="{{ uri_for('logout') }}">Logout</a></li>
-                  </ul>
-                </li>
-                {% elif path != "/login" %}
-                <li><button id="nav-login" class="btn btn-success" >Sign In</button></li>
-                {% endif %}
-              </ul>
-            </div>
+                      <a class="dropdown-item" href="{{ uri_for('logout') }}">Logout</a>
+                    </div>
+                  </li>
+                  {% elif path != "/login" %}
+                    <button id="nav-login" class="btn btn-success" >Sign In</button></li>
+                  {% endif %}
+                </ul>
+
+              </div>
+            </nav>
+  
           </div>
         </div>
       </div>
     </div>
-    <!-- navbar end -->
   {# end body level #}
 {# end html level #}

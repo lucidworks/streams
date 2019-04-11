@@ -23,6 +23,7 @@ from google.appengine.api import taskqueue
 import config
 import web.forms as forms
 from web.models.models import User
+from web.models.models import Stream
 from web.models.models import LogVisit
 from web.models.models import NextPages
 from web.basehandler import BaseHandler
@@ -462,15 +463,17 @@ class DashboardHandler(BaseHandler):
 		# lookup user's auth info
 		user_info = User.get_by_id(long(self.user_id))
 
+		print "#############"
 		# if we came in from a stream create, redirect back to it
 		next = utils.read_cookie(self, "next")
 		if next > "":
 			utils.write_cookie(self, "next", "", '/', expires=7200)
 			return self.redirect(next)
-
-		# params build out
-		params = {
-		}
+  
+		# look up streams
+		streams = Stream.get_all()
+		print streams
+		params = { 'streams': streams }
 
 		return self.render_template('user/dashboard.html', **params)
 

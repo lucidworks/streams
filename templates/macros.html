@@ -8,11 +8,21 @@
 
 <!-- side menu widget -->
 {% macro side_menu(page) -%}
-  <ul class="nav nav-pills nav-stacked">
-    <li{% if page=="dashboard" %} class="active"{% endif %}><a href="{{ uri_for('account-dashboard') }}">Dashboard</a></li>
-    <li{% if page=="instances" %} class="active"{% endif %}><a href="{{ uri_for('instances-list') }}">Instances</a></li>
+  <ul class="nav nav-pills">
+    <li class="nav-item"><a {% if page=="dashboard" %} id="fyb" class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('account-dashboard') }}">Dashboard</a></li>
+    <li class="nav-item"><a {% if page=="instances" %} id="fyb" class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('instances-list') }}">Instances</a></li>
     <!--<li{% if page=="applications" %} class="active"{% endif %}><a href="{{ uri_for('applications-list') }}">Applications</a></li>-->  
-    <li{% if page=="settings" %} class="active"{% endif %}><a href="{{ uri_for('account-settings') }}">Settings</a></li>
+    <li class="nav-item"><a {% if page=="settings" %} id="fyb" class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('account-settings') }}">Settings</a></li>
+  </ul>
+{%- endmacro %}
+
+<!-- admin side menu widget -->
+{% macro admin_side_menu(page) -%}
+  <ul class="nav nav-pills">
+    <li class="nav-item"><a {% if page=="templates" %} id="fyb" class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-streams') }}">Templates</a></li>
+    <li class="nav-item"><a {% if page=="instances" %} id="fyb" class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-instances') }}"> Instances</a></li>
+    <li class="nav-item"><a {% if page=="users" %} id="fyb" class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-users') }}">Users</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ uri_for('account-dashboard')}}">&lt;&lt; Back</a></li>
   </ul>
 {%- endmacro %}
 
@@ -40,16 +50,6 @@
     <span id="state" class="label label-info">Building</span>
   {% endif %}
 {% endmacro %}
-
-<!-- admin side menu widget -->
-{% macro admin_side_menu(page) -%}
-  <ul class="nav nav-pills nav-stacked">
-    <li{% if page=="templates" %} class="active"{% endif %}><a href="{{ uri_for('admin-streams') }}">Templates</a></li>
-    <li{% if page=="instances" %} class="active"{% endif %}><a href="{{ uri_for('admin-instances') }}">All Instances</a></li>
-    <li{% if page=="users" %} class="active"{% endif %}><a href="{{ uri_for('admin-users') }}">Users</a></li>
-    <li><a href="{{ uri_for('account-dashboard')}}">&lt;&lt; Back</a></li>
-  </ul>
-{%- endmacro %}
 
 <!-- google plus widget -->
 {% macro g_plus_widget(data_url) -%}

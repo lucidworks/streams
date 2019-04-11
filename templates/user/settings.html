@@ -17,18 +17,20 @@
 
 {% if not tfenabled %}
 <!-- hidden delete modal -->
-<div id="delete" class="modal fade">
-  <div class="modal-dialog">
+<div id="delete" role="dialog" class="modal fade">
+  <div class="modal-dialog"role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Unlink Action</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <p>You may unlink your account by navigating to your <a href="https://github.com/settings/applications">Github application settings page</a> and then clicking on the <strong>revoke</strong> button next to the application.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -38,8 +40,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Enable Two Factor Authentication</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <p>You need to scan this QRCode with the Google Authenticator app.  If you don't have Google Authenticator, you can install the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank">Android</a> or <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank">iPhone</a> version on your phone.</p>
@@ -67,8 +71,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Disable Two Factor Authentication</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <p>To disable two factor authentication, please enter an authentication code below and click the disable button.</p>
@@ -92,6 +98,8 @@
   <div class="container">
     <div class="row">
       <h1>Account Settings</h1>
+    </div>
+    <div class="row">
       <p class="blurb">&#8220;You are an aperture through which the universe is looking at and exploring itself.&#8221; ― Alan Watts</p>
     </div>
   </div>
@@ -146,7 +154,7 @@
       </div>
       <p>Please enter or update your account information. You may also want to update your <a href='https://gravatar.com/' target='_blank'>Gravatar Image</a> or review our <a href="https://lucidworks.com/legal/privacy-policy/">privacy policy</a>.</p>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-9">
           <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             {{ macros.input(form, "username", "Username", placeholder="Username", class="form-control focused required") }}

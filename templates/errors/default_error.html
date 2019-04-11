@@ -5,8 +5,10 @@
 {% endblock %}
 
 {% block page_styles %}
-    <link href="/css/error.css" rel="stylesheet">
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet'>
+  <link href="/css/error.css" rel="stylesheet">
+  <meta charset='utf-8' />
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 {% endblock %}
 
 {% block navbar %}
@@ -28,14 +30,28 @@
   <script type="text/javascript">
     $().ready(function() {
       // login button
-      $('#nav-login').on('click', function(e) { window.location = "/login" });
-      $('#get-started').on('click', function(e) { window.location = "/" });
-      var themap = L.mapbox.map('map', 'xovio.h1o6ii64', {scrollWheelZoom: false, zoomControl: false}).setView([20, 20], 3);
+      $('#nav-login').on('click', function(e) { window.location = "/dashboard" });
+      
+      mapboxgl.accessToken = 'pk.eyJ1Ijoia29yZGxlc3MiLCJhIjoiVHZya0tuUSJ9.4sTXK2QLg49uzs2qhSWf3A';
+ 
+      var themap = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/outdoors-v11', //stylesheet location
+        center: [20, 20], // starting position
+        zoom: 2 // starting zoom
+      });
+       
+      themap.addControl(
+        new mapboxgl.FullscreenControl()
+      );
+
       setInterval(function(){themap.panBy([-1, 0]);},3000);
-    })
+    });
   </script>
+
+
 {% endblock %}
 
 {% block extras %}
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 {% endblock %}
