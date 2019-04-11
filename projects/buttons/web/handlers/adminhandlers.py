@@ -435,9 +435,11 @@ class AdminStreamsHandler(BaseHandler):
         description = self.form.description.data.strip()
         tgzfile = self.form.tgzfile.data.strip()
         fusion_version = self.form.fusion_version.data.strip()
+        instance_size = self.form.instance_size.data.strip()
         github_repo = self.form.github_repo.data.strip()
         app_stub = self.form.app_stub.data.strip()
         labs_link = self.form.labs_link.data.strip()
+
 
         # save the stream          
         stream = Stream(
@@ -446,6 +448,7 @@ class AdminStreamsHandler(BaseHandler):
             description = description,
             tgzfile = tgzfile,
             fusion_version = fusion_version,
+            instance_size = int(instance_size),
             github_repo = github_repo,
             app_stub = app_stub,
             labs_link = labs_link
