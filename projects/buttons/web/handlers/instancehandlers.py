@@ -252,7 +252,7 @@ class InstanceTenderHandler(BaseHandler):
                                     instance.tender_action = "NONE"
                                     instance.started = datetime.datetime.now()
                                     instance.put():
-                                    slack.slack_message("Tender::%s wanted and got a START" % (instance.name))
+                                    slack.slack_message("Tender::%s wanted and got a PROVISIONING" % (instance.name))
 
                                 # update if Google returns done
                                 elif json.loads(content)['status'] == "DONE":
