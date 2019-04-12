@@ -81,7 +81,7 @@
     <div class="col-md-2">
     {{ macros.admin_side_menu("templates") }}
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
@@ -125,7 +125,7 @@
                       <td>{% if stream.github_repo %}<a href="{{ stream.github_repo }}">link</a>{% else %}None{% endif %}</td>
                       <td>{% if stream.app_stub %}{{ stream.app_stub }}{% else %}None{% endif %}</td>
                       <td>
-                        <button type="button" id="remove-{{stream.key.id()}}" class="btn btn-danger btn-xs" title="Delete Template" href="#"><span class="glyphicon glyphicon-remove"></span></button> 
+                        <button type="button" id="remove-{{stream.key.id()}}" class="btn btn-danger btn-xs" title="Delete Template" href="#"><span class="fa fa-remove"></span></button> 
                       </td>
                     </tr>
                     {% endfor %}

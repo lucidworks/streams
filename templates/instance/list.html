@@ -103,7 +103,7 @@
     <div class="col-md-2">
     {{ macros.side_menu("instances") }}
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
@@ -156,18 +156,18 @@
                       <td>{{ instance.expires|timendate }}</td>
                       <td>
                         {% if instance.status == "TERMINATED" %}                      
-                        <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="glyphicon glyphicon-play"></span></button>
+                        <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
                         {% endif %}
                         {% if instance.admin_link %}
-                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="glyphicon glyphicon-cog"></span></button>
+                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
                         {% endif %}
                         {% if instance.app_link %}
-                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
+                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
                         {% endif %}
                         {% if instance.password %}
-                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="glyphicon glyphicon-lock"></span></button>
+                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
                         {% endif %}
-                        <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button>
                       </td>
                     </tr>
                     {% endfor %}

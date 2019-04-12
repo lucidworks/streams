@@ -29,7 +29,7 @@
     <div class="col-md-2">
     {{ macros.admin_side_menu("users") }}
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
@@ -65,7 +65,7 @@
                         </div>
                       </td>
                       <td>
-                        <button type="button" id="remove_{{user.key.id()}}" class="btn btn-danger btn-xs" title="Remove User" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button type="button" id="remove_{{user.key.id()}}" class="btn btn-xs btn-danger" title="Remove User" href="#"><span class="fa fa-sm fa-remove"></span></button>
                       </td>
                     </tr>
                     {% endfor %}
