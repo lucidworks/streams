@@ -246,12 +246,12 @@ class InstanceTenderHandler(BaseHandler):
                                 response, content = http.request(url, 'GET', None, headers={})
                                 
                                 # update if google returns pending
-                                if json.loads(content)['status'] == "PENDING" 
+                                if json.loads(content)['status'] == "PENDING"
                                     params = {"response": "success", "message": "instance %s starting" % name }
                                     instance.status = "PROVISIONING"
                                     instance.tender_action = "NONE"
                                     instance.started = datetime.datetime.now()
-                                    instance.put():
+                                    instance.put()
                                     slack.slack_message("Tender::%s wanted and got a PROVISIONING" % (instance.name))
 
                                 # update if Google returns done
@@ -260,7 +260,7 @@ class InstanceTenderHandler(BaseHandler):
                                     instance.status = "STARTED"
                                     instance.tender_action = "NONE"
                                     instance.started = datetime.datetime.now()
-                                    instance.put():
+                                    instance.put()
                                     slack.slack_message("Tender::%s wanted and got a START" % (instance.name))
 
                                 else:
