@@ -170,7 +170,7 @@ The key's randomart image is:
         <div class="col-md-12">
           <div class="section-header">
             <h3><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></h3>
-            {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Terminated Instance</button>
+            {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Sleeping Instance</button>
             {% elif instance.status == "PROVISIONING" and instance.expired %}<button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>    
             {% elif instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
             <div class="row instance-detail-row">
@@ -190,9 +190,9 @@ The key's randomart image is:
                 <h4>About This Temporary Instance</h4>
                 <ul class="guide">
                   <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
-                  {% if instance.status == "TERMINATED" %}<li>This instance has been terminated, but may be restarted.</li>{% elif instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
+                  {% if instance.status == "TERMINATED" %}<li>This instance has been put to sleep temporarily, but may be restarted.</li>{% elif instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
                   <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
-                  <li>Terminated instances may be restarted at any time before their <em>life timer</em> runs out.</li>
+                  <li>Sleeping instances may be restarted at any time before their <em>life timer</em> runs out.</li>
                   <li>The <em>life timer</em> for this instance is set to expire after <strong> 168 hours (7 days)</strong>.</li>
                   <li>When a <em>life timer</em> runs out, the instance will be <strong>terminated AND deleted</strong>.</li>
                 </ul>
@@ -354,7 +354,7 @@ The key's randomart image is:
       $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
     } else if ("{{ instance.status }}" == "TERMINATED") {
       var eta_minutes = 0;
-      $('#state-eta-td').html("Instance was terminated. Click start to resume use.");
+      $('#state-eta-td').html("Instance was put to sleep temporarily. Click start to resume use.");
     } else {
       // otherwise we hae a running instance that has failed to deploy or other horrors
       var eta_minutes = 0;
