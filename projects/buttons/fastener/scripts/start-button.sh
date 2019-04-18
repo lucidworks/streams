@@ -36,28 +36,35 @@ IP=$(wget -qO- http://ipecho.net/plain)
 
 cd /; git clone https://github.com/lucidworks/streams
 
-# First some Java...
-add-apt-repository ppa:webupd8team/java -y
-echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+# Let's try using OpenJDK
 apt-get update -y
-apt-get install oracle-java8-installer -y
-apt install oracle-java8-set-default -y
+apt-get install openjdk-8-jdk -y
+apt install openjdk-8-jdk -y
+echo JAVA_HOME="usr/lib/jvm/java-8-openjdk-amd64" >> /etc/environment
+
+
+# First some Java...
+# add-apt-repository ppa:webupd8team/java -y
+# echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+# echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+# apt-get update -y
+# apt-get install oracle-java8-installer -y
+# apt install oracle-java8-set-default -y
 
 # copy in updated package config and postinst files (should be temporaraly here until webupd8team does something)
-cd /;
-gsutil cp gs://buttons-streams/oracle-java8-installer.postinst .
-gsutil cp gs://buttons-streams/oracle-java8-installer.config   .
-cp /oracle-java8-installer.postinst /var/lib/dpkg/info
-cp /oracle-java8-installer.config /var/lib/dpkg/info 
+#cd /;
+#gsutil cp gs://buttons-streams/oracle-java8-installer.postinst .
+#gsutil cp gs://buttons-streams/oracle-java8-installer.config   .
+#cp /oracle-java8-installer.postinst /var/lib/dpkg/info
+#cp /oracle-java8-installer.config /var/lib/dpkg/info 
 
 # ahem, none of this apparently works anymore unless you do the above
-apt-get update -y
-apt-get install oracle-java8-installer -y
-apt install oracle-java8-set-default -y
+#apt-get update -y
+#apt-get install oracle-java8-installer -y
+#apt install oracle-java8-set-default -y
 
 # and resume what we are doing
-echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
+#echo JAVA_HOME="/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 # `jq` is in a different vivid universe
 echo "deb http://us.archive.ubuntu.com/ubuntu vivid main universe" >> /etc/apt/sources.list
