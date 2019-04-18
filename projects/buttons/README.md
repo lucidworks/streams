@@ -15,6 +15,9 @@ A demo instance of Fusion 4.x may be started by clicking on the button below.
 
 After allowing read access to your Github profile information, and the instances starts and provisions, you will be provided login information to access the Fusion instance with a username and password.
 
+## Run the app locally
+
+After installing dependencies, you can run the app locally by running `make serve`.
 ## Overview
 The following provides information for utilizing the [Lucidworks Labs site](https://lucidworks.com/labs). Lucidworks Labs allows users to launch demonstrative instances of Fusion instances running a variety of Fusion applications. These instances are launched on Lucidworks' Google Cloud account.
 
