@@ -31,7 +31,7 @@ You've been invited to %s by %s.  Acceptance of the invite will require linking 
 
 %s
 
-This invite will allow you to start using the Lucidwork's instance launcher.
+This invite will allow you to start using the Lucidworks' instance launcher.
 
 If this email comes as a complete surprise to you, simply delete it.  We may yet meet again.
 
