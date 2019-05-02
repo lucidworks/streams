@@ -9,7 +9,7 @@
 <!-- side menu widget -->
 {% macro side_menu(page,admin) -%}
   <ul class="nav navbar navbar-dark" style="background-color: #fff;">
-    <li class="nav-item"><a {% if page=="dashboard" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('account-dashboard') }}">Dashboard</a></li>
+    <li class="nav-item"><a {% if page=="labs" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('labs') }}">Applications</a></li>
     <li class="nav-item"><a {% if page=="instances" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('instances-list') }}">Instances</a></li>
     <!--<li{% if page=="applications" %} class="active"{% endif %}><a href="{{ uri_for('applications-list') }}">Applications</a></li>-->  
     <li class="nav-item"><a {% if page=="settings" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('account-settings') }}">Settings</a></li>
@@ -22,14 +22,15 @@
     <li class="nav-item"><a {% if page=="templates" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-streams') }}">Templates</a></li>
     <li class="nav-item"><a {% if page=="instances" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-instances') }}"> Instances</a></li>
     <li class="nav-item"><a {% if page=="users" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-users') }}">Users</a></li>
-    <li class="nav-item"><a class="nav-link" href="{{ uri_for('account-dashboard')}}">&lt;&lt; Back</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ uri_for('labs')}}">&lt;&lt; Back</a></li>
   </ul>
 {%- endmacro %}
 
 <!-- instance states side menu widget -->
 {% macro instance_status(status) %}
   {% if status=="PROVISIONING" %}
-    <span id="state" class="label label-warning">Provisioning</span>
+<button type="button" class="btn btn-warning btn-sm" value="Provisioning" title="Provisioning" href="#"><span class="fa fa-list-alt"></span> Provisioning</button>
+
   {% endif %}
   {% if status=="STAGING" %}
     <span id="state" class="label label-warning">Staging</span>
@@ -44,7 +45,7 @@
     <span id="state" class="label label-danger">Stopping</span>
   {% endif %}
   {% if status=="TERMINATED" %}
-    <span id="state" class="label label-danger">Terminated</span>
+    <span id="state" class="label label-danger">Sleeping</span>
   {% endif %}
   {% if status=="BUILDING" %}
     <span id="state" class="label label-info">Building</span>

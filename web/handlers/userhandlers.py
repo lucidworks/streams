@@ -457,13 +457,12 @@ class SettingsHandler(BaseHandler):
 		return forms.EditProfileForm(self)
 
 
-class DashboardHandler(BaseHandler):
+class LabsHandler(BaseHandler):
 	@user_required
 	def get(self):
 		# lookup user's auth info
 		user_info = User.get_by_id(long(self.user_id))
 
-		print "#############"
 		# if we came in from a stream create, redirect back to it
 		next = utils.read_cookie(self, "next")
 		if next > "":

@@ -12,12 +12,29 @@
 
 {% block content %}
 <!-- hidden delete modal -->
+<div id="notemplate" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Instance Template Not Found</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>No templates were found to start an instance.</p><p>Please navigate to the user pulldown in the top right and then select <em>templates</em> and create a new template. If you can't see the admin menu choices, then click on <em>setup admin</em> and ensure you have an admin flag on your developer account.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- hidden delete modal -->
 <div id="delete" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to delete this instance?</p>
@@ -136,12 +153,10 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Instance</th>
+                      <th>Instance Name</th>
+                      <th>Application</th>
+                      <th>Version</th>
                       <th>Status</th>
-                      <th>Template</th>
-                      <th>Fusion Version</th>
-                      <th>Created</th>
-                      <th>End of Life</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -149,25 +164,24 @@
                     {% for instance in instances %}
                     <tr>
                       <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
+                      <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().name }}</a></td>
+                      <td>{{ instance.stream.get().fusion_version }}</td>
                       <td>{{ macros.instance_status(instance.status) }}</td>
-                      <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().sid }}</a></td>
-                      <td>{{ instance.stream.get().fusion_version}}
-                      <td>{{ instance.created|timendate }}</td>
-                      <td>{{ instance.expires|timendate }}</td>
+
                       <td>
                         {% if instance.status == "TERMINATED" %}                      
-                        <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-xs" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
+                        <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-sm" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
                         {% endif %}
                         {% if instance.admin_link %}
-                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
+                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
                         {% endif %}
                         {% if instance.app_link %}
-                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
+                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
                         {% endif %}
                         {% if instance.password %}
-                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
+                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-sm" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
                         {% endif %}
-                        <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button>
+                        <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-sm" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button>
                       </td>
                     </tr>
                     {% endfor %}
@@ -208,18 +222,23 @@
 <script type="text/javascript">
   $().ready(function() {
     {% if user_info.email %}
-      $('#create-instance-button').click( function() {
-        $('#create-instance-modal').modal();
-      });
-      $('#create-button').click( function() {
-        window.location.href = '/instance/create/' + $("#stream").val();
-      });
-
+      {% if streams %}
+        $('#create-instance-button').click( function() {
+          $('#create-instance-modal').modal();
+        });
+        $('#create-button').click( function() {
+          window.location.href = '/instance/create/' + $("#stream").val();
+        });
+      {% else %}
+        $('#create-instance-button').click( function() {
+          $('#notemplate').modal();
+        });
+      {% endif %}
     {% else %}
       $('#create-instance-button').click( function() {
         $('#update-email-modal').modal();
         $('#email').focus();
-      });
+      }); 
     {% endif %}
 
     {% if sid %}
@@ -321,6 +340,9 @@
 
     function refresh() {
       if(new Date().getTime() - time >= 60000) {
+        $.ajax({
+          url: '/'
+        })
         window.location.reload(true);
       } else { 
         setTimeout(refresh, 10000);

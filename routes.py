@@ -7,10 +7,10 @@ secure_scheme = 'https'
 _routes = [
 	# website
 	RedirectRoute('/', sitehandlers.IndexHandler, name='index', strict_slash=True),
-	RedirectRoute('/labs', sitehandlers.IndexHandler, name='index', strict_slash=True),
 	RedirectRoute('/labdocs/', sitehandlers.DocsHandler, name='labdocs', strict_slash=True),
 	
 	# users
+	RedirectRoute('/labs/', userhandlers.LabsHandler, name='labs', strict_slash=True),
 	RedirectRoute('/login/', userhandlers.LoginHandler, name='login', strict_slash=True),
 	RedirectRoute('/logout/', userhandlers.LogoutHandler, name='logout', strict_slash=True),
 	RedirectRoute('/login/complete', userhandlers.CallbackLoginHandler, name='login-complete', strict_slash=True),
@@ -18,7 +18,7 @@ _routes = [
 	RedirectRoute('/login/tfa', userhandlers.TwoFactorLoginHandler, name='login-tfa', strict_slash=True),
 	RedirectRoute('/settings/', userhandlers.SettingsHandler, name='account-settings', strict_slash=True),
 	RedirectRoute('/settings/tfa', userhandlers.TwoFactorSettingsHandler, name='account-tfa', strict_slash=True),
-	RedirectRoute('/dashboard/', userhandlers.DashboardHandler, name='account-dashboard', strict_slash=True),
+
 
 	# templates
 	RedirectRoute('/templates/', sitehandlers.IndexHandler, name='applications-list', strict_slash=True),

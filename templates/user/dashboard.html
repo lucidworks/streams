@@ -11,60 +11,57 @@
 {% endblock %}
 
 {% block content %}
-<!-- hidden delete modal -->
-<div id="confirm" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Login via Github Required</h4>
-      </div>
-      <div class="modal-body">
-        <p>Lucidworks Labs uses your Github credentials to launch trial Fusion instances on our Google Cloud account at no cost to you. If you do not have a Github account, signup for one at <a target=_blank href="https://github.com/join">github.com</a>.</p>
-        <p class="text-center"><img src="/img/github.png"/></p>
-        <p>You can also download and install Fusion locally or on you own infrastructure by clicking <strong>Download Fusion</strong>.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        <button type="button" id="download-button" class="btn btn-default">Download Fusion</button>
-        <button type="button" id="launch-button" class="btn btn-success">Launch w/Your Github Account</button>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="inverse">
   <div class="container">
     <div class="row">
-      <h1>Welcome to Lucidworks Labs</h1>
+      <h1>Build Amazing Apps</h1>
     </div>
     <div class="row">
-      <p class="blurb">&#8220;Nothing is too wonderful to be true if it be consistent with the laws of nature.&#8221; ― Michael Faraday</p>
+      <p class="blurb">Labs provides code, tools, and snippets to amplify and extend your Fusion applications.</p>
     </div>
   </div>
 </div>
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.side_menu("dashboard") }}
+    {{ macros.side_menu("labs") }}
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header">
-            <h2>Dashboard</h2>
+            <h2>All Applications</h2>
             <div class="row">
               <div class="col-md-12">
-                <p>Lucidworks Labs provides a quick and easy way to start demo instances of Lucidworks Fusion on Google Cloud. A wide variety of different types of search  and data applications can be deployed and configured with this system.</p>
-                <p>If you are looking to download Fusion to run locally, please visit the <a href="https://lucidworks.com/fusion/">Fusion Download</a> page. Please refer to our <a href="https://lucidworks.com/legal/privacy-policy/">Privacy Policy</a> for more information about how we use your information on this site.</p>
+                <p><strong>Note:</strong> If you are looking to download Fusion to run locally, please visit the <a href="https://lucidworks.com/fusion/">Fusion Download</a> page. Refer to our <a href="https://lucidworks.com/legal/privacy-policy/">Privacy Policy</a> for more information about how we use your information on this site.</p>
               </div>
               {% for stream in streams %}
-              <div class="card" style="width: 18rem; background: black; margin-left: 10px; margin-top: 10px;">
-                <img src="http://35.247.78.163:8764/admin/App-Tile-04-460x160.png" class="card-img-top" alt="..." style="height: 9rem;">
-                <div class="card-body">
-                  <h3 style="font-size: 32px; color: white; margin-top: 0px;">{{ stream.name }}</h3>
-                  <p class="card-text" style="color: white;">{{ stream.description }}</p>
+              <div class="card">
+                <div class="card-header">
+                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
                 </div>
-                <button type="button" class="btn btn-danger">Launch</button>
+                <div class="card-body">                  
+                  <p class="card-text">{{ stream.description }}</p>
+                </div>
+                <button type="button" class="btn btn-success">Launch Now</button>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
+                </div>
+                <div class="card-body">                  
+                  <p class="card-text">{{ stream.description }}</p>
+                </div>
+                <button type="button" class="btn btn-success">Launch Now</button>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
+                </div>
+                <div class="card-body">                  
+                  <p class="card-text">{{ stream.description }}</p>
+                </div>
+                <button type="button" class="btn btn-success">Launch Now</button>
               </div>
               {% endfor %}
             </div>

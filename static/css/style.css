@@ -7,21 +7,24 @@ html, body {
 h1, h2, h3 {
     margin-top: 15px;
     margin-bottom: 8px;
+    font-weight: 300;
 }
 h1 {
     padding-top: 10px;
 }
 h3 {
-    margin-top: 4px;
+    margin-top: 22px;
     margin-bottom: 8px;
 }
 h4 {
     margin-top: 12px;
     margin-bottom: 3px;
+    font-weight: 300;
 }
 h5 {
     margin-top: 12px;
     margin-bottom: 2px;
+    font-weight: 300;
 }
 h4, h5, h6 {
     margin-bottom: 0px;
@@ -32,7 +35,31 @@ h2 small {
 h1 small, h2 small, h3 small {
     color: #777;
 }
-
+.card {
+    margin-top: 20px;
+    margin-left: 24px;
+    width: 22rem;
+    background: #FFFFFF;
+    border: 1px solid #C1CBD6;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.card-header {
+    margin-top: 10px;
+    background: url(/img/apps/app_1.png) no-repeat top left;
+    background-size: 380px;
+    height: 140px;
+}
+.card-body {
+    height: 120px;
+}
+.bd-content-title {
+    margin-top: 20px;    
+}
+.table th { border-top: none; }
+.topnav a:hover {
+  border-bottom: 3px solid red;
+}
 #getting-started {
     margin-top: 20px;
 }
@@ -242,7 +269,10 @@ btn:hover, .btn:focus, .btn:active, .btn.active {
 .nav-pills a {
     text-decoration: none !important;
 }
-
+.label {
+    margin-top: 4px;
+    padding: 6px;
+}
 .control-label {
     color: #888;
 }

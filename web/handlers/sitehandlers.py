@@ -25,8 +25,7 @@ from web.basehandler import user_required
 # index lives at /labs on streams.lucidworks.com
 class IndexHandler(BaseHandler):
 	def get(self):
-		return self.redirect_to('login')
-
+		return self.redirect_to('labs')
 
 # slackbot card handler
 class SlackbotHandler(BaseHandler):
