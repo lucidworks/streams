@@ -1,6 +1,6 @@
 #!/bin/bash
-
-NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+# box id hash
+NEW_UUID=$(perl -pe 'binmode(STDIN, ":bytes"); tr/a-z0-9//dc;' < /dev/urandom | head -c 4; echo)
 ZONE=us-west1-c
 NAME=fastener-api
 
@@ -20,17 +20,20 @@ esac
 if [ -f secrets.sh ]; then
    source secrets.sh # truly, a travesty
    echo "Here's where I say, hold on a second while we fire things up."
-   gcloud compute project-info add-metadata --metadata token=$TOKEN stage=$STAGE
+   gcloud compute project-info add-metadata --metadata token=$TOKEN 
+   gcloud compute project-info add-metadata --metadata stage=$STAGE
    echo;
 else
-   echo "Create 'secrets.sh', put a TOKEN=f00bar statement in it and then rerun this script."
+   echo "First, create 'secrets.sh' from 'secrets-sample.sh': cp secrets-sample.sh secrets.sh";
+   echo "Next, edit the 'secrets.sh' file's TOKEN and STAGE variables: vi secrets.sh";
+   echo "Finally, rerun this script."
    echo;
    exit;
 fi
 
 gcloud beta compute instances create $NAME-$NEW_UUID \
 --machine-type "n1-standard-2" \
---image "ubuntu-1604-xenial-v20180627" \
+--image "ubuntu-1604-xenial-v20190430" \
 --image-project "ubuntu-os-cloud" \
 --boot-disk-size "50" \
 --boot-disk-type "pd-ssd" \
