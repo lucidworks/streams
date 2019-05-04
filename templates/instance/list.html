@@ -46,6 +46,7 @@
     </div>
   </div>
 </div>
+
 <!-- hidden create instance modal -->
 {% if user_info.email %}
 <div id="create-instance-modal" class="modal fade">
@@ -58,7 +59,7 @@
       <div class="modal-body">
         <p>To create a new instance, select a Fusion application template and click <strong>Create Instance</strong>.</p>
         <div class="row">
-          <div class="col-md-5 form-padding" id="stream-form">
+          <div class="col-md-10 form-padding" id="stream-form">
             <label class="control-label" for="stream">Select Template</label>
             <select class="form-control pulldown" id="stream" name="stream" type="text">
               {% for stream in streams %}
@@ -80,13 +81,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Update Your Email Address</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="">
         <div class="modal-body">
-          <p>The system was unable to find an email address for your associated Github account.</p>
-          <p>Please update the field below with a valid email address. Your email address will be used to notify you of changes in instance status and helping your establish interest in our product line.</p>
+          <p>Github didn't give us your email address. :(</p>
+          <p>Your email address will be used to notify you of changes in instance status and establishing interest in our product line. If you are here to browse, that's totally cool.</p>
           <p>Please refer to our <a href="https://lucidworks.com/legal/privacy-policy/">Privacy Policy</a> for more information about how we use this information.</p>
           <div class="row">
             <div class="col-md-6 form-padding" id="stream-form">
@@ -111,7 +112,7 @@
       <h1>Your Instances</h1>
     </div>
     <div class="row">
-      <p class="blurb">&#8220;The secret of getting ahead is getting started.&#8221; ― Mark Twain</p>
+      <p class="blurb">The secret of getting ahead is getting started. <span class="source">Mark Twain</span></p>
     </div>
   </div>
 </div>
@@ -123,80 +124,66 @@
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
-            <h2>Instance List</h2>
-            <div class="row">
-              <div class="col-md-12">
-                {% if instances %}
-                <p>The status of your current instances are shown below. To create a new Fusion instance, click Create Instance. For details about a particular instance, click on its name.</p>
-                {% else %}
-                <p>Click the <strong>Create Instance</strong> button below to start a new instance.</p>
-                <p>Here is a short video guide on how to use this site and Fusion to demo Lucidworks applications.</p>
-                <p><iframe width="560" height="315" src="https://www.youtube.com/embed/mWoyepguwzE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
-                {% endif %}
 
-                {% if need_more_info %}
-                <div class="bs-callout bs-callout-warning bs-callout-top">
-                  <h4>We need more information about you!</h4>
-                  <p>You’ve authenticated through your Github account but we need a full user profile before we continue. Please complete your user profile.</p>
-                  <button type="button" id="account-settings" class="btn btn-warning">Update Your Profile</button>
-                </div>
-                {% endif %}
-                {% if user_info.max_instances <= num_instances %}
-                <div class="bs-callout bs-callout-warning bs-callout-top">
-                  <h4>At Max Instance Limit</h4>
-                  <p>Your account currently supports running <strong>a maximum of {{ user_info.max_instances }} instances</strong>. You’ll need to delete one or more if you’d like to add additional instances. If you need more capacity, or would like to launch Fusion instances on your own Google Cloud account, please <a href="https://lucidworks.com/company/contact/">contact us today</a>!</p>
-                </div>
-                {% endif %}
+          <h2>Instance List</h2>
+          <div class="row">
+            <div class="col-md-12">
+              {% if instances %}
+              <p>Instance status is shown below. For details about a particular instance, click on its name.</p>
+              {% else %}
+              <p>Click the <strong>Create Instance</strong> button below to start a new instance.</p>
+              <p>Here is a short video guide on how to use this site and Fusion to demo Lucidworks applications.</p>
+              <p><iframe width="560" height="315" src="https://www.youtube.com/embed/mWoyepguwzE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
+              {% endif %}
 
-                {% if instances %}
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Instance Name</th>
-                      <th>Application</th>
-                      <th>Version</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for instance in instances %}
-                    <tr>
-                      <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
-                      <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().name }}</a></td>
-                      <td>{{ instance.stream.get().fusion_version }}</td>
-                      <td>{{ macros.instance_status(instance.status) }}</td>
+              {% if instances %}
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Instance Name</th>
+                    <th>Application</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for instance in instances %}
+                  <tr>
+                    <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
+                    <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().name }}</a></td>
+                    <td>{{ instance.stream.get().fusion_version }}</td>
+                    <td>{{ macros.instance_status(instance.status, "btn-sm") }}</td>
 
-                      <td>
-                        {% if instance.status == "TERMINATED" %}                      
-                        <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-sm" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
-                        {% endif %}
-                        {% if instance.admin_link %}
-                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
-                        {% endif %}
-                        {% if instance.app_link %}
-                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
-                        {% endif %}
-                        {% if instance.password %}
-                        <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-sm" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
-                        {% endif %}
-                        <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-sm" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-                {% endif %}
-                <div class="row">
-                  <div class="col-md-5">
-                    <button type="button" id="labs-button" class="btn btn-warning">View Applications</button>
-                    <button type="button" id="create-instance-button" class="btn btn-success">Create Instance</button>
-                  </div>
+                    <td>
+                      {% if instance.status == "TERMINATED" %}                      
+                      <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-sm" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
+                      {% endif %}
+                      {% if instance.admin_link %}
+                      <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
+                      {% endif %}
+                      {% if instance.app_link %}
+                      <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
+                      {% endif %}
+                      {% if instance.password %}
+                      <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-sm" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
+                      {% endif %}
+                      <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-sm" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button>
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% endif %}
+              <div class="row">
+                <div class="col-md-5">
+                  <button type="button" id="create-instance-button" class="btn btn-success">Create Instance</button>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

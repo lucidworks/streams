@@ -93,7 +93,7 @@ class Stream(ndb.Model):
 	labs_link = ndb.StringProperty()
 	fusion_version = ndb.StringProperty()
 	hot_starts = ndb.IntegerProperty(default=0)
-	start_eta = ndb.DateTimeProperty()
+	start_eta = ndb.IntegerProperty(default=600)
 
 	@classmethod
 	def get_all(cls):

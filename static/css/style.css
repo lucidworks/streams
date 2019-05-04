@@ -3,7 +3,19 @@ html, body {
     font-family: 'Lato', sans-serif;
     overflow-x: hidden;
 }
+/*
+Generally, the usefulness of something is related to its artistic nature. This is UI.
 
+Links should be underlined. On hover, underlines on links dissappear to call to action.
+User has done something important (hover). Please respect clear signals to user that 
+action has completed and is ready for next step, clicking.
+
+Underlines are extremely useful on headers to break the content from the labels. 
+
+They may be useful_ elsewhere.
+
+Everyone codes.
+*/
 h1, h2, h3 {
     margin-top: 15px;
     margin-bottom: 8px;
@@ -12,19 +24,29 @@ h1, h2, h3 {
 h1 {
     padding-top: 10px;
 }
+h2 {
+    text-decoration: underline;
+    color: #58606c;
+}
 h3 {
     margin-top: 22px;
     margin-bottom: 8px;
+    text-decoration: underline;
+    color: #58606c;
 }
 h4 {
     margin-top: 12px;
     margin-bottom: 3px;
     font-weight: 300;
+    text-decoration: underline;
+    color: #58606c;
 }
 h5 {
     margin-top: 12px;
     margin-bottom: 2px;
     font-weight: 300;
+    text-decoration: underline;
+    color: #58606c;
 }
 h4, h5, h6 {
     margin-bottom: 0px;
@@ -35,10 +57,17 @@ h2 small {
 h1 small, h2 small, h3 small {
     color: #777;
 }
+.source {
+    text-decoration: underline;
+}
+.button-pack {
+    margin-top: 12px;
+}
 .card {
-    margin-top: 20px;
-    margin-left: 24px;
-    width: 22rem;
+    margin-top: 8px;
+    margin-right: 24px;
+    margin-bottom: 12px;
+    width: 20rem;
     background: #FFFFFF;
     border: 1px solid #C1CBD6;
     border-radius: 4px;
@@ -50,11 +79,14 @@ h1 small, h2 small, h3 small {
     background-size: 380px;
     height: 140px;
 }
+.card-header h3 {
+    text-decoration: none;
+}
 .card-body {
     height: 120px;
 }
-.bd-content-title {
-    margin-top: 20px;    
+.buttons {
+    margin-bottom: 13px !important;    
 }
 .table th { border-top: none; }
 .topnav a:hover {
@@ -67,6 +99,7 @@ h1 small, h2 small, h3 small {
 nav#toc>ul.nav.navbar-nav>li>a {
     font-size: inherit;
 }
+
 .dropdown-item {
     font-size: 14px;
 }
@@ -82,8 +115,13 @@ nav#toc>ul.nav.navbar-nav>li>a {
     background-color: none !important;    
 }
 
-a:link, a:visited, a:hover, a:active {
+a:link, a:visited, a:active {
     text-decoration: underline;
+    color: #0D1A31;
+}
+/* fight for the user */
+a:hover {
+    text-decoration: none;
     color: #0D1A31;
 }
 .fusion-link {

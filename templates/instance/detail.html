@@ -32,16 +32,104 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
-      </div>
-      <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete this instance?</p>
+        <p>Are you sure you want to delete this node?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="delete-button" class="btn btn-danger">Delete Instance</button>
+        <button type="button" id="delete-button" class="btn btn-danger">Delete Node</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="run-state" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Run State</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Nodes may have the following run states:</p>
+        <p>{{ macros.instance_status("TERMINATED") }}</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="upgrade-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Cluster Management Beta</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Interested in starting a Fusion cluster on GCP? Join us on Gitter and let us know!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Nah</button>
+        <button type="button" id="activate-button" class="btn btn-default">Do It</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="wait-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Please Wait</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Instances are still being configured, but the deployment should be running shortly.</p>
+        <p>The application will be running in ~{% if instance.stream.get().start_eta != None %} {{ instance.stream.get().start_eta }} {% else %}10{% endif %} minutes.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="ip-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">IP Address</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This cluster uses the following IP address:</p>
+        <pre>{{ instance.ip }}</pre>
+      </div>
+      <div class="modal-footer">
+        <button id="ip-{{ instance.ip }}" type="button" class="btn btn-default" data-dismiss="modal">Copy Address</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="login-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Login Credentials</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This cluster requires credentials. This deployment's username/password is:</p>
+<pre>
+admin
+{{ instance.password }}
+</pre>
+      </div>
+      <div class="modal-footer">
+        <button id="password-{{ instance.password }}" type="button" class="btn btn-default" data-dismiss="modal">Login</button>
+        <button id="password-{{ instance.password }}" type="button" class="btn btn-default" data-dismiss="modal">Login</button>
       </div>
     </div>
   </div>
@@ -112,59 +200,75 @@ The key's randomart image is:
       <h1>Instance Details</h1>
     </div>
     <div class="row">
-      <p class="blurb">&#8220;We are not makers of history. We are made by history.&#8221; ― Martin Luther King, Jr.</p>
+      <p class="blurb">We are not makers of history. We are made by history. &nbsp; <span class="source">Martin Luther King, Jr.</span></p>
     </div>
   </div>
 </div>
+
 <div class="container content">
   <div class="row">
     <div class="col-md-2">
-    {{ macros.side_menu("instances") }}
+      {{ macros.side_menu("instances") }}
     </div>
+  
     <div class="col-md-10">
+      
       <div class="row">
         <div class="col-md-12">
-          
-          <div class="section-header">
-            <h2>Fusion {{ instance.stream.get().fusion_version }} <button type="button" class="btn btn-warning btn-sm" value="Provisioning" title="Provisioning" href="#"><span class="fa fa-list-alt"></span> Provisioning</button> <button type="button" class="btn btn-green btn-sm" href="#"><span class="fa fa-clock-o"></span> Please Wait</button></h2>
-          </div>
-          
-          {% if instance.ip == "NONE" %}
-          <button class="btn btn-info btn-sm" href="#"><span class="fa fa-cog"></span> 1 Node</button>
-          <button class="btn btn-warning btn-sm" href="#"><span class="fa fa-copy"></span> {{ instance.ip }}</button>
-          <button id="instance-addkey" class="btn btn-light btn-sm"><span class="fa fa-lock"></span> SSH</button>
-          {% endif %}
-          {% if instance.status == "TERMINATED" %}
-          <button id="instance-start-bottom" class="btn btn-default"><span class="fa fa-play"></span> Start Instance</button>
-          {% endif %}
-
-          {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="fa fa-play"></span> Start Terminated Instance</button>
-          {% elif instance.status == "PROVISIONING" and instance.expired %}<button id="instance-delete" class="btn btn-danger btn-sm"><span class="fa fa-remove"></span> Delete</button>    
-          {% elif instance.status != "RUNNING" %}{% endif %}
-
-          <h3><span class="bd-content-title">Running Applications</span></h3>
-          
-          <div class="row">
-            <div class="card" style="width: 18rem; background: black; margin-left: 10px; margin-top: 10px;">
-              <img src="http://35.247.78.163:8764/admin/App-Tile-04-460x160.png" class="card-img-top" alt="..." style="height: 9rem;">
-              
-              <div class="card-body">
-                <h3 style="font-size: 32px; color: white; margin-top: 0px;">{{ stream.name }}</h3>
-                <p class="card-text" style="color: white;"><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></p>
-              </div>
-              <button id="launch-button" type="button" class="btn btn-danger">Launch Demo</button>
-            </div>
-          </div>
-
-          <h3><span class="bd-content-title">Deployment Log</span></h3>
-          <pre style="white-space: pre-line" id="console_log">{% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}</pre></p>
-
-          <button id="launch-button" type="button" class="btn btn-info"><span class="fa fa-search"></span> Reload Log</button>
+          <h2><span id="edit-name" class="editable">{% if instance.renamed %}{{ instance.renamed }}{% else %}{{ instance.name }}{% endif %}<span class="fa fa-pencil"></span> </span> </h2>
+          <p>This lab node is running <strong>Fusion {{ instance.stream.get().fusion_version }}</strong>. {% if instance.renamed %}{% else %}Click to rename it to something useful.{% endif %}</p>
+          <button id="instance-list" class="btn btn-success btn-sm"><span class="fa fa-backward"></span> Back to Instances</button>
         </div>
       </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <h3><span class="bd-content-title">Applications</span></h3>
+            
+          <div class="card">
+            <div class="card-header">
+              <h3 style="font-size: 30px; margin-top: 0px;">{{ instance.stream.get().name }}</h3>
+            </div>
+            <div class="card-body">                  
+              <p class="card-text">{{ instance.stream.get().description }}</p>
+              {% if instance.status == "RUNNING" %}<button id="app-link" class="btn btn-default btn-sm"><span class="fa fa-play"></span> Launch Demo</button>{% endif %}
+            </div>
+            {{ macros.instance_status(instance.status) }}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="buttons"><span>System Control</span></h3>
+          {% if instance.status != "RUNNING" and instance.status != "TERMINIATED" %}<button id="instance-wait" class="btn btn-dark btn-sm"><span class="fa fa-clock-o"></span> Please Wait</button>{% endif %}
+
+          {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-info btn-sm"><span class="fa fa-play"></span> Start Node</button>{% endif %}
+
+          <button id="upgrade" class="btn btn-warning btn-sm" href="#"><span class="fa fa-battery-quarter"></span> 1 Node</button>
+          {% if instance.ip != "NONE" %}
+          <button id="instance-ip" class="btn btn-default btn-sm" href="#"><span class="fa fa-copy"></span> {{ instance.ip }}</button>
+          <button id="instance-addkey" class="btn btn-light btn-sm"><span class="fa fa-lock"></span> SSH</button>
+          {% endif %}
+          <button id="instance-delete" class="btn btn-danger btn-sm"><span class="fa fa-remove"></span> Delete</button>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+            <h3><span class="bd-content-title">Deployment Log</span></h3>
+            <pre style="white-space: pre-line" id="console_log">{% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}</pre></p>
+
+            <button id="reload-logs" type="button" class="btn btn-info"><span class="fa fa-search"></span> Reload Log</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block footer %}
@@ -202,8 +306,20 @@ The key's randomart image is:
       });
     });
 
+    // ip copy
+    $('#ip-{{ instance.ip }}').click(function(index){
+      console.log("here");
+      var password = this.id.split("-").pop();
+      var dummy = $('<input>').val(password).appendTo('body').select();
+      document.execCommand('copy');
+      alertify.success("Password copied.");
+      $('#password-field').css("background-color", "lightblue");
+      dummy.remove();
+    });
+
     // password copy
     $('#password-{{ instance.password }}').click(function(index){
+      console.log("here");
       var password = this.id.split("-").pop();
       var dummy = $('<input>').val(password).appendTo('body').select();
       document.execCommand('copy');
@@ -217,6 +333,14 @@ The key's randomart image is:
       window.location = "/instances/";
     });
 
+    // reroll logs
+    $('#reload-logs').click(function() {    
+      $.get("/instance/{{ instance.name }}/console", function( data ) {
+        $("#console_log").html(data);
+        console.log( "Load was performed." );
+      });
+    });  
+
     // apps index
     $('#launch-button').click(function() {
       window.location = "{{ instance.app_link }}";
@@ -227,6 +351,25 @@ The key's randomart image is:
       $('#delete').modal();
     });
     
+    // upgrade button
+    $('#upgrade').click(function() {
+      $('#upgrade-modal').modal();
+    });
+
+    // wait button
+    $('#instance-wait').click(function() {
+      $('#wait-modal').modal();
+    });
+
+    // delete button
+    $('#instance-ip').click(function() {
+      $('#ip-modal').modal();
+    });
+
+    $('#activate-button').click(function() {
+      window.location = "https://gitter.im/lucidworks-streams/community";
+    });
+
     // delete button
     $('#instance-guide').click(function() {
       $.cookie('guide', 'closed');

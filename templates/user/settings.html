@@ -100,7 +100,7 @@
       <h1>Account Settings</h1>
     </div>
     <div class="row">
-      <p class="blurb">&#8220;You are an aperture through which the universe is looking at and exploring itself.&#8221; ― Alan Watts</p>
+      <p class="blurb">You are an aperture through which the universe is looking at and exploring itself. <span class="source">Alan Watts</span></p>
     </div>
   </div>
 </div>
@@ -112,9 +112,7 @@
     <div class="col-md-9">
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
-            <h2>Two Factor Authentication</h2>
-          </div>
+          <h2>Two Factor Authentication</h2>
         </div>
       </div>
       <div class="row">
@@ -134,9 +132,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
-            <h2>API Token</h2>
-          </div>
+          <h2>API Token</h2>
         </div>
       </div>
       {% if api_token==None %}
@@ -145,11 +141,10 @@
       <p>Click the <strong>Generate API Token</strong> button below to generate a new API token.</p>
       <pre>{{ api_token }}</pre>
       {% endif %}
+      <button type="button" id="generate_api_token" class="btn btn-warning">Generate API Token</button>
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
-            <h2>Account Profile</h2>
-          </div>
+          <h2>Account Profile</h2>
         </div>
       </div>
       <p>Please enter or update your account information. You may also want to update your <a href='https://gravatar.com/' target='_blank'>Gravatar Image</a> or review our <a href="https://lucidworks.com/legal/privacy-policy/">privacy policy</a>.</p>
@@ -166,7 +161,6 @@
             {{ macros.input(form, "ssh_key", "Public SSH Key", class="form-control form-ssh-key", rows=10, placeholder="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XAt3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/EnmZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbxNrRFi9wrf+M7Q== modn@lucidworks.com") }}
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save Settings</button>
-              <button type="button" id="generate_api_token" class="btn btn-warning">Generate API Token</button>
               <button type="button" id="user-delete" class="btn btn-danger">Unlink Account</button>
             </div>
           </form>

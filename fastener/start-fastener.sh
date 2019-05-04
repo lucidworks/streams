@@ -6,7 +6,7 @@ NAME=fastener-api
 
 option=$1
 PREEMPTIBLE="--preemptible"
-IP="35.233.213.74" # dev IP
+IP="35.233.213.74" # dev IP (fix this)
 
 echo "This instance is preemtible, unless it's started with --prod";
 case $option in
@@ -20,7 +20,7 @@ esac
 if [ -f secrets.sh ]; then
    source secrets.sh # truly, a travesty
    echo "Here's where I say, hold on a second while we fire things up."
-   gcloud compute project-info add-metadata --metadata token=$TOKEN 
+   gcloud compute project-info add-metadata --metadata token=$TOKEN stage=$STAGE
    echo;
 else
    echo "Create 'secrets.sh', put a TOKEN=f00bar statement in it and then rerun this script."

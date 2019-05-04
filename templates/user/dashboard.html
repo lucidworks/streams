@@ -14,10 +14,10 @@
 <div class="inverse">
   <div class="container">
     <div class="row">
-      <h1>Build Amazing Apps</h1>
+      <h1>Build Insightful Software</h1>
     </div>
     <div class="row">
-      <p class="blurb">Labs provides code, tools, and snippets to amplify and extend your Fusion applications.</p>
+      <p class="blurb">Code, tools and snippets to help you build search and machine learning applications on Fusion.</p>
     </div>
   </div>
 </div>
@@ -29,43 +29,30 @@
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
-            <h2>All Applications</h2>
-            <div class="row">
-              <div class="col-md-12">
-                <p><strong>Note:</strong> If you are looking to download Fusion to run locally, please visit the <a href="https://lucidworks.com/fusion/">Fusion Download</a> page. Refer to our <a href="https://lucidworks.com/legal/privacy-policy/">Privacy Policy</a> for more information about how we use your information on this site.</p>
-              </div>
-              {% for stream in streams %}
-              <div class="card">
-                <div class="card-header">
-                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
-                </div>
-                <div class="card-body">                  
-                  <p class="card-text">{{ stream.description }}</p>
-                </div>
-                <button type="button" class="btn btn-success">Launch Now</button>
-              </div>
-              <div class="card">
-                <div class="card-header">
-                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
-                </div>
-                <div class="card-body">                  
-                  <p class="card-text">{{ stream.description }}</p>
-                </div>
-                <button type="button" class="btn btn-success">Launch Now</button>
-              </div>
-              <div class="card">
-                <div class="card-header">
-                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
-                </div>
-                <div class="card-body">                  
-                  <p class="card-text">{{ stream.description }}</p>
-                </div>
-                <button type="button" class="btn btn-success">Launch Now</button>
-              </div>
-              {% endfor %}
+          
+          <div class="row">
+            <div class="col-md-12">
+              <h2>Applications</h2>
+              <p>Select an application template below to launch an instance for use.</p>
             </div>
           </div>
+          
+          <div class="row">
+            {% for stream in streams %}
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3 style="font-size: 30px; margin-top: 0px;">{{ stream.name }}</h3>
+                </div>
+                <div class="card-body">                  
+                  <p class="card-text">{{ stream.description }}</p>
+                </div>
+                <button type="button" class="btn btn-success">Launch Now</button>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          
         </div>
       </div>
     </div>

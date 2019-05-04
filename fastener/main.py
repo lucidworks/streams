@@ -25,6 +25,8 @@ evalcontent = eval(content)
 for item in evalcontent:
         if 'token' in item:
             key,token = item.split('-')
+        if 'stage' in item:
+            key,stage = item.split('-')
             
 # google creds
 credentials = compute_engine.Credentials()
@@ -377,7 +379,10 @@ def create(stream_slug='lou'):
 
     # name and machine type
     iid = id_generator()
-    name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
+
+    # ensure stage is set to 'button' in secrets.sh if deploying to production!
+    # stage == button is production
+    name = '%s-%s-%s%s%s' % (stage, stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
     password = ""
 
     # generate a good password
