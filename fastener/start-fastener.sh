@@ -22,6 +22,7 @@ if [ -f secrets.sh ]; then
    echo "Here's where I say, hold on a second while we fire things up."
    gcloud compute project-info add-metadata --metadata token=$TOKEN 
    gcloud compute project-info add-metadata --metadata stage=$STAGE
+
    echo;
 else
    echo "First, create 'secrets.sh' from 'secrets-sample.sh': cp secrets-sample.sh secrets.sh";
@@ -39,7 +40,7 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --boot-disk-type "pd-ssd" \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
---tags http-server,lucid,token-$TOKEN \
+--tags http-server,lucid,token-$TOKEN,stage-$STAGE \
 --scopes compute-rw \
 --subnet=default --address=$IP --network-tier=PREMIUM \
 --service-account labs-209320@appspot.gserviceaccount.com \
