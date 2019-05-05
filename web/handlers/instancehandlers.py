@@ -176,7 +176,7 @@ class InstanceTenderHandler(BaseHandler):
                         instance.ip = "None"
 
                     # leave commented out
-                    slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
+                    # slack.slack_message("Tender::%s has status %s" % (instance.name, instance.status))
 
                     # if not BUILDING then update status right from google
                     if instance.status not in ("BUILDING"):
@@ -486,21 +486,17 @@ class StreamsStarterHandler(BaseHandler):
 
             slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
-            # give the db a second to update
-            if config.isdev:
-                time.sleep(1)
-
             self.add_message('Instance created! Give the system a few minutes to start %s.' % stream.name, 'success')
 
             params = {'name': name}
             return self.redirect_to('instance-detail', **params)
 
 
-        except:
+        except Exception as ex:
             self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
             return self.redirect_to('instances-list')
 
-
+# CREATE INSTANCE IS DONE HERE TOO
 # list of a user's instances and create new instance
 # this method and the StreamsStarterHandler GET method use duplicated code (take care, needs to be refactored)
 class InstancesListHandler(BaseHandler):
@@ -546,6 +542,7 @@ class InstancesListHandler(BaseHandler):
 
         return self.render_template('instance/list.html', **params)
 
+    # CREATE INSTANCE
     @user_required
     def post(self, sid=None): # a POST here is a create instance event
         # know the user
@@ -613,11 +610,20 @@ class InstancesListHandler(BaseHandler):
                 # pull the response back TODO add error handling
                 response, content = http.request(url, 'POST', None, headers={})
                 gcinstance = json.loads(content)
+
+                try:
+                    if gcinstance['error']:
+                        self.add_message('The upstream controller encountered an authentication error. Setup failure.', 'error')
+                        return self.redirect_to('instances-list')
+                except:
+                    pass
+                    
                 name = gcinstance['instance']
                 password = gcinstance['password']
 
                 if name == "failed":
-                    raise Exception("Instance start failed.")
+                    self.add_message('Instance failed to create. Standby.', 'error')
+                    return self.redirect_to('instances-list')
 
                 # set up an instance 
                 instance = Instance(
@@ -642,7 +648,7 @@ class InstancesListHandler(BaseHandler):
                 params = {'name': name}
                 return self.redirect_to('instance-detail', **params)
 
-            except:
+            except Exception as ex:
                 self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
