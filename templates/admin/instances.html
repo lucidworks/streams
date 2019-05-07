@@ -48,40 +48,39 @@
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
-            <h2>All Instances</h2>
-            <div class="row">
-              <div class="col-md-12">
-                <p>Below is a list of instances running on Google Cloud. These instances were started using the <a href="https://github.com/lucidworks/streams">Buttons project</a>.</p>
-                <div class="bs-callout bs-callout-warning bs-callout-top">
-                  <h4>Notice!</h4>
-                  <p>Instances may be in use. Do be careful about deleting instances, as they cannot be recovered once they are removed.</p>
-                </div>
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Status</th>
-                      <th>Owner</th>
-                      <th>Created</th>
-                      <th>End of Life</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for instance in instances %}
-                    <tr>
-                      <td>{{ instance.name }}</td>
-                      <td>{{ macros.instance_status(instance.status) }}</td>
-                      <td>{{ instance.username_patch }}</td>
-                      <td>{{ instance.created|timendate }}</td>
-                      <td>{{ instance.expires|timendate }}</td>
-                      <td><button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button> </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+          
+          <h2>All Instances</h2>
+          <div class="row">
+            <div class="col-md-12">
+              <p>Below is a list of instances running on Google Cloud. These instances were started using the <a href="https://github.com/lucidworks/streams">Buttons project</a>.</p>
+              <div class="bs-callout bs-callout-warning bs-callout-top">
+                <h4>Notice!</h4>
+                <p>Instances may be in use. Do be careful about deleting instances, as they cannot be recovered once they are removed.</p>
               </div>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Created</th>
+                    <th>End of Life</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for instance in instances %}
+                  <tr>
+                    <td>{{ instance.name }}</td>
+                    <td>{{ macros.instance_status(instance.status) }}</td>
+                    <td>{{ instance.username_patch }}</td>
+                    <td>{{ instance.created|timendate }}</td>
+                    <td>{{ instance.expires|timendate }}</td>
+                    <td><button type="button" id="remove-{{instance.key.id()}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button> </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

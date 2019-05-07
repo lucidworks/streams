@@ -9,7 +9,7 @@
 <!-- side menu widget -->
 {% macro side_menu(page,admin) -%}
   <ul class="nav navbar navbar-dark" style="background-color: #fff;">
-    <li class="nav-item"><a {% if page=="labs" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('labs') }}">Apps</a></li>
+    <li class="nav-item"><a {% if page=="labs" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('labs') }}">Applications</a></li>
     <li class="nav-item"><a {% if page=="instances" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('instances-list') }}">Instances</a></li>
     <!--<li{% if page=="applications" %} class="active"{% endif %}><a href="{{ uri_for('applications-list') }}">Applications</a></li>-->  
     <li class="nav-item"><a {% if page=="settings" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('account-settings') }}">Settings</a></li>
@@ -27,27 +27,27 @@
 {%- endmacro %}
 
 <!-- instance states side menu widget -->
-{% macro instance_status(status, size="") %}
+{% macro instance_status(status, size="", name="steve") %}
   {% if status=="PROVISIONING" %}
-  <button type="button" class="btn btn-default {{ size }}" value="Provisioning" title="Provisioning" href="#"><span class="fa fa-hourglass-1"></span> Provisioning</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-default {{ size }}" href="#"><span class="fa fa-hourglass-1"></span> Provisioning</button>
   {% endif %}
   {% if status=="STAGING" %}
-  <button type="button" class="btn btn-light {{ size }}" value="Staging" title="Staging" href="#"><span class="fa fa-hourglass-half"></span> Staging</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-light {{ size }}" href="#"><span class="fa fa-hourglass-half"></span> Staging</button>
   {% endif %}
   {% if status=="CONFIGURING" %}
-  <button type="button" class="btn btn-dark {{ size }}" value="Provisioning" title="Configuring" href="#"><span class="fa fa-hourglass-end"></span> Configuring</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-dark {{ size }}" href="#"><span class="fa fa-hourglass-end"></span> Configuring</button>
   {% endif %}
   {% if status=="RUNNING" %}
-  <button type="button" class="btn btn-success {{ size }}" value="Running" title="Running" href="#"><span class="fa fa-terminal"></span> Running</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-success {{ size }}"><span class="fa fa-terminal"></span> Running</button>
   {% endif %}
   {% if status=="STOPPING" %}
-  <button type="button" class="btn btn-warning {{ size }}" value="Stopping" title="Stopping" href="#"><span class="fa fa-hand-stop-o"></span> Stopping</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-warning {{ size }}" href="#"><span class="fa fa-hand-stop-o"></span> Stopping</button>
   {% endif %}
   {% if status=="TERMINATED" %}
-  <button type="button" class="btn btn-danger {{ size }}" value="Sleeping" title="Sleeping" href="#"><span class="fa fa-bed"></span> Sleeping</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-danger {{ size }}" href="#"><span class="fa fa-bed"></span> Sleeping</button>
   {% endif %}
   {% if status=="BUILDING" %}
-  <button type="button" class="btn btn-info {{ size }}" value="Building" title="Building" href="#"><span class="fa fa-truck"></span> Building</button>
+  <button id="status-{{ name }}" type="button" class="btn btn-info {{ size }}" href="#"><span class="fa fa-truck"></span> Building</button>
   {% endif %}
 {% endmacro %}
 

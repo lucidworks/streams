@@ -212,6 +212,7 @@ class InstanceTenderHandler(BaseHandler):
                                 if instance.stream.get().app_stub:
                                     app_stub = instance.stream.get().app_stub
                                     instance.app_link = "http://%s%s" % (instance.ip, app_stub)
+                                    instance.tender_action = None # ensure box attains at least running fusion
                                 else:
                                     instance.app_link = None
                             except:
@@ -237,18 +238,12 @@ class InstanceTenderHandler(BaseHandler):
                             try:
                                 # pull the response back TODO add error handling
                                 response, content = http.request(url, 'GET', None, headers={})
-                                
-                                # update if google returns pending
-                                if json.loads(content)['status'] == "PENDING":
-                                    params = {"response": "success", "message": "instance %s started" % name }
-                                    instance.status = "PROVISIONING"
-                                    instance.tender_action = "NONE"
-                                    instance.started = datetime.datetime.now()
-                                    instance.put()
 
-                                    slack.slack_message("Tender::%s wanted and got a START" % (instance.name))
-                                else:
-                                    slack.slack_message("Tender::%s wanted START but google reported %s" % (instance.name, json.loads(content)['status']))
+                                # update if google returns pending or success
+                                if config.isdev:
+                                    print json.loads(content)
+
+                                slack.slack_message("Tender::%s asked for a START" % (instance.name))
 
                             except Exception as ex:
                                 slack.slack_message("Tender::Exception %s with %s" % (ex, instance.name))
@@ -617,7 +612,7 @@ class InstancesListHandler(BaseHandler):
                         return self.redirect_to('instances-list')
                 except:
                     pass
-                    
+
                 name = gcinstance['instance']
                 password = gcinstance['password']
 

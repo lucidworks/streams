@@ -63,27 +63,53 @@ h1 small, h2 small, h3 small {
 .button-pack {
     margin-top: 12px;
 }
+#console_log {
+    padding-left: 0px;
+    white-space: pre-line;
+    width: 100%;
+}
 .card {
     margin-top: 8px;
     margin-right: 24px;
     margin-bottom: 12px;
-    width: 20rem;
+    width: 19rem;
     background: #FFFFFF;
     border: 1px solid #C1CBD6;
     border-radius: 4px;
     font-size: 14px;
 }
+
+.card-image-1 {
+    background: url(/img/apps/app_1.png) no-repeat top left;
+}
+.card-image-2 {
+    background: url(/img/apps/app_2.png) no-repeat top left;
+}
+.card-image-3 {
+    background: url(/img/apps/app_3.png) no-repeat top left;
+}
+.card-image-4 {
+    background: url(/img/apps/app_4.png) no-repeat top left;
+}
+.card-image-5 {
+    background: url(/img/apps/app_5.png) no-repeat top left;
+}
+
 .card-header {
     margin-top: 10px;
-    background: url(/img/apps/app_1.png) no-repeat top left;
     background-size: 380px;
     height: 140px;
+}
+
 }
 .card-header h3 {
     text-decoration: none;
 }
 .card-body {
     height: 120px;
+}
+.card-padding {
+    padding-left: 16px;
 }
 .buttons {
     margin-bottom: 13px !important;    
@@ -242,6 +268,7 @@ btn:hover, .btn:focus, .btn:active, .btn.active {
 .container {
     margin-left: 14px;
     padding-right: 30px;
+    max-width: none;
 }
 .inverse>.container {
     padding-bottom: 10px;

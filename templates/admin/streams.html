@@ -41,18 +41,19 @@
       </div>
       <form id="form_create_stream" action="{{ url|safe }}" method="post" class="">
         <div class="modal-body">
-          <p>Please fill out the following form to create a new template. To edit an existing template, create a new on and then delete the old one. The Template SID must match [a-z0-9]!</p>
+          <p>Please fill out the following form to create a new template.</p>
           <div class="row">
             <div class="col-md-12 form-padding" id="stream-form">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                  {{ macros.input(form, "sid", _("Template ID"), size=100, placeholder=_("stringbean"), class="input-xlarge focused required") }}
+                  {{ macros.input(form, "sid", _("Template SID must match [a-z0-9]"), size=100, placeholder=_("stringbean"), class="input-xlarge focused required") }}
                   {{ macros.input(form, "name", _("Name"), placeholder=_("String Bean"), class="input-xlarge steam focused required") }}
                   {{ macros.input(form, "description", _("Description"), placeholder=_("Live streaming from our guest fish."), class="input-xlarge focused required") }}
-                  {{ macros.input(form, "tgzfile", _("Distro Filename"), placeholder=_("beans-buttons.tgz"), class="input-xlarge focused") }}
                   {{ macros.input(form, "github_repo", _("Github Repo URL (optional)"), placeholder=_("https://github.com/lucidworks/streams/projects/sockitter/"), class="input-xlarge focused") }}
                   {{ macros.input(form, "app_stub", _("Application Stub"), placeholder=_(":8764/webapp/foo"), class="input-xlarge focused") }}
                   {{ macros.input(form, "labs_link", _("Labs Link (Wordpress)"), placeholder=_("https://lucidworks.com/labs/apps/view/"), class="input-xlarge focused") }}                
                   {{ macros.input(form, "fusion_version", _("Fusion Version")) }}
+                  {{ macros.input(form, "num_hotstarts", _("Hotstarts")) }}
+          
             </div>
           </div>
         </div>
@@ -84,7 +85,7 @@
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
-          <div class="section-header">
+      
             <h2>Templates</h2>
             <div class="row">
               <div class="col-md-12">
@@ -92,14 +93,12 @@
                 <p>
                   <ul>
                     <li>To edit a template, delete the old one and create a new one with the proper entries.</li>
-                    <li>For new templates, contact marketing to have an application page added to the <a href="https://lucidworks.com/labs">Labs index</a>.</li>
-                    <li>Template creation URLs are located under the link on the stream ID. Right click it, copy the link address and give to marketing!</li>
                     <li>Upload the application distro file to the <strong>buttons-streams</strong> bucket on Google Cloud.</li>
                   </ul>
                 </p>
                 <div class="bs-callout bs-callout-warning bs-callout-top">
                   <h4>Notice!</h4>
-                  <p>Please take care when deleting existing templates, given they may have accompanying pages on the main Labs index.</p>
+                  <p>Please take care when deleting existing templates, you have admin access here.</p>
                 </div>
                 <table class="table table-hover">
                   <thead>
@@ -138,7 +137,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

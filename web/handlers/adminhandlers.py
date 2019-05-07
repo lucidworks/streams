@@ -426,7 +426,7 @@ class AdminStreamsHandler(BaseHandler):
         sid = self.form.sid.data.strip()
         name = self.form.name.data.strip()
         description = self.form.description.data.strip()
-        tgzfile = self.form.tgzfile.data.strip()
+        tgzfile = "%s-buttons.tgz" % self.form.sid.data.strip()
         fusion_version = self.form.fusion_version.data.strip()
         github_repo = self.form.github_repo.data.strip()
         app_stub = self.form.app_stub.data.strip()
@@ -443,11 +443,7 @@ class AdminStreamsHandler(BaseHandler):
             app_stub = app_stub,
             labs_link = labs_link
         )
-
         stream.put()
-
-        # give the db a second or two to update
-        time.sleep(1)
 
         self.add_message('Stream %s successfully created!' % name, 'success')
         params = {}

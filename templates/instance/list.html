@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<!-- hidden delete modal -->
+<!-- hidden no template modal -->
 <div id="notemplate" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -21,6 +21,31 @@
       </div>
       <div class="modal-body">
         <p>No templates were found to start an instance.</p><p>Please navigate to the user pulldown in the top right and then select <em>templates</em> and create a new template. If you can't see the admin menu choices, then click on <em>setup admin</em> and ensure you have an admin flag on your developer account.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- status model help -->
+<div id="status-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Node Status</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Clusters may have frequently changing state or status over time.</p>
+        <p>System looking for compute: <button type="button" class="btn btn-default {{ size }}" href="#"><span class="fa fa-hourglass-1"></span> Provisioning</button></p>
+        <p>System request for compute accepted: <button type="button" class="btn btn-light {{ size }}" href="#"><span class="fa fa-hourglass-half"></span> Staging</button></p>
+        <p>Operating system bootup: <button type="button" class="btn btn-dark {{ size }}" href="#"><span class="fa fa-hourglass-end"></span> Configuring</button></p>
+        <p>Application requirements installation: <button type="button" class="btn btn-info {{ size }}" href="#"><span class="fa fa-truck"></span> Building</button></p>
+        <p>Node and application are running: <button type="button" class="btn btn-success"><span class="fa fa-terminal"></span> Running</button></p>
+        <p>Node is putting to sleep: <button type="button" class="btn btn-warning {{ size }}" href="#"><span class="fa fa-hand-stop-o"></span> Stopping</button></p>
+        <p>Node is sleeping: <button type="button" class="btn btn-danger {{ size }}" href="#"><span class="fa fa-bed"></span> Sleeping</button></p>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -127,7 +152,7 @@
 
           <h2>Instance List</h2>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
               {% if instances %}
               <p>Instance status is shown below. For details about a particular instance, click on its name.</p>
               {% else %}
@@ -153,20 +178,21 @@
                     <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
                     <td><a href="{{ instance.stream.get().labs_link }}">{{ instance.stream.get().name }}</a></td>
                     <td>{{ instance.stream.get().fusion_version }}</td>
-                    <td>{{ macros.instance_status(instance.status, "btn-sm") }}</td>
+                    <td>{{ macros.instance_status(instance.status, "btn-sm", instance.name) }}</td>
 
                     <td>
                       {% if instance.status == "TERMINATED" %}                      
-                      <button type="button" id="start_{{instance.name}}" class="btn btn-default btn-sm" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
-                      {% endif %}
-                      {% if instance.admin_link %}
-                      <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
-                      {% endif %}
-                      {% if instance.app_link %}
-                      <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
-                      {% endif %}
-                      {% if instance.password %}
-                      <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-sm" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
+                      <button type="button" id="start_{{instance.name}}" class="btn btn-info btn-sm" title="Start Instance" href="#"><span class="fa fa-play"></span></button>
+                      {% else %}
+                        {% if instance.admin_link %}
+                        <button type="button" id="adminlink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.admin_link }}" title="Fusion Admin" href="#"><span class="fa fa-cog"></span></button>
+                        {% endif %}
+                        {% if instance.app_link %}
+                        <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-sm" value="{{ instance.app_link }}" title="View Application" href="#"><span class="fa fa-list-alt"></span></button>
+                        {% endif %}
+                        {% if instance.password %}
+                        <button type="button" id="password-{{instance.password}}" class="btn btn-warning btn-sm" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="fa fa-lock"></span></button>
+                        {% endif %}
                       {% endif %}
                       <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-sm" title="Delete Instance" href="#"><span class="fa fa-remove"></span></button>
                     </td>
@@ -179,6 +205,7 @@
               <div class="row">
                 <div class="col-md-5">
                   <button type="button" id="create-instance-button" class="btn btn-success">Create Instance</button>
+                  <button type="button" id="refresh-button" class="btn btn-dark">Refresh</button>
                 </div>
               </div>
             </div>
@@ -238,9 +265,19 @@
     });
     {% endif %}
 
-    // instance list
-    $('#instance-list').click(function() {
+    // refresh button, if they are fast enough
+    $('#refresh-button').click(function() {
       window.location = "/instances/";
+    });
+
+    // refresh magic
+    $( "#refresh-button" ).mouseover(function() {
+      window.location = "/instances/";     
+    });
+
+    // running status button
+    $('#status-button').click(function() {
+      $('#status-modal').modal();
     });
 
     // settings
@@ -262,6 +299,13 @@
         document.execCommand('copy');
         alertify.success("Password copied.");
         dummy.remove();
+      });
+    });
+
+    // help status buttons
+    $('button[id^="status-"]').each(function(index){
+      $('#'+this.id).click(function() {
+        $('#status-modal').modal();
       });
     });
 
@@ -325,17 +369,6 @@
     var csrf_token = "{{ csrf_token() }}";
     var time = new Date().getTime();
 
-    function refresh() {
-      if(new Date().getTime() - time >= 60000) {
-        $.ajax({
-          url: '/'
-        })
-        window.location.reload(true);
-      } else { 
-        setTimeout(refresh, 10000);
-      }
-    }
-    setTimeout(refresh, 10000);
   });
 </script>
 

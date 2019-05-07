@@ -44,16 +44,22 @@
     </div>
   </div>
 </div>
-<div id="run-state" class="modal fade">
+<div id="status-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Run State</h4>
+        <h4 class="modal-title" id="myModalLabel">Node Status</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-body">
-        <p>Nodes may have the following run states:</p>
-        <p>{{ macros.instance_status("TERMINATED") }}</p>
+        <p>Clusters may have frequently changing state or status over time.</p>
+        <p>System looking for compute: <button type="button" class="btn btn-default {{ size }}" href="#"><span class="fa fa-hourglass-1"></span> Provisioning</button></p>
+        <p>System request for compute accepted: <button type="button" class="btn btn-light {{ size }}" href="#"><span class="fa fa-hourglass-half"></span> Staging</button></p>
+        <p>Operating system bootup: <button type="button" class="btn btn-dark {{ size }}" href="#"><span class="fa fa-hourglass-end"></span> Configuring</button></p>
+        <p>Application requirements installation: <button type="button" class="btn btn-info {{ size }}" href="#"><span class="fa fa-truck"></span> Building</button></p>
+        <p>Node and application are running: <button type="button" class="btn btn-success"><span class="fa fa-terminal"></span> Running</button></p>
+        <p>Node is putting to sleep: <button type="button" class="btn btn-warning {{ size }}" href="#"><span class="fa fa-hand-stop-o"></span> Stopping</button></p>
+        <p>Node is sleeping: <button type="button" class="btn btn-danger {{ size }}" href="#"><span class="fa fa-bed"></span> Sleeping</button></p>
 
       </div>
       <div class="modal-footer">
@@ -87,8 +93,8 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-body">
-        <p>Instances are still being configured, but the deployment should be running shortly.</p>
-        <p>The application will be running in ~{% if instance.stream.get().start_eta != None %} {{ instance.stream.get().start_eta }} {% else %}10{% endif %} minutes.</p>
+        <p>Instances are still being configured.</p>
+        <p>This application takes ~{% if instance.stream.get().start_eta != None %}{{ instance.stream.get().start_eta/60 }} {% else %}10{% endif %} minutes to start. Page will update.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -163,7 +169,7 @@ admin
 <pre>
 ssh-keygen -f id_lucidlabs
 </pre>
-        <p>2. Compare sample output of run:</p>
+        <p>2. Note output:</p>
 <pre>
 $ ssh-keygen -f id_lucidlabs
 Generating public/private rsa key pair.
@@ -185,7 +191,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 </pre>
       <p>3. Copy the contents of the <strong>id_lucidlabs.pub</strong> file to your buffer.</p> 
-      <p>4. Navigate to your <a href="/settings">settings</a> page to paste in and save your SSH key.</p>
+      <p>4. Navigate to <a href="/settings">settings</a> to paste and save an SSH key.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -228,10 +234,10 @@ The key's randomart image is:
           <div class="card">
             <div class="card-header">
               <h3 style="font-size: 30px; margin-top: 0px;">{{ instance.stream.get().name }}</h3>
+            {% if instance.status == "RUNNING" %}<button id="app-link" class="btn btn-default btn-sm"><span class="fa fa-play"></span> Login</button>{% endif %}
             </div>
             <div class="card-body">                  
               <p class="card-text">{{ instance.stream.get().description }}</p>
-              {% if instance.status == "RUNNING" %}<button id="app-link" class="btn btn-default btn-sm"><span class="fa fa-play"></span> Launch Demo</button>{% endif %}
             </div>
             {{ macros.instance_status(instance.status) }}
           </div>
@@ -242,14 +248,22 @@ The key's randomart image is:
       <div class="row">
         <div class="col-md-12">
           <h3 class="buttons"><span>System Control</span></h3>
-          {% if instance.status != "RUNNING" and instance.status != "TERMINIATED" %}<button id="instance-wait" class="btn btn-dark btn-sm"><span class="fa fa-clock-o"></span> Please Wait</button>{% endif %}
+          {% if instance.status != "RUNNING" and instance.status != "TERMINATED" and instance.status != "STOPPING" %}<button id="instance-wait" class="btn btn-success btn-sm"><span class="fa fa-clock-o"></span> Please Wait</button>
+          {% elif instance.tender_action == "START" %}<button id="instance-wait" class="btn btn-dark btn-sm"><span class="fa fa-clock-o"></span> Please Wait</button>{% endif %}
 
           {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-info btn-sm"><span class="fa fa-play"></span> Start Node</button>{% endif %}
 
           <button id="upgrade" class="btn btn-warning btn-sm" href="#"><span class="fa fa-battery-quarter"></span> 1 Node</button>
-          {% if instance.ip != "NONE" %}
+          {% if instance.ip != "None" %}
           <button id="instance-ip" class="btn btn-default btn-sm" href="#"><span class="fa fa-copy"></span> {{ instance.ip }}</button>
+          
+          {% if user_info.ssh_key %}
+          {% if instance.status != "PENDING" %}
           <button id="instance-addkey" class="btn btn-light btn-sm"><span class="fa fa-lock"></span> SSH</button>
+          {% endif %}
+          {% else %}
+          <button id="instance-nossh" class="btn btn-light btn-sm"><span class="fa fa-lock"></span> SSH</button>
+          {% endif %}
           {% endif %}
           <button id="instance-delete" class="btn btn-danger btn-sm"><span class="fa fa-remove"></span> Delete</button>
         </div>
@@ -257,11 +271,16 @@ The key's randomart image is:
 
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <h3><span class="bd-content-title">Deployment Log</span></h3>
-            <pre style="white-space: pre-line" id="console_log">{% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}</pre></p>
+            <button id="scroll-bottom" type="button" class="btn btn-default btn-sm"><span class="fa fa-arrow-down"></span> Scroll to Bottom</button>
+            <pre id="console_log">
+            {% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}
+          </pre>
+            </p>
 
-            <button id="reload-logs" type="button" class="btn btn-info"><span class="fa fa-search"></span> Reload Log</button>
+            <button id="reload-logs" type="button" class="btn btn-info btn-sm"><span class="fa fa-search"></span> Reload Log</button>
+            <button id="scroll-top" type="button" class="btn btn-default btn-sm"><span class="fa fa-arrow-up"></span> Scroll to Top</button>
         </div>
       </div>
 
@@ -291,6 +310,16 @@ The key's randomart image is:
     var channel_token = "{{ channel_token }}";
     var refresh_channel = "{{ refresh_channel }}";
 
+    // make things randomly pretty
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+    // decorate cards
+    $(".card-header").each(function(index) {
+      var card_image = getRandomInt(5)+1;
+      $(this).addClass("card-image-"+card_image);
+    });
+
     // edit name
     $("span#edit-name").editable("click", function(e){
       console.log(e.value);
@@ -306,9 +335,8 @@ The key's randomart image is:
       });
     });
 
-    // ip copy
+    // ip copy (not working)
     $('#ip-{{ instance.ip }}').click(function(index){
-      console.log("here");
       var password = this.id.split("-").pop();
       var dummy = $('<input>').val(password).appendTo('body').select();
       document.execCommand('copy');
@@ -341,16 +369,16 @@ The key's randomart image is:
       });
     });  
 
-    // apps index
-    $('#launch-button').click(function() {
-      window.location = "{{ instance.app_link }}";
-    });
-
     // delete button
     $('#instance-delete').click(function() {
       $('#delete').modal();
     });
     
+    // running status button
+    $('#status-button').click(function() {
+      $('#status-modal').modal();
+    });
+
     // upgrade button
     $('#upgrade').click(function() {
       $('#upgrade-modal').modal();
@@ -366,21 +394,23 @@ The key's randomart image is:
       $('#ip-modal').modal();
     });
 
+    // scroll bottom
+    $('#scroll-bottom').click(function() {
+      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+      return false;
+    });
+
+    // scroll top
+    $('#scroll-top').click(function() {
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+      return false;
+    });
+
+    // solicit for membership
     $('#activate-button').click(function() {
       window.location = "https://gitter.im/lucidworks-streams/community";
     });
 
-    // delete button
-    $('#instance-guide').click(function() {
-      $.cookie('guide', 'closed');
-      $('#instance-guide-div').remove();
-    });
-
-    // delete button
-    $('#instance-guide-open').click(function() {
-      $.cookie('guide', 'open');
-      location.reload();
-    });
 
     $('#delete-button').click(function() {
       $('#delete').modal('hide');

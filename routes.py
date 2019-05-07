@@ -11,6 +11,7 @@ _routes = [
 	
 	# users
 	RedirectRoute('/labs/', userhandlers.LabsHandler, name='labs', strict_slash=True),
+	RedirectRoute('/labs/up', userhandlers.LabsHandler, name='welcome', strict_slash=True),
 	RedirectRoute('/login/', userhandlers.LoginHandler, name='login', strict_slash=True),
 	RedirectRoute('/logout/', userhandlers.LogoutHandler, name='logout', strict_slash=True),
 	RedirectRoute('/login/complete', userhandlers.CallbackLoginHandler, name='login-complete', strict_slash=True),

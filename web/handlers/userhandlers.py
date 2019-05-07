@@ -196,9 +196,13 @@ class CallbackLoginHandler(BaseHandler):
 
 		# load the next destination, if any
 		if npid:
-			np_info = NextPages.get_by_npid(npid)
-			next_page = np_info.url
-			print next_page
+			try:
+				np_info = NextPages.get_by_npid(npid)
+				next_page = np_info.url
+				if config.isdev:
+					print next_page
+			except:
+				next_page = ""
 		else:
 			next_page = ""
 
@@ -460,8 +464,13 @@ class SettingsHandler(BaseHandler):
 class LabsHandler(BaseHandler):
 	@user_required
 	def get(self):
-		# lookup user's auth info
-		user_info = User.get_by_id(long(self.user_id))
+		try:
+			# lookup user's auth info
+			user_info = User.get_by_id(long(self.user_id))
+			print user_info
+		except:
+			# not logged in user
+			return self.redirect()
 
 		# if we came in from a stream create, redirect back to it
 		next = utils.read_cookie(self, "next")
@@ -471,7 +480,6 @@ class LabsHandler(BaseHandler):
   
 		# look up streams
 		streams = Stream.get_all()
-		print streams
 		params = { 'streams': streams }
 
 		return self.render_template('user/dashboard.html', **params)

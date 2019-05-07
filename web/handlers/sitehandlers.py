@@ -22,6 +22,8 @@ from lib import utils, httpagentparser
 from web.basehandler import BaseHandler
 from web.basehandler import user_required
 
+from web.models.models import Stream
+
 # index lives at /labs on streams.lucidworks.com
 class IndexHandler(BaseHandler):
 	def get(self):
@@ -74,6 +76,16 @@ class SendEmailHandler(BaseHandler):
 			mail.send_mail(sender, config.contact_recipient, subject, body)
 		except Exception as ex:
 			logging.error("Error sending email: %s" % ex)
+
+
+# /labs/up
+class LabsHandler(BaseHandler):
+	def get(self):
+		# look up streams
+		streams = Stream.get_all()
+		params = { 'streams': streams }
+
+		return self.render_template('site/welcome.html', **params)
 
 
 class DocsHandler(BaseHandler):

@@ -84,16 +84,16 @@ class RegionZone(ndb.Model):
 class Stream(ndb.Model):
 	created = ndb.DateTimeProperty(auto_now_add=True)
 	updated = ndb.DateTimeProperty(auto_now=True)
-	sid = ndb.StringProperty()
-	name = ndb.StringProperty()
-	description = ndb.StringProperty()
-	tgzfile = ndb.StringProperty()
-	github_repo = ndb.StringProperty()
-	app_stub = ndb.StringProperty()
-	labs_link = ndb.StringProperty()
-	fusion_version = ndb.StringProperty()
+	sid = ndb.StringProperty(default="lou")
+	name = ndb.StringProperty(default="button-one")
+	description = ndb.StringProperty(default="Fusion")
+	tgzfile = ndb.StringProperty(default="button-starter42.tgz")
+	github_repo = ndb.StringProperty(default="/kordless/buttons/")
+	app_stub = ndb.StringProperty(default=":8764/admin/")
+	labs_link = ndb.StringProperty(default="https://lucidworks.com/labs/starter42")
+	fusion_version = ndb.StringProperty(default="4.2.1")
 	hot_starts = ndb.IntegerProperty(default=0)
-	start_eta = ndb.IntegerProperty(default=600)
+	start_eta = ndb.IntegerProperty(default=600) # a guess
 
 	@classmethod
 	def get_all(cls):
@@ -119,7 +119,7 @@ class Instance(ndb.Model):
 	name = ndb.StringProperty()
 	renamed = ndb.StringProperty()
 	topic = ndb.StringProperty(default="ai")
-	ip = ndb.StringProperty(default="NONE")
+	ip = ndb.StringProperty(default="None") # leave as None case issue
 	admin_link = ndb.StringProperty() # just uses IP + :8764
 	password = ndb.StringProperty() # admin password
 	app_link = ndb.StringProperty() # uses IP + stream.url_stub
@@ -127,6 +127,7 @@ class Instance(ndb.Model):
 	hotstart = ndb.BooleanProperty(indexed=True, default=False)
 	preemptible = ndb.BooleanProperty(indexed=True, default=True)
 	tender_action = ndb.StringProperty(default="NONE")
+	start_eta = ndb.IntegerProperty(default=600) # seconds accurate
 
 	""" Appengine is barfing on the indexes, so disabling
 	@classmethod

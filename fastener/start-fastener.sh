@@ -20,8 +20,8 @@ esac
 if [ -f secrets.sh ]; then
    source secrets.sh # truly, a travesty
    echo "Here's where I say, hold on a second while we fire things up."
-   gcloud compute project-info add-metadata --metadata token=$TOKEN 
-   gcloud compute project-info add-metadata --metadata stage=$STAGE
+   gcloud compute project-info add-metadata $NAME-$NEW_UUID --metadata token=$TOKEN 
+   gcloud compute project-info add-metadata $NAME-$NEW_UUID --metadata stage=$STAGE
 
    echo;
 else
