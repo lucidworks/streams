@@ -108,7 +108,6 @@ curl -X POST -H 'Content-type: application/json' -d "{\"password\":\"${ADMIN_PAS
 # #############################
 # # end if fusion not installed
 # #############################
-
 else
 /fusion/bin/fusion restart
 
@@ -120,6 +119,8 @@ fi
 ##
 #    stream/app-specific handling
 ##
+
+
 mkdir $SID
 cd $SID
 

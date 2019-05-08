@@ -28,7 +28,7 @@ class StreamForm(BaseForm):
     labs_link = fields.TextField('Labs Link (Wordpress)', [validators.Required(), validators.Length(max=200)], id='labs_link')
     fusion_version = fields.SelectField('Fusion Version', [validators.Required()], id='version', choices=[('4.0.2', 'Fusion 4.0.2'),('4.1.0', 'Fusion 4.1.0'),('4.1.1', 'Fusion 4.1.1'),('4.1.2', 'Fusion 4.1.2'),('4.2.1', 'Fusion 4.2.1')])
     num_hotstarts = fields.SelectField('# Hotstarts', [validators.Required()], id='num_hotstarts', choices=[('None', 'None'),('1', 'One please.'),('2', 'Two. Two.'),('3', 'Three is good.'),('4', 'Four is key.')])
-
+    instance_size = fields.SelectField('Instance Size', [validators.Required()], id='instance_size', choices=[('0', 'n1-standard-4'),('1', 'n1-standard-8'),('2', 'n1-standard-16')]) 
 
 class EditProfileForm(BaseForm):
     username = fields.TextField('Username', [validators.Required(), validators.Length(max=50)])

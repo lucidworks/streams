@@ -205,14 +205,15 @@ class InstanceTenderHandler(BaseHandler):
 
                         # set admin_link if box is running and test comes back 200
                         if test_status == "200":
+                            instance.tender_action = None # ensure box attains at least running fusion
+
                             instance.admin_link = test_url
 
                             # build app link and update, if it exists
                             try:
                                 if instance.stream.get().app_stub:
                                     app_stub = instance.stream.get().app_stub
-                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)
-                                    instance.tender_action = None # ensure box attains at least running fusion
+                                    instance.app_link = "http://%s%s" % (instance.ip, app_stub)   
                                 else:
                                     instance.app_link = None
                             except:

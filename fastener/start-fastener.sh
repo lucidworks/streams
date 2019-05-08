@@ -20,8 +20,8 @@ esac
 if [ -f secrets.sh ]; then
    source secrets.sh # truly, a travesty
    echo "Here's where I say, hold on a second while we fire things up."
-   gcloud compute project-info add-metadata $NAME-$NEW_UUID --metadata token=$TOKEN 
-   gcloud compute project-info add-metadata $NAME-$NEW_UUID --metadata stage=$STAGE
+   gcloud compute project-info add-metadata --metadata token=$TOKEN 
+   gcloud compute project-info add-metadata --metadata stage=$STAGE
 
    echo;
 else
@@ -68,6 +68,7 @@ sudo update-ca-certificates
 
 cd /;
 git clone https://github.com/lucidworks/streams
+git checkout appsout_kord
 cd /streams/fastener/;
 screen -dmS buttons bash -c "bash start-web.sh"
 '
