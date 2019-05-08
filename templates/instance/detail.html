@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block content %}
-<!-- hidden delete modal -->
+<!-- modal blocks - lots of repeat, but works well -->
 <div id="delete" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -40,6 +40,35 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" id="delete-button" class="btn btn-danger">Delete Node</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="login-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Login to Fusion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>To administer this Fusion node, click admin.</p>
+        {% if instance.app_link %}
+        <p>To access the application demo, click login to application.</p>
+        {% endif %}
+
+        <p>Remember, the username and password for this instance is:</p>
+<pre>
+admin
+{{ instance.password }}
+</pre>
+      </div>
+      <div class="modal-footer">
+        <button id="copy-password" value="{{ instance.password }}" type="button" class="btn btn-default">Copy Password</button>
+        <a target="_blank" href="http://{{instance.ip}}:8764/admin/login"><button type="button" id="fusion-admin-button" class="btn btn-warning"><span class="fa fa-cog"></span> Admin</button></a>
+        {% if instance.app_link %}
+        <a target="_blank" href="{{ instance.app_link }}"><button type="button" id="fusion-app-button" class="btn btn-info"><span class="fa fa-sign-in"></span> Login to Application</button></a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -85,6 +114,24 @@
     </div>
   </div>
 </div>
+<div id="expires-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Node EOL Notice</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This instance is scheduled to be deleted at:</p>
+        <pre>{{ instance.expires|timendate }} GMT</pre>
+        <p>Please ensure you export any application data before deletion!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="wait-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -114,7 +161,7 @@
         <pre>{{ instance.ip }}</pre>
       </div>
       <div class="modal-footer">
-        <button id="ip-{{ instance.ip }}" type="button" class="btn btn-default" data-dismiss="modal">Copy Address</button>
+        <button id="copy-button" value="{{ instance.ip }}" type="button" class="btn btn-default" data-dismiss="modal">Copy Address</button>
       </div>
     </div>
   </div>
@@ -234,12 +281,12 @@ The key's randomart image is:
           <div class="card">
             <div class="card-header">
               <h3 style="font-size: 30px; margin-top: 0px;">{{ instance.stream.get().name }}</h3>
-            {% if instance.status == "RUNNING" %}<button id="app-link" class="btn btn-default btn-sm"><span class="fa fa-play"></span> Login</button>{% endif %}
+              {% if instance.status == "RUNNING" %}<button id="login-button" class="btn btn-default btn-sm"><span class="fa fa-play"></span> Login</button>{% endif %}
             </div>
             <div class="card-body">                  
               <p class="card-text">{{ instance.stream.get().description }}</p>
             </div>
-            {{ macros.instance_status(instance.status) }}
+            {{ macros.instance_status(instance.status, name="button") }}
           </div>
 
         </div>
@@ -251,12 +298,13 @@ The key's randomart image is:
           {% if instance.status != "RUNNING" and instance.status != "TERMINATED" and instance.status != "STOPPING" %}<button id="instance-wait" class="btn btn-success btn-sm"><span class="fa fa-clock-o"></span> Please Wait</button>
           {% elif instance.tender_action == "START" %}<button id="instance-wait" class="btn btn-dark btn-sm"><span class="fa fa-clock-o"></span> Please Wait</button>{% endif %}
 
-          {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-info btn-sm"><span class="fa fa-play"></span> Start Node</button>{% endif %}
+          {% if instance.status == "TERMINATED" and instance.tender_action != "START" %}<button id="instance-start" class="btn btn-info btn-sm"><span class="fa fa-play"></span> Start Node</button>{% endif %}
 
           <button id="upgrade" class="btn btn-warning btn-sm" href="#"><span class="fa fa-battery-quarter"></span> 1 Node</button>
           {% if instance.ip != "None" %}
           <button id="instance-ip" class="btn btn-default btn-sm" href="#"><span class="fa fa-copy"></span> {{ instance.ip }}</button>
-          
+
+
           {% if user_info.ssh_key %}
           {% if instance.status != "PENDING" %}
           <button id="instance-addkey" class="btn btn-light btn-sm"><span class="fa fa-lock"></span> SSH</button>
@@ -266,6 +314,8 @@ The key's randomart image is:
           {% endif %}
           {% endif %}
           <button id="instance-delete" class="btn btn-danger btn-sm"><span class="fa fa-remove"></span> Delete</button>
+          <button id="instance-expires" class="btn btn-default btn-sm"><span class="fa fa-anchor"></span> {{ instance.expires|timendate }} GMT</button>  
+
         </div>
       </div>
 
@@ -335,24 +385,31 @@ The key's randomart image is:
       });
     });
 
-    // ip copy (not working)
-    $('#ip-{{ instance.ip }}').click(function(index){
-      var password = this.id.split("-").pop();
-      var dummy = $('<input>').val(password).appendTo('body').select();
+    // copy this one
+    $('#login-button').click(function(index){
+      $('#login-modal').modal();
+    });
+
+    // EOL button
+    $('#instance-expires').click(function(index){
+      $('#expires-modal').modal();
+    });
+
+    // ip copy
+    $('#copy-button').click(function(index){
+      var ip = this.value;
+      var dummy = $('<input>').val(ip).appendTo('body').select();
       document.execCommand('copy');
-      alertify.success("Password copied.");
-      $('#password-field').css("background-color", "lightblue");
+      alertify.success("Address copied.");
       dummy.remove();
     });
 
     // password copy
-    $('#password-{{ instance.password }}').click(function(index){
-      console.log("here");
-      var password = this.id.split("-").pop();
+    $('#copy-password').click(function(index){
+      var password = this.value.split("-").pop();
       var dummy = $('<input>').val(password).appendTo('body').select();
       document.execCommand('copy');
       alertify.success("Password copied.");
-      $('#password-field').css("background-color", "lightblue");
       dummy.remove();
     });
 
@@ -389,11 +446,15 @@ The key's randomart image is:
       $('#wait-modal').modal();
     });
 
-    // delete button
+    // ip button
     $('#instance-ip').click(function() {
       $('#ip-modal').modal();
     });
 
+    // copy button
+    $('#copy-button').click(function() {
+      console.log("yup");
+    });
     // scroll bottom
     $('#scroll-bottom').click(function() {
       $("html, body").animate({ scrollTop: $(document).height() }, "slow");

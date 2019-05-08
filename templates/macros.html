@@ -20,8 +20,8 @@
 {% macro admin_side_menu(page) -%}
   <ul class="nav navbar navbar-dark" style="background-color: #fff;">
     <li class="nav-item"><a {% if page=="templates" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-streams') }}">Templates</a></li>
-    <li class="nav-item"><a {% if page=="instances" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-instances') }}"> Instances</a></li>
-    <li class="nav-item"><a {% if page=="users" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-users') }}">Users</a></li>
+    <li class="nav-item"><a {% if page=="instances" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-instances') }}">Instances</a></li>
+    <li class="nav-item"><a {% if page=="users" %} class="nav-link active"{% else %}class="nav-link" {% endif %} href="{{ uri_for('admin-users') }}">User Bits</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ uri_for('labs')}}">&lt;&lt; Back</a></li>
   </ul>
 {%- endmacro %}

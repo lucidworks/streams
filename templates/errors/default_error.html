@@ -6,6 +6,7 @@
 
 {% block page_styles %}
   <link href="/css/error.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
   <meta charset='utf-8' />
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
@@ -30,7 +31,7 @@
   <script type="text/javascript">
     $().ready(function() {
       // login button
-      $('#nav-login').on('click', function(e) { window.location = "/dashboard" });
+      $('#nav-login').on('click', function(e) { window.location = "/labs/" });
       
       mapboxgl.accessToken = 'pk.eyJ1Ijoia29yZGxlc3MiLCJhIjoiVHZya0tuUSJ9.4sTXK2QLg49uzs2qhSWf3A';
  

@@ -82,19 +82,12 @@
     function getRandomInt(max) {
       return Math.floor(Math.random() * Math.floor(max));
     }
+
     // decorate cards
     $(".card-header").each(function(index) {
       console.log(index);
       var card_image = getRandomInt(5)+1;
       $(this).addClass("card-image-"+card_image);
-    });
-
-    // remove buttons
-    $('button[id^="stream-"]').each(function(index){
-      $('#'+this.id).click(function() {
-        sid = this.id.split("-").pop();
-        window.location = "/instance/create/"+sid;
-      });
     });
 
     // download

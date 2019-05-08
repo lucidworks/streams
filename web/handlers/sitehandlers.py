@@ -78,8 +78,7 @@ class SendEmailHandler(BaseHandler):
 			logging.error("Error sending email: %s" % ex)
 
 
-# /labs/up
-class LabsHandler(BaseHandler):
+class WelcomeHandler(BaseHandler):
 	def get(self):
 		# look up streams
 		streams = Stream.get_all()

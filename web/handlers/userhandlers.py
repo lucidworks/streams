@@ -79,7 +79,7 @@ class LogoutHandler(BaseHandler):
 				user_info.put()
 
 		self.auth.unset_session()
-		self.redirect('https://lucidworks.com/labs')
+		return self.redirect_to('welcome')
 
 
 # regular auth callback
