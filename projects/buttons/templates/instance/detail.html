@@ -122,23 +122,23 @@ ssh-keygen -f id_lucidlabs
 </pre>
         <p>2. Compare sample output of run:</p>
 <pre>
-$ ssh-keygen -f id_lucidlabs
+$ ssh-keygen -t rsa -b 4096 -C "{{ user_info.username }}"
 Generating public/private rsa key pair.
 Your identification has been saved in id_lucidlabs.
 Your public key has been saved in id_lucidlabs.pub.
-The key fingerprint is:
-SHA256:/tsz3aV/RXKsNGVPPCEmtRd62UWz2uRlgROtdyHU55Q kordless@button-lifescience-cxjr3c
+The key fingerprint is: 
+SHA256:rTsH3I0S4InSaFbA3KwErl0XTmWIGfWrUVnQCkIHUFUU marcus_sorealheis
 The key's randomart image is:
-+---[RSA 2048]----+
-|           .o*=B=|
-|            o++E/|
-|             o+&O|
-|             .@oO|
-|        S    o.O.|
-|       .      . o|
-|        .    . oo|
-|         . .o o o|
-|          o..o .o|
++---[RSA 4096]----+
+|  ..+o*+BE .     |
+|   o = +  o      |
+|    o = o        |
+|     O =         |
+|    = o S.       |
+|  .  o o. o      |
+| . +o =  + .     |
+|..oo...+= .      |
+|ooo.o.+B+o       |
 +----[SHA256]-----+
 </pre>
       <p>3. Copy the contents of the <strong>id_lucidlabs.pub</strong> file to your buffer.</p> 
