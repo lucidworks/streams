@@ -100,7 +100,7 @@
       </div>
       <div class="modal-body">
         <p>In a few seconds, this instance will install the SSH key used in your settings. To connect to your instance, do the following:</p>
-        <pre>ssh -i id_lucidlabs {{ user_info.username }}@{{ instance.ip }}</pre>
+        <pre>ssh -i ~/.ssh/id_lucidlabs {{ user_info.username }}@{{ instance.ip }}</pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -118,7 +118,7 @@
       <div class="modal-body">
         <p>1. Run this command in a terminal locally:</p>
 <pre>
-  ssh-keygen -t rsa -b 4096 -C "{{ user_info.username }}"
+  ssh-keygen -f ~/.ssh/id_lucidlabs -t rsa -b 4096 -C "{{ user_info.username }}"
 </pre>
         <p>2. Compare sample output of run:</p>
 <pre>
