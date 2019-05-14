@@ -118,11 +118,10 @@
       <div class="modal-body">
         <p>1. Run this command in a terminal locally:</p>
 <pre>
-ssh-keygen -f id_lucidlabs
+  ssh-keygen -t rsa -b 4096 -C "{{ user_info.username }}"
 </pre>
         <p>2. Compare sample output of run:</p>
 <pre>
-$ ssh-keygen -t rsa -b 4096 -C "{{ user_info.username }}"
 Generating public/private rsa key pair.
 Your identification has been saved in id_lucidlabs.
 Your public key has been saved in id_lucidlabs.pub.
