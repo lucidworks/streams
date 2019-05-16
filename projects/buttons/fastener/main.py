@@ -30,7 +30,7 @@ for item in evalcontent:
 credentials = compute_engine.Credentials()
 compute = discovery.build('compute', 'v1', credentials=credentials)
 compute_beta = discovery.build('compute', 'beta', credentials=credentials)
-project = 'labs-209320'
+project = 'quiet-canto-234518'
 
 # regions, zones & sizes (NOTE: us-east1 does not have an 'a' zone and has a 'd' zone)
 regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west2', 'asia-east2'] # numbered 0, 1, 2, etc. in name
