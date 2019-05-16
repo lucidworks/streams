@@ -34,7 +34,7 @@ fi
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
-cd /; git clone https://github.com/lucidworks/streams
+cd /; git clone https://github.com/sudosoup/streams
 
 # Let's try using OpenJDK
 apt-get update -y
@@ -87,7 +87,7 @@ if [ ! -d "/fusion" ]; then
 # # if fusion not installed
 # #############################
 
-gsutil cp gs://buttons-streams/fusion-${FUSION_VERSION}.tar.gz .
+gsutil cp gs://buttons-sudosoup/fusion-${FUSION_VERSION}.tar.gz .
 
 tar xfz fusion-${FUSION_VERSION}.tar.gz
 
@@ -127,7 +127,7 @@ cd $SID
 # TODO: conditional on DISTRO: fetch if specified, otherwise ignore
 #   - if no DISTRO to fetch, then this becomes a simple Fusion out of the box, box
 
-gsutil cp gs://buttons-streams/$DISTRO .
+gsutil cp gs://buttons-sudosoup/$DISTRO .
 tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh

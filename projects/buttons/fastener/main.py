@@ -439,7 +439,7 @@ def create(stream_slug='lou'):
         "items": [
         {
             "key": "startup-script-url",
-            "value": "https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/fastener/scripts/start-button.sh"
+            "value": "https://raw.githubusercontent.com/sudosoup/streams/master/projects/buttons/fastener/scripts/start-button.sh"
         },
         {
             "key": "password",
