@@ -1,12 +1,12 @@
 #!/bin/bash
 
 NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
-ZONE=us-west1-c
+ZONE=us-west2-c
 NAME=fastener-api
 
 option=$1
 PREEMPTIBLE="--preemptible"
-IP="--address=X.X.X.X"
+IP=""
 
 echo "This instance is preemtible, unless it's started with --prod";
 case $option in
@@ -15,7 +15,6 @@ case $option in
     IP="--address=35.230.26.45" #fastener.lucidworks.com
     echo "Production mode enabled..."
     echo;
-    *)
     unset IP;
 esac
 
@@ -41,7 +40,7 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --tags http-server,lucid,token-$TOKEN \
 --scopes compute-rw \
 --subnet=default $IP --network-tier=PREMIUM \
---service-account labs-209320@appspot.gserviceaccount.com \
+--service-account 654326813547-compute@developer.gserviceaccount.com \
 $PREEMPTIBLE \
 --metadata startup-script='#! /bin/bash
 sudo su -
@@ -70,10 +69,9 @@ cd /streams/projects/buttons/fastener/;
 screen -dmS buttons bash -c "bash start-web.sh"
 '
 
-#gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE
-if 
+#gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE 
 gcloud compute firewall-rules create fastener-api --allow tcp:80
-fi
+
 
 sleep 20
 IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
