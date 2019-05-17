@@ -12,7 +12,7 @@ echo "This instance is preemtible, unless it's started with --prod";
 case $option in
     -p|--prod|--production)
     unset PREEMPTIBLE
-    IP="--address=35.230.26.45" #fastener.lucidworks.com
+    IP=""
     echo "Production mode enabled..."
     echo;
     unset IP;
