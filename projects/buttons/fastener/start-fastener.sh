@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NEW_UUID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
+NEW_UUID=$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west2-c
 NAME=fastener-api
 
@@ -28,6 +28,9 @@ else
    echo;
    exit;
 fi
+
+#gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE 
+gcloud compute firewall-rules create fastener-api --allow tcp:80,tcp:8091,tcp:8764,tcp:8765,tcp:8766,tcp:8769,tcp:8984,tcp:8983,tcp:9983,tcp:8766,tcp:8780,tcp:8767,tcp:8082,tcp:8770,tcp:4040,tcp:8769,tcp:7337,tcp:8600-8616,tcp:47100-48099,tcp:48100-48199,tcp:49200-49299,tcp:51500-52000
 
 gcloud beta compute instances create $NAME-$NEW_UUID \
 --machine-type "n1-standard-2" \
@@ -68,10 +71,6 @@ git clone https://github.com/sudosoup/streams.git
 cd /streams/projects/buttons/fastener/;
 screen -dmS buttons bash -c "bash start-web.sh"
 '
-
-#gcloud compute instances attach-disk $NAME-$NEW_UUID --disk $NAME-data --zone $ZONE 
-gcloud compute firewall-rules create fastener-api --allow tcp:80
-
 
 sleep 20
 IP=$(gcloud compute instances describe $NAME-$NEW_UUID --zone $ZONE  | grep natIP | cut -d: -f2 | sed 's/^[ \t]*//;s/[ \t]*$//')
