@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NEW_UUID=$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 4 | head -n 1)
+NEW_UUID=$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-z0-9' | fold -w 4 | head -n 1)
 ZONE=us-west2-c
 NAME=fastener-api
 
