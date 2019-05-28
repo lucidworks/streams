@@ -120,7 +120,7 @@ fi
 #    stream/app-specific handling
 ##
 
-
+if [ ! -d "/$SID" ]; then
 mkdir $SID
 cd $SID
 
