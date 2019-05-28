@@ -133,4 +133,8 @@ tar xfz $DISTRO
 # check for existence (and executable-ness) of ./buttons-start.sh
 export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
+else
+echo "The demo is already installed"
+fi
+
 echo "$SID-$IID has been Galvanized"
