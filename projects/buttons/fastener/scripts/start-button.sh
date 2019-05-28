@@ -121,19 +121,27 @@ fi
 ##
 
 if [ ! -d "/$SID" ]; then
+# #############################
+# # if demo not installed
+# #############################
+
+#create demo dir and cd into
 mkdir $SID
 cd $SID
 
-# TODO: conditional on DISTRO: fetch if specified, otherwise ignore
-#   - if no DISTRO to fetch, then this becomes a simple Fusion out of the box, box
-
+#copy demo data from bucket and unzip
 gsutil cp gs://buttons-streams/$DISTRO .
 tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
 export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
+# #############################
+# # end if demo not installed
+# #############################
 else
+
+#don't do anything
 echo "The demo is already installed"
 fi
 
