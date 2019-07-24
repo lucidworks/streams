@@ -81,6 +81,10 @@ FUSION_API_BASE=http://localhost:8764/api
 
 echo "DISTRO: $DISTRO"
 
+# Adding SECURITY.JSON file so that Solr isn't WIDE OPEN
+SECURITY_JSON="{'authentication':{'blockUnknown':true,'class':'solr.BasicAuthPlugin','credentials':{'admin':'${ADMIN_PASSWORD}'}},'authorization':{'class':'solr.RuleBasedAuthorizationPlugin','user-role':{'solr':'admin'},'permissions':[{'name':'security-edit','role':'admin'}]}}"
+echo $SECURITY_JSON > ./security.json 
+
 # only download and untar if we do not have a /fusion directory
 if [ ! -d "/fusion" ]; then
 # #############################
@@ -116,6 +120,9 @@ else
 /fusion/bin/webapps stop && rm /fusion/var/webapps/webapps/* && /fusion/bin/webapps start
 fi
 
+# Put the security.json file on Zookeeper
+/fusion/$FUSION_VERSION/apps/solr-dist/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983/lwfusion/4.2.2/solr -cmd putfile /security.json security.json
+
 ##
 #    stream/app-specific handling
 ##
@@ -135,6 +142,9 @@ tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
 export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
+
+# Add security.json file to solr
+export SECURITY_JSON; ./buttons-start.sh
 
 # #############################
 # # end if demo not installed
