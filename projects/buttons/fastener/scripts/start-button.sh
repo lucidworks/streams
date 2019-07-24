@@ -121,7 +121,7 @@ else
 fi
 
 # Put the security.json file on Zookeeper
-/fusion/$FUSION_VERSION/apps/solr-dist/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983/lwfusion/4.2.2/solr -cmd putfile /security.json security.json
+/fusion/$FUSION_VERSION/apps/solr-dist/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983/lwfusion/${FUSION_VERSION/solr -cmd putfile /security.json security.json
 
 ##
 #    stream/app-specific handling
