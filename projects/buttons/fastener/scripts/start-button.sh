@@ -143,7 +143,7 @@ tar xfz $DISTRO
 # check for existence (and executable-ness) of ./buttons-start.sh
 export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
-# Add security.json file to solr
+# Add security.json file to script as environment variable to check existence.
 export SECURITY_JSON; ./buttons-start.sh
 
 # #############################
