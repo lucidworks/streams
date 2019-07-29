@@ -121,28 +121,19 @@ fi
 ##
 
 if [ ! -d "/$SID" ]; then
-# #############################
-# # if demo not installed
-# #############################
+  #create demo dir and cd into
+  mkdir $SID
+  cd $SID
 
-#create demo dir and cd into
-mkdir $SID
-cd $SID
-
-#copy demo data from bucket and unzip
-gsutil cp gs://buttons-streams/$DISTRO .
-tar xfz $DISTRO
-
-# check for existence (and executable-ness) of ./buttons-start.sh
-export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
-
-# #############################
-# # end if demo not installed
-# #############################
+  # copy lab-specific install from bucket and extract
+  gsutil cp gs://buttons-streams/$DISTRO .
+  tar xfz $DISTRO
 else
-
-#don't do anything
-echo "The demo is already installed"
+  echo "$SID is already installed; skipped downloading install."
+  cd $SID
 fi
+
+# TODO: check for existence (and executable-ness) of ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
 echo "$SID-$IID has been Galvanized"
