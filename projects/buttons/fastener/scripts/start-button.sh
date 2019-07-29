@@ -121,7 +121,7 @@ else
 fi
 
 # Put the security.json file on Zookeeper
-/fusion/$FUSION_VERSION/apps/solr-dist/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983/lwfusion/${FUSION_VERSION/solr -cmd putfile /security.json security.json
+/fusion/$FUSION_VERSION/apps/solr-dist/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983/lwfusion/${FUSION_VERSION}/solr -cmd putfile /security.json security.json
 
 ##
 #    stream/app-specific handling
@@ -141,10 +141,8 @@ gsutil cp gs://buttons-streams/$DISTRO .
 tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
-export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
+export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; export SECURITY_JSON ./buttons-start.sh
 
-# Add security.json file to script as environment variable to check existence.
-export SECURITY_JSON; ./buttons-start.sh
 
 # #############################
 # # end if demo not installed
