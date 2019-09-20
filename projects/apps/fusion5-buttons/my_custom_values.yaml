@@ -1,0 +1,56 @@
+cx-ui:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: "200m"
+      memory: 64Mi
+    requests:
+      cpu: "100m"
+      memory: 64Mi
+
+cx-api:
+  replicaCount: 1
+  volumeClaimTemplates:
+    storageSize: "5Gi"
+
+kafka:
+  replicaCount: 1
+  resources: {}
+  kafkaHeapOptions: "-Xmx512m"
+
+sql-service:
+  replicaCount: 0 # this is for the optional reader only, you'll still get 1 catalog manager pod
+  service:
+    thrift:
+      type: "ClusterIP"
+
+solr:
+  image:
+    tag: 8.2.0
+  updateStrategy:
+    type: "RollingUpdate"
+  javaMem: "-Xmx2g"
+  volumeClaimTemplates:
+    storageSize: "8Gi"
+  replicaCount: 1
+  resources: {}
+  zookeeper:
+    replicaCount: 1
+    resources: {}
+    env:
+      ZK_HEAP_SIZE: 1G
+
+ml-model-service:
+  modelRepository:
+    impl: gcs
+    gcs:
+      bucketName: fusion-ml-models-tim
+      baseDirectoryName: dev
+
+fusion-admin:
+  readinessProbe:
+    initialDelaySeconds: 240
+
+fusion-indexing:
+  readinessProbe:
+    initialDelaySeconds: 240
