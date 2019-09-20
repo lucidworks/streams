@@ -1,5 +1,8 @@
 set -x
 
+cd /
+rm -rf fusion/
+
 apt install kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
