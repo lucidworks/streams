@@ -120,6 +120,18 @@ fi
 #    stream/app-specific handling
 ##
 
+if [ ! -d "/$SID" ]; then
+  #create demo dir and cd into
+  mkdir $SID
+  cd $SID
+
+  # copy lab-specific install from bucket and extract
+  gsutil cp gs://buttons-streams/$DISTRO .
+  tar xfz $DISTRO
+else
+  echo "$SID is already installed; skipped downloading install."
+  cd $SID
+fi
 
 mkdir $SID
 cd $SID
