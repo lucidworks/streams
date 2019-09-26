@@ -25,12 +25,12 @@ evalcontent = eval(content)
 for item in evalcontent:
         if 'token' in item:
             key,token = item.split('-')
-            
+
 # google creds
 credentials = compute_engine.Credentials()
 compute = discovery.build('compute', 'v1', credentials=credentials)
 compute_beta = discovery.build('compute', 'beta', credentials=credentials)
-project = 'lucidworks-testing'
+project = 'labs-3-datastore-dep'
 
 # regions, zones & sizes (NOTE: us-east1 does not have an 'a' zone and has a 'd' zone)
 regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west2', 'asia-east2'] # numbered 0, 1, 2, etc. in name
@@ -62,7 +62,7 @@ def list():
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
-    
+
     try:
         items = []
         for r in regions:
@@ -74,7 +74,7 @@ def list():
                         if r == "us-east1" and z == "a":
                             zonealpha = "d"
 
-                        # query    
+                        # query
                         result = compute.instances().list(
                             project=project,
                             zone='%s-%s' % (r, zonealpha)
@@ -85,7 +85,7 @@ def list():
                         print "sleeping..."
                         time.sleep(3)
                         print "waking..."
-                        
+
                 try:
                     for item in result['items']:
                         items.append(item)
@@ -180,10 +180,10 @@ def addkey(instance_id):
     zonealpha = instance_id[-1]
 
     status = "FAIL"
-    
+
     # write ssh_key to file
     try:
-        # this be juju 
+        # this be juju
         # convert to use 'compute.instances.setmetadata'
         # for adding metadata to an instance
         f = open("keys/%s_rsa.pub" % username, "w")
@@ -194,7 +194,7 @@ def addkey(instance_id):
         command = "gcloud compute instances add-metadata %s --metadata-from-file ssh-keys=keys/%s_rsa.pub --zone=%s-%s" % (
             instance_id,
             username,
-            regions[int(regionint)], 
+            regions[int(regionint)],
             zonealpha
         )
         print "executing `%s`" % command
@@ -202,7 +202,7 @@ def addkey(instance_id):
         # sigh (at least it doesn't block)
         commands = command.split()
         p = subprocess.Popen(commands)
-        
+
         # os.system(command)
 
         status = "SUCCESS"
@@ -240,10 +240,10 @@ def delete(instance_id):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
-    
+
     regionint = instance_id[-2]
     zonealpha = instance_id[-1]
-    
+
     try:
         result = compute.instances().delete(
             project=project,
@@ -251,7 +251,7 @@ def delete(instance_id):
             instance=instance_id
         ).execute()
         return dumps(result)
-    
+
     except Exception as ex:
         print "error: %s" % ex
         return dumps({"response": "%s" % ex})
@@ -304,7 +304,7 @@ def create(stream_slug='lou'):
             return dumps({'error': "need token"})
     except:
         return dumps({'error': "need token"})
- 
+
     try:
         user = request.query['user']
     except:
@@ -377,7 +377,7 @@ def create(stream_slug='lou'):
 
         # otherwise wait a bit
         time.sleep(3)
-        
+
         # if we've made more than so many requests, we give up
         if trip > 20:
             name = "failed"

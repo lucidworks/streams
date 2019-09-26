@@ -19,7 +19,7 @@ push:
 
 upload:
 	git pull
-	gcloud app deploy app.yaml --project labs-209320
+	gcloud app deploy app.yaml --project labs-3-datastore-dep
 
 upload_cron:
 	git pull # pull for legacy functionality in upload
