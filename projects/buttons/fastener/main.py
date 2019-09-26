@@ -320,6 +320,14 @@ def create(stream_slug='lou'):
         size = sizes[0]
 
     try:
+        if stream_slug == "fusion5":
+            print "Fusion 5 placeholder"
+        else:
+            print "not Fusion 5 placeholder"
+    except:
+        print "Erik Hatcher's fault"
+
+    try:
         regionint = request.query['region']
         try:
             region = regions[int(regionint)]
@@ -439,7 +447,7 @@ def create(stream_slug='lou'):
         "items": [
         {
             "key": "startup-script-url",
-            "value": "https://raw.githubusercontent.com/sudosoup/streams/master/projects/buttons/fastener/scripts/start-button.sh"
+            "value": "https://raw.githubusercontent.com/sudosoup/streams/fusion-5-dev/projects/buttons/fastener/scripts/start-button.sh"
         },
         {
             "key": "password",
