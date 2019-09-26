@@ -318,6 +318,14 @@ def create(stream_slug='lou'):
             size = sizes[0]
     except:
         size = sizes[0]
+        
+    try:
+        if stream_slug == "fusion5":
+            print "Fusion 5 placeholder"
+        else:
+            print "not Fusion 5 placeholder"
+    except:
+        print "Erik Hatcher's fault"
 
     try:
         regionint = request.query['region']
