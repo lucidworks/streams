@@ -318,14 +318,27 @@ def create(stream_slug='lou'):
             size = sizes[0]
     except:
         size = sizes[0]
-        
+     # name and machine type
+    iid = id_generator()
+    name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
+    password = ""
+
+    # generate a good password
+    while not bool(re.search(r'\d', password)):
+        password = password_generator()
+
+   #F5 hack attack
+
     try:
         if stream_slug == "fusion5":
-            print "Fusion 5 placeholder"
+            subprocess.call(["./setup_f5_gke.sh", "-p", "labs-3-datastore-dep", "-c", name, "--create", "demo"])
+            return
         else:
             print "not Fusion 5 placeholder"
     except:
         print "Erik Hatcher's fault"
+    
+    #End F5 hack attack
 
     try:
         regionint = request.query['region']
@@ -393,14 +406,14 @@ def create(stream_slug='lou'):
             response.content_type = 'application/json'
             return dumps({'instance': name, 'password': password})
 
-    # name and machine type
-    iid = id_generator()
-    name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
-    password = ""
+    # # name and machine type
+    # iid = id_generator()
+    # name = 'button-%s-%s%s%s' % (stream_slug, iid, regionint, zonealpha) # use the int, not the name of region
+    # password = ""
 
-    # generate a good password
-    while not bool(re.search(r'\d', password)):
-        password = password_generator()
+    # # generate a good password
+    # while not bool(re.search(r'\d', password)):
+    #     password = password_generator()
 
     config = {
         'name': name,
