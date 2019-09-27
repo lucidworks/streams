@@ -324,12 +324,8 @@ def create(stream_slug='lou'):
     try:
         if stream_slug == "fusion5":
               # name and machine type
-            iid = id_generator()
-            name = 'button-%s-%s%s%s' % (stream_slug, iid, 3, 5) # hardcoded 3 and 5 for generator
-            password = ""
+            name = "Marcus Connorstein"
             # generate a good password
-            while not bool(re.search(r'\d', password)):
-                password = password_generator()
             subprocess.call(["./setup_f5_gke.sh", "-p", "labs-3-datastore-dep", "-c", name, "--create", "demo"])
             return
         else:
