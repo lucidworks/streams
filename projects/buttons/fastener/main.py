@@ -326,7 +326,7 @@ def create(stream_slug='lou'):
             # name and machine type
         name = "marcusconnorstein"
         # generate a good password
-        subprocess.call(["./setup_f5_gke.sh", "-p", "labs-3-datastore-dep", "-c", name, "--create", "demo"])
+        subprocess.call(["./install_fusion5.sh", name])
         return
     else:
         print "not Fusion 5 placeholder"

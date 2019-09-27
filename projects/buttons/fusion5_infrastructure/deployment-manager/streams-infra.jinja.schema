@@ -1,0 +1,15 @@
+info:
+  title: "Fusion Testing"
+  author: "Ian Thebridge"
+  description: "Creates the VPC, GKE cluster for running fusion testing"
+  version: "v0.1"
+
+imports:
+  - path: "templates/gke_cluster.py"
+  - path: "templates/vpc.py"
+
+properties:
+  region:
+    type: "string"
+    default: "us-west1"
+    description: "The region in which to create the infrastructure"

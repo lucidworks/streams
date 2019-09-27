@@ -1,0 +1,16 @@
+---
+
+resources:
+  - name: "vpc"
+    type: "templates/vpc.py"
+    properties:
+      vpc_name: "{{ env['deployment'] }}"
+      region: "{{ properties['region'] }}"
+
+  - name: "gke_cluster"
+    type: "templates/gke_cluster.py"
+    properties:
+      cluster_name: "{{ env['deployment'] }}"
+      vpc_id: "$(ref.vpc.vpc_id)"
+      subnetwork: "$(ref.vpc.public_subnet_id)"
+      region: "{{ properties['region'] }}"

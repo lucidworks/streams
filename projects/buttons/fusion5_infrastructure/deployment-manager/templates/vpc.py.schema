@@ -1,0 +1,19 @@
+info:
+  title: "vpc.py"
+  author: "Ian Thebridge"
+  description: "Creates a VPC for fusion testing"
+  version: "v0.1"
+
+properties:
+  vpc_name:
+    type: "string"
+    default: "vpc"
+    description: "The name of the VPC"
+  region:
+    type: "string"
+    default: "us-west1"
+    description: "The region to place resources in"
+  privateIpGoogleAccess:
+    type: "boolean"
+    default: true
+    description: "Whether to enable Private IP Google Access on subnetworks"
