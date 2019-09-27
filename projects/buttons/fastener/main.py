@@ -321,17 +321,17 @@ def create(stream_slug='lou'):
 
    #F5 hack attack
 
-    try:
-        if stream_slug == "fusion5":
-              # name and machine type
-            name = "Marcus Connorstein"
-            # generate a good password
-            subprocess.call(["./setup_f5_gke.sh", "-p", "labs-3-datastore-dep", "-c", name, "--create", "demo"])
-            return
-        else:
-            print "not Fusion 5 placeholder"
-    except:
-        print "Erik Hatcher's fault"
+    # try:
+    if stream_slug == "fusion5":
+            # name and machine type
+        name = "Marcus Connorstein"
+        # generate a good password
+        subprocess.call(["./setup_f5_gke.sh", "-p", "labs-3-datastore-dep", "-c", name, "--create", "demo"])
+        return
+    else:
+        print "not Fusion 5 placeholder"
+    # except:
+    #     print "Erik Hatcher's fault"
     
     #End F5 hack attack
 
