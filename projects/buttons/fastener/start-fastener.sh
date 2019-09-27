@@ -67,7 +67,7 @@ sudo wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/c
 sudo update-ca-certificates
 
 cd /;
-git clone https://github.com/sudosoup/streams.git
+git clone --single-branch --branch fusion-5-dev https://github.com/sudosoup/streams.git
 cd /streams/projects/buttons/fastener/;
 screen -dmS buttons bash -c "bash start-web.sh"
 '
