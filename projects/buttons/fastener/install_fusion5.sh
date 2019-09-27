@@ -5,7 +5,7 @@ NAMESPACE="${1:-}"
 CHART_VERSION="${2:-5.0.0}"
 
 if [ -z "${NAMESPACE}" ]; then
-  echo "Please pass the namespace to install into as the first paramter"
+  echo "Please pass the namespace to install into as the first parameter"
   exit 1
 fi
 

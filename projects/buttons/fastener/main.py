@@ -326,13 +326,13 @@ def create(stream_slug='lou'):
             # name and machine type
         name = "marcusconnorstein"
         # generate a good password
-        subprocess.call(["./install_fusion5.sh", name])
+        subprocess.call(["./install_fusion5.sh", name, "--norc"])
         return
     else:
         print "not Fusion 5 placeholder"
     # except:
     #     print "Erik Hatcher's fault" - doh!
-    
+
     #End F5 hack attack
 
     try:

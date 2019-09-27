@@ -41,7 +41,7 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
 --tags http-server,lucid,token-$TOKEN \
---scopes compute-rw \
+--scopes compute-rw,https://www.googleapis.com/auth/cloud-platform \
 --subnet=default $IP --network-tier=PREMIUM \
 --service-account 215861285408-compute@developer.gserviceaccount.com \
 $PREEMPTIBLE \
@@ -61,10 +61,21 @@ pip install --upgrade google-api-python-client
 pip install --upgrade pyasn1-modules
 pip install google-auth-httplib2
 
+curl -L https://git.io/get_helm.sh | bash
+helm init
+
+apt-get update && apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+apt-get update
+apt-get install -y kubectl
+
 #upgrade SSL
 sudo mkdir /usr/local/share/ca-certificates/cacert.org
 sudo wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
 sudo update-ca-certificates
+
+gcloud beta container clusters get-credentials lucidworks-streams-fusion5-cluster --region us-west1 --project labs-3-datastore-dep
 
 cd /;
 git clone --single-branch --branch fusion-5-dev https://github.com/sudosoup/streams.git
