@@ -324,9 +324,9 @@ def create(stream_slug='lou'):
     # try:
     if stream_slug == "fusion5":
             # name and machine type
-        name = "marcusconnorstein2"
+        name = id_generator()
         # generate a good password
-        subprocess.call(["su","-c","./install_fusion5.sh marcusconnorstein2", "-s", "/bin/sh", "connor_campbell"])
+        subprocess.call(["su","-c","./install_fusion5.sh " +name, "-s", "/bin/sh", "connor_campbell"])
         return
     else:
         print "not Fusion 5 placeholder"
