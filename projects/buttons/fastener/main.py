@@ -331,7 +331,7 @@ def create(stream_slug='lou'):
     else:
         print "not Fusion 5 placeholder"
     # except:
-    #     print "Erik Hatcher's fault"
+    #     print "Erik Hatcher's fault" - doh!
     
     #End F5 hack attack
 
