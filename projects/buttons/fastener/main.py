@@ -324,7 +324,7 @@ def create(stream_slug='lou'):
     # try:
     if stream_slug == "fusion5":
             # name and machine type
-        name = "Marcus Connorstein"
+        name = "marcusconnorstein"
         # generate a good password
         subprocess.call(["./setup_f5_gke.sh", "-p", "labs-3-datastore-dep", "-c", name, "--create", "demo"])
         return
