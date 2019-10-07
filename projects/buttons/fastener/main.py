@@ -327,7 +327,8 @@ def create(stream_slug='lou'):
         name = id_generator()
         # generate a good password
         subprocess.call(["su","-c","./install_fusion5.sh " +name, "-s", "/bin/sh", "connor_campbell"])
-        return
+        response.content_type = 'Application/json'
+        return dumps({'instance': name, 'password': 'createapassword'})
     else:
         print "not Fusion 5 placeholder"
     # except:
@@ -398,7 +399,7 @@ def create(stream_slug='lou'):
         if trip > 20:
             name = "failed"
             password = "failed"
-            response.content_type = 'application/json'
+            response.content_type = 'Application/json'
             return dumps({'instance': name, 'password': password})
 
     # # name and machine type
@@ -474,7 +475,7 @@ def create(stream_slug='lou'):
         print ex
         name = "failed"
         password = "failed"
-    response.content_type = 'application/json'
+    response.content_type = 'Application/json'
     return dumps({'instance': name, 'password': password})
 
 # start off
