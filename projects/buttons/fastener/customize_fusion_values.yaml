@@ -1,5 +1,5 @@
 cx-ui:
-  replicaCount: 1
+  replicaCount: 0
   resources:
     limits:
       cpu: "200m"
@@ -10,13 +10,13 @@ cx-ui:
   enabled: false
 
 cx-api:
-  replicaCount: 1
+  replicaCount: 0
   volumeClaimTemplates:
     storageSize: "5Gi"
   enabled: false
 
 kafka:
-  replicaCount: 1
+  replicaCount: 0
   resources: {}
   kafkaHeapOptions: "-Xmx512m"
   enabled: false
@@ -35,10 +35,10 @@ solr:
   javaMem: "-Xmx8g"
   volumeClaimTemplates:
     storageSize: "100Gi"
-  replicaCount: 3 
+  replicaCount: 1
   resources: {}
   zookeeper:
-    replicaCount: 3 
+    replicaCount: 1
     resources: {}
     env:
       ZK_HEAP_SIZE: 1G
@@ -47,7 +47,7 @@ ml-model-service:
   modelRepository:
     impl: fs
     gcs:
-      bucketName: 
+      bucketName:
       baseDirectoryName: dev
 
 fusion-admin:
