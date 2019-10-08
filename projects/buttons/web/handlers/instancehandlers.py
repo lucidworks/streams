@@ -639,10 +639,11 @@ class InstancesListHandler(BaseHandler):
             try:
                 # pull the response back TODO add error handling
                 response, content = http.request(url, 'POST', None, headers={})
+                self.add_message(" 642: content is " + content, 'success')
                 gcinstance = json.loads(content)
                 name = gcinstance['instance']
                 password = gcinstance['password']
-                
+
                 self.add_message(" 646: name is " + name + " password is " + password, 'success')
                 if name == "failed":
                     raise Exception("Instance start failed.")
