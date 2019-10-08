@@ -650,9 +650,8 @@ class InstancesListHandler(BaseHandler):
                 # Fusion 5
                 if is_alpha.match(name) and len(name) == 4:
 
-                    instance = Instance(
-
                 # set up an instance
+                self.add_message("On Line 570", 'success')
                 instance = Instance(
                     name = name,
                     ip = "http://" + name + ".streams.lucidworks.com",
@@ -663,22 +662,16 @@ class InstancesListHandler(BaseHandler):
                     password = password,
                     expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                     started = datetime.datetime.now()
-<<<<<<< HEAD
                 )
                 self.add_message(name + "name here.", 'warning')
 
                 instance.put()
-=======
-                    )
->>>>>>> b645e70c427870577c1c80dfe936f5775be00286
-
-                    instance.put()
-                    slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
                 # End Fusion 5
 
-                #Legacy 
-                else: 
-                # set up an instance 
+                #Legacy
+                else:
+                # set up an instance
                     instance = Instance(
                         name = name,
                         status = "PROVISIONING",
@@ -702,7 +695,7 @@ class InstancesListHandler(BaseHandler):
                     params = {'name': name}
                     return self.redirect_to('instance-detail', **params)
                 # end Legacy
-           
+
             except:
                 self.add_message('FOOBAR668. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
