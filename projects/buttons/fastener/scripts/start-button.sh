@@ -20,7 +20,7 @@ echo "IID: $IID"
 # etc....
 # }
 
-STREAM_JSON=`curl https://streams.lucidworks.com/api/stream/$SID`
+STREAM_JSON=`curl https://labs-3-datastore-dep.appspot.com/api/stream/$SID`
 
 # If needed, the STREAM_JSON can be faked:
 #    if [ "$SID" = "lou" ]; then
