@@ -696,7 +696,7 @@ class InstancesListHandler(BaseHandler):
                 # end Legacy
 
             except:
-                self.add_message('FOOBAR668. Please try again in a few minutes.', 'warning')
+                self.add_message('FOOBAR699. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
         else:
