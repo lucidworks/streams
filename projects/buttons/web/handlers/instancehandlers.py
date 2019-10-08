@@ -499,6 +499,8 @@ class StreamsStarterHandler(BaseHandler):
                 started = datetime.datetime.now()
             )
             instance.put()
+            self.add_message(name + "name here.", 'warning')
+
 
             slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
@@ -513,7 +515,7 @@ class StreamsStarterHandler(BaseHandler):
 
 
         except:
-            self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
+            self.add_message('FOOBAR515. Please try again in a few minutes.', 'warning')
             return self.redirect_to('instances-list')
 
 
@@ -566,6 +568,8 @@ class InstancesListHandler(BaseHandler):
     def post(self, sid=None): # a POST here is a create instance event
         # know the user
         user_info = User.get_by_id(long(self.user_id))
+        self.add_message("On Line 570", 'success')
+
 
         if sid and user_info.email:
 
@@ -645,7 +649,6 @@ class InstancesListHandler(BaseHandler):
 
                 # Fusion 5
                 if is_alpha.match(name) and len(name) == 4:
-
                     # set up an instance
                     instance = Instance(
                         name = name,
@@ -663,9 +666,9 @@ class InstancesListHandler(BaseHandler):
                     slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
                 # End Fusion 5
 
-                #Legacy 
-                else: 
-                # set up an instance 
+                #Legacy
+                else:
+                # set up an instance
                     instance = Instance(
                         name = name,
                         status = "PROVISIONING",
@@ -689,9 +692,9 @@ class InstancesListHandler(BaseHandler):
                     params = {'name': name}
                     return self.redirect_to('instance-detail', **params)
                 # end Legacy
-           
+
             except:
-                self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
+                self.add_message('FOOBAR668. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
         else:
