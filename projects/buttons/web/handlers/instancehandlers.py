@@ -648,7 +648,9 @@ class InstancesListHandler(BaseHandler):
                 is_alpha = re.compile("^[a-zA-Z]+$")
 
                 # Fusion 5
+                self.add_message("Before f5 if statement", 'success')
                 if is_alpha.match(name) and len(name) == 4:
+                    self.add_message("Inside f5 if statement", 'success')
                     # set up an instance
                     instance = Instance(
                         name = name,
