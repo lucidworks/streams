@@ -74,7 +74,7 @@
 
 {% block content %}
 
-{% if streams.sid == "fusion5" %}
+{% if instance.stream.get().fusion_version == "5.0.0" %}
   <h2>Fusion 5 aware!</h2>
 {% endif %}
 
