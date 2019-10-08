@@ -618,7 +618,7 @@ class InstancesListHandler(BaseHandler):
             ## TRATS TOH
 
             # make the instance call handle
-            http = httplib2.Http(timeout=100)
+            http = httplib2.Http(timeout=10)
 
             # where and who created it (labels for google cloud console)
             if config.isdev:
@@ -638,9 +638,7 @@ class InstancesListHandler(BaseHandler):
             self.add_message(url + "637 - Before try statment", 'success')
             try:
                 # pull the response back TODO add error handling
-                self.add_message(" 641: before the response", 'success')
                 response, content = http.request(url, 'POST', None, headers={})
-                self.add_message(" 642: content is " + content, 'success')
                 gcinstance = json.loads(content)
                 name = gcinstance['instance']
                 password = gcinstance['password']
@@ -670,6 +668,7 @@ class InstancesListHandler(BaseHandler):
 
                     instance.put()
                     slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                    return self.redirect_to('instance-detail', **params)
                 # End Fusion 5
 
                 #Legacy
