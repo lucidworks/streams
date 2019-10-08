@@ -618,7 +618,7 @@ class InstancesListHandler(BaseHandler):
             ## TRATS TOH
 
             # make the instance call handle
-            http = httplib2.Http(timeout=10)
+            http = httplib2.Http(timeout=100)
 
             # where and who created it (labels for google cloud console)
             if config.isdev:
