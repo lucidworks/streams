@@ -651,6 +651,7 @@ class InstancesListHandler(BaseHandler):
                 # set up an instance
                 instance = Instance(
                     name = name,
+                    ip = "http://" + name + ".streams.lucidworks.com",
                     status = "PROVISIONING",
                     user = user_info.key,
                     stream = stream.key,
