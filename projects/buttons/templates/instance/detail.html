@@ -78,6 +78,7 @@
   <h2>Fusion 5 aware!</h2>
 {% endif %}
 
+{% if instance.stream.get().fusion_version != "5.0.0" %}
 <!-- hidden delete modal -->
 <div id="delete" class="modal fade">
   <div class="modal-dialog">
@@ -183,6 +184,7 @@ The key's randomart image is:
     </div>
   </div>
 </div>
+{% endif %}
 <!-- end modal -->
 <div class="inverse">
   <div class="container">
