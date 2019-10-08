@@ -285,6 +285,11 @@ The key's randomart image is:
                           <td><strong>Password</strong></td>
                           <td> In this version of the Labs+5.0 integration, you set your on initial login. Please write it down.</td>
                         </tr>
+                        {% else %}
+                        <tr>
+                            <td><strong>Password</strong></td>
+                            <td><em><p id="password-{{ instance.password }}"><span id="password-field">{% if instance.password %}{{ instance.password }}</span></p></em>{% else %}N/A</em>{% endif %}</td></em>
+                          </tr>
                         {% endif %}
                       </table>
                     </div>
