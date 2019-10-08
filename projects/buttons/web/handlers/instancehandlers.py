@@ -642,10 +642,11 @@ class InstancesListHandler(BaseHandler):
                 gcinstance = json.loads(content)
                 name = gcinstance['instance']
                 password = gcinstance['password']
-
+                
+                self.add_message(" 646: name is " + name + " password is " + password, 'success')
                 if name == "failed":
                     raise Exception("Instance start failed.")
-                logging.info("This is the name " + name)
+                self.add_message("This is the 649 name: " + name)
                 is_alpha = re.compile("^[a-zA-Z]+$")
 
                 # Fusion 5
@@ -697,7 +698,7 @@ class InstancesListHandler(BaseHandler):
                 # end Legacy
 
             except:
-                self.add_message('FOOBAR699. Please try again in a few minutes.', 'warning')
+                self.add_message('FOOBAR 700. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
         else:
