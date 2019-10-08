@@ -499,9 +499,6 @@ class StreamsStarterHandler(BaseHandler):
                 started = datetime.datetime.now()
             )
             instance.put()
-            self.add_message(name + "name here.", 'warning')
-
-
             slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
             # give the db a second to update
@@ -515,7 +512,7 @@ class StreamsStarterHandler(BaseHandler):
 
 
         except:
-            self.add_message('FOOBAR515. Please try again in a few minutes.', 'warning')
+            self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
             return self.redirect_to('instances-list')
 
 
@@ -568,8 +565,6 @@ class InstancesListHandler(BaseHandler):
     def post(self, sid=None): # a POST here is a create instance event
         # know the user
         user_info = User.get_by_id(long(self.user_id))
-        self.add_message("On Line 570", 'success')
-
 
         if sid and user_info.email:
 
@@ -627,7 +622,6 @@ class InstancesListHandler(BaseHandler):
                 iuser = "%s-%s" % ("prod", user_info.username.lower())
 
             # build url to create new instance from stream
-            self.add_message("630 - Before url build", 'success')
             url = '%s/api/stream/%s?token=%s&user=%s&size=%s' % (
                 config.fastener_host_url,
                 sid,
@@ -635,7 +629,6 @@ class InstancesListHandler(BaseHandler):
                 iuser,
                 size
             )
-            self.add_message(url + "637 - Before try statment", 'success')
             try:
                 # pull the response back TODO add error handling
                 response, content = http.request(url, 'POST', None, headers={})
@@ -643,16 +636,13 @@ class InstancesListHandler(BaseHandler):
                 name = gcinstance['instance']
                 password = gcinstance['password']
 
-                self.add_message(" 646: name is " + name + " password is " + password, 'success')
                 if name == "failed":
                     raise Exception("Instance start failed.")
-                self.add_message("This is the 649 name: " + name)
+
                 is_alpha = re.compile("^[a-zA-Z]+$")
 
                 # Fusion 5
-                self.add_message("651 - Before f5 if statement", 'success')
                 if is_alpha.match(name) and len(name) == 4:
-                    self.add_message("653 - Inside f5 if statement", 'success')
                     # set up an instance
                     instance = Instance(
                         name = name,
@@ -700,7 +690,7 @@ class InstancesListHandler(BaseHandler):
                 # end Legacy
 
             except:
-                self.add_message('FOOBAR 700. Please try again in a few minutes.', 'warning')
+                self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
         else:
