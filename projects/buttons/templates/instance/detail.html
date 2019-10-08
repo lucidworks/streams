@@ -255,16 +255,21 @@ The key's randomart image is:
                         <td><a target="_blank" href="{{ instance.app_link }}">{{ instance.stream.get().name }}</a> | <a href="{{ instance.app_link }}">direct link</a></td>
                       </tr>
                       {% endif %}
-                      {% if instance.admin_link != None %}
+                      {% if instance.admin_link != None and instance.stream.get().fusion_version != "5.0.0" %}
                       <tr>
                         <td><strong>Fusion Admin</strong></td>
                         <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a> | <a href="{{ instance.admin_link }}">direct link</a></td>
                       </tr>
+                      {% elif instance.ip and instance.stream.get().fusion_version == "5.0.0" %}
+                      <tr>
+                        <td><strong>Fusion 5 Admin</strong></td>
+                        <td><a target="_blank" href="{{ instance.ip }}">{{ instance.ip }}</a> | <a href="{{ instance.ip }}">direct link</a></td>
+                      </tr>
                       {% else %}
                       <tr>
-                        <td><strong>Admin Notice</strong></td>
-                        <td id="state-eta-td">Calculating time to running.</td>
-                      </tr>
+                          <td><strong>Admin Notice</strong></td>
+                          <td id="state-eta-td">Calculating time to running.</td>
+                        </tr>
                       {% endif %}
                     </table>
 
