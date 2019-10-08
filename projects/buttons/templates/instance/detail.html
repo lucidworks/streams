@@ -448,7 +448,7 @@ The key's randomart image is:
     }, 20000);
 
     // timer hack for the constantly provisioning Kube pods
-    (function(){
+    (function(jQuery){
       var dateStarted = Date.parse(instance.created);
       var tenMinutesLater = dateStarted + 600000;
       if(tenMinutesLater < Date.now()){
@@ -456,7 +456,7 @@ The key's randomart image is:
         $(".instance-5-status").removeClass("label-warning");
         $(".instance-5-status").addClass("label-success");
       }
-    })();
+    })($);
     // end Kube pod interval
 
     // all this duplication needs to be refactored
