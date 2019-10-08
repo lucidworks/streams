@@ -662,7 +662,7 @@ class InstancesListHandler(BaseHandler):
                         started = datetime.datetime.now()
                         )
 
-                        instance.put()
+                    instance.put()
                     slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
                 # End Fusion 5
 
