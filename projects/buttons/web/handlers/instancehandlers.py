@@ -635,7 +635,7 @@ class InstancesListHandler(BaseHandler):
                 iuser,
                 size
             )
-            self.add_message("637 - Before try statment", 'success')
+            self.add_message(url + "637 - Before try statment", 'success')
             try:
                 # pull the response back TODO add error handling
                 response, content = http.request(url, 'POST', None, headers={})
