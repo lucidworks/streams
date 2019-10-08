@@ -398,7 +398,7 @@ The key's randomart image is:
     } else {
       // otherwise we hae a running instance that has failed to deploy or other horrors
       var eta_minutes = 0;
-      if( "{{ instance.stream.get().fusion_version == '5.0.0' }}") {
+      if( {{ instance.stream.get().fusion_version == '5.0.0' }} ) {
         $('#state-eta-td').html("Instance is running");
       } else {
         $('#state-eta-td').html("Instance failed deployment. Please delete and restart!");
@@ -420,7 +420,7 @@ The key's randomart image is:
       } else {
         // otherwise we hae a running instance that has failed to deploy or other horrors
         var eta_minutes = 0;
-          if( "{{ instance.stream.get().fusion_version == '5.0.0' }}") {
+          if( {{ instance.stream.get().fusion_version == '5.0.0' }} ) {
             $('#state-eta-td').html("Instance is running.");
           } else {
             $('#state-eta-td').html("Instance failed deployment. Please delete and restart!");
