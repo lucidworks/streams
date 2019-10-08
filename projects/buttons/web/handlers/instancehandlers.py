@@ -618,7 +618,7 @@ class InstancesListHandler(BaseHandler):
             ## TRATS TOH
 
             # make the instance call handle
-            http = httplib2.Http(timeout=10)
+            http = httplib2.Http(timeout=100)
 
             # where and who created it (labels for google cloud console)
             if config.isdev:
@@ -668,6 +668,7 @@ class InstancesListHandler(BaseHandler):
 
                     instance.put()
                     slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                    params = {'name': name}
                     return self.redirect_to('instance-detail', **params)
                 # End Fusion 5
 
