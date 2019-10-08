@@ -72,113 +72,12 @@
   {% include 'navbar.html' %}
 {% endblock %}
 
+{% if stream.sid == "fusion5" %}
+
+{% endif %}
+
 {% block content %}
-<!-- hidden delete modal -->
-<div id="delete" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete this instance?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="delete-button" class="btn btn-danger">Delete Instance</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="addssh" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Adding SSH Key...</h4>
-      </div>
-      <div class="modal-body">
-        <p>In a few seconds, this instance will install the SSH key used in your settings. To connect to your instance, do the following:</p>
-        <pre>ssh -i ~/.ssh/id_lucidlabs {{ user_info.username }}@{{ instance.ip }}</pre>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="nossh" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Create & Add an SSH Key</h4>
-      </div>
-      <div class="modal-body">
-        <p>1. Run this command in a terminal locally:</p>
-<pre>
-  ssh-keygen -f ~/.ssh/id_lucidlabs -t rsa -b 4096 -C "{{ user_info.username }}"
-</pre>
-        <p>2. Compare sample output of run:</p>
-<pre>
-Generating public/private rsa key pair.
-Your identification has been saved in id_lucidlabs.
-Your public key has been saved in id_lucidlabs.pub.
-The key fingerprint is: 
-SHA256:rTsH3I0S4InSaFbA3KwErl0XTmWIGfWrUVnQCkIHUFUU marcus_sorealheis
-The key's randomart image is:
-+---[RSA 4096]----+
-|  ..+o*+BE .     |
-|   o = +  o      |
-|    o = o        |
-|     O =         |
-|    = o S.       |
-|  .  o o. o      |
-| . +o =  + .     |
-|..oo...+= .      |
-|ooo.o.+B+o       |
-+----[SHA256]-----+
-</pre>
-        <p>3. Print your public key to the terminal and copy the contents of the <strong>id_lucidlabs.pub</strong> file to your clipboard:</p>
-<pre>
-  cat ~/.ssh/id_lucidlabs.pub
-</pre>
-          <p>
-            Your public key should look like the example below. Copy text <b>ssh-rsa</b> up to and including your <b>username</b>.
-          </p>
-          <pre>
-          <b>ssh-rsa</b> AAAAB3NzaC1yc2EAAAADAQ
-          ABAAACAQC55539j03QXiYBPnkm3CIUkfnBp+t
-          5/LoIsUnmLLCrL5+JHydoA2iKHYWu0aqfbA8M
-          ncFRq1mBCN7VC9oDfd63kufIyZZwEwYxWzdgF
-          GdG9mZmXsuU9quHbPjYxotMc7UNoj8cqHh8pl
-          uAbNtm8e5S9rLK6htMj6rFrkzsFtCVBc4pQQU
-          Sw1bBKu9OY6Q1wUyoWcsoTXZNaBmVeUmB/jvS
-          Vj1Mt23vXSatqvcP95URpr0UGXzrzNfTURbbm
-          5/j86iOGloUHQSqyxQ676pLcaN1X1i0IxuG7r
-          GXT7go1IbamdIAwzOJwaR42jh2c4lzZNui93f
-          Y6z34MUFFf9eiDQ02M6llaBnnBwYPnM2+kOPd
-          afgIkKFcSVpRLWJeu7uuFpk+uy1UTfaYSqCL/
-          AdhqA8uq8CkStKGz22Sq9jm48/x00I8x+fJD5
-          DD4/r1VyddJOZnoNZ1YmztJ3b4hpSnpwHjZTX
-          eKNixL48D0tgGdESZLXpkuDSTuYy+GycIq6Sd
-          YruWOqOMcoVGybmc20bgBcypsUxPW91W8YrX0
-          rOPd7Sr2DgQTbcrqRD++5zooiUeV7XKx8pMcl
-          JPzZRR3sesyF2syKQvuyFZOz2KxDvEkIpbm0Y
-          qAgR8tJsQfwReq0eKi4J9GKp1czRdHEaw0XXU
-          ytW9o4UM2DWtqQ== <b>marcus_sorealheis</b>
-        </pre>
-      </p> 
-      <p>4. Navigate to your <a href="/settings">settings</a> page to paste in and save your SSH key.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end modal -->
+
 <div class="inverse">
   <div class="container">
     <div class="row">
@@ -217,7 +116,7 @@ The key's randomart image is:
               <div id="instance-guide-div" class="bs-callout bs-callout-warning bs-callout-top">
                 <h4>About This Temporary Instance</h4>
                 <ul class="guide">
-                  <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
+                  <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template, which is a Labs beta integration.</li>
                   {% if instance.status == "TERMINATED" %}<li>This instance has been put to sleep temporarily, but may be restarted.</li>{% elif instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
                   <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
                   <li>Sleeping instances may be restarted at any time before their <em>life timer</em> runs out.</li>
@@ -238,16 +137,10 @@ The key's randomart image is:
                   <div class="col-md-6">
                     <h3><small>Instance Links</small></h3>
                     <table class="table table-striped table-responsive">
-                      {% if instance.app_link %}
-                      <tr>
-                        <td><strong>Demo URL</strong></td>
-                        <td><a target="_blank" href="{{ instance.app_link }}">{{ instance.stream.get().name }}</a> | <a href="{{ instance.app_link }}">direct link</a></td>
-                      </tr>
-                      {% endif %}
-                      {% if instance.admin_link != None %}
+                      {% if instance.ip != None %}
                       <tr>
                         <td><strong>Fusion Admin</strong></td>
-                        <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a> | <a href="{{ instance.admin_link }}">direct link</a></td>
+                        <td><a target="_blank" href="{{ instance.ip }}">{{ instance.ip }}</a> | <a href="{{ instance.ip}}">direct link</a></td>
                       </tr>
                       {% else %}
                       <tr>
@@ -264,10 +157,6 @@ The key's randomart image is:
                           <td><strong>Username</strong></td>
                           <td><em>admin</em></td>
                         </tr>
-                        </tr>
-                          <td><strong>Password</strong></td>
-                          <td><em><p id="password-{{ instance.password }}"><span id="password-field">{% if instance.password %}{{ instance.password }}</span></p></em>{% else %}N/A</em>{% endif %}</td></em>
-                        </tr>
                       </table>
                     </div>
                   </div>
@@ -281,7 +170,7 @@ The key's randomart image is:
                         </tr>
                           <tr>
                             <td><strong>Public IPv4</strong></td>
-                            <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
+                            <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"> </input></td>
                           </tr>
                         <tr>
                           <td><strong>Size</strong></td>
@@ -300,9 +189,6 @@ The key's randomart image is:
                   </div>
                 </div>
               
-                <div class="tab-pane" id="console">
-                  <pre style="white-space: pre-line" id="console_log">{% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}</pre>
-                </div>
               
               </div>
             </div>
@@ -316,18 +202,7 @@ The key's randomart image is:
           {% if instance.status == "TERMINATED" %}
             <button id="instance-start-bottom" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Instance</button>                    
           {% endif %}
-          {% if guide == False %}
-            <button id="instance-guide-open" class="btn btn-warning"><span class="glyphicon glyphicon-book"></span> View Guide</button>
-          {% endif %}
-          {% if user_info.ssh_key %}
-          {% if instance.status != "PENDING" %}
-          {% if instance.ip != "NONE" %}
-          <button id="instance-addkey" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
-          {% endif %}
-          {% endif %}
-          {% else %}
-          <button id="instance-nossh" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
-          {% endif %}
+
         </div>
       </div>
     </div>
@@ -386,7 +261,7 @@ The key's randomart image is:
     } else {
       // otherwise we hae a running instance that has failed to deploy or other horrors
       var eta_minutes = 0;
-      $('#state-eta-td').html("Instance failed deployment. Please delete.");
+      $('#state-eta-td').html("Instance is running.");
     }
     
     // eta coded to 10 minutes (600 seconds)
@@ -404,7 +279,7 @@ The key's randomart image is:
       } else {
         // otherwise we hae a running instance that has failed to deploy or other horrors
         var eta_minutes = 0;
-        $('#state-eta-td').html("Instance failed deployment. Please delete and restart!");
+        $('#state-eta-td').html("Instance is ready.");
       }
     }, 20000);
 
@@ -568,7 +443,7 @@ The key's randomart image is:
       var password = this.id.split("-").pop();
       var dummy = $('<input>').val(password).appendTo('body').select();
       document.execCommand('copy');
-      alertify.success("Password copied.");
+      alertify.success("Not a real password. Please navigate to your Fusion 5 instance.");
       $('#password-field').css("background-color", "lightblue");
       dummy.remove();
     });
@@ -578,16 +453,7 @@ The key's randomart image is:
       window.location = "/instances/";
     });
 
-    // delete button
-    $('#instance-delete').click(function() {
-      $('#delete').modal();
-    });
-    
-    // delete button
-    $('#instance-guide').click(function() {
-      $.cookie('guide', 'closed');
-      $('#instance-guide-div').remove();
-    });
+  
 
     // delete button
     $('#instance-guide-open').click(function() {
@@ -595,19 +461,7 @@ The key's randomart image is:
       location.reload();
     });
 
-    $('#delete-button').click(function() {
-      $('#delete').modal('hide');
-      $.ajax({
-        url: '/instance/{{ instance.name }}/delete?_csrf_token='+csrf_token,
-        type: 'GET',
-        statusCode: {
-          200: function() {
-            alertify.success("Instance {{ instance.name }} marked to be deleted!");
-            setTimeout(function(){ location.reload(); }, 2000);
-          }
-        }
-      });
-    });
+
 
     $('#instance-start').click(function() {
       $.ajax({
@@ -673,6 +527,616 @@ The key's randomart image is:
 
 </script>
 {% endblock %}
+
+<!-- Start the Legacy Fusion Lab Panel-->
+
+
+{% elif % }
+
+  {% block content %}
+  <!-- hidden delete modal -->
+  <div id="delete" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this instance?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" id="delete-button" class="btn btn-danger">Delete Instance</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="addssh" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Adding SSH Key...</h4>
+        </div>
+        <div class="modal-body">
+          <p>In a few seconds, this instance will install the SSH key used in your settings. To connect to your instance, do the following:</p>
+          <pre>ssh -i ~/.ssh/id_lucidlabs {{ user_info.username }}@{{ instance.ip }}</pre>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="nossh" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Create & Add an SSH Key</h4>
+        </div>
+        <div class="modal-body">
+          <p>1. Run this command in a terminal locally:</p>
+  <pre>
+    ssh-keygen -f ~/.ssh/id_lucidlabs -t rsa -b 4096 -C "{{ user_info.username }}"
+  </pre>
+          <p>2. Compare sample output of run:</p>
+  <pre>
+  Generating public/private rsa key pair.
+  Your identification has been saved in id_lucidlabs.
+  Your public key has been saved in id_lucidlabs.pub.
+  The key fingerprint is: 
+  SHA256:rTsH3I0S4InSaFbA3KwErl0XTmWIGfWrUVnQCkIHUFUU marcus_sorealheis
+  The randomart image for this key is:
+  +---[RSA 4096]----+
+  |  ..+o*+BE .     |
+  |   o = +  o      |
+  |    o = o        |
+  |     O =         |
+  |    = o S.       |
+  |  .  o o. o      |
+  | . +o =  + .     |
+  |..oo...+= .      |
+  |ooo.o.+B+o       |
+  +----[SHA256]-----+
+  </pre>
+          <p>3. Print your public key to the terminal and copy the contents of the <strong>id_lucidlabs.pub</strong> file to your clipboard:</p>
+  <pre>
+    cat ~/.ssh/id_lucidlabs.pub
+  </pre>
+            <p>
+              Your public key should look like the example below. Copy text <b>ssh-rsa</b> up to and including your <b>username</b>.
+            </p>
+            <pre>
+            <b>ssh-rsa</b> AAAAB3NzaC1yc2EAAAADAQ
+            ABAAACAQC55539j03QXiYBPnkm3CIUkfnBp+t
+            5/LoIsUnmLLCrL5+JHydoA2iKHYWu0aqfbA8M
+            ncFRq1mBCN7VC9oDfd63kufIyZZwEwYxWzdgF
+            GdG9mZmXsuU9quHbPjYxotMc7UNoj8cqHh8pl
+            uAbNtm8e5S9rLK6htMj6rFrkzsFtCVBc4pQQU
+            Sw1bBKu9OY6Q1wUyoWcsoTXZNaBmVeUmB/jvS
+            Vj1Mt23vXSatqvcP95URpr0UGXzrzNfTURbbm
+            5/j86iOGloUHQSqyxQ676pLcaN1X1i0IxuG7r
+            GXT7go1IbamdIAwzOJwaR42jh2c4lzZNui93f
+            Y6z34MUFFf9eiDQ02M6llaBnnBwYPnM2+kOPd
+            afgIkKFcSVpRLWJeu7uuFpk+uy1UTfaYSqCL/
+            AdhqA8uq8CkStKGz22Sq9jm48/x00I8x+fJD5
+            DD4/r1VyddJOZnoNZ1YmztJ3b4hpSnpwHjZTX
+            eKNixL48D0tgGdESZLXpkuDSTuYy+GycIq6Sd
+            YruWOqOMcoVGybmc20bgBcypsUxPW91W8YrX0
+            rOPd7Sr2DgQTbcrqRD++5zooiUeV7XKx8pMcl
+            JPzZRR3sesyF2syKQvuyFZOz2KxDvEkIpbm0Y
+            qAgR8tJsQfwReq0eKi4J9GKp1czRdHEaw0XXU
+            ytW9o4UM2DWtqQ== <b>marcus_sorealheis</b>
+          </pre>
+        </p> 
+        <p>4. Navigate to your <a href="/settings">settings</a> page to paste in and save your SSH key.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end modal -->
+  <div class="inverse">
+    <div class="container">
+      <div class="row">
+        <h1>Instance Details</h1>
+        <p class="blurb">&#8220;We are not makers of history. We are made by history.&#8221; ― Martin Luther King, Jr.</p>
+      </div>
+    </div>
+  </div>
+  <div class="container content">
+    <div class="row">
+      <div class="col-md-2">
+      {{ macros.side_menu("instances") }}
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="section-header">
+              <h3><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></h3>
+              {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Sleeping Instance</button>
+              {% elif instance.status == "PROVISIONING" and instance.expired %}<button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>    
+              {% elif instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
+              <div class="row instance-detail-row">
+                <div class="col-md-6">
+                  <div class="text-center"><h3><small>Run Timer</small></h3></div>
+                  <div id="run-timer-svg" class="text-center"></div>
+                </div>
+                <div class="col-md-6">
+                  <div class="text-center"><h3><small>Life Timer</small></h3></div>
+                  <div id="life-timer-svg" class="text-center"></div>
+                </div>
+              </div>
+              
+              <div class="row">
+                {% if guide %}
+                <div id="instance-guide-div" class="bs-callout bs-callout-warning bs-callout-top">
+                  <h4>About This Temporary Instance</h4>
+                  <ul class="guide">
+                    <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
+                    {% if instance.status == "TERMINATED" %}<li>This instance has been put to sleep temporarily, but may be restarted.</li>{% elif instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
+                    <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
+                    <li>Sleeping instances may be restarted at any time before their <em>life timer</em> runs out.</li>
+                    <li>The <em>life timer</em> for this instance is set to expire after <strong> 168 hours (7 days)</strong>.</li>
+                    <li>When a <em>life timer</em> runs out, the instance will be <strong>terminated AND deleted</strong>.</li>
+                  </ul>
+                  <p><button type="button" id="instance-guide" class="btn btn-warning">Close Guide</button></p>
+                </div>
+                {% endif %}
+                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                  <li class="active"><a href="#instance" data-toggle="tab">Access & Attributes</a></li>
+                  <li><a href="#console" data-toggle="tab">Console Log</a></li>
+                </ul>
+                
+                <div class="tab-content">
+                  <div class="tab-pane active" id="instance">
+
+                    <div class="col-md-6">
+                      <h3><small>Instance Links</small></h3>
+                      <table class="table table-striped table-responsive">
+                        {% if instance.app_link %}
+                        <tr>
+                          <td><strong>Demo URL</strong></td>
+                          <td><a target="_blank" href="{{ instance.app_link }}">{{ instance.stream.get().name }}</a> | <a href="{{ instance.app_link }}">direct link</a></td>
+                        </tr>
+                        {% endif %}
+                        {% if instance.admin_link != None %}
+                        <tr>
+                          <td><strong>Fusion Admin</strong></td>
+                          <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a> | <a href="{{ instance.admin_link }}">direct link</a></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                          <td><strong>Admin Notice</strong></td>
+                          <td id="state-eta-td">Calculating time to running.</td>
+                        </tr>
+                        {% endif %}
+                      </table>
+
+                      <div><h3><small>Fusion Credentials</small></h3></div>
+                      <div>
+                        <table class="table table-striped table-responsive">
+                          <tr>
+                            <td><strong>Username</strong></td>
+                            <td><em>admin</em></td>
+                          </tr>
+                          </tr>
+                            <td><strong>Password</strong></td>
+                            <td><em><p id="password-{{ instance.password }}"><span id="password-field">{% if instance.password %}{{ instance.password }}</span></p></em>{% else %}N/A</em>{% endif %}</td></em>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div><h3><small>Instance Attributes</small></h3></div>
+                      <div>
+                        <table class="table table-striped table-responsive">
+                          <tr>
+                            <td><strong>Status</strong></td>
+                            <td colspan="2">{{ macros.instance_status(instance.status) }}</td>
+                          </tr>
+                            <tr>
+                              <td><strong>Public IPv4</strong></td>
+                              <td><input id="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}" class="ip" value="{% if instance.ip %}{{ instance.ip }}{% else %}None{% endif %}"></input></td>
+                            </tr>
+                          <tr>
+                            <td><strong>Size</strong></td>
+                            <td colspan="2">{{ instance_cores }} Cores</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Memory</strong></td>
+                            <td colspan="2">{{ instance_memory }} GB</td>
+                          </tr>
+                          <tr>
+                            <td><strong>Disk</strong></td>
+                            <td colspan=2>100 GB</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="tab-pane" id="console">
+                    <pre style="white-space: pre-line" id="console_log">{% if console %}{{ console }}{% else %}Waiting on serial console output...{% endif %}</pre>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row button-padding">
+          <div class="col-md-12">
+            <button id="instance-list" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
+            <button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>
+            {% if instance.status == "TERMINATED" %}
+              <button id="instance-start-bottom" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Instance</button>                    
+            {% endif %}
+            {% if guide == False %}
+              <button id="instance-guide-open" class="btn btn-warning"><span class="glyphicon glyphicon-book"></span> View Guide</button>
+            {% endif %}
+            {% if user_info.ssh_key %}
+            {% if instance.status != "PENDING" %}
+            {% if instance.ip != "NONE" %}
+            <button id="instance-addkey" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
+            {% endif %}
+            {% endif %}
+            {% else %}
+            <button id="instance-nossh" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block footer %}
+  <div class="footer-strip">
+    <div class="container">
+      <div class="row">
+      </div>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+  {% endblock %}
+
+  {% block javascript %}
+  <script src="/js/jquery.editable.min.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    $().ready(function() {
+      // standard stuff
+      var csrf_token = "{{ csrf_token() }}";
+      var channel_token = "{{ channel_token }}";
+      var refresh_channel = "{{ refresh_channel }}";
+
+      // edit name
+      $("span#edit-name").editable("click", function(e){
+        console.log(e.value);
+        $.ajax({
+          url: '/instance/{{ instance.name }}/rename?_csrf_token='+csrf_token+'&renamed='+e.value,
+          type: 'GET',
+          statusCode: {
+            200: function() {
+              alertify.success("Instance renamed.");
+              setTimeout(function(){ location.reload(); }, 2000);
+            }
+          }
+        });
+      });
+
+      //
+      // begin timer madness
+      //
+      var eta_epoch_time = parseInt((new Date).getTime()/1000);
+      var eta_started = parseInt({{ instance.started|epoch }});
+      var eta_epoch = eta_epoch_time - eta_started;
+      if (eta_epoch < 600) {
+        var eta_minutes = 10 - (eta_epoch / 60);
+        $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
+        $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
+      } else if ("{{ instance.status }}" == "TERMINATED") {
+        var eta_minutes = 0;
+        $('#state-eta-td').html("Instance was put to sleep temporarily. Click start to resume use.");
+      } else {
+        // otherwise we hae a running instance that has failed to deploy or other horrors
+        var eta_minutes = 0;
+        $('#state-eta-td').html("Instance failed deployment. Please delete.");
+      }
+      
+      // eta coded to 10 minutes (600 seconds)
+      setInterval(function() {
+        var eta_epoch_time = parseInt((new Date).getTime()/1000);
+        var eta_started = parseInt({{ instance.started|epoch }});
+        var eta_epoch = eta_epoch_time - eta_started;
+        if (eta_epoch < 600) {
+          var eta_minutes = 10 - (eta_epoch / 60);
+          $('#state-eta').html("~"+parseInt(eta_minutes)+" Minutes to Running");
+          $('#state-eta-td').html("Instance will be running in ~"+parseInt(eta_minutes)+" minutes.");
+        } else if ("{{ instance.status }}" == "TERMINATED") {
+          var eta_minutes = 0;
+          $('#state-eta-td').html("Instance was terminated. Click start to resume use.");
+        } else {
+          // otherwise we hae a running instance that has failed to deploy or other horrors
+          var eta_minutes = 0;
+          $('#state-eta-td').html("Instance failed deployment. Please delete and restart!");
+        }
+      }, 20000);
+
+      // all this duplication needs to be refactored
+      var width = 430,
+          height = 180;
+
+      var fields = [
+        {value: 24, size: 24, label: "h", update: function(seconds) { return Math.floor(seconds/3600); }},
+        {value: 60, size: 60, label: "m", update: function(seconds) { 
+          var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+          return Math.floor(leftovers/60);
+        }},
+        {value: 60, size: 60, label: "s", update: function(seconds) { 
+          var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+          leftovers = leftovers - (Math.floor(leftovers/60) * 60);
+          return Math.floor(leftovers);
+        }}
+      ];
+
+      var arc = d3.svg.arc()
+          .innerRadius(40)
+          .outerRadius(60)
+          .startAngle(0)
+          .endAngle(function(d) { return (d.value / d.size) * 2 * Math.PI; });
+
+      var svg = d3.select("#run-timer-svg").append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+      var field = svg.selectAll(".field")
+          .data(fields)
+        .enter().append("g")
+          .attr("transform", function(d, i) { return "translate(" + (i * 2 + 1.2) / 6.9 * width + "," + height / 2 + ")"; })
+          .attr("class", "field");
+
+      field.append("path")
+          .attr("class", "path path--background")
+          .attr("d", arc);
+
+      var path = field.append("path")
+          .attr("class", "path path--foreground");
+
+      var label = field.append("text")
+          .attr("class", "label")
+          .attr("dy", ".35em");
+
+      (function update() {
+        var epoch_time = parseInt((new Date).getTime()/1000);
+        var expires = parseInt({{ instance.expires|epoch }});
+        var sleeps = parseInt({{ instance.started|epoch }})+86400;
+        var life_timer = expires - epoch_time;
+        var run_timer = sleeps - epoch_time;
+        
+        if (life_timer < 0) {
+          life_timer = 0;
+        }
+        if (run_timer < 0) {
+          run_timer = 0;
+        }
+
+        var now = new Date();
+        field
+            .each(function(d) { d.previous = d.value, d.value = d.update(run_timer); });
+
+        path.transition()
+            .ease("elastic")
+            .duration(750)
+            .attrTween("d", arcTween);
+
+        label
+            .text(function(d) { return d.value + d.label; });
+
+        setTimeout(update, 1000 - (now % 1000));
+      })();
+
+      var width = 430,
+          height = 180;
+
+      var fields2 = [
+        {value: 168, size: 168, label: "h", update: function(seconds) { return Math.floor(seconds/3600); }},
+        {value: 60, size: 60, label: "m", update: function(seconds) { 
+          var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+          return Math.floor(leftovers/60);
+        }},
+        {value: 60, size: 60, label: "s", update: function(seconds) { 
+          var leftovers = seconds - (Math.floor(seconds/3600) * 3600);
+          leftovers = leftovers - (Math.floor(leftovers/60) * 60);
+          return Math.floor(leftovers);
+        }}
+      ];
+
+      var arc2 = d3.svg.arc()
+          .innerRadius(40)
+          .outerRadius(60)
+          .startAngle(0)
+          .endAngle(function(d) { return (d.value / d.size) * 2 * Math.PI; });
+
+      var svg2 = d3.select("#life-timer-svg").append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+      var field2 = svg2.selectAll(".field")
+          .data(fields2)
+        .enter().append("g")
+          .attr("transform", function(d, i) { return "translate(" + (i * 2 + 1.2) / 6.9 * width + "," + height / 2 + ")"; })
+          .attr("class", "field");
+
+      field2.append("path")
+          .attr("class", "path path--background")
+          .attr("d", arc2);
+
+      var path2 = field2.append("path")
+          .attr("class", "path path--foreground");
+
+      var label2 = field2.append("text")
+          .attr("class", "label")
+          .attr("dy", ".35em");
+
+      (function update2() {
+        var epoch_time = parseInt((new Date).getTime()/1000);
+        var expires = parseInt({{ instance.expires|epoch }});
+        var sleeps = parseInt({{ instance.started|epoch }})+86400;
+        var life_timer = expires - epoch_time;
+        var run_timer = sleeps - epoch_time;
+        
+        if (life_timer < 0) {
+          life_timer = 0;
+        }
+        if (run_timer < 0) {
+          run_timer = 0;
+        }
+
+        var now = new Date();
+        field2
+            .each(function(d) { d.previous = d.value, d.value = d.update(life_timer); });
+
+        path2.transition()
+            .ease("elastic")
+            .duration(750)
+            .attrTween("d", arcTween);
+
+        label2
+            .text(function(d) { return d.value + d.label; });
+
+        setTimeout(update2, 1000 - (now % 1000));
+      })();
+
+      function arcTween(b) {
+        var i = d3.interpolate({value: b.previous}, b);
+        return function(t) {
+          return arc(i(t));
+        };
+      }
+      // 
+      // end timer madness
+      //
+
+      // password copy
+      $('#password-{{ instance.password }}').click(function(index){
+        var password = this.id.split("-").pop();
+        var dummy = $('<input>').val(password).appendTo('body').select();
+        document.execCommand('copy');
+        alertify.success("Password copied.");
+        $('#password-field').css("background-color", "lightblue");
+        dummy.remove();
+      });
+
+      // apps index
+      $('#instance-list').click(function() {
+        window.location = "/instances/";
+      });
+
+      // delete button
+      $('#instance-delete').click(function() {
+        $('#delete').modal();
+      });
+      
+      // delete button
+      $('#instance-guide').click(function() {
+        $.cookie('guide', 'closed');
+        $('#instance-guide-div').remove();
+      });
+
+      // delete button
+      $('#instance-guide-open').click(function() {
+        $.cookie('guide', 'open');
+        location.reload();
+      });
+
+      $('#delete-button').click(function() {
+        $('#delete').modal('hide');
+        $.ajax({
+          url: '/instance/{{ instance.name }}/delete?_csrf_token='+csrf_token,
+          type: 'GET',
+          statusCode: {
+            200: function() {
+              alertify.success("Instance {{ instance.name }} marked to be deleted!");
+              setTimeout(function(){ location.reload(); }, 2000);
+            }
+          }
+        });
+      });
+
+      $('#instance-start').click(function() {
+        $.ajax({
+          url: '/instance/{{ instance.name }}/start?_csrf_token='+csrf_token,
+          type: 'GET',
+          statusCode: {
+            200: function() {
+              alertify.success("Instance {{ instance.name }} marked to be started!");
+              setTimeout(function(){ location.reload(); }, 2000);
+            }
+          }
+        });
+      });
+
+      $('#instance-start-bottom').click(function() {
+        $.ajax({
+          url: '/instance/{{ instance.name }}/start?_csrf_token='+csrf_token,
+          type: 'GET',
+          statusCode: {
+            200: function() {
+              alertify.success("Instance {{ instance.name }} marked to start!");
+              setTimeout(function(){ location.reload(); }, 2000);
+            }
+          }
+        });
+      });
+
+      $('#instance-nossh').click(function() {
+        $('#nossh').modal();
+      });
+
+      $('#instance-addkey').click(function() {
+        $('#addssh').modal();
+        $.ajax({
+          url: '/instance/{{ instance.name }}/addkey?_csrf_token='+csrf_token,
+          type: 'GET',
+          statusCode: {
+            200: function() {
+              alertify.success("Key added to {{ instance.name }}!");
+            }
+          }
+        });
+      });
+
+      setInterval(function() {
+        $.ajax({
+          url: '/instance/{{ instance.name }}/status?_csrf_token='+csrf_token,
+          type: 'GET',
+          success: function(data) {
+            if (data['status'] != "{{ instance.status }}") {
+              location.reload(false);
+            }
+          }
+        });
+      }, 30000);
+
+      $.get("/instance/{{ instance.name }}/console", function( data ) {
+        $("#console_log").html(data);
+        console.log( "Load was performed." );
+      });           
+
+    });
+
+  </script>
+  {% endblock %}
+{% endif %}
+
+
 
 {% block extras %}
   <script type="text/javascript" src="/js/jquery.knob.js"></script>
