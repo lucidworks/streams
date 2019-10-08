@@ -327,8 +327,34 @@ def create(stream_slug='lou'):
         name = id_generator()
         # generate a good password
         subprocess.call(["su","-c","./install_fusion5.sh " +name, "-s", "/bin/sh", "connor_campbell"])
-        response.content_type = 'Application/json'
-        return dumps({'instance': name, 'password': 'createapassword'})
+
+        #fusion 5 region issues
+        try:
+            regionint = request.query['region']
+            try:
+                region = regions[int(regionint)]
+                
+                try:
+                    # query for region prefered zone
+                    zonealpha = random.choice('abc')
+                except:
+                    zonealpha = random.choice('abc')
+            except:
+                region = "any"
+        except Exception as ex:
+            region = "any"
+
+        try:
+            preemptible = request.query['preemptible']
+            if int(preemptible) == 0:
+                preemptible = False
+            else:
+                preemptible = True
+        except:
+            preemptible = True
+        #fusion 5 end region issues
+        
+        return
     else:
         print "not Fusion 5 placeholder"
     # except:
@@ -399,7 +425,7 @@ def create(stream_slug='lou'):
         if trip > 20:
             name = "failed"
             password = "failed"
-            response.content_type = 'Application/json'
+            response.content_type = 'application/json'
             return dumps({'instance': name, 'password': password})
 
     # # name and machine type
@@ -475,7 +501,7 @@ def create(stream_slug='lou'):
         print ex
         name = "failed"
         password = "failed"
-    response.content_type = 'Application/json'
+    response.content_type = 'application/json'
     return dumps({'instance': name, 'password': password})
 
 # start off
