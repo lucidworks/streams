@@ -452,9 +452,9 @@ The key's randomart image is:
       var dateStarted = Date.parse(instance.created);
       var tenMinutesLater = dateStarted + 600000;
       if(tenMinutesLater < Date.now()){
-        $(".instance-5-status").text("Running");
-        $(".instance-5-status").removeClass("label-warning");
-        $(".instance-5-status").addClass("label-success");
+        $(".instance-5-status > #state").text("Running");
+        $(".instance-5-status > #state").removeClass("label-warning");
+        $(".instance-5-status > #state").addClass("label-success");
       }
     })($);
     // end Kube pod interval
