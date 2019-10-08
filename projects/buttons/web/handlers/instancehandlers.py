@@ -498,6 +498,8 @@ class StreamsStarterHandler(BaseHandler):
                 started = datetime.datetime.now()
             )
             instance.put()
+            self.add_message(name + "name here.", 'warning')
+
 
             slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
@@ -512,7 +514,7 @@ class StreamsStarterHandler(BaseHandler):
 
 
         except:
-            self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
+            self.add_message('FOOBAR515. Please try again in a few minutes.', 'warning')
             return self.redirect_to('instances-list')
 
 
@@ -565,6 +567,8 @@ class InstancesListHandler(BaseHandler):
     def post(self, sid=None): # a POST here is a create instance event
         # know the user
         user_info = User.get_by_id(long(self.user_id))
+        self.add_message("On Line 570", 'success')
+
 
         if sid and user_info.email:
 
@@ -643,6 +647,7 @@ class InstancesListHandler(BaseHandler):
                 # set up an instance
                 instance = Instance(
                     name = name,
+                    ip = "http://" + name + ".streams.lucidworks.com",
                     status = "PROVISIONING",
                     user = user_info.key,
                     stream = stream.key,
@@ -651,6 +656,8 @@ class InstancesListHandler(BaseHandler):
                     expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                     started = datetime.datetime.now()
                 )
+                self.add_message(name + "name here.", 'warning')
+
                 instance.put()
 
                 slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
@@ -665,7 +672,7 @@ class InstancesListHandler(BaseHandler):
                 return self.redirect_to('instance-detail', **params)
 
             except:
-                self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
+                self.add_message('FOOBAR668. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
 
         else:
