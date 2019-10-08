@@ -73,6 +73,11 @@
 {% endblock %}
 
 {% block content %}
+
+{% if streams.sid == "fusion5" %}
+  <h2>Fusion 5 aware!</h2>
+{% endif %}
+
 <!-- hidden delete modal -->
 <div id="delete" class="modal fade">
   <div class="modal-dialog">
