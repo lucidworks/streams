@@ -56,7 +56,7 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/environment
 #gsutil cp gs://buttons-streams/oracle-java8-installer.postinst .
 #gsutil cp gs://buttons-streams/oracle-java8-installer.config   .
 #cp /oracle-java8-installer.postinst /var/lib/dpkg/info
-#cp /oracle-java8-installer.config /var/lib/dpkg/info 
+#cp /oracle-java8-installer.config /var/lib/dpkg/info
 
 # ahem, none of this apparently works anymore unless you do the above
 #apt-get update -y
@@ -87,7 +87,7 @@ if [ ! -d "/fusion" ]; then
 # # if fusion not installed
 # #############################
 
-gsutil cp gs://buttons-sudosoup/fusion-${FUSION_VERSION}.tar.gz .
+gsutil cp gs://buttons-dev/fusion-${FUSION_VERSION}.tar.gz .
 
 tar xfz fusion-${FUSION_VERSION}.tar.gz
 
