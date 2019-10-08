@@ -224,7 +224,12 @@ The key's randomart image is:
               <div id="instance-guide-div" class="bs-callout bs-callout-warning bs-callout-top">
                 <h4>About This Temporary Instance</h4>
                 <ul class="guide">
+                  {% if instance.stream.get().fusion_version != "5.0.0" %}
+                  <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template. This is a beta integration of Fusion 5. Some features may not work as expected.</li>
+                  {% else %}
                   <li>This instance is running the <strong>{{ instance.stream.get().name }}</strong> template.</li>
+                  {% end if %}
+
                   {% if instance.status == "TERMINATED" %}<li>This instance has been put to sleep temporarily, but may be restarted.</li>{% elif instance.status != "RUNNING" %}<li>This instance is still being configured. Once it's started, you'll be presented a link and credentials below.</li>{% else %}<li>Use the link and credentials below to login to the Fusion instance.</li>{% endif %}
                   <li>Instances can occasionally be preempted before their <em>run timer</em> expires.</li>
                   <li>Sleeping instances may be restarted at any time before their <em>life timer</em> runs out.</li>
@@ -245,16 +250,22 @@ The key's randomart image is:
                   <div class="col-md-6">
                     <h3><small>Instance Links</small></h3>
                     <table class="table table-striped table-responsive">
-                      {% if instance.app_link %}
+                      {% if instance.app_link and instance.stream.get().fusion_version != "5.0.0" %}
                       <tr>
                         <td><strong>Demo URL</strong></td>
                         <td><a target="_blank" href="{{ instance.app_link }}">{{ instance.stream.get().name }}</a> | <a href="{{ instance.app_link }}">direct link</a></td>
                       </tr>
                       {% endif %}
+            
                       {% if instance.admin_link != None %}
                       <tr>
+                        {% if instance.stream.get().fusion_version == "5.0.0" %}
+                        <td><strong>Fusion Admin</strong></td>
+                        <td><a target="_blank" href="{{ instance.ip }}">{{ instance.ip }}</a> | <a href="{{ instance.ip }}">direct link</a></td>
+                        {% else %}
                         <td><strong>Fusion Admin</strong></td>
                         <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a> | <a href="{{ instance.admin_link }}">direct link</a></td>
+                        {% endif %}
                       </tr>
                       {% else %}
                       <tr>
