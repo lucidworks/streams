@@ -51,8 +51,8 @@ class InstanceHotStartsHandler(BaseHandler):
 
         # loop over the 'templates' (streams)
         for stream in streams:
-            running = 0            
-            
+            running = 0
+
             # check to see if some are running
             for instance in instances:
                 if instance.stream.get().sid == stream.sid:
@@ -72,7 +72,7 @@ class InstanceHotStartsHandler(BaseHandler):
                 # start up an extra instance for this stream (max starts 1 per minute per template)
                 # make the instance call handler
                 http = httplib2.Http(timeout=10)
-                
+
                 # where and who created it (labels for google cloud console)
                 if config.isdev:
                     iuser = "%s-%s" % ("dev", "hotstart")
@@ -98,7 +98,7 @@ class InstanceHotStartsHandler(BaseHandler):
                     if name == "failed":
                         raise Exception("Instance start failed.")
 
-                    # set up an instance 
+                    # set up an instance
                     instance = Instance(
                         name = name,
                         status = "PROVISIONING",
@@ -132,7 +132,7 @@ class InstanceTenderHandler(BaseHandler):
             http = httplib2.Http(timeout=30)
             url = '%s/api/instance/list?token=%s' % (config.fastener_host_url, config.fastener_api_token)
             response, content = http.request(url, 'GET')
-        
+
             # list of instances from Google Cloud (see ./fastener/sample-output.json)
             gcinstances = json.loads(content)
 
@@ -151,9 +151,9 @@ class InstanceTenderHandler(BaseHandler):
 
         # bail if we didn't get any instances from Google
         if len(gcinstances) == 0:
-            params = { 
-                "message": message, 
-                "gc_count": len(gcinstances), 
+            params = {
+                "message": message,
+                "gc_count": len(gcinstances),
                 "db_count": len(instances)
             }
 
@@ -175,7 +175,7 @@ class InstanceTenderHandler(BaseHandler):
                 if name == gcinstance['name']:
                     # got a match
                     found = True
-                    
+
                     try:
                         # grab the IP address and status
                         instance.ip = gcinstance['networkInterfaces'][0]['accessConfigs'][0]['natIP']
@@ -238,14 +238,14 @@ class InstanceTenderHandler(BaseHandler):
                             # try to start it
                             http = httplib2.Http(timeout=10)
                             url = '%s/api/instance/%s/start?token=%s' % (
-                                config.fastener_host_url, 
+                                config.fastener_host_url,
                                 name,
                                 config.fastener_api_token
                             )
                             try:
                                 # pull the response back TODO add error handling
                                 response, content = http.request(url, 'GET', None, headers={})
-                                
+
                                 # update if google returns pending
                                 if json.loads(content)['status'] == "PENDING" or json.loads(content)['status'] == "DONE":
                                     params = {"response": "success", "message": "instance %s started" % name }
@@ -260,7 +260,7 @@ class InstanceTenderHandler(BaseHandler):
 
                             except Exception as ex:
                                 slack.slack_message("Tender::Exception %s with %s" % (ex, instance.name))
-                        
+
                         else:
                             # slack.slack_message("Tender::%s not requesting any actions." % instance.name)
                             pass
@@ -284,14 +284,14 @@ class InstanceTenderHandler(BaseHandler):
 
                 http = httplib2.Http(timeout=10)
                 url = '%s/api/instance/%s/status?token=%s' % (
-                    config.fastener_host_url, 
+                    config.fastener_host_url,
                     name,
                     config.fastener_api_token
                 )
 
                 # pull the response back
                 response, content = http.request(url, 'GET', None, headers={})
-                
+
                 result = json.loads(content)
                 if not result:
                     # we could not verify box was or wasn't running (fastener might not be running)
@@ -324,7 +324,7 @@ class InstanceTenderHandler(BaseHandler):
                     try:
                         http = httplib2.Http(timeout=10)
                         url = '%s/api/instance/%s/delete?token=%s' % (
-                            config.fastener_host_url, 
+                            config.fastener_host_url,
                             name,
                             config.fastener_api_token
                         )
@@ -332,9 +332,9 @@ class InstanceTenderHandler(BaseHandler):
                         # pull the response back
                         response, content = http.request(url, 'GET', None, headers={})
                         if content['status'] == "PENDING":
-                            instance.key.delete()          
+                            instance.key.delete()
                             slack.slack_message("DELETING instance %s's from GCP because expired." % name)
-                    
+
                     except:
                         slack.slack_message("ERROR: failed deleting instance %s's from GCP because expired." % name)
 
@@ -351,7 +351,7 @@ class InstanceTenderHandler(BaseHandler):
                     try:
                         http = httplib2.Http(timeout=10)
                         url = '%s/api/instance/%s/delete?token=%s' % (
-                            config.fastener_host_url, 
+                            config.fastener_host_url,
                             name,
                             config.fastener_api_token
                         )
@@ -359,11 +359,11 @@ class InstanceTenderHandler(BaseHandler):
                         # pull the response back
                         response, content = http.request(url, 'GET', None, headers={})
 
-                        if content['status'] == "PENDING":      
+                        if content['status'] == "PENDING":
                             slack.slack_message("DELETING instance %s's from Google Cloud." % name)
                         else:
                             slack.slack_message("ERROR: funky content returned while deleting instance %s's from Google Cloud." % name)
-                    
+
                     except:
                         slack.slack_message("ERROR: failed deleting instance %s from Google Cloud." % name)
 
@@ -371,9 +371,9 @@ class InstanceTenderHandler(BaseHandler):
             # no instances from cloud - this should never run
             pass
 
-        params = { 
-            "message": message, 
-            "gc_count": len(gcinstances), 
+        params = {
+            "message": message,
+            "gc_count": len(gcinstances),
             "db_count": len(instances)
         }
 
@@ -435,8 +435,8 @@ class StreamsStarterHandler(BaseHandler):
         try:
             size = stream.instance_size
         except:
-            size = 0    
-        
+            size = 0
+
         ## HOT START
         # check for a hot start
         instances = Instance.get_hotstarts()
@@ -489,6 +489,7 @@ class StreamsStarterHandler(BaseHandler):
             # set up an instance (note there are two ways to create an instance - see below)
             instance = Instance(
                 name = name,
+                ip = "http://" + name + ".streams.lucidworks.com",
                 status = "PROVISIONING",
                 user = user_info.key,
                 stream = stream.key,
@@ -567,7 +568,7 @@ class InstancesListHandler(BaseHandler):
         user_info = User.get_by_id(long(self.user_id))
 
         if sid and user_info.email:
-            
+
             # get form values
             stream = Stream.get_by_sid(sid)
 
@@ -614,7 +615,7 @@ class InstancesListHandler(BaseHandler):
 
             # make the instance call handle
             http = httplib2.Http(timeout=10)
-            
+
             # where and who created it (labels for google cloud console)
             if config.isdev:
                 iuser = "%s-%s" % ("dev", user_info.username.lower())
@@ -623,8 +624,8 @@ class InstancesListHandler(BaseHandler):
 
             # build url to create new instance from stream
             url = '%s/api/stream/%s?token=%s&user=%s&size=%s' % (
-                config.fastener_host_url, 
-                sid, 
+                config.fastener_host_url,
+                sid,
                 config.fastener_api_token,
                 iuser,
                 size
@@ -646,6 +647,9 @@ class InstancesListHandler(BaseHandler):
                 if is_alpha.match(name) and len(name) == 4:
 
                     instance = Instance(
+
+                # set up an instance
+                instance = Instance(
                     name = name,
                     status = "PROVISIONING",
                     user = user_info.key,
@@ -743,7 +747,7 @@ class InstancesListHandler(BaseHandler):
             slack.slack_message("We got %s to update their email for instance launch!" % user_info.username)
 
             self.add_message("Thank you! Your email has been updated.", 'success')
-            
+
             # redirect back to GET on list, but with a sid AND email in place this time to create
             if sid:
                 return self.redirect_to('streams-start3', sid=sid)
@@ -770,7 +774,7 @@ class InstanceControlHandler(BaseHandler):
             slack.slack_message("request for an instance we can't find - SPAMSPAMSPAM")
 
         else:
-            # check user owns it or user is admin 
+            # check user owns it or user is admin
             if user_info.admin != True and long(instance.user.id()) != long(self.user_id):
                 params = {"response": "failure", "message": "instance %s not modifiable by calling user" % name}
                 self.response.set_status(500)
@@ -784,7 +788,7 @@ class InstanceControlHandler(BaseHandler):
                         instance.started = datetime.datetime.now()
                         instance.tender_action = "START"
                         instance.put()
-                        
+
                         params = {"response": "success", "message": "Instance %s marked to be started." % instance.name }
                         slack.slack_message("updated db for %s with %s" % (instance.name, instance.tender_action))
                     except Exception as ex:
@@ -798,7 +802,7 @@ class InstanceControlHandler(BaseHandler):
                     # make the instance call to the control box
                     http = httplib2.Http(timeout=10)
                     url = '%s/api/instance/%s/addkey?token=%s&ssh_key=%s&username=%s' % (
-                        config.fastener_host_url, 
+                        config.fastener_host_url,
                         name,
                         config.fastener_api_token,
                         urllib.quote(user_info.ssh_key),
@@ -831,7 +835,7 @@ class InstanceControlHandler(BaseHandler):
                 # delete the instance - C'est la vie
                 elif command == "delete":
                     instance.key.delete() # let the tender script delete it
-                    params = {"response": "success", "message": "Instance marked to be deleted." }   
+                    params = {"response": "success", "message": "Instance marked to be deleted." }
 
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/response.json', **params)
@@ -841,13 +845,13 @@ class InstanceControlHandler(BaseHandler):
                     renamed = self.request.get('renamed')
                     instance.renamed = renamed
                     instance.put()
-                    
+
                     params = {"instance": instance}
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/instance.json', **params)
 
                 else:
-                    params = {"response": "failure", "message": "bad command, skippy" }                    
+                    params = {"response": "failure", "message": "bad command, skippy" }
                     self.response.set_status(500)
                     self.response.headers['Content-Type'] = "application/json"
                     return self.render_template('api/response.json', **params)
@@ -891,7 +895,7 @@ class InstanceDetailHandler(BaseHandler):
         else:
             instance_cores = 4
             instance_memory = 15
-        
+
         params = {
             'guide': guide,
             'instance': instance,
