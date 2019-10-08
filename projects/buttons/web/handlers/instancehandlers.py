@@ -638,6 +638,7 @@ class InstancesListHandler(BaseHandler):
             self.add_message(url + "637 - Before try statment", 'success')
             try:
                 # pull the response back TODO add error handling
+                self.add_message(" 641: before the response", 'success')
                 response, content = http.request(url, 'POST', None, headers={})
                 self.add_message(" 642: content is " + content, 'success')
                 gcinstance = json.loads(content)
