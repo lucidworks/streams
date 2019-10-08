@@ -279,7 +279,7 @@
       } else {
         // otherwise we hae a running instance that has failed to deploy or other horrors
         var eta_minutes = 0;
-        $('#state-eta-td').html("Instance is ready.");
+        $('#state-eta-td').html("Instance is ready. ");
       }
     }, 20000);
 
@@ -531,7 +531,7 @@
 <!-- Start the Legacy Fusion Lab Panel-->
 
 
-{% elif % }
+{% elif stream.sid != "fusion5" % }
 
   {% block content %}
   <!-- hidden delete modal -->
