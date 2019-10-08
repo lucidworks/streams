@@ -646,22 +646,20 @@ class InstancesListHandler(BaseHandler):
                 # Fusion 5
                 if is_alpha.match(name) and len(name) == 4:
 
+                    # set up an instance
                     instance = Instance(
+                        name = name,
+                        ip = "http://" + name + ".streams.lucidworks.com",
+                        status = "PROVISIONING",
+                        user = user_info.key,
+                        stream = stream.key,
+                        size = size,
+                        password = password,
+                        expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                        started = datetime.datetime.now()
+                        )
 
-                # set up an instance
-                instance = Instance(
-                    name = name,
-                    ip = "http://" + name + ".streams.lucidworks.com",
-                    status = "PROVISIONING",
-                    user = user_info.key,
-                    stream = stream.key,
-                    size = size,
-                    password = password,
-                    expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
-                    started = datetime.datetime.now()
-                    )
-
-                    instance.put()
+                        instance.put()
                     slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
                 # End Fusion 5
 
