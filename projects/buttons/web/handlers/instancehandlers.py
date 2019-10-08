@@ -3,6 +3,7 @@ import logging, os
 import urllib, urllib2, httplib2
 import hashlib, json
 import time, datetime
+import re
 
 from lib.dateutil import parser as DUp
 
@@ -638,9 +639,13 @@ class InstancesListHandler(BaseHandler):
 
                 if name == "failed":
                     raise Exception("Instance start failed.")
+                logging.info("This is the name " + name)
+                is_alpha = re.compile("^[a-zA-Z]+$")
 
-                # set up an instance 
-                instance = Instance(
+                # Fusion 5
+                if is_alpha.match(name) and len(name) == 4:
+
+                    instance = Instance(
                     name = name,
                     status = "PROVISIONING",
                     user = user_info.key,
@@ -649,20 +654,39 @@ class InstancesListHandler(BaseHandler):
                     password = password,
                     expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
                     started = datetime.datetime.now()
-                )
-                instance.put()
+                    )
 
-                slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                    instance.put()
+                    slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
+                # End Fusion 5
 
-                # give the db a second to update
-                if config.isdev:
-                    time.sleep(1)
+                #Legacy 
+                else: 
+                # set up an instance 
+                    instance = Instance(
+                        name = name,
+                        status = "PROVISIONING",
+                        user = user_info.key,
+                        stream = stream.key,
+                        size = size,
+                        password = password,
+                        expires = datetime.datetime.now() + datetime.timedelta(0, 604800),
+                        started = datetime.datetime.now()
+                    )
+                    instance.put()
 
-                self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
+                    slack.slack_message("Instance type %s created for %s!" % (stream.name, user_info.username))
 
-                params = {'name': name}
-                return self.redirect_to('instance-detail', **params)
+                    # give the db a second to update
+                    if config.isdev:
+                        time.sleep(1)
 
+                    self.add_message('Instance created! Grab some coffee and wait for %s to start.' % stream.name, 'success')
+
+                    params = {'name': name}
+                    return self.redirect_to('instance-detail', **params)
+                # end Legacy
+           
             except:
                 self.add_message('The system is currently busy with other instances. Please try again in a few minutes.', 'warning')
                 return self.redirect_to('instances-list')
