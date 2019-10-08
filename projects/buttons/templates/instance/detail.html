@@ -259,13 +259,8 @@ The key's randomart image is:
             
                       {% if instance.admin_link != None %}
                       <tr>
-                        {% if instance.stream.get().fusion_version == "5.0.0" %}
-                        <td><strong>Fusion Admin</strong></td>
-                        <td><a target="_blank" href="{{ instance.ip }}">{{ instance.ip }}</a> | <a href="{{ instance.ip }}">direct link</a></td>
-                        {% else %}
                         <td><strong>Fusion Admin</strong></td>
                         <td><a target="_blank" href="{{ instance.admin_link }}">{{ instance.admin_link }}</a> | <a href="{{ instance.admin_link }}">direct link</a></td>
-                        {% endif %}
                       </tr>
                       {% else %}
                       <tr>
