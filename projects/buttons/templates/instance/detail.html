@@ -450,8 +450,9 @@ The key's randomart image is:
     // timer hack for the constantly provisioning Kube pods
     (function(jQuery){
       console.log("value of template string: ", "'{{ instance.created }}'");
-      var dateStarted = Date.parse("{{ instance.created }}");
-      var tenMinutesLater = dateStarted + 600000;
+      let dateStarted = Date.parse("{{instance.created}}"),
+          tenMinutesLater = dateStarted + 600000,
+          now = Math.floor((new Date()).getTime() / 1000);
       if(tenMinutesLater < Date.now()){
         $(".instance-5-status > #state").text("Running");
         $(".instance-5-status > #state").removeClass("label-warning");
