@@ -151,9 +151,11 @@
                       <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
                       {% if instance.stream.get().fusion_version != "5.0.0" %}
                       <td>{{ macros.instance_status(instance.status) }}</td>
+                      {% else %}
+                      <td class="instance-5-status"> </td>
                       {% endif %}
                       <td>{{ instance.stream.get().fusion_version}}
-                      <td>{{ instance.created|timendate }}</td>
+                      <td class="fusion-5-created">{{ instance.created|timendate }}</td>
                       <td>{{ instance.expires|timendate }}</td>
                       <td>
                         {% if instance.status == "TERMINATED" %}                      
@@ -297,6 +299,20 @@
         });
       })
     });
+
+    // timer hack for the constantly provisioning Kube pods
+    (function(jQuery){
+      let dateStarted = Date.parse($(".fusion-5-created > td").text()),
+          tenMinutesLater = dateStarted + 600000,
+          now = new Date(),
+          nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
+      if(tenMinutesLater < nowUTC){
+        $(".instance-5-status > td").text("Running");
+        $(".instance-5-status > td").removeClass("label-warning");
+        $(".instance-5-status > td").addClass("label-success");
+      }
+    })($);
+    // end Kube pod interval
 
     // start button
     $('button[id^="start_"]').each(function(index){
