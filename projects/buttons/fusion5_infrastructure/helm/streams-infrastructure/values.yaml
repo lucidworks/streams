@@ -1,0 +1,33 @@
+nginx-external:
+  controller:
+    config:
+      proxy-body-size: "0"
+      proxy-read-timeout: "330"
+      proxy-request-buffering: "off"
+      worker-shutdown-timeout: 480s
+    replicaCount: 2
+    electionId: "external-ingress-controller-leader"
+    stats:
+      enabled: true
+    metrics:
+      enabled: true
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 5
+    nodeSelector:
+      compute_type: standard
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: "app"
+              operator: "In"
+              values:
+                - "nginx-external"
+            - key: "component"
+              operator: "In"
+              values:
+                - "controller"
+          topologyKey: kubernetes.io/hostname

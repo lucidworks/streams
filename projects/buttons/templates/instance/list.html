@@ -149,9 +149,13 @@
                     {% for instance in instances %}
                     <tr>
                       <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
+                      {% if instance.stream.get().fusion_version != "5.0.0" %}
                       <td>{{ macros.instance_status(instance.status) }}</td>
+                      {% else %}
+                      <td class="instance-5-status"> {{ macros.instance_status(instance.status) }} </td>
+                      {% endif %}
                       <td>{{ instance.stream.get().fusion_version}}
-                      <td>{{ instance.created|timendate }}</td>
+                      <td class="fusion-5-created">{{ instance.created|timendate }}</td>
                       <td>{{ instance.expires|timendate }}</td>
                       <td>
                         {% if instance.status == "TERMINATED" %}                      
@@ -163,10 +167,12 @@
                         {% if instance.app_link %}
                         <button type="button" id="applink-{{instance.name}}" class="btn btn-info btn-xs" value="{{ instance.app_link }}" title="View Application" href="#"><span class="glyphicon glyphicon-list-alt"></span></button>
                         {% endif %}
-                        {% if instance.password %}
+                        {% if instance.password and instance.stream.get().fusion_version != "5.0.0" %}
                         <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="glyphicon glyphicon-lock"></span></button>
                         {% endif %}
+                        {% if instance.stream.get().fusion_version != "5.0.0" %}
                         <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                        {% endif %}
                       </td>
                     </tr>
                     {% endfor %}
@@ -295,6 +301,24 @@
         });
       })
     });
+
+    // timer hack for the constantly provisioning Kube pods
+    (function(jQuery){
+      let fusionStatuses = $(".fusion-5-created");
+      for(let i = 0, j = fusionStatuses.length; i < fusionStatuses.length; i++){
+        let dateStartedObj = dateHolder = $(".fusion-5-created")[i],
+            dateStarted = Date.parse(dateStartedObj.textContent),
+            tenMinutesLater = dateStarted + 600000,
+            now = new Date(),
+            nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
+        if(tenMinutesLater < nowUTC){
+          $(".instance-5-status > span").text("Running");
+          $(".instance-5-status > span").removeClass("label-warning");
+          $(".instance-5-status > span").addClass("label-success");
+        }
+      }
+    })($);
+    // end Kube pod interval
 
     // start button
     $('button[id^="start_"]').each(function(index){

@@ -29,7 +29,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        <button type="button" id="download-button" class="btn btn-default">Download Fusion</button>
         <button type="button" id="launch-button" class="btn btn-success">Launch w/Your Github Account</button>
       </div>
     </div>
@@ -81,7 +80,7 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
 <br/><br/> <!--take this crap out-->
 {% endblock %}
@@ -126,14 +125,13 @@
     // review settings
     $('#getting-started-docs').click(function() {
       window.location = "{{ uri_for('labdocs') }}";
-    });  
+    });
 
     // review settings
     $('#instances-list').click(function() {
       window.location = "/instance/create/starter41";
-    });  
+    });
   });
 
 </script>
 {% endblock %}
-

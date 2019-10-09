@@ -1,0 +1,27 @@
+info:
+  title: "gke_cluster.py"
+  author: "Ian Thebridge"
+  description: "Creates a regional GKE cluster"
+  version: "v0.1"
+
+properties:
+  cluster_name:
+    type: "string"
+    default: "streams-fusion5"
+    description: "The name of the GKE cluster to create"
+  subnetwork:
+    type: "string"
+    default: "public-subnet"
+    description: "The subnetwork to provision the cluster into"
+  vpc_id:
+    type: "string"
+    default: "default"
+    description: "The network to create the GKE nodes in"
+  region:
+    type: "string"
+    default: "us-central1"
+    description: "The region to create the GKE nodes in"
+  cluster_version:
+    type: "string"
+    default: "1.13.10-gke.0"
+    description: "The version of the GKE cluster to create"

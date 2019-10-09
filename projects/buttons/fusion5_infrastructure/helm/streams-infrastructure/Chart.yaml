@@ -1,0 +1,13 @@
+---
+
+apiVersion: "v1"
+name: "streams-infrastructure"
+version: "1.0.0"
+description: |
+  A helm chart to install the shared infrastructure components required
+  to run lucidworks streams fusion 5 cluster
+keywords:
+  - "fusion"
+maintainers:
+  - name: "Ian Thebridge"
+    email: "ian.thebridge@lucidworks.com"

@@ -56,7 +56,7 @@ echo JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/environment
 #gsutil cp gs://buttons-streams/oracle-java8-installer.postinst .
 #gsutil cp gs://buttons-streams/oracle-java8-installer.config   .
 #cp /oracle-java8-installer.postinst /var/lib/dpkg/info
-#cp /oracle-java8-installer.config /var/lib/dpkg/info 
+#cp /oracle-java8-installer.config /var/lib/dpkg/info
 
 # ahem, none of this apparently works anymore unless you do the above
 #apt-get update -y
@@ -133,7 +133,16 @@ else
   cd $SID
 fi
 
-# TODO: check for existence (and executable-ness) of ./buttons-start.sh
+#mkdir $SID
+#cd $SID
+
+# TODO: conditional on DISTRO: fetch if specified, otherwise ignore
+#   - if no DISTRO to fetch, then this becomes a simple Fusion out of the box, box
+
+#gsutil cp gs://buttons-sudosoup/$DISTRO .
+#tar xfz $DISTRO
+
+# check for existence (and executable-ness) of ./buttons-start.sh
 export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh
 
 echo "$SID-$IID has been Galvanized"
