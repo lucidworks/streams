@@ -361,7 +361,9 @@ The key's randomart image is:
           {% endif %}
           {% endif %}
           {% else %}
+          {% if instance.stream.get().fusion_version != "5.0.0" %}
           <button id="instance-nossh" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
+          {% endif %}
           {% endif %}
         </div>
       </div>
