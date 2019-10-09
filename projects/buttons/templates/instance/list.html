@@ -320,9 +320,9 @@
           now = new Date(),
           nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
       if(tenMinutesLater < nowUTC){
-        $(".instance-5-status").text("Running");
-        $(".instance-5-status").removeClass("label-warning");
-        $(".instance-5-status").addClass("label-success");
+        $("#instance-5-status").text("Running");
+        $("#instance-5-status").removeClass("label-warning");
+        $("#instance-5-status").addClass("label-success");
       }
     })($);
     // end Kube pod interval
