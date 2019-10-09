@@ -302,14 +302,18 @@
 
     // timer hack for the constantly provisioning Kube pods
     (function(jQuery){
-      let dateStarted = Date.parse($(".fusion-5-created > td").text()),
-          tenMinutesLater = dateStarted + 600000,
-          now = new Date(),
-          nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
-      if(tenMinutesLater < nowUTC){
-        $(".instance-5-status > span").text("Running");
-        $(".instance-5-status > span").removeClass("label-warning");
-        $(".instance-5-status > span").addClass("label-success");
+      let fusionStatuses = $(".fusion-5-created > td");
+      for(let i = 0; j = fusionStatuses.length; i < fusionStatuses.length; i++){
+        let dateStartedObj = dateHolder = $(".fusion-5-created")[i],
+            dateStarted = Date.parse(dateStartedObj.textContent),
+            tenMinutesLater = dateStarted + 600000,
+            now = new Date(),
+            nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
+        if(tenMinutesLater < nowUTC){
+          $(".instance-5-status > span").text("Running");
+          $(".instance-5-status > span").removeClass("label-warning");
+          $(".instance-5-status > span").addClass("label-success");
+        }
       }
     })($);
     // end Kube pod interval
