@@ -149,7 +149,9 @@
                     {% for instance in instances %}
                     <tr>
                       <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
+                      {% if instance.stream.get().fusion_version != "5.0.0" %}
                       <td>{{ macros.instance_status(instance.status) }}</td>
+                      {% endif %}
                       <td>{{ instance.stream.get().fusion_version}}
                       <td>{{ instance.created|timendate }}</td>
                       <td>{{ instance.expires|timendate }}</td>
