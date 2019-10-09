@@ -74,10 +74,6 @@
 
 {% block content %}
 
-{% if instance.stream.get().fusion_version == "5.0.0" %}
-  <h2>Fusion 5 aware!</h2>
-{% endif %}
-
 {% if instance.stream.get().fusion_version != "5.0.0" %}
 <!-- hidden delete modal -->
 <div id="delete" class="modal fade">
@@ -207,7 +203,7 @@ The key's randomart image is:
             <h3><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></h3>
             {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Sleeping Instance</button>
 
-            {% elif instance.status == "PROVISIONING" and instance.expired %}<button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>    
+            {% elif instance.status == "PROVISIONING" and instance.expired and instance.stream.get().fusion_version != "5.0.0" %}<button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>    
             {% elif instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
             <div class="row instance-detail-row">
               <div class="col-md-6">
