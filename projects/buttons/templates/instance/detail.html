@@ -206,6 +206,7 @@ The key's randomart image is:
           <div class="section-header">
             <h3><span id="edit-name" class="editable">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</span></h3>
             {% if instance.status == "TERMINATED" %}<button id="instance-start" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Sleeping Instance</button>
+
             {% elif instance.status == "PROVISIONING" and instance.expired %}<button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>    
             {% elif instance.status != "RUNNING" %}<h3><span id="state-eta" class="label label-warning"></span></h3>{% endif %}
             <div class="row instance-detail-row">
@@ -342,17 +343,21 @@ The key's randomart image is:
       <div class="row button-padding">
         <div class="col-md-12">
           <button id="instance-list" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span> Back to Instances</button>
+          {% if instance.stream.get().fusion_version != "5.0.0" %}
           <button id="instance-delete" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete Instance</button>
+          {% endif %}
           {% if instance.status == "TERMINATED" %}
             <button id="instance-start-bottom" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Start Instance</button>                    
           {% endif %}
-          {% if guide == False %}
+          {% if guide == False && instance.stream.get().fusion_version != "5.0.0" %}
             <button id="instance-guide-open" class="btn btn-warning"><span class="glyphicon glyphicon-book"></span> View Guide</button>
           {% endif %}
           {% if user_info.ssh_key %}
           {% if instance.status != "PENDING" %}
+          {% if instance.stream.get().fusion_version != "5.0.0" %}
           {% if instance.ip != "NONE" %}
           <button id="instance-addkey" class="btn btn-light"><span class="glyphicon glyphicon-lock"></span> Add SSH Key</button>
+          {% endif %}
           {% endif %}
           {% endif %}
           {% else %}
@@ -449,7 +454,6 @@ The key's randomart image is:
 
     // timer hack for the constantly provisioning Kube pods
     (function(jQuery){
-      console.log("value of template string: ", "'{{ instance.created }}'");
       let dateStarted = Date.parse("{{instance.created}}"),
           tenMinutesLater = dateStarted + 600000,
           now = new Date(),
