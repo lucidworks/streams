@@ -152,7 +152,7 @@
                       {% if instance.stream.get().fusion_version != "5.0.0" %}
                       <td>{{ macros.instance_status(instance.status) }}</td>
                       {% else %}
-                      <td class="instance-5-status"> </td>
+                      <td class="instance-5-status"> {{ macros.instance_status(instance.status) }} </td>
                       {% endif %}
                       <td>{{ instance.stream.get().fusion_version}}
                       <td class="fusion-5-created">{{ instance.created|timendate }}</td>
