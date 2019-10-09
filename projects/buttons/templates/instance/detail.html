@@ -452,7 +452,8 @@ The key's randomart image is:
       console.log("value of template string: ", "'{{ instance.created }}'");
       let dateStarted = Date.parse("{{instance.created}}"),
           tenMinutesLater = dateStarted + 600000,
-          now = Math.floor((new Date()).getTime() / 1000);
+          now = = new Date();
+          nowUTC = (now.getTime() + now.getTimezoneOffset()*60*1000)/1000);
       if(tenMinutesLater < now){
         $(".instance-5-status > #state").text("Running");
         $(".instance-5-status > #state").removeClass("label-warning");
