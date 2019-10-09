@@ -302,8 +302,8 @@
 
     // timer hack for the constantly provisioning Kube pods
     (function(jQuery){
-      let fusionStatuses = $(".fusion-5-created > td");
-      for(let i = 0; j = fusionStatuses.length; i < fusionStatuses.length; i++){
+      let fusionStatuses = $(".fusion-5-created");
+      for(let i = 0, j = fusionStatuses.length; i < fusionStatuses.length; i++){
         let dateStartedObj = dateHolder = $(".fusion-5-created")[i],
             dateStarted = Date.parse(dateStartedObj.textContent),
             tenMinutesLater = dateStarted + 600000,
