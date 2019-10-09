@@ -453,7 +453,7 @@ The key's randomart image is:
       let dateStarted = Date.parse("{{instance.created}}"),
           tenMinutesLater = dateStarted + 600000,
           now = Math.floor((new Date()).getTime() / 1000);
-      if(tenMinutesLater < Date.now()){
+      if(tenMinutesLater < now){
         $(".instance-5-status > #state").text("Running");
         $(".instance-5-status > #state").removeClass("label-warning");
         $(".instance-5-status > #state").addClass("label-success");
