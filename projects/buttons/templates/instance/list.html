@@ -170,7 +170,9 @@
                         {% if instance.password and instance.stream.get().fusion_version != "5.0.0" %}
                         <button type="button" id="password-{{instance.password}}" class="btn btn-info btn-xs" value="{{ instance.password }}" title="Click to copy password." href="#"><span class="glyphicon glyphicon-lock"></span></button>
                         {% endif %}
+                        {% if instance.stream.get().fusion_version != "5.0.0" %}
                         <button type="button" id="remove_{{instance.name}}" class="btn btn-danger btn-xs" title="Delete Instance" href="#"><span class="glyphicon glyphicon-remove"></span></button>
+                        {% endif %}
                       </td>
                     </tr>
                     {% endfor %}
