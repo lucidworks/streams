@@ -14,7 +14,7 @@ In the `deployment-manager` directory run:
 
 This will setup a VPC and GKE cluster. When deployment-manager has finished you can connect to the cluster with
 
-`gcloud beta container clusters get-credentials lucidworks-streams-fusion5-cluster --region us-west1 --project <project_name>`
+`gcloud beta container clusters get-credentials lucidworks-streams-fusion5-cluster --region us-central1 --project <project_name>`
 
 
 # Helm

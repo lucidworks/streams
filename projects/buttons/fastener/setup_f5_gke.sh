@@ -28,7 +28,7 @@ function print_usage() {
 
 SCRIPT_CMD="$0"
 GCLOUD_PROJECT=
-GCLOUD_ZONE=us-west1
+GCLOUD_ZONE=us-central1
 CLUSTER_NAME=
 RELEASE=f5
 NAMESPACE=default

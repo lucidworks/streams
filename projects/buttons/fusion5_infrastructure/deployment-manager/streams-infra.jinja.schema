@@ -11,5 +11,5 @@ imports:
 properties:
   region:
     type: "string"
-    default: "us-west1"
+    default: "us-central1"
     description: "The region in which to create the infrastructure"

@@ -20,7 +20,7 @@ echo "IID: $IID"
 # etc....
 # }
 
-STREAM_JSON=`curl https://labs-3-datastore-dep.appspot.com/api/stream/$SID`
+STREAM_JSON=`curl https://streams.lucidworks.com/api/stream/$SID`
 
 # If needed, the STREAM_JSON can be faked:
 #    if [ "$SID" = "lou" ]; then
@@ -34,7 +34,7 @@ fi
 
 IP=$(wget -qO- http://ipecho.net/plain)
 
-cd /; git clone https://github.com/sudosoup/streams
+cd /; git clone https://github.com/lucidworks/streams
 
 # Let's try using OpenJDK
 apt-get update -y
@@ -87,7 +87,7 @@ if [ ! -d "/fusion" ]; then
 # # if fusion not installed
 # #############################
 
-gsutil cp gs://buttons-dev/fusion-${FUSION_VERSION}.tar.gz .
+gsutil cp gs://buttons-streams/fusion-${FUSION_VERSION}.tar.gz .
 
 tar xfz fusion-${FUSION_VERSION}.tar.gz
 
@@ -133,14 +133,14 @@ else
   cd $SID
 fi
 
-mkdir $SID
-cd $SID
+#mkdir $SID
+#cd $SID
 
 # TODO: conditional on DISTRO: fetch if specified, otherwise ignore
 #   - if no DISTRO to fetch, then this becomes a simple Fusion out of the box, box
 
-gsutil cp gs://buttons-sudosoup/$DISTRO .
-tar xfz $DISTRO
+#gsutil cp gs://buttons-sudosoup/$DISTRO .
+#tar xfz $DISTRO
 
 # check for existence (and executable-ness) of ./buttons-start.sh
 export FUSION_API_BASE; export FUSION_API_CREDENTIALS; export ADMIN_PASSWORD; export IP; ./buttons-start.sh

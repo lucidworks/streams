@@ -30,7 +30,7 @@ for item in evalcontent:
 credentials = compute_engine.Credentials()
 compute = discovery.build('compute', 'v1', credentials=credentials)
 compute_beta = discovery.build('compute', 'beta', credentials=credentials)
-project = 'labs-3-datastore-dep'
+project = 'labs-209320'
 
 # regions, zones & sizes (NOTE: us-east1 does not have an 'a' zone and has a 'd' zone)
 regions = ['us-central1', 'us-west1', 'us-west2', 'us-east4', 'us-east1', 'europe-west2', 'asia-east2'] # numbered 0, 1, 2, etc. in name
@@ -456,7 +456,7 @@ def create(stream_slug='lou'):
         "items": [
         {
             "key": "startup-script-url",
-            "value": "https://raw.githubusercontent.com/sudosoup/streams/fusion-5-dev/projects/buttons/fastener/scripts/start-button.sh"
+            "value": "https://raw.githubusercontent.com/lucidworks/streams/master/projects/buttons/fastener/scripts/start-button.sh"
         },
         {
             "key": "password",

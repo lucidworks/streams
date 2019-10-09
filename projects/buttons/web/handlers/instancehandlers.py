@@ -489,7 +489,6 @@ class StreamsStarterHandler(BaseHandler):
             # set up an instance (note there are two ways to create an instance - see below)
             instance = Instance(
                 name = name,
-                ip = "http://" + name + ".streams.lucidworks.com",
                 status = "PROVISIONING",
                 user = user_info.key,
                 stream = stream.key,

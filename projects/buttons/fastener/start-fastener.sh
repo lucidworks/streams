@@ -6,13 +6,13 @@ NAME=fastener-api
 
 option=$1
 PREEMPTIBLE="--preemptible"
-IP=""
+IP="--address=X.X.X.X"
 
 echo "This instance is preemtible, unless it's started with --prod";
 case $option in
     -p|--prod|--production)
     unset PREEMPTIBLE
-    IP=""
+    IP="--address=35.230.26.45" #fastener.lucidworks.com
     echo "Production mode enabled..."
     echo;
     unset IP;
@@ -41,9 +41,9 @@ gcloud beta compute instances create $NAME-$NEW_UUID \
 --boot-disk-device-name "$NAME-disk-$NEW_UUID" \
 --zone $ZONE \
 --tags http-server,lucid,token-$TOKEN \
---scopes compute-rw,https://www.googleapis.com/auth/cloud-platform \
+--scopes compute-rw, https://www.googleapis.com/auth/cloud-platform \
 --subnet=default $IP --network-tier=PREMIUM \
---service-account 215861285408-compute@developer.gserviceaccount.com \
+--service-account labs-209320@appspot.gserviceaccount.com \
 $PREEMPTIBLE \
 --metadata startup-script='#! /bin/bash
 sudo su -
@@ -75,10 +75,10 @@ sudo mkdir /usr/local/share/ca-certificates/cacert.org
 sudo wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
 sudo update-ca-certificates
 
-gcloud beta container clusters get-credentials lucidworks-streams-fusion5-cluster --region us-west1 --project labs-3-datastore-dep
+gcloud beta container clusters get-credentials lucidworks-streams-fusion5-cluster --region us-central1 --project labs-209320
 
 cd /;
-git clone --single-branch --branch fusion-5-dev https://github.com/sudosoup/streams.git
+git clone https://github.com/lucidworks/streams.git
 cd /streams/projects/buttons/fastener/;
 screen -dmS buttons bash -c "bash start-web.sh"
 '

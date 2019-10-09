@@ -19,7 +19,7 @@ properties:
     description: "The network to create the GKE nodes in"
   region:
     type: "string"
-    default: "us-west1"
+    default: "us-central1"
     description: "The region to create the GKE nodes in"
   cluster_version:
     type: "string"
