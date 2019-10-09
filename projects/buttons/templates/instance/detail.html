@@ -454,7 +454,7 @@ The key's randomart image is:
           tenMinutesLater = dateStarted + 600000,
           now = new Date(),
           nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
-      if(tenMinutesLater < now){
+      if(tenMinutesLater < nowUTC){
         $(".instance-5-status > #state").text("Running");
         $(".instance-5-status > #state").removeClass("label-warning");
         $(".instance-5-status > #state").addClass("label-success");
