@@ -150,7 +150,7 @@
                     <tr>
                       <td><a href="/instance/{{ instance.name }}">{% if instance.renamed == "" %}{{ instance.name }}{% else %}{{ instance.renamed }}{% endif %}</a></td>
                       <td>{{ macros.instance_status(instance.status) }}</td>
-                      <td>{{ instance.stream.get().fusion_version}}
+                      <td id="instance-5-status">{{ instance.stream.get().fusion_version}}
                       <td>{{ instance.created|timendate }}</td>
                       <td>{{ instance.expires|timendate }}</td>
                       <td>
@@ -312,6 +312,20 @@
         });
       })
     });
+
+    // timer hack for the constantly provisioning Kube pods
+    (function(jQuery){
+      let dateStarted = Date.parse("{{instance.created}}"),
+          tenMinutesLater = dateStarted + 600000,
+          now = new Date(),
+          nowUTC = now.getTime() + now.getTimezoneOffset()*60*1000;
+      if(tenMinutesLater < nowUTC){
+        $(".instance-5-status > #state").text("Running");
+        $(".instance-5-status > #state").removeClass("label-warning");
+        $(".instance-5-status > #state").addClass("label-success");
+      }
+    })($);
+    // end Kube pod interval
 
     // standard stuff
     var username = "{{ username }}";
