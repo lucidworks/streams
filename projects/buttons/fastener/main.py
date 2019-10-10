@@ -326,7 +326,7 @@ def create(stream_slug='lou'):
             # name and machine type
         name = id_generator()
         # generate a good password
-        subprocess.call(["su","-c","./install_fusion5.sh " +name, "-s", "/bin/sh", "connor_campbell"])
+        subprocess.call(["./install_fusion5.sh " + name])
         response.content_type = 'Application/json'
         return dumps({'instance': name, 'password': 'createapassword'})
     else:
