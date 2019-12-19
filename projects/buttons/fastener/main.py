@@ -326,15 +326,13 @@ def create(stream_slug='lou'):
             # name and machine type
         name = id_generator()
         # generate a good password
-	print "before!!!!!!!!!!!"
-	subprocess.Popen(["/streams/projects/buttons/fastener/install_fusion5.sh", name])
-        print "HI!!!!!"
+        subprocess.Popen(["/streams/projects/buttons/fastener/install_fusion5.sh", name])
         response.content_type = 'Application/json'
         return dumps({'instance': name, 'password': 'createapassword'})
     else:
         print "not Fusion 5 placeholder"
-    # except:
-    #     print "Erik Hatcher's fault" - doh!
+    except:
+        print "foobar!"
 
     #End F5 hack attack
 
