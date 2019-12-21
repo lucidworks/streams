@@ -2,7 +2,7 @@
 
 set -x
 NAMESPACE="${1:-}"
-CHART_VERSION="${2:-5.0.2}"
+CHART_VERSION="${2:-5.0.2-7}"
 
 if [ -z "${NAMESPACE}" ]; then
   echo "Please pass the namespace to install into as the first parameter"
