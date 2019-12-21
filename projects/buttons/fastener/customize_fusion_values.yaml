@@ -1,14 +1,3 @@
-cx-ui:
-  replicaCount: 0
-  resources:
-    limits:
-      cpu: "200m"
-      memory: 64Mi
-    requests:
-      cpu: "100m"
-      memory: 64Mi
-  enabled: false
-
 cx-api:
   replicaCount: 0
   volumeClaimTemplates:
@@ -29,7 +18,7 @@ sql-service:
 
 solr:
   image:
-    tag: 8.2.0
+    tag: 8.3.1
   updateStrategy:
     type: "RollingUpdate"
   javaMem: "-Xmx8g"
