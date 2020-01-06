@@ -321,9 +321,9 @@ def create(stream_slug='lou'):
 
    #F5 hack attack
 
-    # try:
+    #try:
     if stream_slug == "fusion5":
-            # name and machine type
+        # name and machine type
         name = id_generator()
         # generate a good password
         subprocess.Popen(["/streams/projects/buttons/fastener/install_fusion5.sh", name])
@@ -331,8 +331,8 @@ def create(stream_slug='lou'):
         return dumps({'instance': name, 'password': 'createapassword'})
     else:
         print "not Fusion 5 placeholder"
-    except:
-        print "foobar!"
+       # except:
+       #    print "foobar!"
 
     #End F5 hack attack
 
