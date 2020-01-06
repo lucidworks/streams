@@ -2,7 +2,7 @@
 
 set -x
 NAMESPACE="${1:-}"
-CHART_VERSION="${2:-5.0.2}"
+CHART_VERSION="${2:-5.0.2-7}"
 
 if [ -z "${NAMESPACE}" ]; then
   echo "Please pass the namespace to install into as the first parameter"
@@ -22,4 +22,5 @@ helm repo update
 
 echo -e "\nInstalling Fusion 5.0.2 Helm chart ${CHART_VERSION} into namespace ${NAMESPACE}"
 
-helm install "${NAMESPACE}" -n "${NAMESPACE}" "${lw_helm_repo}/fusion" --version "${CHART_VERSION}" --set api-gateway.ingress.enabled=true --set api-gateway.ingress.host="${NAMESPACE}.streams.lucidworks.com" --set  api-gateway.ingress.annotations["kubernetes.io/ingress.class"]="nginx"
+helm install --namespace "${NAMESPACE}" -n "${NAMESPACE}" "${lw_helm_repo}/fusion" --version "${CHART_VERSION}" --set api-gateway.ingress.enabled=true --set api-gateway.ingress.host="${NAMESPACE}.streams.lucidworks.com" 
+#--set  api-gateway.ingress.annotations."kubernetes.io/ingress.class"="nginx"
